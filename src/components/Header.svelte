@@ -9,14 +9,14 @@
     import { Menu } from 'lucide-svelte';
 </script>
 
-<div class="navbar bg-black/80 shadow-lg backdrop-blur flex justify-between items-center fixed top-0 w-screen">
-    <a href="/"><img src="/logo_white.png" alt="logo" class="h-[25px] w-[150px] ml-5"/></a>
+<div class="navbar border-b border-gray-500/50 bg-black/80 shadow-lg backdrop-blur flex justify-between items-center fixed top-0 w-screen">
+    <a href="/"><img src="/logo_white.png" alt="logo" class="h-[20px] w-[150px] ml-5"/></a>
     <nav class="hidden lg:flex items-center space-x-5 mr-5">
-        <a href="/" data-sveltekit-reload class="navItem" class:selected={currentPath === "/"}>Home</a>
-        <a href="/about" data-sveltekit-reload class="navItem" class:selected={currentPath === "/about"}>About</a>
-        <a href="/events" data-sveltekit-reload class="navItem" class:selected={currentPath === "/events"}>Events</a>
-        <a href="/team" data-sveltekit-reload class="navItem" class:selected={currentPath === "/team"}>The team</a>
-        <a href="/contact" data-sveltekit-reload class="navItem" class:selected={currentPath === "/contact"}>Contact Us</a>
+        <a href="/" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/"}>Home</a>
+        <a href="/about" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/about"}>About</a>
+        <a href="/events" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/events"}>Events</a>
+        <a href="/team" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/team"}>The team</a>
+        <a href="/contact" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/contact"}>Contact Us</a>
     </nav>
     <label for="my-drawer" class="lg:hidden btn drawer-button"><Menu color="white" /></label>
 </div>
