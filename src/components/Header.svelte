@@ -9,7 +9,7 @@
     import { Menu } from 'lucide-svelte';
 </script>
 
-<div class="navbar border-b border-gray-500/50 bg-black/80 shadow-lg backdrop-blur flex justify-between items-center fixed top-0 w-screen">
+<div class="navbar z-50 bg-black/90 shadow-lg backdrop-blur flex justify-between items-center fixed top-0 w-screen">
     <a href="/"><img src="/logo_white.png" alt="logo" class="h-[20px] w-[150px] ml-5"/></a>
     <nav class="hidden lg:flex items-center space-x-5 mr-5">
         <a href="/" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/"}>Home</a>
@@ -20,7 +20,7 @@
     </nav>
     <label for="my-drawer" class="lg:hidden btn drawer-button"><Menu color="white" /></label>
 </div>
-<div class="drawer">
+<div class="drawer z-50">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-side">
       <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>

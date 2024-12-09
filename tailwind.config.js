@@ -19,7 +19,7 @@ export default {
 					secondary: "#FFFFFF", // White
 					accent: "#2D2D2D", // Black accent
 					neutral: "#1A1A1A", // Dark neutral
-					"base-100": "#000000", // Black
+					"base-100": "#1b1b1b", // Black
 					info: "#B0BEC5", // Light neutral
 					success: "#4CAF50", // Green
 					warning: "#FFC107", // Yellow

@@ -4,6 +4,6 @@
 	let { children } = $props();
 </script>
 <Header/>
-<div class="mt-[70px] p-5">
+<div class="mt-[65px]">
 {@render children()}
 </div>
