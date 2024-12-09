@@ -3,6 +3,10 @@
 
 </script>
 <title>Events | NWU Vaal GKSS </title>
+<meta property="og:site_name" content="Events | NWU Vaal GKSS">
+<meta name="twitter:title" content="Events | NWU Vaal GKSS">
+<meta name="twitter:image:alt" content="Events | NWU Vaal GKSS">
+<meta property="title" content="Events">
 <div class="flex flex-col space-y-5">
     <div class="p-10">
         <h1 class="text-2xl font-bold text-white">Events</h1>

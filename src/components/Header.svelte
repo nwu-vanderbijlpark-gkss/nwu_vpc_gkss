@@ -26,13 +26,13 @@
       <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
       
       <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-        <h2 class="text-lg text-white font-bold">Menu</h2>
+        <h2 class="text-2xl text-white font-bold">Menu</h2>
         <!-- Sidebar content here -->
-        <li><a href="/" data-sveltekit-reload class="navItem" class:selected={currentPath === "/"}>Home</a></li>
-        <li><a href="/about" data-sveltekit-reload class="navItem" class:selected={currentPath === "/about"}>About</a></li>
-        <li><a href="/events" data-sveltekit-reload class="navItem" class:selected={currentPath === "/events"}>Events</a></li>
-        <li><a href="/team" data-sveltekit-reload class="navItem" class:selected={currentPath === "/team"}>The team</a></li>
-        <li><a href="/contact" data-sveltekit-reload class="navItem" class:selected={currentPath === "/contact"}>Contact Us</a></li>
+        <li><a href="/" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/"}>Home</a></li>
+        <li><a href="/about" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/about"}>About</a></li>
+        <li><a href="/events" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/events"}>Events</a></li>
+        <li><a href="/team" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/team"}>The team</a></li>
+        <li><a href="/contact" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/contact"}>Contact Us</a></li>
       </ul>
     </div>
   </div>
