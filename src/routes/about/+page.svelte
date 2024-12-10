@@ -18,7 +18,7 @@
   </div>
 
   <!-- Image Section -->
-  <div class="flex justify-center mb-12">
+  <div class="flex justify-center mb-8">
     <img
       src="/src/images/team.jpg"
       alt="NWU Vaal GKSS members in action"
