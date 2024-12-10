@@ -17,7 +17,7 @@
   <div class="flex flex-col items-center bg-white rounded-lg shadow-lg p-8 w-full h-full mx-auto">
     <!-- Geek's Picture -->
     <img
-      src="/src/images/hacker.png"
+      src="hacker.png"
       alt="Picture of the Geek of the Week"
       class="w-full h-[500px] object-contain mb-6 shadow-md" 
     />

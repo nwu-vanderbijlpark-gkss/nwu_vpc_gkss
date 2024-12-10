@@ -20,7 +20,7 @@
   <!-- Image Section -->
   <div class="flex justify-center mb-8">
     <img
-      src="/src/images/team.jpg"
+      src="team.jpg"
       alt="NWU Vaal GKSS members in action"
       class="rounded-lg shadow-lg max-w-full h-auto"
     />
