@@ -16,7 +16,7 @@
         <a href="/about" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/about"}>About</a>
         <a href="/events" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/events"}>Events</a>
         <a href="/team" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/team"}>The team</a>
-        <a href="/contact" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/contact"}>Contact Us</a>
+        <a href="/#contact" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/#contact"}>Contact Us</a>
     </nav>
     <label for="my-drawer" class="lg:hidden btn drawer-button"><Menu color="white" /></label>
 </div>
@@ -32,7 +32,7 @@
         <li><a href="/about" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/about"}>About</a></li>
         <li><a href="/events" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/events"}>Events</a></li>
         <li><a href="/team" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/team"}>The team</a></li>
-        <li><a href="/contact" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/contact"}>Contact Us</a></li>
+        <li><a href="/#contact" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/#contact"}>Contact Us</a></li>
       </ul>
     </div>
   </div>

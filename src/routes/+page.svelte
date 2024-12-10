@@ -1,3 +1,7 @@
+<script>
+	import ContactUs from "../components/ContactUs.svelte";
+
+</script>
 <title>Home | NWU Vaal GKSS </title>
 <meta property="og:site_name" content="Home | NWU Vaal GKSS">
 <meta name="twitter:title" content="Home | NWU Vaal GKSS">
@@ -10,4 +14,5 @@
 <div class="p-10 min-h-screen">
 
 </div>
+<ContactUs/>
 
