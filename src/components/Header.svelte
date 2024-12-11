@@ -22,6 +22,7 @@
     </nav>
     <label for="my-drawer" class="lg:hidden btn drawer-button"><Menu color="white" /></label>
 </div>
+
 <div class="drawer z-50">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-side">
