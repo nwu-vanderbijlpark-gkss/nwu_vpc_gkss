@@ -15,7 +15,7 @@
         <a href="/" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/"}>Home</a>
         <a href="/about" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/about"}>About</a>
         <a href="/events" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/events"}>Events</a>
-        <a href="/geekOfTheWeek" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/team"}>Geek Of The Week</a>
+        <a href="/geekOfTheWeek" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/team"}>Geek Of The Week</a></li>
         <a href="/community" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/community"}>Community</a>
         <a href="/team" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/team"}>The team</a>
         <a href="/#contact" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/#contact"}>Contact Us</a>
@@ -33,7 +33,7 @@
         <li><a href="/" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/"}>Home</a></li>
         <li><a href="/about" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/about"}>About</a></li>
         <li><a href="/events" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/events"}>Events</a></li>
-        <a href="/geekOfTheWeek" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/team"}>Geek Of The Week</a>
+        <a href="/geekOfTheWeek" data-sveltekit-reload class="navItem hover:text-white hover:border-b border-red-500" class:selected={currentPath === "/team"}>Geek Of The Week</a></li>
         <li><a href="/community" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/community"}>Community</a></li>
         <li><a href="/team" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/team"}>The team</a></li>
         <li><a href="/#contact" data-sveltekit-reload class="navItem text-lg" class:selected={currentPath === "/#contact"}>Contact Us</a></li>
