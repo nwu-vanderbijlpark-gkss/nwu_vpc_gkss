@@ -42,8 +42,8 @@
   <!-- Call to Action (CTA) -->
   <div class="text-center">
     <a
-      href="/contact"
-      class="bg-purple-600 text-white font-bold py-3 px-6 rounded-md shadow-lg hover:bg-purple-500 transition duration-300"
+      href="/#contact"
+      class="btn btn-primary text-white"
     >
       Get Involved
     </a>
