@@ -7,7 +7,7 @@
    }
 </script>
 <title>Community | NWU Vaal GKSS</title>
-<div class="divide-y">
+<div class="divide-y-2">
     {#each array as topic}
     <div class="hover:shadow hover:rounded-lg p-2">
         <div class="text-sm flex justify-between items-center">

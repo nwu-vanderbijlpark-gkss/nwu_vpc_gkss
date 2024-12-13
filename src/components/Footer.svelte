@@ -2,7 +2,15 @@
 	import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-svelte";
     let year = new Date();
     year = year.getFullYear();
+    let currentPath = "";
+
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+        currentPath = location.pathname;
+    });
 </script>
+{#if !currentPath.includes("/community") && !currentPath.includes("/executive")}
 <footer class="bg-black w-full flex flex-col p-5 space-y-5 mt-1 justify-center items-center text-center">
     <h1 class="text-white text-xl font-semibold">Stay updated, follow us</h1>
     <div class="flex gap-3 flex-wrap">
@@ -27,3 +35,4 @@
     </div>
     <p class="text-sm">© {year} NWU Vaal GKSS. All Rights Reserved</p>
 </footer>
+{/if}
