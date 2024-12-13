@@ -15,6 +15,16 @@
 			/>
 		</label>
 		<label class="form-control w-full">
+			<p>Username</p>
+			<input
+				type="text"
+				name="username"
+				class="input input-bordered"
+				id="username"
+				placeholder="Create your username"
+			/>
+		</label>
+		<label class="form-control w-full">
 			<p>Password</p>
 			<input
 				type="password"

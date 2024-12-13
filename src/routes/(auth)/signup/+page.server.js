@@ -5,17 +5,34 @@ export const actions =   {
     const details = await request.formData();
     const email = details.get("email");
     const password = details.get("password");
+    const username = details.get("username");
 
-    const { data, error } = await supabase.auth.signUp({
+    const {data: Member,error} = await supabase.from("Member").select().eq("username",username);
+    if(Member.length > 0){
+      //if the username already exists
+      console.log(Member)
+    }else{
+      const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
+        options: {
+          emailRedirectTo: 'http://localhost:5173/login',
+        }
       })
       
       if(error){
         console.error(error)
       }else{
-              redirect(303,"/community");
-            }
+          const {error} = await supabase.from("Member").insert({id: data.user.id,username: username})
+          if(error){
+            console.error(error);
+          }
+          else{
+            redirect(303,"/login")
+          }
+      }
+    }
+    
     }
       
     
