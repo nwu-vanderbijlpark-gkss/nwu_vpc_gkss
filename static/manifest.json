@@ -1,0 +1,23 @@
+{
+    "name": "NWU Vaal GKSS",
+    "description": "NWU VAAL GKSS",
+    "display": "standalone",
+    "start_url": "/community",
+    "background_color": "#ffffff",
+    "theme_color": "#123456",
+    "icons": [
+      {
+        "src": "icons/logo.jpg",
+        "sizes": "192x192",
+        "type": "image/jpeg",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "icons/logo.jpg",
+        "sizes": "512x512",
+        "type": "image/jpeg",
+        "purpose": "any maskable"
+      }
+    ]
+  }
+  
