@@ -9,19 +9,19 @@
 		ThumbsUp,
 		User
 	} from 'lucide-svelte';
+	import moment from 'moment';
 	let { data } = $props();
 </script>
 
 <title>Community | NWU Vaal GKSS</title>
-<div class="divide-y-2">
+<div class=" h-full w-full space-y-1 bg-gray-200">
 	{#each data.feed as topic}
-		{console.log(topic)}
-		<div class="p-2 hover:rounded-lg hover:shadow">
+		<div class="bg-white p-2 hover:shadow lg:rounded-lg lg:shadow">
 			<div class="flex items-center justify-between text-sm">
 				<span class="flex">
 					<a class=" link-hover" href="/">lethabomaepa11</a>
 					<Dot />
-					<p class="text-gray-400">16hr ago</p></span
+					<p class="text-gray-400">{moment(topic.topic.created_at).calendar()}</p></span
 				>
 				<button class="btn btn-ghost">Report</button>
 			</div>

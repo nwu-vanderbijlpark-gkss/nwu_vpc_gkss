@@ -88,7 +88,7 @@
 	{/if}
 	<div class="space-x-2 lg:hidden">
 		{#if currentPath.includes('/community')}
-			<button class="btn rounded-full text-sm">
+			<button class="btn rounded-full text-sm" onclick={() => my_modal_1.showModal()}>
 				<PlusCircle />
 			</button>
 		{/if}

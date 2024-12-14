@@ -3,7 +3,7 @@ export async function load({locals: {supabase}}) {
     let finalObject = null;
     let finalArray = [];
     //get the topics
-    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("*");
+    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("*").order('created_at', { ascending: false });
     if(error){
         console.error(error)
     }else{
@@ -26,9 +26,8 @@ export async function load({locals: {supabase}}) {
             else{
                 comment = Comment;
             }
-            finalArray.push({topic: {id:topic.id,topic: topic.topic,content:topic.content,topic_likes: topic_likes,comments: comment}})
+            finalArray.push({topic: {id:topic.id,topic: topic.topic,created_at:topic.created_at,content:topic.content,topic_likes: topic_likes,comments: comment}})
         };
-        console.log(finalArray)
         return {feed: finalArray}
     }
     
