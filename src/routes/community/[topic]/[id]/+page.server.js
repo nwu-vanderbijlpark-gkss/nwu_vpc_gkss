@@ -1,22 +1,23 @@
 export async function load({locals: {supabase},request,params}) {
     //fetch the topic, likes of the topic and also the comments of the topic
     const topic_id = params.id;
-    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("*").eq("id",topic_id);
+    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("*, Member(username)").eq("id",topic_id);
+    console.log(Forum_topic)
     if(error){
         console.error(error)
     }
-    const {data: Topic_likes} = await supabase.from("Topic_likes").select('*', { count: 'exact', head: true }).eq("topic_id",topic_id);
-    const {data: Comment} = await supabase.from("Comment").select('*').eq("topic_id",topic_id).order('created_at', { ascending: false });
+    const {data: Topic_likes} = await supabase.from("Topic_likes").select('*', { count: 'exact'}).eq("topic_id",topic_id);
+    const {data: Comment} = await supabase.from("Comment").select("*, Member(username)").eq("topic_id",topic_id).order('created_at', { ascending: false });
     //we have 3 objects, Topic, Topic_likes and Comment, add them
     let topic_likes,comment;
     if(Topic_likes == null){
         topic_likes = {count: 0}
     }
     else{
-        topic_likes = Topic_likes;
+        topic_likes = {count: Topic_likes.length};
     }
-   return {topic: {id:Forum_topic[0].id,topic: Forum_topic[0].topic,content:Forum_topic[0].content,created_at:Forum_topic[0].created_at,
-    topic_likes: topic_likes,comments: Comment}}
+   return {id:Forum_topic[0].id,topic: Forum_topic[0].topic,content:Forum_topic[0].content,created_at:Forum_topic[0].created_at,
+    topic_likes: topic_likes,comments: Comment, username: Forum_topic[0].Member.username}
 
 }
 

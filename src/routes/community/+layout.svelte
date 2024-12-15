@@ -26,7 +26,7 @@
 						><PlusCircle /> Create new topic</a
 					>
 				</li>
-				<li><a href="#" class="navItem text-base"><User /> Profile</a></li>
+				<li><a href="/profile" class="navItem text-base"><User /> Profile</a></li>
 			{:else}
 				<li>
 					<a href="/login" class="navItem bg-primary text-white hover:text-black"><LogIn />Login</a>
@@ -70,7 +70,7 @@
 		</div>
 		{#if data.email != null}
 			<p class="py-4 text-sm">Enter the required details</p>
-			<form method="post" action="#" class="flex w-full flex-col gap-5">
+			<form method="post" class="flex w-full flex-col gap-5">
 				<label class="form-control w-full">
 					<p>Topic</p>
 					<input
