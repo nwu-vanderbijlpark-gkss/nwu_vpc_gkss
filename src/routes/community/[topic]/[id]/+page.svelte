@@ -1,4 +1,5 @@
 <script>
+	import { supabase } from '$lib/supabaseClient.js';
 	import {
 		ArrowLeft,
 		ChevronLeft,
@@ -40,7 +41,7 @@
 
 <title>{data.topic} | NWU Vaal GKSS</title>
 <div class="space-y-2 bg-white">
-	<div class=" p-2">
+	<div class="p-2">
 		<div class="flex items-center justify-between text-sm">
 			<span class="flex items-center">
 				<a href="/community" class="mr-2 rounded-full bg-base-content p-2 hover:scale-105"
@@ -72,25 +73,22 @@
 		</div>
 	</div>
 	<hr />
-	<form
-		method="post"
-		class="fixed bottom-0 flex w-full items-center bg-white p-2 shadow-md lg:relative"
+	<div
+		class="fixed bottom-0 flex w-full items-center border-t bg-white p-2 shadow-lg lg:relative lg:border-none lg:shadow-none"
 	>
-		<textarea
-			class="textarea textarea-ghost w-full"
-			name="comment"
-			id="comment"
+		<input
+			class="input input-bordered w-full bg-gray-100"
 			placeholder="Add a comment"
-		></textarea>
-		<input type="text" hidden class="hidden" readonly id="id" name="id" value="id" />
+			readonly
+			onclick={() => commentModal.show()}
+		/>
+
 		<button type="submit" class="btn btn-ghost text-primary"><SendHorizontal /></button>
-	</form>
-	<div class="max-h-screen divide-y overflow-auto">
-		<h3 class="p-2 text-lg font-bold">Comments</h3>
+	</div>
+	<div class="min-h-screen divide-y overflow-auto">
+		<h3 class="mb-10 p-2 text-lg font-bold">Comments</h3>
 		{#if data.comments.length == 0}
-			<p class="p-4 font-semibold text-gray-400">
-				No comments yet, be the first to leave a comment
-			</p>
+			<p class="p-4 text-sm text-gray-400">No comments yet, be the first to leave a comment.</p>
 		{:else}
 			{#each data.comments as comment}
 				<div id={comment.id} class=" p-2">

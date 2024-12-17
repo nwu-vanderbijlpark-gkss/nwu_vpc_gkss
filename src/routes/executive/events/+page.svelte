@@ -45,6 +45,16 @@
 						/>
 					</label>
 					<label class="form-control w-full">
+						<p>Poster</p>
+						<input
+							type="file"
+							name="image"
+							class="file-input file-input-bordered w-full"
+							accept="image/*"
+							id="image"
+						/>
+					</label>
+					<label class="form-control w-full">
 						<p>Description</p>
 						<textarea
 							name="description"

@@ -2,7 +2,6 @@ export async function load({locals: {supabase},request,params}) {
     //fetch the topic, likes of the topic and also the comments of the topic
     const topic_id = params.id;
     const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("*, Member(username)").eq("id",topic_id);
-    console.log(Forum_topic)
     if(error){
         console.error(error)
     }

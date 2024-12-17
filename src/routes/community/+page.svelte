@@ -65,9 +65,12 @@
 					><ThumbsDown size="20px" />
 					<p>0</p></button
 				>
-				<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+				<a
+					onclick={() => commentModal.show()}
+					href={`/community/${topic.topic}/${topic.id}`}
+					class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
 					><MessageCircleMore size="20px" />
-					<p>{topic.comments.count}</p></button
+					<p>{topic.comments.count}</p></a
 				>
 				<button
 					onclick={() => shareTopic(topic.topic, `${location.href}/${topic.topic}/${topic.id}`)}

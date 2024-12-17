@@ -22,7 +22,7 @@
 			<li><a href="#" class="navItem text-base"><Search /> Search</a></li>
 			{#if data.email != null}
 				<li>
-					<a href="#" class="navItem text-base" onclick={() => my_modal_1.showModal()}
+					<a href="/community" class="navItem text-base" onclick={() => my_modal_1.showModal()}
 						><PlusCircle /> Create new topic</a
 					>
 				</li>
@@ -103,6 +103,36 @@
 			</form>
 		{:else}
 			<p class="py-4 text-sm">You need to login to be able to create a topic</p>
+			<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
+		{/if}
+	</div>
+</dialog>
+
+<dialog id="commentModal" class="modal modal-bottom z-50 sm:modal-middle">
+	<div class="modal-box text-white">
+		<div class="flex items-center justify-between">
+			<p class="text-lg font-bold text-white">Add a comment</p>
+			<div class="modal-action">
+				<form method="dialog">
+					<button class="btn"><X />Close</button>
+				</form>
+			</div>
+		</div>
+		{#if data.email != null}
+			<form method="post" class="flex w-full flex-col gap-5">
+				<label class="form-control w-full">
+					<p>Comment</p>
+					<textarea
+						class="textarea textarea-bordered"
+						name="comment"
+						id="comment"
+						placeholder="Add your comment"
+					></textarea>
+				</label>
+				<button type="submit" class="btn btn-primary text-white">Submit</button>
+			</form>
+		{:else}
+			<p class="py-4 text-sm">You need to login to be able to add comments</p>
 			<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
 		{/if}
 	</div>
