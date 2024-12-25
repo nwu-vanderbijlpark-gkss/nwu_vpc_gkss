@@ -3,7 +3,12 @@
 	class="flex flex-col items-center justify-center space-y-5 bg-[#0c0c0c] p-5 py-20"
 >
 	<h1 class="text-xl font-bold text-white">Contact Us</h1>
-	<form netlify method="post" name="contact" class="flex w-full flex-col gap-5 lg:w-2/4">
+	<form
+		data-netlify="true"
+		method="post"
+		name="contact"
+		class="flex w-full flex-col gap-5 lg:w-2/4"
+	>
 		<label class="form-control w-full">
 			<p>Name</p>
 			<input
