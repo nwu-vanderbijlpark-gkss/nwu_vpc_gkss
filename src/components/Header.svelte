@@ -6,7 +6,7 @@
 	onMount(() => {
 		currentPath = location.pathname;
 	});
-	import { Menu, PlusCircle, Search } from 'lucide-svelte';
+	import { Menu, PlusCircle, Search, User } from 'lucide-svelte';
 </script>
 
 <div
@@ -91,6 +91,9 @@
 			<button class="btn rounded-full text-sm" onclick={() => my_modal_1.showModal()}>
 				<PlusCircle />
 			</button>
+			<a href="/profile" class="btn rounded-full text-sm">
+				<User />
+			</a>
 		{/if}
 		<label for="my-drawer" class="btn drawer-button rounded-full lg:hidden"
 			><Menu color="white" /></label
