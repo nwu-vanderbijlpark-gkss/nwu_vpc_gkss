@@ -1,3 +1,7 @@
+<script>
+	export const prerender = true;
+</script>
+
 <div
 	id="contact"
 	class="flex flex-col items-center justify-center space-y-5 bg-[#0c0c0c] p-5 py-20"
@@ -48,6 +52,7 @@
 				placeholder="How may we assist?"
 			></textarea>
 		</label>
+		<input type="hidden" name="form-name" value="contact" />
 		<button type="submit" class="btn btn-primary text-white">Send Message</button>
 	</form>
 </div>
