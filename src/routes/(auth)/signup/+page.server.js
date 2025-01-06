@@ -16,7 +16,7 @@ export const actions =   {
         email: email,
         password: password,
         options: {
-          emailRedirectTo: 'http://localhost:5173/login',
+          emailRedirectTo: 'http://nwu-vaal-gkss/login',
         }
       })
       
