@@ -2,8 +2,10 @@
 	import { supabase } from '$lib/supabaseClient.js';
 	import {
 		ArrowLeft,
+		ChartNoAxesColumn,
 		ChevronLeft,
 		Dot,
+		Eye,
 		Forward,
 		MessageCircleMore,
 		SendHorizontal,
@@ -56,14 +58,18 @@
 		<h3 class="text-2xl font-bold">{data.topic}</h3>
 		<p class="mt-2 text-sm text-gray-500">{data.content}</p>
 		<div class="mt-5 text-xs">
-			<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-				><ThumbsUp size="20px" />
-				<p>{data.topic_likes.count}</p></button
-			>
-			<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-				><MessageCircleMore size="20px" />
-				<p>{data.comments.length}</p></button
-			>
+			<div class="tooltip" data-tip={`${data.views.count} Total views`}>
+				<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+					><ChartNoAxesColumn size="20px" />
+					<p>{data.views.count}</p></button
+				>
+			</div>
+			<div class="tooltip" data-tip="Comments">
+				<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+					><MessageCircleMore size="20px" />
+					<p>{data.comments.length}</p></button
+				>
+			</div>
 			<button
 				onclick={() => shareTopic(data.topic, location.href)}
 				class="btn btn-ghost rounded-full bg-base-100/10 text-xs"

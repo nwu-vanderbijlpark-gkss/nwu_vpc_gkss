@@ -12,6 +12,12 @@
 	async function handleSubmit(event) {
 		event.preventDefault(); // Prevent the default form submission behavior
 		isSubmitting = true;
+		const inputs = document.getElementsByClassName('form-input');
+		for (let i = 0; i < inputs.length; i++) {
+			const element = inputs[i];
+			element.disabled = true; //disable the inputs when submitting
+		}
+
 		successMessage = '';
 		errorMessage = '';
 
@@ -34,6 +40,10 @@
 			errorMessage = 'There was an error sending your message. Please try again.';
 		} finally {
 			isSubmitting = false;
+			for (let i = 0; i < inputs.length; i++) {
+				const element = inputs[i];
+				element.disabled = false; //enable the inputs when submitting
+			}
 		}
 	}
 </script>
@@ -49,7 +59,7 @@
 			<input
 				type="text"
 				name="name"
-				class="input input-bordered"
+				class="form-input input input-bordered"
 				id="name"
 				placeholder="First name"
 				bind:value={formState.name}
@@ -61,7 +71,7 @@
 			<input
 				type="text"
 				name="surname"
-				class="input input-bordered"
+				class="form-input input input-bordered"
 				id="surname"
 				placeholder="Your surname"
 				bind:value={formState.surname}
@@ -73,7 +83,7 @@
 			<input
 				type="email"
 				name="email"
-				class="input input-bordered"
+				class="form-input input input-bordered"
 				id="email"
 				placeholder="name12@domain.com"
 				bind:value={formState.email}
@@ -84,7 +94,7 @@
 			<p>Message</p>
 			<textarea
 				name="message"
-				class="textarea textarea-bordered"
+				class="form-input textarea textarea-bordered"
 				id="message"
 				placeholder="How may we assist?"
 				bind:value={formState.message}

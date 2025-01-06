@@ -42,17 +42,28 @@
 	<div
 		class="hidden min-h-screen w-2/12 flex-col items-center space-y-4 bg-white p-2 text-black lg:flex"
 	>
-		<ul class="menu w-full rounded-lg bg-base-content p-2">
-			<h2 class="menu-title border-b text-xl font-bold text-black">Latest topics</h2>
-			<li><a href="#" class="navItem text-base">Web Development</a></li>
-			<li><a href="#" class="navItem text-base">Coding tips</a></li>
-			<li><a href="#" class="navItem text-base">Studying tips</a></li>
+		<ul class="menu w-full rounded-lg p-2">
+			<h2 class="menu-title border-b text-xl font-bold text-black">Popular topics</h2>
+			{#each data.most_viewed as topic}
+				<li>
+					<a
+						href={`/community/${topic.topic}/${topic.id}`}
+						class="navItem flex justify-between text-base"
+					>
+						{topic.topic}
+					</a>
+				</li>
+			{/each}
 		</ul>
-		<ul class="menu w-full rounded-lg bg-base-content p-2">
-			<h2 class="menu-title border-b text-xl font-bold text-black">Most active geeks</h2>
-			<li><a href="#" class="navItem text-base">John Doe</a></li>
-			<li><a href="#" class="navItem text-base">Kim Kadi</a></li>
-			<li><a href="#" class="navItem text-base">John SeeMe</a></li>
+		<ul class="menu w-full rounded-lg p-2">
+			<h2 class="menu-title border-b text-xl font-bold text-black">Latest topics</h2>
+			{#each data.latest as topic}
+				<li>
+					<a href={`/community/${topic.topic}/${topic.id}`} class="navItem text-base">
+						{topic.topic}
+					</a>
+				</li>
+			{/each}
 		</ul>
 	</div>
 </main>

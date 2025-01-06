@@ -1,5 +1,6 @@
 <script>
 	import {
+		ChartNoAxesColumn,
 		Dot,
 		Forward,
 		MessageCircleMore,
@@ -41,7 +42,7 @@
 <title>Community | NWU Vaal GKSS</title>
 <div class=" h-full w-full space-y-1 bg-gray-200">
 	{#each data.feed as topic}
-		<div class="bg-white p-2 hover:shadow lg:rounded-lg lg:shadow">
+		<div class="bg-white p-2 hover:shadow-lg lg:rounded-lg">
 			<div class="flex items-center justify-between text-sm">
 				<span class="flex">
 					<a class=" link-hover" href={`/${topic.username}`}>{topic.username}</a>
@@ -51,16 +52,21 @@
 				<button class="btn btn-ghost">Report</button>
 			</div>
 			<a href={`/community/${topic.topic}/${topic.id}`}>
-				<h3 class="text-2xl font-bold">{topic.topic}</h3>
+				<h3 class="text-xl font-bold">{topic.topic}</h3>
 				<p class="mt-2 text-sm text-gray-800">
 					{topic.content}
 				</p>
 			</a>
 			<div class="mt-5 text-xs">
-				<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-					><ThumbsUp size="20px" />
-					<p>{topic.topic_likes.count}</p></button
+				<div
+					class="tooltip"
+					data-tip={`${topic.views.count} view${topic.views.count == 1 ? '' : 's'}`}
 				>
+					<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+						><ChartNoAxesColumn size="20px" />
+						<p>{topic.views.count}</p></button
+					>
+				</div>
 				<button class="btn btn-ghost hidden rounded-full bg-base-100/10 text-xs"
 					><ThumbsDown size="20px" />
 					<p>0</p></button
