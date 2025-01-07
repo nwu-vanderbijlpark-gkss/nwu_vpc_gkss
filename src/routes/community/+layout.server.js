@@ -34,13 +34,15 @@ export async function load({locals: {supabase}}) {
     else{
         email =   null;
     }
+    const allTopics = Forum_topic;//for searcing purposes
     //before returning the data, make objects for most viewed, latest and most comments
     const latest = finalArray.slice(0, 3);//as it is
+    
     //for most viewed
     let most_viewed = finalArray.sort((a, b) => b.views.count - a.views.count);
     most_viewed = most_viewed.sort((a, b) => b.comments.count - a.comments.count).slice(0, 3);
 
-    return {email,latest,most_viewed};
+    return {email,latest,most_viewed, allTopics};
 
 }
 

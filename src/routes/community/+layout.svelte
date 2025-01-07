@@ -13,13 +13,45 @@
 	} from 'lucide-svelte';
 
 	let { children, data } = $props();
+	let text = $state('');
+
+	const handleSearch = (event) => {
+		text = text.toLowerCase();
+		let textTokens = text.split(/\s+/);
+
+		const results = []; //results array
+		const isFound = (data) => {
+			let found = false;
+			for (let i = 0; i < textTokens.length; i++) {
+				if (data.toLowerCase().includes(textTokens[i])) {
+					found = true;
+				}
+			}
+			return found;
+		};
+		for (let i = 0; i < data.allTopics.length; i++) {
+			let post = data.allTopics[i];
+			const topicMatch = isFound(post.topic);
+			const contentMatch = isFound(post.content);
+			const tagsMatch = isFound(post.tags);
+
+			if (topicMatch || contentMatch || tagsMatch) {
+				results.push(post); //add the post in the results array
+			}
+		}
+		console.log(results); //display the results on the console, TODO, add results page
+	};
 </script>
 
 <main class="flex min-h-screen divide-x bg-gray-200">
 	<div class="hidden min-h-screen w-2/12 flex-col items-center bg-white p-2 text-black lg:flex">
 		<ul class="menu min-h-full w-full p-2">
 			<h2 class="menu-title border-b text-xl font-bold text-gray-400">Community</h2>
-			<li><a href="#" class="navItem text-base"><Search /> Search</a></li>
+			<li>
+				<a href="#search" onclick={() => searchModal.showModal()} class="navItem text-base"
+					><Search /> Search</a
+				>
+			</li>
 			{#if data.email != null}
 				<li>
 					<a href="/community" class="navItem text-base" onclick={() => my_modal_1.showModal()}
@@ -146,5 +178,30 @@
 			<p class="py-4 text-sm">You need to login to be able to add comments</p>
 			<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
 		{/if}
+	</div>
+</dialog>
+<dialog id="searchModal" class="modal modal-bottom z-50 sm:modal-middle">
+	<div class="modal-box text-white">
+		<div class="flex items-center justify-between">
+			<p class="text-lg font-bold text-white">Search</p>
+			<div class="modal-action">
+				<form method="dialog">
+					<button class="btn"><X />Close</button>
+				</form>
+			</div>
+		</div>
+		<form onsubmit={() => handleSearch()} class="flex w-full flex-col gap-5">
+			<label class="form-control w-full">
+				<p>Search</p>
+				<input
+					class="input input-bordered"
+					name="search"
+					id="search"
+					placeholder="Search here..."
+					bind:value={text}
+				/>
+			</label>
+			<button type="submit" class="btn btn-primary text-white">Search</button>
+		</form>
 	</div>
 </dialog>
