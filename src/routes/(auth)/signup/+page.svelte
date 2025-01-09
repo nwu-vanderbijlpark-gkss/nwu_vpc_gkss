@@ -13,10 +13,10 @@
 		let isValid = true;
 
 		// Validate email
-		const emailPattern = /^[a-zA-Z0-9._%+-]+@mynwu\.ac\.za$/;
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 		if (!emailPattern.test(email)) {
 			isValid = false;
-			showError('email', 'Email must end with @mynwu.ac.za.');
+			showError('email', 'Please enter a valid email address.');
 		}
 
 		// Validate username
@@ -33,6 +33,7 @@
 
 		if (isValid) {
 			// Submit the form if all validations pass
+			sessionStorage.setItem('signup', true);
 			event.target.submit();
 		}
 	}
@@ -54,17 +55,20 @@
 
 <div class="flex min-h-screen flex-col items-center justify-center space-y-5 bg-[#0c0c0c] p-5">
 	<h1 class="text-xl font-bold text-white">Create an account</h1>
-	<p class="text-white">Use your student email to create an account, strictly for NWU students.</p>
+	<p class="text-white">
+		Use your student email to create an account, if you do not receive the confirmation email, use
+		your gmail account instead
+	</p>
 	<form method="post" class="flex w-full flex-col gap-5 p-5 lg:w-2/5" onsubmit={validateForm}>
 		<label class="form-control w-full">
-			<p>Student Email</p>
+			<p>Email</p>
 			<input
 				type="email"
 				bind:value={email}
 				name="email"
 				class="input input-bordered"
 				id="email"
-				placeholder="studentnumber@mynwu.ac.za"
+				placeholder="name@domain.com"
 			/>
 		</label>
 		<label class="form-control w-full">

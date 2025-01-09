@@ -12,10 +12,10 @@
 		let isValid = true;
 
 		// Validate email
-		const emailPattern = /^[a-zA-Z0-9._%+-]+@mynwu\.ac\.za$/;
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 		if (!emailPattern.test(email)) {
 			isValid = false;
-			showError('email', 'Email must end with @mynwu.ac.za.');
+			showError('email', 'Please enter a valid email address.');
 		}
 
 		// Validate password
@@ -37,6 +37,7 @@
 		errorMessage.textContent = message;
 		inputField.insertAdjacentElement('afterend', errorMessage);
 	};
+	const fromSignup = sessionStorage.getItem('signup');
 </script>
 
 <title>Login | NWU Vaal GKSS</title>
@@ -46,7 +47,10 @@
 <meta property="title" content="Login" />
 <div class="flex min-h-screen flex-col items-center justify-center space-y-5 bg-[#0c0c0c] p-5">
 	<h1 class="text-xl font-bold text-white">Login to your account</h1>
-	<p class="text-white">Use your student email to login.</p>
+	<p class="text-white">Use your email to login.</p>
+	{#if fromSignup}
+		<p class="text-info">Verify your email first before login</p>
+	{/if}
 	<form method="post" class="flex w-full flex-col gap-5 p-5 lg:w-2/5" on:submit={validateForm}>
 		<label class="form-control w-full">
 			<p>Student Email</p>

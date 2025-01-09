@@ -91,6 +91,9 @@
 			<button class="btn rounded-full text-sm" onclick={() => my_modal_1.showModal()}>
 				<PlusCircle />
 			</button>
+			<a href="/community/search" class="btn rounded-full text-sm">
+				<Search />
+			</a>
 			<a href="/profile" class="btn rounded-full text-sm">
 				<User />
 			</a>

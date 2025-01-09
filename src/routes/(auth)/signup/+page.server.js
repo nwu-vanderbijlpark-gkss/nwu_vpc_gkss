@@ -16,7 +16,7 @@ export const actions =   {
         email: email,
         password: password,
         options: {
-          emailRedirectTo: 'http://nwu-vaal-gkss/login',
+          emailRedirectTo: 'https://nwu-vaal-gkss.netlify/login',
         }
       })
       
@@ -37,3 +37,5 @@ export const actions =   {
       
     
 }
+export const ssr = false;
+
