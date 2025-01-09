@@ -12,9 +12,9 @@ export async function load({locals: {supabase}}) {
     else{
         email =   null;
     }
-    const allTopics = Forum_topic;//for searcing purposes
-    //before returning the data, make objects for most viewed, latest and most comments
-    const latest = Forum_topic.slice(0, 3);//as it is
+    const allTopics = Forum_topic;
+    //before returning the data, make objects for most viewed, latest
+    const latest = Forum_topic.slice(0, 3);//as it is, just take the top 3
     
     //for most viewed
     let most_viewed = Forum_topic.sort((a, b) => b.topic_views.length - a.topic_views.length);

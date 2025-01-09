@@ -13,9 +13,6 @@
 	} from 'lucide-svelte';
 
 	let { children, data } = $props();
-	const handleFavorite = (topic) => {
-		console.log(topic);
-	};
 </script>
 
 <main class="flex min-h-screen divide-x bg-gray-200">

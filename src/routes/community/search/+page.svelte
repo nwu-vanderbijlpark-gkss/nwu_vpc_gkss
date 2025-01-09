@@ -34,7 +34,7 @@
 		const isFound = (data) => {
 			let found = false;
 			for (let i = 0; i < textTokens.length; i++) {
-				if (data.toLowerCase().includes(textTokens[i])) {
+				if (data.toLowerCase().split(/\s+/).includes(textTokens[i])) {
 					found = true;
 				}
 			}
@@ -87,6 +87,26 @@
 		}
 		setFavId();
 	};
+	// function to handle multiple terms
+	function highlightText(fullText, match) {
+		if (!match) return fullText;
+
+		// Split the match variable into individual words or phrases
+		const terms = match.split(/\s+/); // Split by spaces or other delimiters
+
+		// Create a regex to match all terms
+		const regex = new RegExp(`(${terms.join('|')})`, 'gi');
+
+		// Highlight matching terms in the full text
+		return fullText
+			.split(regex)
+			.map((part) =>
+				terms.some((term) => part.toLowerCase() === term.toLowerCase())
+					? `<span class="bg-primary/50">${part}</span>`
+					: part
+			)
+			.join('');
+	}
 </script>
 
 <title>Search {text} | NWU Vaal GKSS</title>
@@ -126,10 +146,10 @@
 						{/if}
 					</button>
 				</div>
-				<a href={`/community/${topic.topic}/${topic.id}`}>
-					<h3 class="text-xl font-bold">{topic.topic}</h3>
+				<a href={`/community/${topic.id}`}>
+					<h3 class="text-xl font-bold">{@html highlightText(topic.topic, text)}</h3>
 					<p class="mt-2 text-sm text-gray-800">
-						{topic.content}
+						{@html highlightText(topic.content, text)}
 					</p>
 				</a>
 				<div class="mt-5 text-xs">
@@ -144,7 +164,7 @@
 					</div>
 					<a
 						onclick={() => commentModal.show()}
-						href={`/community/${topic.topic}/${topic.id}`}
+						href={`/community/${topic.id}`}
 						class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
 						><MessageCircleMore size="20px" />
 						<p>{topic.Comment.length}</p></a

@@ -23,6 +23,7 @@
 		}
 	};
 	onMount(() => {
+		//when the document is mounted on the browser, get the fav_ids item in localstorage
 		setFavId();
 	});
 	const handleFavorite = (topic) => {
@@ -105,7 +106,7 @@
 					{/if}
 				</button>
 			</div>
-			<a href={`/community/${topic.topic}/${topic.id}`}>
+			<a href={`/community/${topic.id}`}>
 				<h3 class="text-xl font-bold">{topic.topic}</h3>
 				<p class="mt-2 text-sm text-gray-800">
 					{topic.content}
@@ -123,7 +124,7 @@
 				</div>
 				<a
 					onclick={() => commentModal.show()}
-					href={`/community/${topic.topic}/${topic.id}`}
+					href={`/community/${topic.id}`}
 					class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
 					><MessageCircleMore size="20px" />
 					<p>{topic.Comment.length}</p></a
