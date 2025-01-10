@@ -28,7 +28,7 @@ export const actions =   {
             console.error(error);
           }
           else{
-            redirect(303,"/login")
+            redirect(303,"https://mail.google.com/mail/u/0/#inbox")
           }
       }
     }

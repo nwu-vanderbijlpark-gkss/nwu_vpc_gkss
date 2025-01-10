@@ -56,8 +56,7 @@
 <div class="flex min-h-screen flex-col items-center justify-center space-y-5 bg-[#0c0c0c] p-5">
 	<h1 class="text-xl font-bold text-white">Create an account</h1>
 	<p class="text-white">
-		Use your student email to create an account, if you do not receive the confirmation email, use
-		your gmail account instead
+		Use your gmail account, you will receive an email then open gmail and verify your email.
 	</p>
 	<form method="post" class="flex w-full flex-col gap-5 p-5 lg:w-2/5" onsubmit={validateForm}>
 		<label class="form-control w-full">
