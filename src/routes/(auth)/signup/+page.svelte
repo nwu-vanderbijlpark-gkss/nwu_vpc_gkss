@@ -1,4 +1,6 @@
 <script>
+	import { enhance } from '$app/forms';
+
 	let email = '';
 	let username = '';
 	let password = '';
@@ -45,6 +47,7 @@
 		errorMessage.textContent = message;
 		inputField.insertAdjacentElement('afterend', errorMessage);
 	}
+	let { form } = $props();
 </script>
 
 <title>Signup | NWU Vaal GKSS</title>
@@ -58,7 +61,13 @@
 	<p class="text-white">
 		Use your gmail account, you will receive an email then open gmail and verify your email.
 	</p>
-	<form method="post" class="flex w-full flex-col gap-5 p-5 lg:w-2/5" onsubmit={validateForm}>
+	<p class=" text-error">{form?.error}</p>
+	<form
+		use:enhance
+		method="post"
+		class="flex w-full flex-col gap-5 p-5 lg:w-2/5"
+		onsubmit={validateForm}
+	>
 		<label class="form-control w-full">
 			<p>Email</p>
 			<input

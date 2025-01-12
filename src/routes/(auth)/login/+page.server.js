@@ -13,8 +13,8 @@ export const actions =   {
 
     if(Team){
         Team.forEach(member => {
-            //check if the person loggin in is not in the executive committee
-            if(email === (member.student_no+"@mynwu.ac.za")){
+            //check if the person logging in is not in the executive committee
+            if(email === (member.email)){
                 redirectTo = '/executive'
             }
         });
@@ -26,7 +26,8 @@ export const actions =   {
       })
       
       if(error){
-        console.error(error)
+        console.error(error.code)
+        return {error: error.code}
       }else{
         redirect(303,redirectTo);
       }
@@ -34,4 +35,3 @@ export const actions =   {
       
     
 }
-export const ssr = false;

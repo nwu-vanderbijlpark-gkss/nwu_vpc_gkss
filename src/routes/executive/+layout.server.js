@@ -20,7 +20,7 @@ export async function load({locals: {supabase}}) {
             let isMember = false;
             Team.forEach(member => {
                 //check if the user accessing the executive pages is an executive member
-                if(user.email === (member.student_no+"@mynwu.ac.za")){ 
+                if(user.email === (member.email)){ 
                     isMember = true;
                 }
             });
