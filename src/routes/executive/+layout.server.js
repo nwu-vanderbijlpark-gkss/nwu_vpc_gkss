@@ -15,7 +15,7 @@ export async function load({locals: {supabase}}) {
     if(user){
         let { data: Team } = await supabase
             .from('Team')
-            .select('student_no')   
+            .select('email')   
         if(Team){
             let isMember = false;
             Team.forEach(member => {

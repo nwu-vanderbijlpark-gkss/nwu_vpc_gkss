@@ -9,7 +9,7 @@ export const actions =   {
 
     let { data: Team } = await supabase
                                 .from('Team')
-                                .select('student_no')
+                                .select('email')
 
     if(Team){
         Team.forEach(member => {

@@ -11,6 +11,7 @@
 	} from 'lucide-svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 
 	let text = $state('');
 	let results = $state([]); //results array
@@ -34,7 +35,7 @@
 		const isFound = (data) => {
 			let found = false;
 			for (let i = 0; i < textTokens.length; i++) {
-				if (data.toLowerCase().split(/\s+/).includes(textTokens[i])) {
+				if (data.toLowerCase().includes(textTokens[i])) {
 					found = true;
 				}
 			}
@@ -102,7 +103,7 @@
 			.split(regex)
 			.map((part) =>
 				terms.some((term) => part.toLowerCase() === term.toLowerCase())
-					? `<span class="bg-primary/50">${part}</span>`
+					? `<span class="bg-primary/30">${part}</span>`
 					: part
 			)
 			.join('');
@@ -110,8 +111,8 @@
 </script>
 
 <title>Search {text} | NWU Vaal GKSS</title>
-<div class="space-y-1">
-	<section class="flex w-full items-center gap-3 bg-white p-2">
+<div class="space-y-1" transition:slide>
+	<section class="flex w-full items-center gap-3 rounded-lg bg-white p-2">
 		<span class="flex items-center">
 			<a class="btn btn-ghost rounded-full" href="/community"><ArrowLeft /></a>
 		</span>

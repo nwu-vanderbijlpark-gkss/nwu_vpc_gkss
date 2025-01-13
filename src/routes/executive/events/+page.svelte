@@ -2,7 +2,24 @@
 	import { Edit, PlusCircle, Trash2, X } from 'lucide-svelte';
 
 	let array = [];
-	let { data } = $props();
+	let { data, form } = $props();
+	let events = $state(data.events);
+	const handleDelete = (id) => {
+		const data = new FormData();
+		data.append('id', id);
+		fetch('?/deleteEvent', {
+			method: 'POST',
+			body: data
+		});
+		//remove the deleted event from state
+		let newArray = [];
+		for (const event of events) {
+			if (event.id != id) {
+				newArray.push(event);
+			}
+		}
+		events = newArray;
+	};
 </script>
 
 <div class="flex min-h-screen w-full flex-col items-center justify-center bg-gray-200 p-10">
@@ -23,7 +40,7 @@
 				</div>
 
 				<p class="py-4 text-sm">Enter the required details</p>
-				<form method="post" action="#" class="flex w-full flex-col gap-5">
+				<form method="post" action="?/addEvent" class="flex w-full flex-col gap-5">
 					<label class="form-control w-full">
 						<p>Topic</p>
 						<input
@@ -85,7 +102,7 @@
 			</thead>
 			<tbody>
 				<!-- row  -->
-				{#each data.events as event}
+				{#each events as event}
 					<tr>
 						<td>{event.topic}</td>
 						<td class="hidden max-w-[300px] overflow-hidden lg:flex">{event.description}</td>
@@ -95,7 +112,7 @@
 								><Edit />
 								<p class="text-xs">Edit</p></button
 							>
-							<button class="btn btn-ghost grid items-center"
+							<button onclick={() => handleDelete(event.id)} class="btn btn-ghost grid items-center"
 								><Trash2 color="red" />
 								<p class="text-xs">Delete</p></button
 							>

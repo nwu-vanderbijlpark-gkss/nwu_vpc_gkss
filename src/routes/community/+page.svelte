@@ -14,6 +14,7 @@
 	} from 'lucide-svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 	let { data } = $props();
 	let fav_id = $state([]);
 	const setFavId = () => {
@@ -89,7 +90,10 @@
 </script>
 
 <title>Community | NWU Vaal GKSS</title>
-<div class=" h-full w-full space-y-1 bg-gray-200">
+<div class=" h-full w-full space-y-1 bg-gray-200" transition:slide>
+	{#if data.allTopics.length == 0}
+		<p class=" py-20 text-center text-xl">It's empty here😅, be the first to make a post👨🏿‍💻!</p>
+	{/if}
 	{#each data.allTopics as topic}
 		<div class="bg-white p-2 hover:shadow-lg lg:rounded-lg">
 			<div class="flex items-center justify-between text-sm">

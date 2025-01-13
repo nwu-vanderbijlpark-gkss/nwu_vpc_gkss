@@ -92,6 +92,7 @@
 						class="input input-bordered"
 						id="topic"
 						placeholder="Study tips..."
+						required
 					/>
 				</label>
 				<label class="form-control w-full">
@@ -140,6 +141,7 @@
 						name="comment"
 						id="comment"
 						placeholder="Add your comment"
+						required
 					></textarea>
 				</label>
 				<button type="submit" class="btn btn-primary text-white">Submit</button>

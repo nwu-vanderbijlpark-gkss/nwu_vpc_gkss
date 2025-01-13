@@ -13,6 +13,7 @@
 		ThumbsUp
 	} from 'lucide-svelte';
 	import moment from 'moment';
+	import { slide } from 'svelte/transition';
 	// Web Share API function
 	export const shareTopic = async (topicTitle, url) => {
 		if (navigator.share) {
@@ -42,7 +43,7 @@
 </script>
 
 <title>{data.topic} | NWU Vaal GKSS</title>
-<div class="space-y-2 bg-white">
+<div class="space-y-2 rounded-lg bg-white" transition:slide>
 	<div class="p-2">
 		<div class="flex items-center justify-between text-sm">
 			<span class="flex items-center">

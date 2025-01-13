@@ -13,7 +13,7 @@ export const load = async({locals: {supabase}}) =>{
 }
 /** @satisfies {import('./$types').Actions} */
 export const actions = {
-	default: async ({locals: {supabase}, request}) => {
+	addEvent: async ({locals: {supabase}, request}) => {
 		// TODO log the user in
         const data = await request.formData();
         const { error } = await supabase
@@ -27,5 +27,19 @@ export const actions = {
             console.log(error);
          }
 
-	}
+	},
+    deleteEvent: async ({locals: {supabase},request}) => {
+        //delete event based on id
+        const data = await request.formData();
+        const id = data.get("id");
+        const {error} = await supabase.from("Events").delete().eq("id",id);
+        if(!error){
+            return {
+            status: 200,
+            body: {
+              message: "Form submitted successfully!",
+            },
+        }
+        }
+    },
 };
