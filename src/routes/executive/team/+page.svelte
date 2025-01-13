@@ -8,7 +8,8 @@
 		'Treasurer',
 		'Tech and Innovation Lead',
 		'Community Manager',
-		'Marketing Manager'
+		'Marketing Manager',
+   'Project Manager'
 	];
 	let { data, form } = $props();
 	let team = $state(data.team);
