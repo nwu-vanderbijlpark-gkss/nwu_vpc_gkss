@@ -6,6 +6,7 @@
 		MessageCircleMore,
 		PlusCircle,
 		Search,
+		Share2,
 		Star,
 		StarOff,
 		ThumbsDown,
@@ -90,56 +91,70 @@
 </script>
 
 <title>Community | NWU Vaal GKSS</title>
-<div class=" h-full w-full space-y-1 bg-gray-200" transition:slide>
+<div class=" h-full w-full space-y-1 divide-y" transition:slide>
+	<div class="flex w-full items-center justify-between rounded-lg bg-white p-2">
+		<div>
+			<h1 class="text-xl font-bold">Discussions</h1>
+			<p class="text-sm">Share your ideas and opinions with others</p>
+		</div>
+		<button onclick={() => my_modal_1.showModal()} class="btn btn-primary">New Topic</button>
+	</div>
 	{#if data.allTopics.length == 0}
 		<p class=" py-20 text-center text-xl">It's empty here😅, be the first to make a post👨🏿‍💻!</p>
 	{/if}
-	{#each data.allTopics as topic}
-		<div class="bg-white p-2 hover:shadow-lg lg:rounded-lg">
-			<div class="flex items-center justify-between text-sm">
-				<span class="flex">
-					<a class=" link-hover" href={`/${topic.Member.username}`}>{topic.Member.username}</a>
-					<Dot />
-					<p class="text-gray-400">{moment(topic.created_at).calendar()}</p></span
-				>
-				<button class="btn btn-ghost" onclick={() => handleFavorite(topic)}>
-					{#if fav_id.includes(topic.id)}
-						<StarOff color="red" />
-					{:else}
-						<Star />
-					{/if}
-				</button>
-			</div>
-			<a href={`/community/${topic.id}`}>
-				<h3 class="text-xl font-bold">{topic.topic}</h3>
-				<p class="mt-2 text-sm text-gray-800">
-					{topic.content}
-				</p>
-			</a>
-			<div class="mt-5 text-xs">
-				<div
-					class="tooltip"
-					data-tip={`${topic.topic_views.length} view${topic.topic_views.length == 1 ? '' : 's'}`}
-				>
-					<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-						><ChartNoAxesColumn size="20px" />
-						<p>{topic.topic_views.length}</p></button
+	<div class="max-h-[80vh] divide-y overflow-auto">
+		{#each data.allTopics as topic}
+			<div class="bg-white p-2 hover:bg-gray-50">
+				<div class="flex items-center justify-between text-sm">
+					<span class="flex items-center">
+						<div class="mr-2 h-[25px] w-[25px] overflow-hidden rounded-full">
+							<img class="object-fit" src={topic.Member.image} alt={topic.Member.username} />
+						</div>
+						<a class=" link-hover" href={`/community/${topic.Member.username}`}
+							>{topic.Member.username}</a
+						>
+						<Dot />
+						<p class="text-gray-400">{moment(topic.created_at).calendar()}</p></span
+					>
+					<button class="btn btn-ghost" onclick={() => handleFavorite(topic)}>
+						{#if fav_id.includes(topic.id)}
+							<Star fill="red" color="red" />
+						{:else}
+							<Star />
+						{/if}
+					</button>
+				</div>
+				<a href={`/community/topic/${topic.id}`}>
+					<h3 class="text-xl font-bold">{topic.topic}</h3>
+					<p class="mt-2 text-sm text-gray-800">
+						{topic.content}
+					</p>
+				</a>
+				<div class="mt-5 text-xs">
+					<div
+						class="tooltip"
+						data-tip={`${topic.topic_views.length} view${topic.topic_views.length == 1 ? '' : 's'}`}
+					>
+						<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+							><ChartNoAxesColumn size="20px" />
+							<p>{topic.topic_views.length}</p></button
+						>
+					</div>
+					<a
+						onclick={() => commentModal.show()}
+						href={`/community/topic/${topic.id}`}
+						class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+						><MessageCircleMore size="20px" />
+						<p>{topic.Comment.length}</p></a
+					>
+					<button
+						onclick={() => shareTopic(topic.topic, `${location.href}/topic/${topic.id}`)}
+						class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+						><Share2 size="20px" />
+						<p>Share</p></button
 					>
 				</div>
-				<a
-					onclick={() => commentModal.show()}
-					href={`/community/${topic.id}`}
-					class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-					><MessageCircleMore size="20px" />
-					<p>{topic.Comment.length}</p></a
-				>
-				<button
-					onclick={() => shareTopic(topic.topic, `${location.href}/${topic.topic}/${topic.id}`)}
-					class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-					><Forward size="20px" />
-					<p>Share</p></button
-				>
 			</div>
-		</div>
-	{/each}
+		{/each}
+	</div>
 </div>

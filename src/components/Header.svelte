@@ -87,17 +87,6 @@
 		</nav>
 	{/if}
 	<div class="space-x-2 lg:hidden">
-		{#if currentPath.includes('/community')}
-			<button class="btn rounded-full text-sm" onclick={() => my_modal_1.showModal()}>
-				<PlusCircle />
-			</button>
-			<a href="/community/search" class="btn rounded-full text-sm">
-				<Search />
-			</a>
-			<a href="/profile" class="btn rounded-full text-sm">
-				<User />
-			</a>
-		{/if}
 		<label for="my-drawer" class="btn drawer-button rounded-full lg:hidden"
 			><Menu color="white" /></label
 		>

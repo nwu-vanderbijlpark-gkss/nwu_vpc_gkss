@@ -9,6 +9,7 @@
 		Forward,
 		MessageCircleMore,
 		SendHorizontal,
+		Share2,
 		ThumbsDown,
 		ThumbsUp
 	} from 'lucide-svelte';
@@ -74,7 +75,7 @@
 			<button
 				onclick={() => shareTopic(data.topic, location.href)}
 				class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-				><Forward size="20px" />
+				><Share2 size="20px" />
 				<p>Share</p></button
 			>
 		</div>
