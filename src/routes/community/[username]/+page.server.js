@@ -9,7 +9,6 @@ export async function load({params, locals: {supabase}}) {
     {
         const {data, error} = await supabase.from("Member").select().eq("id",user.id);//we use the id to get the username of the user
         username = data[0].username;//set the username to the username of the logged in user
-        isMyProfile = true;
     }
     
 
@@ -18,10 +17,6 @@ export async function load({params, locals: {supabase}}) {
     if(data){
         //the query returns an array, with length of 1.
         if(data.length > 0){
-            //if the user viewed their profile via username 
-            if(data[0].id == user.id){
-                isMyProfile = true;
-            }
             //fetch all topics by this member
             //did this offline, check it when online...
             const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*),topic_views(*)").eq("author_id",data[0].id).order('created_at', { ascending: false });
@@ -49,7 +44,7 @@ export async function load({params, locals: {supabase}}) {
             email = data[0].email;
             let publicUrl = await supabase.storage.from("files").getPublicUrl(data[0].image.substring(data[0].image.indexOf("/")+1));//removing the first "file/"
             let image = publicUrl.data.publicUrl;
-            return {username,isMyProfile,email,image,topics: allTopics, projects, user_rating, user_views};
+            return {username,email,image,topics: allTopics, projects, user_rating, user_views};
         }
         else{
             //the query was negative, as the username does not exist in the database, we throw error
@@ -59,9 +54,4 @@ export async function load({params, locals: {supabase}}) {
     
 }
 
-export const actions = {
-    logout: async({locals: {supabase}}) => {
-        const { error } = await supabase.auth.signOut();
-        redirect(307,"/community");
-    }
-}
+
