@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { fly, scale } from 'svelte/transition';
 
-	let { project, form } = $props();
+	let { project, form, text } = $props();
 	let isHovered = $state(false);
 	let showRatingInput = $state(false);
 	let hoverRating = $state(0);
@@ -72,6 +72,26 @@
 			successMessage = '';
 		}
 	}
+	// function to handle multiple terms
+	function highlightText(fullText, match) {
+		if (!match) return fullText;
+
+		// Split the match variable into individual words or phrases
+		const terms = match.split(/\s+/); // Split by spaces or other delimiters
+
+		// Create a regex to match all terms
+		const regex = new RegExp(`(${terms.join('|')})`, 'gi');
+
+		// Highlight matching terms in the full text
+		return fullText
+			.split(regex)
+			.map((part) =>
+				terms.some((term) => part.toLowerCase() === term.toLowerCase())
+					? `<span class="bg-primary/30">${part}</span>`
+					: part
+			)
+			.join('');
+	}
 </script>
 
 <svelte:window onkeydown={handleEscape} />
@@ -85,7 +105,7 @@
 	<!-- Header with title and rating -->
 	<div class="flex w-full items-center justify-between">
 		<div class="space-y-1">
-			<h1 class="text-xl font-bold text-gray-900">{project.name}</h1>
+			<h1 class="text-xl font-bold text-gray-900">{@html highlightText(project.name, text)}</h1>
 			<a
 				href={`/community/${project.Member.username}`}
 				class="text-sm text-blue-600 transition-colors hover:text-blue-800"
@@ -110,7 +130,7 @@
 	</div>
 
 	<!-- Description -->
-	<p class="line-clamp-2 text-gray-600">{project.description}</p>
+	<p class="line-clamp-2 text-gray-600">{@html highlightText(project.description, text)}</p>
 
 	<!-- Action Buttons -->
 	<div class="flex items-center justify-between">

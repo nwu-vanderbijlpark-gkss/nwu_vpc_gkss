@@ -14,9 +14,11 @@
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import Topic from '../../../components/Topic.svelte';
+	import Project from '../../../components/Project.svelte';
 
 	let text = $state('');
 	let results = $state([]); //results array
+	let project_results = $state([]);
 	let fav_id = $state([]);
 	const setFavId = () => {
 		let fav = localStorage.getItem('fav_ids');
@@ -31,6 +33,7 @@
 	let { data } = $props();
 	const handleSearch = (event) => {
 		results = [];
+		project_results = [];
 		text = text.toLowerCase();
 		let textTokens = text.split(/\s+/);
 
@@ -51,6 +54,15 @@
 
 			if (topicMatch || contentMatch || tagsMatch) {
 				results.push(post); //add the post in the results array
+			}
+		}
+		for (const project of data.projects) {
+			const nameMatch = isFound(project.name);
+			const linkMatch = isFound(project.link);
+			const descriptionMatch = isFound(project.description);
+			const technologiesMatch = isFound(project.technologies);
+			if (nameMatch || linkMatch || descriptionMatch || technologiesMatch) {
+				project_results.push(project);
 			}
 		}
 	};
@@ -116,6 +128,10 @@
 		<div class="max-h-[80vh] divide-y overflow-auto">
 			{#each results as topic}
 				<Topic {topic} {text} />
+			{/each}
+			<h2 class="py-3 text-lg font-bold">Projects</h2>
+			{#each project_results as project}
+				<Project {project} {text} />
 			{/each}
 		</div>
 	{:else if text.length > 0}
