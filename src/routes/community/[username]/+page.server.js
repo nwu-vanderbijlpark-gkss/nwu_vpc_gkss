@@ -18,13 +18,13 @@ export async function load({params, locals: {supabase}}) {
         if(data.length > 0){
             //fetch all topics by this member
             //did this offline, check it when online...
-            const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*),topic_views(*)").eq("author_id",data.id).order('created_at', { ascending: false });
+            const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*),topic_views(*)").eq("author_id",data[0].id).order('created_at', { ascending: false });
             let allTopics = [];
             for(const topic of Forum_topic){
                 let publicUrl = await supabase.storage.from("files").getPublicUrl(topic.Member.image.substring(topic.Member.image.indexOf("/")+1));//removing the first "file/"
                 allTopics.push({...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username}})
             }
-            const {data: Project} = await supabase.from("Project").select("name,image,description,technologies,link,created_at,id,Member(username)").eq("user_id",data.id).order('created_at', { ascending: false });
+            const {data: Project} = await supabase.from("Project").select("name,image,description,technologies,link,created_at,id,Member(username)").eq("user_id",data[0].id).order('created_at', { ascending: false });
             let projects = [];
             for(const project of Project){
                 let publicUrl = await supabase.storage.from("files").getPublicUrl(project.image.substring(project.image.indexOf("/")+1));//removing the first "file/"
