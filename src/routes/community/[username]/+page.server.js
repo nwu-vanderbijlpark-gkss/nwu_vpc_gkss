@@ -1,14 +1,21 @@
 import { error } from '@sveltejs/kit';
 export async function load({params, locals: {supabase}}) {
 
-    let username = params.username;
+    let username = "";
     let email = null;
+    let isMyProfile = false;//checking if the user is viewing their own profile
     
     if(params.username == "profile")//this is the current session user's profile
     {
         const {data: {user}} = await supabase.auth.getUser();//gets the currently logged in user, we need the id
         const {data, error} = await supabase.from("Member").select().eq("id",user.id);//we use the id to get the username of the user
         username = data[0].username;//set the username to the username of the logged in user
+    }
+    //if the user viewed their profile via username 
+    if(params.username == username){
+        isMyProfile = true;
+    }else{
+        username = params.username;
     }
 
     const {data} = await supabase.from("Member").select().eq("username",username);//query a member with the given username
@@ -43,7 +50,7 @@ export async function load({params, locals: {supabase}}) {
             email = data[0].email;
             let publicUrl = await supabase.storage.from("files").getPublicUrl(data[0].image.substring(data[0].image.indexOf("/")+1));//removing the first "file/"
             let image = publicUrl.data.publicUrl;
-            return {username,email,image,topics: allTopics, projects, user_rating, user_views};
+            return {username,isMyProfile,email,image,topics: allTopics, projects, user_rating, user_views};
         }
         else{
             //the query was negative, as the username does not exist in the database, we throw error
