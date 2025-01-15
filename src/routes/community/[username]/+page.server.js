@@ -34,7 +34,10 @@ export async function load({params, locals: {supabase}}) {
                 let publicUrl = await supabase.storage.from("files").getPublicUrl(project.image.substring(project.image.indexOf("/")+1));//removing the first "file/"
                 const {data: Project_rating} = await supabase.from("Project_rating").select("rating,Member(id)").eq("project_id",project.id);
                 let rating = Project_rating;
-                user_rating += Number(rating[0].rating);
+                
+                for(const rate of ratings){
+                    user_rating += Number(rate.rating);
+                }
                 projects.push({...project,image: publicUrl.data.publicUrl,rating: rating})
             }
             user_rating = user_rating/projects.length;
