@@ -38,6 +38,8 @@ export async function load({params, locals: {supabase}}) {
                 for(const rate of rating){
                     user_rating += Number(rate.rating);
                 }
+                //project rating average
+                user_rating = user_rating/rating.length;
                 projects.push({...project,image: publicUrl.data.publicUrl,rating: rating})
             }
             user_rating = user_rating/projects.length;
