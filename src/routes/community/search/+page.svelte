@@ -13,6 +13,7 @@
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
+	import Topic from '../../../components/Topic.svelte';
 
 	let text = $state('');
 	let results = $state([]); //results array
@@ -89,26 +90,6 @@
 		}
 		setFavId();
 	};
-	// function to handle multiple terms
-	function highlightText(fullText, match) {
-		if (!match) return fullText;
-
-		// Split the match variable into individual words or phrases
-		const terms = match.split(/\s+/); // Split by spaces or other delimiters
-
-		// Create a regex to match all terms
-		const regex = new RegExp(`(${terms.join('|')})`, 'gi');
-
-		// Highlight matching terms in the full text
-		return fullText
-			.split(regex)
-			.map((part) =>
-				terms.some((term) => part.toLowerCase() === term.toLowerCase())
-					? `<span class="bg-primary/30">${part}</span>`
-					: part
-			)
-			.join('');
-	}
 </script>
 
 <title>Search {text} | NWU Vaal GKSS</title>
@@ -134,57 +115,7 @@
 		<p class="bg-white p-2 text-sm text-info">{results.length} results found</p>
 		<div class="max-h-[80vh] divide-y overflow-auto">
 			{#each results as topic}
-				<div class="bg-white p-2 hover:bg-gray-50">
-					<div class="flex items-center justify-between text-sm">
-						<span class="flex">
-							<div class="mr-2 h-[25px] w-[25px] overflow-hidden rounded-full">
-								<img class="object-fit" src={topic.Member.image} alt={topic.Member.username} />
-							</div>
-							<a class="link-hover" href={`/community/${topic.Member.username}`}
-								>{topic.Member.username}</a
-							>
-							<Dot />
-							<p class="text-gray-400">{moment(topic.created_at).calendar()}</p></span
-						>
-						<button class="btn btn-ghost" onclick={() => handleFavorite(topic)}>
-							{#if fav_id.includes(topic.id)}
-								<Star fill="red" color="red" />
-							{:else}
-								<Star />
-							{/if}
-						</button>
-					</div>
-					<a href={`/community/topic/${topic.id}`}>
-						<h3 class="text-xl font-bold">{@html highlightText(topic.topic, text)}</h3>
-						<p class="mt-2 text-sm text-gray-800">
-							{@html highlightText(topic.content, text)}
-						</p>
-					</a>
-					<div class="mt-5 text-xs">
-						<div
-							class="tooltip"
-							data-tip={`${topic.topic_views.length} view${topic.topic_views.length == 1 ? '' : 's'}`}
-						>
-							<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-								><ChartNoAxesColumn size="20px" />
-								<p>{topic.topic_views.length}</p></button
-							>
-						</div>
-						<a
-							onclick={() => commentModal.show()}
-							href={`/community/topic/${topic.id}`}
-							class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-							><MessageCircleMore size="20px" />
-							<p>{topic.Comment.length}</p></a
-						>
-						<button
-							onclick={() => shareTopic(topic.topic, `${location.href}/${topic.topic}/${topic.id}`)}
-							class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-							><Share2 size="20px" />
-							<p>Share</p></button
-						>
-					</div>
-				</div>
+				<Topic {topic} {text} />
 			{/each}
 		</div>
 	{:else if text.length > 0}

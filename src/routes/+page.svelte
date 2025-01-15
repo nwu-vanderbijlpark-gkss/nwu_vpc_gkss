@@ -24,17 +24,27 @@
 	</a>
 </div>
 <section class="flex min-h-screen items-center justify-center bg-base-200">
-	<div class="container mx-auto grid items-center gap-8 p-5 lg:grid-cols-2 lg:px-6 lg:py-0">
+	<div
+		class="container mx-auto grid items-center gap-8 bg-gray-100 p-5 lg:grid-cols-2 lg:px-6 lg:py-0"
+	>
 		<!-- Text Content -->
 		<div class="text-center lg:text-left">
-			<h2 class="text-5xl font-bold text-primary">Discover the Community Forum</h2>
-			<p class="mt-6 text-xl text-gray-700">
-				Connect with fellow students, share your experiences, and grow together! Join engaging
-				discussions, get advice, and build lasting connections.
+			<h2 class="text-5xl font-bold text-indigo-600">Unite. Create. Inspire.</h2>
+			<p class="mt-6 text-xl text-gray-800">
+				Step into a vibrant community where students and tech enthusiasts come together to exchange
+				ideas, fuel creativity, and build a brighter future.
+			</p>
+			<p class="mt-4 text-xl text-gray-800">
+				Dive into thought-provoking discussions or bring your ideas to life in the Project Space—a
+				showcase for innovation and ingenuity.
 			</p>
 			<div class="mt-8">
-				<a href="/community" data-sveltekit-reload class="btn btn-primary btn-lg">
-					Explore the Forum
+				<a
+					href="/community"
+					data-sveltekit-reload
+					class="btn btn-primary btn-lg text-white hover:bg-indigo-700"
+				>
+					Join the Movement
 				</a>
 			</div>
 		</div>
@@ -42,16 +52,20 @@
 		<!-- Image Content -->
 		<div class="relative">
 			<!-- Decorative Images -->
-			<img src="/inaction.jpg" alt="Students connecting" class="rounded-lg shadow-lg" />
+			<img
+				src="/inaction.jpg"
+				alt="Students connecting in action"
+				class="transform rounded-lg shadow-lg transition duration-300 hover:scale-105"
+			/>
 			<img
 				src="/backdrop.jpeg"
-				alt="Community discussion"
-				class="absolute -left-10 -top-10 h-28 w-28 rounded-full border-4 border-primary shadow-md"
+				alt="Dynamic community discussions"
+				class="absolute -left-12 -top-12 h-28 w-28 rotate-6 transform rounded-full border-4 border-indigo-600 shadow-md transition duration-300 hover:rotate-0"
 			/>
 			<img
 				src="/team.jpg"
-				alt="Engaging discussions"
-				class="absolute -bottom-10 -right-10 h-32 w-32 rounded-full border-4 border-primary shadow-md"
+				alt="Collaborative innovation"
+				class="absolute -bottom-12 -right-12 h-32 w-32 -rotate-6 transform rounded-full border-4 border-indigo-600 shadow-md transition duration-300 hover:rotate-0"
 			/>
 		</div>
 	</div>

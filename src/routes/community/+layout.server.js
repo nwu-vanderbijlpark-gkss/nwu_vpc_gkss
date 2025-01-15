@@ -14,8 +14,9 @@ export async function load({locals: {supabase}}) {
     let projects = [];
     for(const project of Project){
         let publicUrl = await supabase.storage.from("files").getPublicUrl(project.image.substring(project.image.indexOf("/")+1));//removing the first "file/"
-
-        projects.push({...project,image: publicUrl.data.publicUrl})
+        const {data: Project_rating} = await supabase.from("Project_rating").select("rating,Member(id)").eq("project_id",project.id);
+        let rating = Project_rating;
+        projects.push({...project,image: publicUrl.data.publicUrl,rating: rating})
     }
     let email = null;
     if(user != null){

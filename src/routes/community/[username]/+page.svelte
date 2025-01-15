@@ -1,6 +1,8 @@
 <script>
 	import { ChartNoAxesColumn, CodeXml, Mail, PenBox, Star } from 'lucide-svelte';
 	import NotFoundPage from '../../../components/NotFoundPage.svelte';
+	import Topic from '../../../components/Topic.svelte';
+	import Project from '../../../components/Project.svelte';
 	let { data } = $props();
 </script>
 
@@ -15,8 +17,8 @@
 			<img src={data.image} alt={data.username} class="h-[160px] w-[160px] rounded-full" />
 			<h1 class="text-xl font-bold">{data.username}</h1>
 		</span>
-		<div class="p card space-y-2 border p-5 lg:w-2/5">
-			<h1 class="text-lg font-bold">Engagement</h1>
+		<div class="p card w-full space-y-2 border p-5 lg:w-2/5">
+			<h1 class="text-lg font-bold">Contribution</h1>
 			<hr />
 			<span class="flex items-center justify-between">
 				<span>
@@ -44,11 +46,11 @@
 					<h1 class="text-xl font-bold">4.5</h1>
 					<p>Average ProjectSpace rating</p>
 				</span>
-				<Star color="gold" fill="gold" />
+				<Star />
 			</span>
 		</div>
 	</div>
-	<div role="tablist" class="tabs tabs-bordered">
+	<div role="tablist" class="tabs tabs-lifted w-full">
 		<input
 			type="radio"
 			name="my_tabs_2"
@@ -57,7 +59,11 @@
 			checked="checked"
 			class="tab font-bold text-black [--tab-bg:red]"
 		/>
-		<div role="tabpanel" class="tab-content rounded-box p-6">Topics</div>
+		<div role="tabpanel" class="tab-content divide-y rounded-box p-6">
+			{#each data.topics as topic}
+				<Topic {topic} />
+			{/each}
+		</div>
 
 		<input
 			type="radio"
@@ -66,6 +72,10 @@
 			class="tab font-bold text-black [--tab-bg:red]"
 			aria-label="Projects"
 		/>
-		<div role="tabpanel" class="tab-content rounded-box p-6">Projects</div>
+		<div role="tabpanel" class="tab-content rounded-box p-6">
+			{#each data.projects as project}
+				<Project {project} />
+			{/each}
+		</div>
 	</div>
 </div>

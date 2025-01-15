@@ -63,9 +63,10 @@
 				<li>
 					<a
 						href={`/community/projectspace/${project.id}`}
-						class="navItem flex justify-between text-base"
+						class="navItem flex items-center justify-between text-base"
 					>
 						{project.name}
+						<img src={project.image} alt={project.name} class="h-[20px] w-[20px] rounded-full" />
 					</a>
 				</li>
 			{/each}
@@ -74,7 +75,7 @@
 			<h2 class="menu-title border-b text-xl font-bold text-black">Popular topics</h2>
 			{#each data.most_viewed as topic}
 				<li>
-					<a href={`/community/${topic.topic}/${topic.id}`} class="navItem text-base">
+					<a href={`/community/topic/${topic.id}`} class="navItem text-base">
 						{topic.topic}
 					</a>
 				</li>

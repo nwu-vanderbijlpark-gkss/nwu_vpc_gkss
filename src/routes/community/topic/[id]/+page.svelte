@@ -106,7 +106,7 @@
 								>{comment.Member.username}</a
 							>
 							<Dot />
-							<p class="text-gray-400">{moment(comment.created_at).calendar()}</p></span
+							<p class="text-gray-400">{moment(comment.created_at).fromNow()}</p></span
 						>
 						<button class="btn btn-ghost">Report</button>
 					</div>
