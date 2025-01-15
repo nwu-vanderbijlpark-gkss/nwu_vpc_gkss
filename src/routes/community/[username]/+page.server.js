@@ -20,8 +20,10 @@ export async function load({params, locals: {supabase}}) {
             //did this offline, check it when online...
             const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*),topic_views(*)").eq("author_id",data[0].id).order('created_at', { ascending: false });
             let allTopics = [];
+            let user_views = 0;
             for(const topic of Forum_topic){
                 let publicUrl = await supabase.storage.from("files").getPublicUrl(topic.Member.image.substring(topic.Member.image.indexOf("/")+1));//removing the first "file/"
+                user_views += topic.topic_views.length;
                 allTopics.push({...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username}})
             }
             const {data: Project} = await supabase.from("Project").select("name,image,description,technologies,link,created_at,id,Member(username)").eq("user_id",data[0].id).order('created_at', { ascending: false });
@@ -32,7 +34,6 @@ export async function load({params, locals: {supabase}}) {
                 const {data: Project_rating} = await supabase.from("Project_rating").select("rating,Member(id)").eq("project_id",project.id);
                 let rating = Project_rating;
                 user_rating += Number(rating[0].rating);
-                console.log(rating)
                 projects.push({...project,image: publicUrl.data.publicUrl,rating: rating})
             }
             user_rating = user_rating/projects.length;
@@ -42,7 +43,7 @@ export async function load({params, locals: {supabase}}) {
             email = data[0].email;
             let publicUrl = await supabase.storage.from("files").getPublicUrl(data[0].image.substring(data[0].image.indexOf("/")+1));//removing the first "file/"
             let image = publicUrl.data.publicUrl;
-            return {username,email,image,topics: allTopics, projects, user_rating};
+            return {username,email,image,topics: allTopics, projects, user_rating, user_views};
         }
         else{
             //the query was negative, as the username does not exist in the database, we throw error

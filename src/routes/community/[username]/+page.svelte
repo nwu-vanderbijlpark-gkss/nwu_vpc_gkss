@@ -29,7 +29,7 @@
 			</span>
 			<span class="flex items-center justify-between">
 				<span>
-					<h1 class="text-xl font-bold">489</h1>
+					<h1 class="text-xl font-bold">{data.user_views}</h1>
 					<p>Total topic views</p>
 				</span>
 				<ChartNoAxesColumn />
