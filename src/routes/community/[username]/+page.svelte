@@ -4,6 +4,10 @@
 	import Topic from '../../../components/Topic.svelte';
 	import Project from '../../../components/Project.svelte';
 	let { data } = $props();
+	//handle logout
+	const handleLogout = () => {
+		fetch("?/logout",{method: "POST"});
+	}
 </script>
 
 <title>{data.username} | NWU Vaal GKSS</title>
@@ -16,6 +20,9 @@
 		<span class="flex flex-col items-center lg:w-2/4">
 			<img src={data.image} alt={data.username} class="h-[160px] w-[160px] rounded-full" />
 			<h1 class="text-xl font-bold">{data.username}</h1>
+			{#if data.isMyProfile}
+				<button onclick={() => handleLogout()} class="btn btn-primary">Logout</button>
+			{/if}
 		</span>
 		<div class="p card w-full space-y-2 border p-5 lg:w-2/5">
 			<h1 class="text-lg font-bold">Contribution</h1>
