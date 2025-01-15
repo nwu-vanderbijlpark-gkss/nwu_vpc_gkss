@@ -11,16 +11,19 @@
 	let errorMessage = $state('');
 	let successMessage = $state('');
 	let rateButtonRef;
-	let rating = $state(project.rating[0].rating);
+	let rating = $state(0);
 	onMount(() => {
 		//calculate average
 		let i = 0;
 		let sum = 0;
-		for (const rate of project.rating) {
-			sum += rate.rating;
-			i++;
+		if(project.rating){
+			for (const rate of project.rating) {
+				sum += rate.rating;
+				i++;
+			}
 		}
 		rating = sum / i;
+	
 	});
 	function handleStarHover(rating) {
 		hoverRating = rating;
@@ -50,7 +53,7 @@
 				throw new Error(errorData.error || 'Failed to submit rating');
 			}
 
-			project.rating = rating;
+			//project.rating = rating;
 			successMessage = 'Rating submitted successfully!';
 
 			// Hide success message after 3 seconds
