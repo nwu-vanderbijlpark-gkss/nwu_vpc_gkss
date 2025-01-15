@@ -1,7 +1,7 @@
 import { error, redirect } from '@sveltejs/kit';
 export async function load({params, locals: {supabase}}) {
 
-    let username = "";
+    let username = params.username;
     let email = null;
     let isMyProfile = false;//checking if the user is viewing their own profile
     const {data: {user}} = await supabase.auth.getUser();//gets the currently logged in user, we need the id
@@ -13,7 +13,7 @@ export async function load({params, locals: {supabase}}) {
     }
     
 
-    const {data} = await supabase.from("Member").select().eq("username",username);//query a member with the given username
+    const {data} = await supabase.from("Member").select("*").eq("username",username);//query a member with the given username
 
     if(data){
         //the query returns an array, with length of 1.
@@ -21,8 +21,6 @@ export async function load({params, locals: {supabase}}) {
             //if the user viewed their profile via username 
             if(data[0].id == user.id){
                 isMyProfile = true;
-            }else{
-                username = params.username;
             }
             //fetch all topics by this member
             //did this offline, check it when online...
