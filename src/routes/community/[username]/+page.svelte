@@ -43,7 +43,7 @@
 			</span>
 			<span class="flex items-center justify-between">
 				<span>
-					<h1 class="text-xl font-bold">4.5</h1>
+					<h1 class="text-xl font-bold">{data.user_rating.toFixed(1)}</h1>
 					<p>Average ProjectSpace rating</p>
 				</span>
 				<Star />
