@@ -35,7 +35,7 @@ export async function load({params, locals: {supabase}}) {
                 const {data: Project_rating} = await supabase.from("Project_rating").select("rating,Member(id)").eq("project_id",project.id);
                 let rating = Project_rating;
                 
-                for(const rate of ratings){
+                for(const rate of rating){
                     user_rating += Number(rate.rating);
                 }
                 projects.push({...project,image: publicUrl.data.publicUrl,rating: rating})
