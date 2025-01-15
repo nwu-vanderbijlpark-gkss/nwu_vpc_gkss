@@ -1,28 +1,29 @@
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 export async function load({params, locals: {supabase}}) {
 
     let username = "";
     let email = null;
     let isMyProfile = false;//checking if the user is viewing their own profile
-    
+    const {data: {user}} = await supabase.auth.getUser();//gets the currently logged in user, we need the id
     if(params.username == "profile")//this is the current session user's profile
     {
-        const {data: {user}} = await supabase.auth.getUser();//gets the currently logged in user, we need the id
         const {data, error} = await supabase.from("Member").select().eq("id",user.id);//we use the id to get the username of the user
         username = data[0].username;//set the username to the username of the logged in user
-    }
-    //if the user viewed their profile via username 
-    if(params.username == username){
         isMyProfile = true;
-    }else{
-        username = params.username;
     }
+    
 
     const {data} = await supabase.from("Member").select().eq("username",username);//query a member with the given username
 
     if(data){
         //the query returns an array, with length of 1.
         if(data.length > 0){
+            //if the user viewed their profile via username 
+            if(data[0].id == user.id){
+                isMyProfile = true;
+            }else{
+                username = params.username;
+            }
             //fetch all topics by this member
             //did this offline, check it when online...
             const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*),topic_views(*)").eq("author_id",data[0].id).order('created_at', { ascending: false });
@@ -58,4 +59,11 @@ export async function load({params, locals: {supabase}}) {
         }
     }
     
+}
+
+export const actions = {
+    logout: async({locals: {supabase}}) => {
+        const { error } = await supabase.auth.signOut();
+        redirect(307,"/community");
+    }
 }
