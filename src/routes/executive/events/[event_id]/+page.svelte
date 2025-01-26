@@ -21,14 +21,15 @@
             <span>{moment(event.date).format('LLLL')}</span>
           </div>
           <div class="flex justify-between">
-            <span class="font-semibold">Registered Attendees:</span>
-            <span>{registrationCount}</span>
+            <span class="font-semibold">Registered Attendees: </span>
+            <span>100</span>
           </div>
           {#if moment().add(1,"hour").isAfter(moment(event.date))}
           <div class="flex justify-between">
             <span class="font-semibold">Actual Attendees:</span>
-            <span>{registrationCount}</span>
+            <span>76</span>
           </div>
+          <p class=" text-success">{Number(76/100 * 100).toFixed(0)}% attended, This Event was a success!</p>
         {/if}
           
         </div>
