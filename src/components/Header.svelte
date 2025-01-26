@@ -6,7 +6,7 @@
 	onMount(() => {
 		currentPath = location.pathname;
 	});
-	import { Menu, PlusCircle, Search, User } from 'lucide-svelte';
+	import { ChartNoAxesColumn, HeartHandshake, Home, Link, Menu, MessageCircleMoreIcon, PlusCircle, Search, User, UserCog, Users } from 'lucide-svelte';
 </script>
 
 <div
@@ -56,33 +56,6 @@
 				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
 				class:selected={currentPath === '/#contact'}>Contact Us</a
-			>
-		</nav>
-	{:else}
-		<nav class="mr-5 hidden items-center space-x-5 lg:flex">
-			<a
-				href="/executive"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/executive'}>Home</a
-			>
-			<a
-				href="/executive/events"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/executive/events'}>Events</a
-			>
-			<a
-				href="/executive/geekOfTheWeek"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/executive/geekOfTheWeek'}>Geek Of The Week</a
-			>
-			<a
-				href="/executive/team"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/executive/team'}>The team</a
 			>
 		</nav>
 	{/if}
@@ -159,37 +132,61 @@
 					>
 				</li>
 			{:else}
-				<li>
-					<a
-						href="/executive"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/executive'}>Home</a
-					>
+				<li class="menu-title flex bg-gray-800 text-white rounded-box my-2">
+					<div>
+						<h2>Executive</h2>
+					</div>
 				</li>
 				<li>
-					<a
-						href="/executive/events"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/executive/events'}>Events</a
-					>
+				  <a href="/executive">
+					<Home/>
+					Home
+				  </a>
 				</li>
 				<li>
-					<a
-						href="/executive/geekOfTheWeek"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/executive/geekOfTheWeek'}>Geek Of The Week</a
-					>
+				  <a href="/executive/events">
+					<ChartNoAxesColumn/>
+					Event Management
+				  </a>
 				</li>
 				<li>
-					<a
-						href="/executive/team"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/executive/team'}>The team</a
-					>
+					<a href="/executive/team">
+					  <UserCog/>
+					  Executive Team
+					</a>
+				  </li>
+				<li>
+				  <a href="/executive/membership">
+					<Users/>
+					Members
+				  </a>
+				</li>
+				<li>
+					<a href="/executive/">
+					  <HeartHandshake/>
+					  Sponsors
+					</a>
+				  </li>
+				<li>
+					<li>
+						<details open>
+						  <summary><Link/>Other links</summary>
+						  <ul>
+							<li>
+								<a data-sveltekit-reload href="/dashboard">
+								<User/>
+								Dashboard
+								</a>
+							</li>
+							<li>
+								<a data-sveltekit-reload href="/community">
+								<MessageCircleMoreIcon/>
+								Community
+								</a>
+							</li>
+						  </ul>
+						</details>
+				
 				</li>
 			{/if}
 		</ul>
