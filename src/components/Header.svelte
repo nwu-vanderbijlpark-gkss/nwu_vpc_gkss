@@ -31,7 +31,7 @@
 				href="/events"
 				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/events'}>Events</a
+				class:selected={currentPath.includes('/events')}>Events</a
 			>
 			<a
 				href="/geekOfTheWeek"
@@ -96,7 +96,7 @@
 						href="/events"
 						data-sveltekit-reload
 						class="navItem text-lg"
-						class:selected={currentPath === '/events'}>Events</a
+						class:selected={currentPath.includes('/events')}>Events</a
 					>
 				</li>
 				<li>
