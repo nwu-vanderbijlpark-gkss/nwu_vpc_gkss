@@ -56,8 +56,10 @@
 <meta name="twitter:image:alt" content="Signup | NWU Vaal GKSS" />
 <meta property="title" content="Signup" />
 
-<div class="flex min-h-screen flex-col items-center justify-center space-y-5 bg-[#0c0c0c] p-5">
-	<h1 class="text-xl font-bold text-white">Create an account</h1>
+<div class="flex w-full min-h-screen bg-[#0c0c0c] justify-around items-center p-5">
+	<img src="/createAccount.png" alt="code" class="w-2/5 rounded-lg hidden lg:flex"/>
+	<div class="flex flex-col items-center p-5 justify-center space-y-5 rounded-xl w-full lg:w-2/5 lg:shadow-2xl lg:bg-base-200">
+		<h1 class="text-xl font-bold text-white">Create an account</h1>
 	<p class="text-white">
 		Use your gmail account, you will receive an email then open gmail and verify your email.
 	</p>
@@ -65,7 +67,7 @@
 	<form
 		use:enhance
 		method="post"
-		class="flex w-full flex-col gap-5 p-5 lg:w-2/5"
+		class="flex w-full flex-col gap-5 p-5"
 		onsubmit={validateForm}
 	>
 		<label class="form-control w-full">
@@ -104,4 +106,5 @@
 		<button type="submit" class="btn btn-primary text-white">Signup</button>
 	</form>
 	<a href="/login" class="btn btn-outline">Login here.</a>
+</div>
 </div>
