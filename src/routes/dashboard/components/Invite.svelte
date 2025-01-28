@@ -1,6 +1,7 @@
 <script>
 	import { Mail } from "lucide-svelte";
 	import moment from "moment";
+	import { slide } from "svelte/transition";
 
     let inviteEmail = $state('');
     let {history} = $props();
@@ -15,7 +16,7 @@
 </script>
 
 <!-- Invite content -->
-<div class="space-y-6 text-base-200">
+<div transition:slide class="space-y-6 text-base-200">
     <div class="bg-white p-6 rounded-xl shadow-md">
       <h2 class="text-2xl font-semibold mb-6">Invite Friends</h2>
       <div class="max-w-md">

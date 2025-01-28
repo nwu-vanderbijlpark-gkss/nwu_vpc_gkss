@@ -2,11 +2,15 @@
   import moment from 'moment';
   import { 
     User, Shield, ChartBar, LogOut, Settings, Bell,
-    Calendar, Book, Award, UserPlus, Mail
+    Calendar, Book, Award, UserPlus, Mail,
+
+	X
+
   } from 'lucide-svelte';
 	import Profile from './components/Profile.svelte';
 	import Invite from './components/Invite.svelte';
 	import Page from '../update-password/+page.svelte';
+	import { slide } from 'svelte/transition';
 
   let activeTab = $state('stats');
   let notifications = $state(3);
@@ -35,14 +39,35 @@
 
 
   // Handlers
-  const handleLogout = () => console.log('Logging out...');
+  const handleLogout = (event) =>{
+    logoutModal.showModal();
+  };
   const handleImageUpload = (event) => event.target.files[0] && console.log('Image uploaded:', event.target.files[0].name);
   const handleNotificationClick = () => notifications = 0;
   
   
   
 </script>
-
+<!-- Logout modal-->
+<dialog id="logoutModal" class="modal modal-bottom z-50 sm:modal-middle">
+	<div class="modal-box text-white">
+		<div class="flex items-center justify-between">
+			<p class="text-lg font-bold text-white">Logout Confirmation</p>
+		</div>
+    <p class="py-4 text-sm">Do you want to logout?</p>
+    <div class="grid grid-cols-2 gap-2">
+      <form
+      method="post"
+      action="?/logout"
+      class="w-full"
+      >
+      <button  type="submit" class="btn btn-primary w-full">Yes</button>
+    </form>
+    <button onclick={() => logoutModal.close()} class="btn btn-secondary w-full">No</button>
+    </div>
+			
+  </div>
+</dialog> 
 <div class="min-h-screen bg-gray-100 flex flex-col md:flex-row">
   <!-- Sidebar -->
   <nav class="hidden md:flex flex-col w-64 bg-base-200 shadow-lg h-screen fixed text-white">
@@ -62,14 +87,14 @@
               {id: 'security', icon: Shield, text: 'Security'},
               {id: 'invite', icon: UserPlus, text: 'Invite Friends'}] as item}
         <button 
-          class="flex items-center space-x-2 p-3 rounded-lg {activeTab === item.id ? 'bg-primary text-white' : 'hover:bg-gray-100'}"
+          class="flex items-center space-x-2 p-3 rounded-lg {activeTab === item.id ? 'bg-primary text-white' : 'hover:bg-red-900/50'}"
           onclick={() => activeTab = item.id} >
           <svelte:component this={item.icon} size={20} />
           <span>{item.text}</span>
         </button>
       {/each}
       <div class="p-4 border-t">
-        <button class="flex items-center space-x-2 p-3 rounded-lg text-red-600 hover:bg-red-50 w-full" onclick={handleLogout}>
+        <button onclick={handleLogout}  type="submit" class="flex items-center space-x-2 p-3 rounded-lg text-red-600 hover:bg-red-50 w-full">
           <LogOut size={20} />
           <span>Logout</span>
         </button>
@@ -96,7 +121,7 @@
   <main class="flex-1 md:ml-64 p-6 mb-16 md:mb-0 text-base-200">
     {#if activeTab === 'stats'}
       <!-- Dashboard content -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+      <div transition:slide class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         {#each [{title: 'Total Points', icon: Award, value: '2,450', sub: '+150 this month'},
                 {title: 'Next Event', icon: Calendar, value: memberData.upcomingEvents[0]?.title, 
                  sub: memberData.upcomingEvents[0]?.date ? moment(memberData.upcomingEvents[0].date).format('MMMM D, YYYY') : 'No events'},

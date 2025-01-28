@@ -1,5 +1,6 @@
 <script>
 	import moment from "moment";
+	import { slide } from "svelte/transition";
 
     // Profile editing
   let isEditing = $state(false);
@@ -13,7 +14,7 @@
 
 </script>
 <!-- Profile content -->
-<div class="bg-white p-6 rounded-xl shadow-md">
+<div transition:slide class="bg-white p-6 rounded-xl shadow-md">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-semibold text-base-100">Personal Information</h2>
       {#if !isEditing}
@@ -33,7 +34,7 @@
           <div>
             <label class="block text-sm font-medium text-gray-700">{field.label}</label>
             {#if field.type === 'select'}
-              <select class="mt-1 input input-bordered w-full" bind:value={editedData[field.key]}>
+              <select class="mt-1 input input-bordered w-full bg-gray-200" bind:value={editedData[field.key]}>
                 {#each field.options as option}
                   <option value={option}>{option}</option>
                 {/each}
@@ -41,7 +42,7 @@
             {:else}
               <input 
                 type={field.type || 'text'}
-                class="mt-1 input input-bordered w-full"
+                class="mt-1 input input-bordered w-full bg-gray-200"
                 bind:value={editedData[field.key]}
               />
             {/if}
