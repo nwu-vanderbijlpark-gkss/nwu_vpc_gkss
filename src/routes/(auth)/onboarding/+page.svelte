@@ -94,7 +94,7 @@
         form.interests = form.interests.filter(i => i !== interest);
     };
 
-    const handleNav = (type, event) => {
+    const handleNav = async(type, event) => {
         event.preventDefault();
         let errors = [];
 
@@ -112,14 +112,46 @@
                 alert('Please correct the following:\n• ' + errorList);
                 return;
             }
-            page++;
+            if(page === 3 ){
+                // Create and submit FormData
+                const formData = new FormData();
+                //append the form data as json string, parse in server 
+                formData.append('form', JSON.stringify(form));
+
+                try {
+                    const response = await fetch('/onboarding', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    if (result.type == "success") {
+                        alert('Registration successful!');
+                        // will be redirected from the server
+                    } else {
+                        alert(result.error || 'Something went wrong during submission');
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    alert('Failed to submit form. Please try again.');
+                }
+                
+            }else{
+                page++;
+            }
         } else {
             page--;
         }
-
+        progress = (page / pages.length) * 100;
         window.location.hash = pages[page - 1];
     }
 </script>
+<title>Onboarding | {pages[page-1]}</title>
+
 
 <div class="flex w-full min-h-screen bg-[#0c0c0c] justify-center items-center p-5">
     <div class="bg-base-200 rounded-xl p-5 w-full max-w-xl">
