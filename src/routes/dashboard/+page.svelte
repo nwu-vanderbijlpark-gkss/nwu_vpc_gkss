@@ -14,12 +14,12 @@
 
   let activeTab = $state('stats');
   let notifications = $state(3);
-  
+  let {data} = $props();
   let inviteHistory = $state([
     { email: 'friend@example.com', status: 'Pending', date: '2024-03-01' },
     { email: 'colleague@example.com', status: 'Accepted', date: '2024-02-28' }
   ]);
-
+  let member = $state(data);
   let memberData = $state({
     name: 'Lethabo', surname: 'Maepa', date_of_birth: '2004-05-06',
     gender: 'Male', qualification: 'hhh', student_no: 12345678,
@@ -73,11 +73,11 @@
   <nav class="hidden md:flex flex-col w-64 bg-base-200 shadow-lg h-screen fixed text-white">
     <div class="p-6 border-b flex flex-col items-center space-y-4">
       <div class="relative group">
-        <img src={memberData.profileImage} alt="Profile" class="w-24 h-24 rounded-full object-cover border-4 border-primary/20 group-hover:border-primary/50 transition-all"/>
+        <img src={member.image} alt="Profile" class="w-24 h-24 rounded-full object-cover border-4 border-primary/20 group-hover:border-primary/50 transition-all"/>
       </div>
       <div class="text-center">
-        <h2 class="font-bold">{memberData.name} {memberData.surname}</h2>
-        <p class="text-sm text-gray-200">Student No: {memberData.student_no}</p>
+        <h2 class="font-bold">{member.name} {member.surname}</h2>
+        <p class="text-sm text-gray-200">Student No: {member.student_no}</p>
       </div>
     </div>
 
@@ -104,8 +104,8 @@
   <!-- Mobile header -->
   <header class="md:hidden bg-white shadow-md p-4 flex items-center justify-between sticky top-0 z-10">
     <div class="flex items-center space-x-3">
-      <img src={memberData.profileImage} alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary/20"/>
-      <h1 class="font-bold">{memberData.name}</h1>
+      <img src={member.image} alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary/20"/>
+      <h1 class="font-bold">{member.name} </h1>
     </div>
     <button class="relative p-2" onclick={handleNotificationClick}>
       <Bell size={20} />
@@ -122,7 +122,7 @@
     {#if activeTab === 'stats'}
       <!-- Dashboard content -->
       <div transition:slide class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-        {#each [{title: 'Total Points', icon: Award, value: '2,450', sub: '+150 this month'},
+        {#each [{title: 'Total Points', icon: Award, value: member.points+ " pts", sub: ''},
                 {title: 'Next Event', icon: Calendar, value: memberData.upcomingEvents[0]?.title, 
                  sub: memberData.upcomingEvents[0]?.date ? moment(memberData.upcomingEvents[0].date).format('MMMM D, YYYY') : 'No events'},
                 {title: 'Recent Achievement', icon: Book, value: memberData.achievements[0]?.title,
@@ -143,7 +143,7 @@
         <div class="bg-white p-6 rounded-xl shadow-md">
           <h3 class="text-xl font-semibold mb-4">Interests & Skills</h3>
           <div class="flex flex-wrap gap-2">
-            {#each memberData.interests as interest}
+            {#each member.interests.split(",") as interest}
               <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">{interest}</span>
             {/each}
           </div>
@@ -169,7 +169,7 @@
 
     {:else if activeTab === 'profile'}
       
-        <Profile memberData={memberData}/>
+        <Profile memberData={member}/>
 
     {:else if activeTab === 'security'}
       <!-- Security content -->
