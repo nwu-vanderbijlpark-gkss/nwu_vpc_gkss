@@ -5,7 +5,7 @@ export const actions =   {
     const details = await request.formData();//get the form data from the submitted form
     const email = details.get("email");
     const password = details.get("password");
-    const username = details.get("username");
+    const username = email.split('@')[0];
 
     const {data: Member,error} = await supabase.from("Member").select().eq("username",username);
     if(Member.length > 0){
@@ -21,7 +21,7 @@ export const actions =   {
       })
       
       if(error){
-          return {error: "Account already exists"};
+          return {error: "Failed to create account"};
       }else{
           const {error} = await supabase.from("Member").insert({id: data.user.id,username: username})
           if(error){

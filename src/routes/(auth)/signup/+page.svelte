@@ -1,9 +1,8 @@
 <script>
 	import { enhance } from '$app/forms';
 
-	let email = '';
-	let username = '';
-	let password = '';
+	let email = $state('');
+	let password = $state('');
 
 	function validateForm(event) {
 		event.preventDefault(); // Prevent the default form submission
@@ -19,12 +18,6 @@
 		if (!emailPattern.test(email)) {
 			isValid = false;
 			showError('email', 'Please enter a valid email address.');
-		}
-
-		// Validate username
-		if (!username.trim()) {
-			isValid = false;
-			showError('username', 'Username is required.');
 		}
 
 		// Validate password
@@ -79,17 +72,6 @@
 				class="input input-bordered"
 				id="email"
 				placeholder="name@domain.com"
-			/>
-		</label>
-		<label class="form-control w-full">
-			<p>Username</p>
-			<input
-				type="text"
-				bind:value={username}
-				name="username"
-				class="input input-bordered"
-				id="username"
-				placeholder="Create your username"
 			/>
 		</label>
 		<label class="form-control w-full">

@@ -36,7 +36,7 @@ export const actions =   {
         if(Member.length > 0){
             console.log(Member[0].interests);
             if(Member[0].interests){
-              redirect(redirectTo)
+              redirect(303,redirectTo)
             }
             else{
               redirect(303,"/onboarding");
