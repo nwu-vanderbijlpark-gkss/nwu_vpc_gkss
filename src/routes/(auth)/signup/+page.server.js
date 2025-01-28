@@ -10,7 +10,7 @@ export const actions =   {
     const {data: Member,error} = await supabase.from("Member").select().eq("username",username);
     if(Member.length > 0){
       //if the username already exists
-      return {error: "Username already exists"};
+      return {error: "User already exists"};
     }else{
       const { data, error } = await supabase.auth.signUp({
         email: email,
