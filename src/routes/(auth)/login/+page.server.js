@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 
 export const actions =   {
-    default: async ({locals: {supabase}, request}) => {
+    login: async ({locals: {supabase}, request}) => {
     const details = await request.formData();
     let redirectTo = '/dashboard';
     const email = details.get("email");
@@ -42,6 +42,17 @@ export const actions =   {
               redirect(303,"/onboarding");
             }
         }
+      }
+    },
+    resetPassword: async ({locals: {supabase}, request}) => {
+      const formData = await request.formData();
+      const email = formData.get("email");
+      console.log(email)
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://nwu-vaal-gkss.netlify.app/update-password',
+      })      
+      if(error){
+        console.error(error)
       }
     }
       
