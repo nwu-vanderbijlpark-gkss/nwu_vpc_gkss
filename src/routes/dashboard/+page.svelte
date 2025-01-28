@@ -5,8 +5,9 @@
     User, Shield, ChartBar, LogOut, Settings, Bell,
     Calendar, Book, Award, UserPlus, Mail
   } from 'lucide-svelte';
+	import SideBar from './components/SideBar.svelte';
 
-  const activeTab = writable('stats');
+  const activeTab = $state('stats');
   const notifications = writable(3);
   const inviteEmail = writable('');
   const inviteHistory = writable([
@@ -15,9 +16,9 @@
   ]);
 
   let memberData = writable({
-    name: 'bb', surname: 'nn', date_of_birth: '2004-05-06',
+    name: 'Lethabo', surname: 'Maepa', date_of_birth: '2004-05-06',
     gender: 'Male', qualification: 'hhh', student_no: 12345678,
-    year_of_study: '2nd', profileImage: '/api/placeholder/150/150',
+    year_of_study: '2nd', profileImage: '/Stay Wild.png',
     interests: ['Web Development', 'AI', 'Mobile Dev', 'Data Science'],
     achievements: [
       { title: 'First Project Completed', date: '2024-01-15' },
@@ -54,43 +55,7 @@
 </script>
 
 <div class="min-h-screen bg-gray-100 flex flex-col md:flex-row">
-  <!-- Sidebar -->
-  <nav class="hidden md:flex flex-col w-64 bg-white shadow-lg h-screen fixed">
-    <div class="p-6 border-b flex flex-col items-center space-y-4">
-      <div class="relative group">
-        <img src={$memberData.profileImage} alt="Profile" class="w-24 h-24 rounded-full object-cover border-4 border-primary/20 group-hover:border-primary/50 transition-all"/>
-        <label class="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer shadow-lg">
-          <input type="file" class="hidden" accept="image/*" on:change={handleImageUpload} />
-          <Settings size={16} />
-        </label>
-      </div>
-      <div class="text-center">
-        <h2 class="font-bold">{$memberData.name} {$memberData.surname}</h2>
-        <p class="text-sm text-gray-600">Student No: {$memberData.student_no}</p>
-      </div>
-    </div>
-
-    <div class="flex flex-col p-4 space-y-2 flex-grow">
-      {#each [{id: 'stats', icon: ChartBar, text: 'Dashboard'}, 
-              {id: 'profile', icon: User, text: 'Profile'},
-              {id: 'security', icon: Shield, text: 'Security'},
-              {id: 'invite', icon: UserPlus, text: 'Invite Friends'}] as item}
-        <button 
-          class="flex items-center space-x-2 p-3 rounded-lg {$activeTab === item.id ? 'bg-primary text-white' : 'hover:bg-gray-100'}"
-          on:click={() => activeTab.set(item.id)}>
-          <svelte:component this={item.icon} size={20} />
-          <span>{item.text}</span>
-        </button>
-      {/each}
-    </div>
-
-    <div class="p-4 border-t">
-      <button class="flex items-center space-x-2 p-3 rounded-lg text-red-600 hover:bg-red-50 w-full" on:click={handleLogout}>
-        <LogOut size={20} />
-        <span>Logout</span>
-      </button>
-    </div>
-  </nav>
+  <SideBar memberData={$memberData} activeTab={activeTab} {handleLogout}/>
 
   <!-- Mobile header -->
   <header class="md:hidden bg-white shadow-md p-4 flex items-center justify-between sticky top-0 z-10">
@@ -110,7 +75,7 @@
 
   <!-- Main content -->
   <main class="flex-1 md:ml-64 p-6 mb-16 md:mb-0">
-    {#if $activeTab === 'stats'}
+    {#if activeTab === 'stats'}
       <!-- Dashboard content -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         {#each [{title: 'Total Points', icon: Award, value: '2,450', sub: '+150 this month'},
@@ -158,7 +123,7 @@
         </div>
       </div>
 
-    {:else if $activeTab === 'profile'}
+    {:else if activeTab === 'profile'}
       <!-- Profile content -->
       <div class="bg-white p-6 rounded-xl shadow-md">
         <div class="flex justify-between items-center mb-6">
@@ -217,11 +182,11 @@
         {/if}
       </div>
 
-    {:else if $activeTab === 'security'}
+    {:else if activeTab === 'security'}
       <!-- Security content -->
       
 
-    {:else if $activeTab === 'invite'}
+    {:else if activeTab === 'invite'}
       <!-- Invite content -->
       <div class="space-y-6">
         <div class="bg-white p-6 rounded-xl shadow-md">
