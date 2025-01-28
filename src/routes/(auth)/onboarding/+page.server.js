@@ -22,6 +22,7 @@ export const actions = {
         let form = formData.get("form");
         console.log(form);
         form = JSON.parse(form);
+        //return the array as string
         let interests = () => {
             let text = "";
             form.interests.map(interest => {
