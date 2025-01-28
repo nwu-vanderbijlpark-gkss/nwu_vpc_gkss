@@ -24,7 +24,7 @@ export async function load({locals: {supabase}}) {
                     isMember = true;
                 }
             });
-            !isMember && redirect(303,"/community");//redirect the user to community pages if theyre not an executive member
+            !isMember && redirect(303,"/dashboard");//redirect the user to member dashboard if theyre not an executive member
         }
     }
     else{

@@ -48,6 +48,7 @@
   
   
 </script>
+<title>Dashboard | NWU VAAL GKSS</title>
 <!-- Logout modal-->
 <dialog id="logoutModal" class="modal  z-50 sm:modal-middle">
 	<div class="modal-box text-white">
