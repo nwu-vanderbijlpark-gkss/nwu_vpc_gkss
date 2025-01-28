@@ -49,7 +49,7 @@
   
 </script>
 <!-- Logout modal-->
-<dialog id="logoutModal" class="modal modal-bottom z-50 sm:modal-middle">
+<dialog id="logoutModal" class="modal  z-50 sm:modal-middle">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">
 			<p class="text-lg font-bold text-white">Logout Confirmation</p>
@@ -116,7 +116,25 @@
       {/if}
     </button>
   </header>
-
+<!-- Bottom navigation for mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-base-200 shadow-lg text-white">
+  <div class="flex justify-around p-4">
+    {#each [
+      {id: 'stats', icon: ChartBar, text: 'Dashboard'}, 
+      {id: 'profile', icon: User, text: 'Profile'},
+      {id: 'security', icon: Shield, text: 'Security'},
+      {id: 'invite', icon: UserPlus, text: 'Invite'},
+      {id: 'logout', icon: LogOut, text: 'Logout', onClick: handleLogout, class: 'text-red-600'}
+    ] as item}
+      <button 
+        class="flex flex-col items-center space-y-1 {item.class || ''} {activeTab === item.id ? 'text-primary' : 'hover:text-primary/80'}"
+        onclick={item.onClick || (() => activeTab = item.id)}>
+        <svelte:component this={item.icon} size={20} />
+        <span class="text-xs">{item.text}</span>
+      </button>
+    {/each}
+  </div>
+</nav>
   <!-- Main content -->
   <main class="flex-1 md:ml-64 p-6 mb-16 md:mb-0 text-base-200">
     {#if activeTab === 'stats'}
