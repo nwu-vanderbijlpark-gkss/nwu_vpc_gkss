@@ -32,14 +32,14 @@
       </div>
     {/if}
 
-    <form method="post" onsubmit={handlePasswordChange} class="space-y-6 w-full">
+    <form method="post" action="/update-password" onsubmit={handlePasswordChange} class="space-y-6 w-full">
         <div>
-          <label class="block text-sm font-medium" for="newPassword">New Password</label>
-          <input name="newPassword"  type="password" class="mt-1 input input-bordered w-full " bind:value={newPassword} />
+          <label class="block text-sm font-medium text-white"  for="newPassword">New Password</label>
+          <input name="newPassword" placeholder="Create new password"  type="password" class="mt-1 input input-bordered w-full text-white" bind:value={newPassword} />
         </div>
         <div>
-            <label for="confirmPassword" class="block text-sm font-medium ">Confirm New Password</label>
-            <input name="confirmPassword" type="password" class="mt-1 input input-bordered w-full " bind:value={confirmPassword} />
+            <label for="confirmPassword" class="block text-sm font-medium text-white">Confirm New Password</label>
+            <input name="confirmPassword" placeholder="Confirm password" type="password" class="mt-1 input input-bordered w-full text-white" bind:value={confirmPassword} />
           </div>
       <button type="submit" class="btn btn-primary w-full">Change Password</button>
     </form>
