@@ -33,9 +33,7 @@
   let isEditing = false;
   let editedData = { ...$memberData };
 
-  // Security
-  let currentPassword = '', newPassword = '', confirmPassword = '';
-  let error = '', success = '';
+
 
   // Handlers
   const handleLogout = () => console.log('Logging out...');
@@ -52,19 +50,7 @@
     memberData.set(editedData);
     isEditing = false;
   };
-  const handlePasswordChange = () => {
-    error = ''; success = '';
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      error = 'All fields required';
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      error = 'Passwords don\'t match';
-      return;
-    }
-    success = 'Password changed';
-    currentPassword = newPassword = confirmPassword = '';
-  };
+  
 </script>
 
 <div class="min-h-screen bg-gray-100 flex flex-col md:flex-row">
@@ -233,27 +219,7 @@
 
     {:else if $activeTab === 'security'}
       <!-- Security content -->
-      <div class="bg-white p-6 rounded-xl shadow-md max-w-md mx-auto">
-        <h2 class="text-2xl font-semibold mb-6">Change Password</h2>
-
-        {#if error || success}
-          <div class="p-4 rounded-lg mb-6 {error ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}">
-            {error || success}
-          </div>
-        {/if}
-
-        <form on:submit|preventDefault={handlePasswordChange} class="space-y-6">
-          {#each [{label: 'Current Password', bind: currentPassword},
-                  {label: 'New Password', bind: newPassword},
-                  {label: 'Confirm New Password', bind: confirmPassword}] as field}
-            <div>
-              <label class="block text-sm font-medium text-gray-700">{field.label}</label>
-              <input type="password" class="mt-1 input input-bordered w-full" bind:value={field.bind} />
-            </div>
-          {/each}
-          <button type="submit" class="btn btn-primary w-full">Change Password</button>
-        </form>
-      </div>
+      
 
     {:else if $activeTab === 'invite'}
       <!-- Invite content -->
