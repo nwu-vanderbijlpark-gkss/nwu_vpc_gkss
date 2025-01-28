@@ -117,7 +117,7 @@
     </button>
   </header>
 <!-- Bottom navigation for mobile -->
-<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-base-200 shadow-lg text-white">
+<nav class="md:hidden fixed bottom-0 left-0 z-50 right-0 bg-base-200 shadow-lg text-white">
   <div class="flex justify-around p-4">
     {#each [
       {id: 'stats', icon: ChartBar, text: 'Dashboard'}, 

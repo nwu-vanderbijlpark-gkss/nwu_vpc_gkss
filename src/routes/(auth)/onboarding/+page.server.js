@@ -20,7 +20,6 @@ export const actions = {
     default: async({request, locals: {supabase}}) => {
         const formData = await request.formData();
         let form = formData.get("form");
-        console.log(form);
         form = JSON.parse(form);
         //return the array as string
         let interests = () => {
@@ -51,6 +50,7 @@ export const actions = {
             else{
                 redirect(303,"/dashboard");
             }
+            redirect(303,"/dashboard");
         }
     }
 }

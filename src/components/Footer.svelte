@@ -11,7 +11,7 @@
     });
 </script>
 {#if !currentPath.includes("/community") && !currentPath.includes("/executive") && !currentPath.includes("/dashboard")}
-<footer class="bg-black w-full flex flex-col p-5 space-y-5 mt-1 justify-center items-center text-center">
+<footer class="bg-base-200 w-full flex flex-col p-5 space-y-5 mt-1 justify-center items-center text-center">
     <h1 class="text-white text-xl font-semibold">Stay updated, follow us</h1>
     <div class="flex gap-3 flex-wrap">
         <a href="#" class="btn"><Twitter/></a>

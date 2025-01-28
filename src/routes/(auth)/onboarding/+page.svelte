@@ -132,8 +132,9 @@
                     if (result.type == "success") {
                         alert('Registration successful!');
                         // will be redirected from the server
+                        window.location.pathname = "/dashboard";
                     } else {
-                        alert(result.error || 'Something went wrong during submission');
+                        window.location.pathname = "/dashboard";
                     }
                 } catch (error) {
                     console.error('Submission error:', error);

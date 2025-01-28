@@ -16,7 +16,7 @@ export const load = async ({locals: {supabase}}) => {
             return member;    
         }
         else{
-            redirect(303,"/login");
+            redirect(303,"/onboarding");
         }
     }
     else{
