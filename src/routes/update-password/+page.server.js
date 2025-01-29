@@ -1,11 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
-export const load = async({request, locals: {supabase}}) => {
-    const {data: {user}} = await supabase.auth.getUser();
-    if(!user){
-        redirect(303,"/login");
-    }
-}
+
 
 export const actions = {
     default: async({request, locals: {supabase}}) => {
@@ -16,6 +11,9 @@ export const actions = {
           })
         if(!error){
             redirect(303,"/dashboard");
+        }
+        else{
+            redirect(303,"/login");
         }          
 
     }
