@@ -64,8 +64,26 @@
     }
   ],
   "start_url": "/executive",
-  "display_override": ["fullscreen", "minimal-ui"],
+  "display_override": [
+    "fullscreen",
+    "minimal-ui",
+    "window-controls-overlay",
+    "standalone"
+  ],
   "display": "standalone",
   "background_color": "#000",
-  "theme_color": "#000000"
+  "theme_color": "#000000",
+  "id": "nwu vaal geeks",
+  "description": "The north west university vaal campus geekulcha student society",
+  "lang": "en",
+  "orientation": "any",
+  "iarc_rating_id": "13",
+  "prefer_related_applications": false,
+  "categories": [
+    "books",
+    "education",
+    "lifestyle",
+    "productivity",
+    "social"
+  ]
 }
