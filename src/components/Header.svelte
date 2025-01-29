@@ -1,12 +1,12 @@
 <script>
-	let currentPath = '';
-
+	let currentPath = $state('');
+	let {isLoggedIn, isExecutive} = $props();
 	import { onMount } from 'svelte';
 
 	onMount(() => {
 		currentPath = location.pathname;
 	});
-	import { ChartNoAxesColumn, HeartHandshake, Home, Link, Menu, MessageCircleMoreIcon, PlusCircle, Search, User, UserCog, Users } from 'lucide-svelte';
+	import { ChartNoAxesColumn, HeartHandshake, Home, Link, LogIn, Menu, MessageCircleMoreIcon, PlusCircle, Search, User, UserCog, Users } from 'lucide-svelte';
 </script>
 
 <div
@@ -23,7 +23,6 @@
 			>
 			<a
 				href="/about"
-				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
 				class:selected={currentPath === '/about'}>About</a
 			>
@@ -45,6 +44,24 @@
 				class="navItem border-red-500 hover:border-b hover:text-white"
 				class:selected={currentPath.includes('/community')}>Community</a
 			>
+			{#if isLoggedIn}
+				<a
+					href="/dashboard"
+					data-sveltekit-reload
+					class="navItem btn btn-bordered border-red-500 hover:border-b hover:text-white"
+					class:selected={currentPath === '/dashboard'}>Dashboard</a
+				>
+				{#if isExecutive}
+					<a
+					href="/executive"
+					data-sveltekit-reload
+					class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white"
+					>Admin</a
+					>
+				{/if}
+				
+			{:else}
+			
 			<a
 				href="/team"
 				data-sveltekit-reload
@@ -57,6 +74,23 @@
 				class="navItem border-red-500 hover:border-b hover:text-white"
 				class:selected={currentPath === '/#contact'}>Contact Us</a
 			>
+			<a
+				href="/team"
+				data-sveltekit-reload
+				class="navItem border-red-500 hover:border-b hover:text-white"
+				class:selected={currentPath === '/team'}>The team</a
+			>
+			{#if currentPath != "/login"}
+			<a
+				href="/login"
+				data-sveltekit-reload
+				class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white"
+				>
+				<LogIn/>
+				Login</a
+			>
+			{/if}
+			{/if}
 		</nav>
 	{/if}
 	<div class="space-x-2 lg:hidden">
@@ -123,6 +157,24 @@
 						class:selected={currentPath === '/team'}>The team</a
 					>
 				</li>
+				{#if isLoggedIn}
+					<a
+						href="/dashboard"
+						data-sveltekit-reload
+						class="navItem btn btn-bordered border-red-500 hover:border-b my-2 hover:text-white"
+						class:selected={currentPath === '/dashboard'}>Dashboard</a
+					>
+					{#if isExecutive}
+						<a
+						href="/executive"
+						data-sveltekit-reload
+						class="navItem btn btn-primary border-red-500 hover:border-b my-2 hover:text-white"
+						>Admin</a
+						>
+					{/if}
+				
+			{:else}
+
 				<li>
 					<a
 						href="/#contact"
@@ -131,6 +183,18 @@
 						class:selected={currentPath === '/#contact'}>Contact Us</a
 					>
 				</li>
+				{#if currentPath != "/login"}
+					<li><a
+					href="/login"
+					data-sveltekit-reload
+					class="navItem btn btn-primary my-2 border-red-500 hover:border-b hover:text-white"
+					>
+					<LogIn/>
+					Login</a
+				></li>
+			{/if}
+				
+			{/if}
 			{:else}
 				<li class="menu-title flex bg-gray-800 text-white rounded-box my-2">
 					<div>

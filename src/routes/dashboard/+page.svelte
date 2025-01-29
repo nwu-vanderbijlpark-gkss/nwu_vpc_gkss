@@ -106,7 +106,7 @@
   <header class="md:hidden bg-white shadow-md p-4 flex items-center justify-between sticky top-0 z-10">
     <div class="flex items-center space-x-3">
       <img src={member.image} alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary/20"/>
-      <h1 class="font-bold">{member.name} </h1>
+      <h1 class="font-bold text-gray-800">{member.name} </h1>
     </div>
     <button class="relative p-2" onclick={handleNotificationClick}>
       <Bell size={20} />
