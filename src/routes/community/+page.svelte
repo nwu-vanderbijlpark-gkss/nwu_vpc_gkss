@@ -20,7 +20,7 @@
 </script>
 
 <title>Community | NWU Vaal GKSS</title>
-<div class=" h-full w-full space-y-1 divide-y" transition:slide>
+<div class=" h-full w-full space-y-1 divide-y" in:slide={{ x: 100 }} out:slide={{ x: -100 }}>
 	<div class="flex w-full items-center justify-between rounded-lg bg-white p-2">
 		<div>
 			<h1 class="text-xl font-bold">Discussions</h1>

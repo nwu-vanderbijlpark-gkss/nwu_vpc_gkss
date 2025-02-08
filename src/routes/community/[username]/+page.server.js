@@ -1,17 +1,18 @@
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 export async function load({params, locals: {supabase}}) {
 
     let username = params.username;
     let email = null;
-    
+    let isMyProfile = false;//checking if the user is viewing their own profile
+    const {data: {user}} = await supabase.auth.getUser();//gets the currently logged in user, we need the id
     if(params.username == "profile")//this is the current session user's profile
     {
-        const {data: {user}} = await supabase.auth.getUser();//gets the currently logged in user, we need the id
         const {data, error} = await supabase.from("Member").select().eq("id",user.id);//we use the id to get the username of the user
         username = data[0].username;//set the username to the username of the logged in user
     }
+    
 
-    const {data} = await supabase.from("Member").select().eq("username",username);//query a member with the given username
+    const {data} = await supabase.from("Member").select("*").eq("username",username);//query a member with the given username
 
     if(data){
         //the query returns an array, with length of 1.
@@ -33,7 +34,12 @@ export async function load({params, locals: {supabase}}) {
                 let publicUrl = await supabase.storage.from("files").getPublicUrl(project.image.substring(project.image.indexOf("/")+1));//removing the first "file/"
                 const {data: Project_rating} = await supabase.from("Project_rating").select("rating,Member(id)").eq("project_id",project.id);
                 let rating = Project_rating;
-                user_rating += Number(rating[0].rating);
+                
+                for(const rate of rating){
+                    user_rating += Number(rate.rating);
+                }
+                //project rating average
+                user_rating = user_rating/rating.length;
                 projects.push({...project,image: publicUrl.data.publicUrl,rating: rating})
             }
             user_rating = user_rating/projects.length;
@@ -52,3 +58,5 @@ export async function load({params, locals: {supabase}}) {
     }
     
 }
+
+

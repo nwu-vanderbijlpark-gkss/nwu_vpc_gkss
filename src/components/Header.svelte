@@ -1,16 +1,16 @@
 <script>
-	let currentPath = '';
-
+	let currentPath = $state('');
+	let {isLoggedIn, isExecutive} = $props();
 	import { onMount } from 'svelte';
 
 	onMount(() => {
 		currentPath = location.pathname;
 	});
-	import { Menu, PlusCircle, Search, User } from 'lucide-svelte';
+	import { ChartNoAxesColumn, HeartHandshake, Home, Link, LogIn, Menu, MessageCircleMoreIcon, PlusCircle, Search, User, UserCog, Users } from 'lucide-svelte';
 </script>
 
 <div
-	class="navbar fixed top-0 z-50 flex w-screen items-center justify-between bg-[#0c0c0c] shadow-lg backdrop-blur"
+	class="navbar fixed top-0 z-50 flex w-screen items-center justify-between bg-base-200 shadow-lg backdrop-blur"
 >
 	<a href="/"><img src="/logo_white.png" alt="logo" class="ml-5 h-[20px] w-[150px]" /></a>
 	{#if !currentPath.includes('/executive')}
@@ -23,7 +23,6 @@
 			>
 			<a
 				href="/about"
-				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
 				class:selected={currentPath === '/about'}>About</a
 			>
@@ -31,7 +30,7 @@
 				href="/events"
 				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/events'}>Events</a
+				class:selected={currentPath.includes('/events')}>Events</a
 			>
 			<a
 				href="/geekOfTheWeek"
@@ -45,6 +44,24 @@
 				class="navItem border-red-500 hover:border-b hover:text-white"
 				class:selected={currentPath.includes('/community')}>Community</a
 			>
+			{#if isLoggedIn}
+				<a
+					href="/dashboard"
+					data-sveltekit-reload
+					class="navItem btn btn-bordered border-red-500 hover:border-b hover:text-white"
+					class:selected={currentPath === '/dashboard'}>Dashboard</a
+				>
+				{#if isExecutive}
+					<a
+					href="/executive"
+					data-sveltekit-reload
+					class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white"
+					>Admin</a
+					>
+				{/if}
+				
+			{:else}
+			
 			<a
 				href="/team"
 				data-sveltekit-reload
@@ -57,33 +74,23 @@
 				class="navItem border-red-500 hover:border-b hover:text-white"
 				class:selected={currentPath === '/#contact'}>Contact Us</a
 			>
-		</nav>
-	{:else}
-		<nav class="mr-5 hidden items-center space-x-5 lg:flex">
 			<a
-				href="/executive"
+				href="/team"
 				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/executive'}>Home</a
+				class:selected={currentPath === '/team'}>The team</a
 			>
+			{#if currentPath != "/login"}
 			<a
-				href="/executive/events"
+				href="/login"
 				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/executive/events'}>Events</a
+				class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white"
+				>
+				<LogIn/>
+				Login</a
 			>
-			<a
-				href="/executive/geekOfTheWeek"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/executive/geekOfTheWeek'}>Geek Of The Week</a
-			>
-			<a
-				href="/executive/team"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/executive/team'}>The team</a
-			>
+			{/if}
+			{/if}
 		</nav>
 	{/if}
 	<div class="space-x-2 lg:hidden">
@@ -123,7 +130,7 @@
 						href="/events"
 						data-sveltekit-reload
 						class="navItem text-lg"
-						class:selected={currentPath === '/events'}>Events</a
+						class:selected={currentPath.includes('/events')}>Events</a
 					>
 				</li>
 				<li>
@@ -150,6 +157,24 @@
 						class:selected={currentPath === '/team'}>The team</a
 					>
 				</li>
+				{#if isLoggedIn}
+					<a
+						href="/dashboard"
+						data-sveltekit-reload
+						class="navItem btn btn-bordered border-red-500 hover:border-b my-2 hover:text-white"
+						class:selected={currentPath === '/dashboard'}>Dashboard</a
+					>
+					{#if isExecutive}
+						<a
+						href="/executive"
+						data-sveltekit-reload
+						class="navItem btn btn-primary border-red-500 hover:border-b my-2 hover:text-white"
+						>Admin</a
+						>
+					{/if}
+				
+			{:else}
+
 				<li>
 					<a
 						href="/#contact"
@@ -158,38 +183,74 @@
 						class:selected={currentPath === '/#contact'}>Contact Us</a
 					>
 				</li>
+				{#if currentPath != "/login"}
+					<li><a
+					href="/login"
+					data-sveltekit-reload
+					class="navItem btn btn-primary my-2 border-red-500 hover:border-b hover:text-white"
+					>
+					<LogIn/>
+					Login</a
+				></li>
+			{/if}
+				
+			{/if}
 			{:else}
-				<li>
-					<a
-						href="/executive"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/executive'}>Home</a
-					>
+				<li class="menu-title flex bg-gray-800 text-white rounded-box my-2">
+					<div>
+						<h2>Executive</h2>
+					</div>
 				</li>
 				<li>
-					<a
-						href="/executive/events"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/executive/events'}>Events</a
-					>
+				  <a href="/executive">
+					<Home/>
+					Home
+				  </a>
 				</li>
 				<li>
-					<a
-						href="/executive/geekOfTheWeek"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/executive/geekOfTheWeek'}>Geek Of The Week</a
-					>
+				  <a href="/executive/events">
+					<ChartNoAxesColumn/>
+					Event Management
+				  </a>
 				</li>
 				<li>
-					<a
-						href="/executive/team"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/executive/team'}>The team</a
-					>
+					<a href="/executive/team">
+					  <UserCog/>
+					  Executive Team
+					</a>
+				  </li>
+				<li>
+				  <a href="/executive/membership">
+					<Users/>
+					Members
+				  </a>
+				</li>
+				<li>
+					<a href="/executive/">
+					  <HeartHandshake/>
+					  Sponsors
+					</a>
+				  </li>
+				<li>
+					<li>
+						<details open>
+						  <summary><Link/>Other links</summary>
+						  <ul>
+							<li>
+								<a data-sveltekit-reload href="/dashboard">
+								<User/>
+								Dashboard
+								</a>
+							</li>
+							<li>
+								<a data-sveltekit-reload href="/community">
+								<MessageCircleMoreIcon/>
+								Community
+								</a>
+							</li>
+						  </ul>
+						</details>
+				
 				</li>
 			{/if}
 		</ul>

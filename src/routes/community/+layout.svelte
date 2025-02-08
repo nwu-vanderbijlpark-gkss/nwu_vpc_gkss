@@ -1,5 +1,6 @@
 <script>
 	import {
+		ChartBar,
 		CodeXml,
 		Dot,
 		Forward,
@@ -31,6 +32,7 @@
 				<a href="/community/projectspace" class="navItem text-base"><CodeXml /> ProjectSpace</a>
 			</li>
 			{#if data.email != null}
+				<li><a href="/dashboard" data-sveltekit-reload class="navItem text-base"><ChartBar/> Dashboard</a></li>
 				<li><a href="/community/profile" class="navItem text-base"><User /> Profile</a></li>
 			{:else}
 				<li>

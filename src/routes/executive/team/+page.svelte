@@ -9,10 +9,11 @@
 		'Tech and Innovation Lead',
 		'Community Manager',
 		'Marketing Manager',
-   'Project Manager'
+		'Project Manager'
 	];
 	let { data, form } = $props();
 	let team = $state(data.team);
+
 	const handleDelete = (id) => {
 		const data = new FormData();
 		data.append('id', id);
@@ -20,57 +21,42 @@
 			method: 'POST',
 			body: data
 		});
-		//remove the deleted member from state
-		let newArray = [];
-		for (const member of team) {
-			if (member.id != id) {
-				newArray.push(member);
-			}
-		}
-		team = newArray;
+		// Remove the deleted member from state
+		team = team.filter(member => member.id !== id);
 	};
 </script>
 
-<div class="flex min-h-screen w-full flex-col items-center justify-center bg-gray-200 p-10">
-	<div class="mb-6 flex w-full max-w-[700px] items-center justify-between">
-		<h2 class="text-4xl font-bold">Team</h2>
-		<button class="btn btn-primary" onclick={() => addMemberModal.show()}
-			><PlusCircle />Add Member</button
-		>
+<div class="bg-white shadow-xl rounded-lg overflow-hidden">
+	<div class="mb-8 flex justify-between items-center p-6">
+		<h2 class="text-3xl font-semibold text-gray-800">Executive Team</h2>
+		<button class="btn btn-primary" onclick={() => addMemberModal.show()}>
+			<PlusCircle class="mr-2" /> Add Team Member
+		</button>
 	</div>
-	<div class="mb-5 grid w-full max-w-[700px] text-sm text-gray-500">
-		<p class="">You can add, delete and update a member on this page</p>
-		<p class="lg:hidden">View on desktop for a detailed table</p>
-	</div>
-	<div class="w-full max-w-[700px] overflow-x-auto">
-		<table class="table">
-			<!-- head -->
-			<thead>
+
+	<div class="max-h-screen overflow-auto px-6 pb-6">
+		<table class="w-full text-sm text-left text-gray-600 shadow-xl">
+			<thead class="bg-gray-100 text-xs uppercase text-gray-700">
 				<tr>
-					<th>Role</th>
-					<th>Full name</th>
-					<th class="">Email</th>
-					<th>Action</th>
+					<th class="px-6 py-4 font-medium">Role</th>
+					<th class="px-6 py-4 font-medium">Full Name</th>
+					<th class="px-6 py-4 font-medium">Contact Email</th>
+					<th class="px-6 py-4 font-medium text-center">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<!-- row  -->
 				{#each team as member, index}
-					<tr>
-						<td>{member.role}</td>
-						<td>{member.name} {member.surname}</td>
-						<td class="">{member.email}</td>
-						<td class="flex items-center gap-2">
-							<button class="btn btn-ghost grid items-center"
-								><Edit />
-								<p class="text-xs">Edit</p></button
-							>
-							<button
-								onclick={() => handleDelete(member.id)}
-								class="btn btn-ghost hidden items-center lg:grid"
-								><Trash2 color="red" />
-								<p class="text-xs">Delete</p></button
-							>
+					<tr class="border-b hover:bg-gray-50 transition-colors">
+						<td class="px-6 py-4 font-semibold text-gray-800">{member.role}</td>
+						<td class="px-6 py-4">{member.name} {member.surname}</td>
+						<td class="px-6 py-4">{member.email}</td>
+						<td class="px-6 py-4 flex justify-center space-x-2">
+							<button class="btn btn-ghost btn-sm">
+								<Edit class="mr-1" /> Edit
+							</button>
+							<button onclick={() => handleDelete(member.id)} class="btn btn-ghost btn-sm text-red-600">
+								<Trash2 class="mr-1" /> Delete
+							</button>
 						</td>
 					</tr>
 				{/each}
@@ -78,13 +64,14 @@
 		</table>
 	</div>
 </div>
+
 <dialog id="addMemberModal" class="modal modal-bottom z-50 sm:modal-middle">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">
 			<p class="text-lg font-bold text-white">Add a Member</p>
 			<div class="modal-action">
 				<form method="dialog">
-					<button class="btn"><X />Close</button>
+					<button class="btn"><X /> Close</button>
 				</form>
 			</div>
 		</div>
@@ -103,7 +90,7 @@
 					name="role"
 					class="select select-bordered"
 					id="role"
-					placeholder="Name of the member"
+					placeholder="Role of the member"
 					required
 				>
 					{#each roles as role}
@@ -135,7 +122,6 @@
 			</label>
 			<label class="form-control w-full">
 				<p>Email</p>
-
 				<input
 					type="email"
 					name="email"
@@ -144,9 +130,9 @@
 					placeholder="name.surname@domain.com"
 					required
 				/>
-				<span class="label-text-alt py-2 text-info"
-					>Note: Must match the email that the member registered on this website with.</span
-				>
+				<span class="label-text-alt py-2 text-info">
+					Note: Must match the email that the member registered on this website with.
+				</span>
 			</label>
 			<label class="form-control w-full">
 				<p>Image</p>

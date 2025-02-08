@@ -1,9 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 
 export const actions =   {
-    default: async ({locals: {supabase}, request}) => {
+    login: async ({locals: {supabase}, request}) => {
     const details = await request.formData();
-    let redirectTo = '/community';
+    let redirectTo = '/dashboard';
     const email = details.get("email");
     const password = details.get("password");
 
@@ -20,6 +20,7 @@ export const actions =   {
         });
     }
 
+    
     const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
@@ -29,7 +30,29 @@ export const actions =   {
         console.error(error.code)
         return {error: error.code}
       }else{
-        redirect(303,redirectTo);
+        //get the member data, check if the interests are not null, if null, then redirect to onboarding
+        console.log(data)
+        const {data: Member} = await supabase.from("Member").select().eq("id",data.user.id);
+        if(Member.length > 0){
+            console.log(Member[0].interests);
+            if(Member[0].interests){
+              redirect(303,redirectTo)
+            }
+            else{
+              redirect(303,"/onboarding");
+            }
+        }
+      }
+    },
+    resetPassword: async ({locals: {supabase}, request}) => {
+      const formData = await request.formData();
+      const email = formData.get("email");
+      console.log(email)
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://nwu-vaal-gkss.netlify.app/update-password',
+      })      
+      if(error){
+        console.error(error)
       }
     }
       

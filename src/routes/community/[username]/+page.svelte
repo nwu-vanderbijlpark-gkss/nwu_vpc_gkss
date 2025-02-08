@@ -4,6 +4,7 @@
 	import Topic from '../../../components/Topic.svelte';
 	import Project from '../../../components/Project.svelte';
 	let { data } = $props();
+	
 </script>
 
 <title>{data.username} | NWU Vaal GKSS</title>
@@ -43,7 +44,7 @@
 			</span>
 			<span class="flex items-center justify-between">
 				<span>
-					<h1 class="text-xl font-bold">{data.user_rating.toFixed(1)}</h1>
+					<h1 class="text-xl font-bold">{data.user_rating.toFixed(1) || 0.0}</h1>
 					<p>Average ProjectSpace rating</p>
 				</span>
 				<Star />
