@@ -5,7 +5,7 @@ export async function load({params, locals: {supabase}}) {
     let email = null;
     let isMyProfile = false;//checking if the user is viewing their own profile
     const {data: {user}} = await supabase.auth.getUser();//gets the currently logged in user, we need the id
-    if(params.username == "profile")//this is the current session user's profile
+    if(params.username == "profile" && user != null)//this is the current session user's profile
     {
         const {data, error} = await supabase.from("Member").select().eq("id",user.id);//we use the id to get the username of the user
         username = data[0].username;//set the username to the username of the logged in user
@@ -59,4 +59,7 @@ export async function load({params, locals: {supabase}}) {
     
 }
 
+export const actions = {
+    
+}
 

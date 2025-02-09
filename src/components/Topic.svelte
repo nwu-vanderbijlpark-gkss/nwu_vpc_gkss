@@ -1,7 +1,7 @@
 <script>
-	import { ChartNoAxesColumn, Dot, MessageCircleMore, Share2, Star } from 'lucide-svelte';
+	import { ChartNoAxesColumn, Dot, MessageCircleMore, Share2, Star, Trash } from 'lucide-svelte';
 
-	let { topic, text } = $props();
+	let { topic, text, myProfile } = $props();
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 	let fav_id = $state([]);
@@ -95,6 +95,17 @@
 			)
 			.join('');
 	}
+
+	const deleteTopic = async (topic) => {
+		if (confirm("Delete topic: '" + topic.topic + "'?")) {
+			const formData = new FormData();
+			formData.append('id', topic.id);
+			await fetch('/community?/deleteTopic', {
+				method: 'POST',
+				body: formData
+			});
+		}
+	};
 </script>
 
 <div class="bg-white p-2 hover:bg-gray-50">
@@ -108,13 +119,17 @@
 			<Dot />
 			<p class="text-gray-400">{moment(topic.created_at).fromNow()}</p></span
 		>
-		<button class="btn btn-ghost" onclick={() => handleFavorite(topic)}>
-			{#if fav_id.includes(topic.id)}
-				<Star fill="red" color="red" />
-			{:else}
-				<Star />
-			{/if}
-		</button>
+		{#if myProfile}
+			<button class="btn btn-ghost" onclick={() => deleteTopic(topic)}><Trash /></button>
+		{:else}
+			<button class="btn btn-ghost" onclick={() => handleFavorite(topic)}>
+				{#if fav_id.includes(topic.id)}
+					<Star fill="red" color="red" />
+				{:else}
+					<Star />
+				{/if}
+			</button>
+		{/if}
 	</div>
 	<a href={`/community/topic/${topic.id}`}>
 		<h3 class="text-xl font-bold">{@html highlightText(topic.topic, text)}</h3>

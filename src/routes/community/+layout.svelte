@@ -20,23 +20,31 @@
 
 <main class="flex min-h-screen divide-x bg-gray-200">
 	<div class="hidden min-h-screen w-2/12 flex-col items-center bg-white p-2 text-black lg:flex">
-		<ul class="menu min-h-full w-full p-2">
+		<ul class="menu min-h-full w-full space-y-2 p-2">
 			<h2 class="menu-title border-b text-xl font-bold text-gray-400">Community</h2>
 			<li>
-				<a href="/community/search" class="navItem text-base"><Search /> Search</a>
+				<a href="/community/search" class="navItem text-lg"><Search /> Search</a>
 			</li>
 			<li>
-				<a href="/community" class="navItem text-base"><Users /> Discussions</a>
+				<a href="/community" class="navItem text-lg"><Users /> Discussions</a>
 			</li>
 			<li>
-				<a href="/community/projectspace" class="navItem text-base"><CodeXml /> ProjectSpace</a>
+				<a href="/community/projectspace" class="navItem text-lg"><CodeXml /> ProjectSpace</a>
 			</li>
 			{#if data.email != null}
-				<li><a href="/dashboard" data-sveltekit-reload class="navItem text-base"><ChartBar/> Dashboard</a></li>
-				<li><a href="/community/profile" class="navItem text-base"><User /> Profile</a></li>
+				<li>
+					<a href="/dashboard" data-sveltekit-reload class="navItem text-lg"
+						><ChartBar /> Dashboard</a
+					>
+				</li>
+				<li><a href="/community/profile" class="navItem text-lg"><User /> Profile</a></li>
 			{:else}
 				<li>
-					<a href="/login" class="navItem bg-primary text-white hover:text-black"><LogIn />Login</a>
+					<a
+						href="/login"
+						class="bg-primary text-lg text-white hover:bg-primary/90 hover:text-black"
+						><LogIn />Login</a
+					>
 				</li>
 			{/if}
 		</ul>
@@ -99,7 +107,7 @@
 		</div>
 		{#if data.email != null}
 			<p class="py-4 text-sm">Enter the required details</p>
-			<form method="post" class="flex w-full flex-col gap-5">
+			<form method="post" action="/community?/addTopic" class="flex w-full flex-col gap-5">
 				<label class="form-control w-full">
 					<p>Topic</p>
 					<input

@@ -1,10 +1,14 @@
 <script>
-	import { ChartNoAxesColumn, CodeXml, Mail, PenBox, Star } from 'lucide-svelte';
+	import { ChartNoAxesColumn, CodeXml, Mail, PenBox, Star, Stars, Trash } from 'lucide-svelte';
 	import NotFoundPage from '../../../components/NotFoundPage.svelte';
 	import Topic from '../../../components/Topic.svelte';
 	import Project from '../../../components/Project.svelte';
+	import { onMount } from 'svelte';
 	let { data } = $props();
-	
+	let myProfile = $state(false);
+	onMount(() => {
+		myProfile = location.pathname.includes('profile');
+	});
 </script>
 
 <title>{data.username} | NWU Vaal GKSS</title>
@@ -47,7 +51,7 @@
 					<h1 class="text-xl font-bold">{data.user_rating.toFixed(1) || 0.0}</h1>
 					<p>Average ProjectSpace rating</p>
 				</span>
-				<Star />
+				<Stars />
 			</span>
 		</div>
 	</div>
@@ -62,7 +66,7 @@
 		/>
 		<div role="tabpanel" class="tab-content divide-y rounded-box p-6">
 			{#each data.topics as topic}
-				<Topic {topic} />
+				<Topic {topic} {myProfile} />
 			{/each}
 		</div>
 
