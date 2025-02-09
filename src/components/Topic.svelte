@@ -1,7 +1,7 @@
 <script>
 	import { ChartNoAxesColumn, Dot, MessageCircleMore, Share2, Star, Trash } from 'lucide-svelte';
 
-	let { topic, text, myProfile } = $props();
+	let { topic, text, myProfile, deleteTopic, index } = $props();
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 	let fav_id = $state([]);
@@ -96,16 +96,45 @@
 			.join('');
 	}
 
-	const deleteTopic = async (topic) => {
-		if (confirm("Delete topic: '" + topic.topic + "'?")) {
-			const formData = new FormData();
-			formData.append('id', topic.id);
-			await fetch('/community?/deleteTopic', {
-				method: 'POST',
-				body: formData
-			});
+	console.log(topic.topic_images);
+	function getGridClass(count) {
+		switch (count) {
+			case 1:
+				return 'grid-cols-1';
+			case 2:
+				return 'grid-cols-2';
+			case 3:
+				return 'grid-cols-2';
+			case 4:
+				return 'grid-cols-2';
+			default:
+				return 'grid-cols-2';
 		}
-	};
+	}
+
+	// Helper function to get individual image classes based on position and count
+	function getImageClass(total, index) {
+		if (total === 1) {
+			return 'col-span-1 aspect-[4/3]';
+		}
+		if (total === 2) {
+			return 'col-span-1 aspect-square';
+		}
+		if (total === 3) {
+			return index === 0 ? 'col-span-2 aspect-[4/3]' : 'col-span-1 aspect-square';
+		}
+		if (total === 4) {
+			return 'col-span-1 aspect-square';
+		}
+		if (total >= 5) {
+			return index === 0 ? 'col-span-2 aspect-[4/3]' : 'col-span-1 aspect-square';
+		}
+		return '';
+	}
+
+	// Get maximum images to display
+	let displayImages = topic.topic_images.slice(0, 5);
+	let remainingCount = Math.max(0, topic.topic_images.length - 5);
 </script>
 
 <div class="bg-white p-2 hover:bg-gray-50">
@@ -120,7 +149,7 @@
 			<p class="text-gray-400">{moment(topic.created_at).fromNow()}</p></span
 		>
 		{#if myProfile}
-			<button class="btn btn-ghost" onclick={() => deleteTopic(topic)}><Trash /></button>
+			<button class="btn btn-ghost" onclick={() => deleteTopic(topic, index)}><Trash /></button>
 		{:else}
 			<button class="btn btn-ghost" onclick={() => handleFavorite(topic)}>
 				{#if fav_id.includes(topic.id)}
@@ -136,6 +165,23 @@
 		<p class="mt-2 text-sm text-gray-800">
 			{@html highlightText(topic.content, text)}
 		</p>
+
+		<div class="w-full">
+			{#if displayImages.length > 0}
+				<div class="grid gap-1 {getGridClass(displayImages.length)}">
+					{#each displayImages as image, i}
+						<div class="relative {getImageClass(displayImages.length, i)} overflow-hidden">
+							<img src={image} alt="Post image {i + 1}" class="h-full w-full object-cover" />
+							{#if i === 4 && remainingCount > 0}
+								<div class="absolute inset-0 flex items-center justify-center bg-black/50">
+									<span class="text-2xl font-bold text-white">+{remainingCount}</span>
+								</div>
+							{/if}
+						</div>
+					{/each}
+				</div>
+			{/if}
+		</div>
 	</a>
 	<div class="mt-5 text-xs">
 		<div

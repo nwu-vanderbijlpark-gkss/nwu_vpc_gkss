@@ -108,7 +108,7 @@
 <div class="space-y-1 divide-y" transition:slide>
 	<section class="flex w-full items-center gap-3 rounded-lg bg-white p-2">
 		<span class="flex items-center">
-			<a class="btn btn-ghost rounded-full" href="/community"><ArrowLeft /></a>
+			<button class="btn btn-ghost rounded-full" onclick={history.back(-1)}><ArrowLeft /></button>
 		</span>
 
 		<form onsubmit={() => handleSearch()} class="flex w-full items-center">

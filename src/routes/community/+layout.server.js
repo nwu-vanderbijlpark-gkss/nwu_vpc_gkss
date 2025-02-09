@@ -1,14 +1,23 @@
 export async function load({locals: {supabase}}) {
     const {data: {user}} = await supabase.auth.getUser();
     let finalArray = [];
-    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*),topic_views(*)").order('created_at', { ascending: false });
+    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*),topic_views(*),topic_images(image)").order('created_at', { ascending: false });
     if(error){
         console.error(error)
     }
     let allTopics = [];
-    for(const topic of Forum_topic){
+    for(let topic of Forum_topic){
+        //for member profile images
         let publicUrl = await supabase.storage.from("files").getPublicUrl(topic.Member.image.substring(topic.Member.image.indexOf("/")+1));//removing the first "file/"
-        allTopics.push({...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username}})
+        topic = {...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username}}
+        //for topic images
+        const finalImages = [];
+        for(const file of topic.topic_images){
+            let publicUrl = await supabase.storage.from("files").getPublicUrl(file.image);
+            finalImages.push(publicUrl.data.publicUrl);
+        }
+        topic = {...topic, topic_images: finalImages};
+        allTopics.push(topic);
     }
     const {data: Project} = await supabase.from("Project").select("name,image,description,technologies,link,created_at,id,Member(username)").order('created_at', { ascending: false });
     let projects = [];

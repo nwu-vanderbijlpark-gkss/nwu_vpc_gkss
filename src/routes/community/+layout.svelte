@@ -16,6 +16,46 @@
 	} from 'lucide-svelte';
 
 	let { children, data } = $props();
+	let images = $state([]);
+	let error = $state();
+	const convertToMB = (bytes) => {
+		return (bytes / (1024 * 1024)).toFixed(0);
+	};
+	const handleFileChange = (event) => {
+		for (const image of event.target.files) {
+			if (convertToMB(image.size) < 50) {
+				if (images.includes(image)) {
+					error = 'You already chose chose this file ' + image.name;
+				} else {
+					images = [...images, image];
+					error = null;
+				}
+			} else {
+				error = 'Cannot upload files above 50MB';
+			}
+		}
+		event.target.value = '';
+	};
+	async function handleSubmit(event) {
+		event.preventDefault();
+		const formData = new FormData(event.target);
+
+		if (images.length > 0) {
+			error = '';
+			// Append each file to the FormData object
+			images.forEach((file, index) => {
+				formData.append(`files[]`, file); // `files[]` ensures it's handled as an array on the server
+			});
+			// Send the FormData to the SvelteKit action using fetch
+		}
+		await fetch('/community?/addTopic', {
+			method: 'POST',
+			body: formData
+		});
+		//event.target.submit();
+		document.getElementById('my_modal_1').close();
+		//console.log(result);
+	}
 </script>
 
 <main class="flex min-h-screen divide-x bg-gray-200">
@@ -38,6 +78,9 @@
 					>
 				</li>
 				<li><a href="/community/profile" class="navItem text-lg"><User /> Profile</a></li>
+				<button class="btn btn-primary" onclick={() => my_modal_1.show()}
+					><PlusCircle /> Create topic</button
+				>
 			{:else}
 				<li>
 					<a
@@ -107,7 +150,13 @@
 		</div>
 		{#if data.email != null}
 			<p class="py-4 text-sm">Enter the required details</p>
-			<form method="post" action="/community?/addTopic" class="flex w-full flex-col gap-5">
+			<form
+				method="post"
+				enctype="multipart/form-data"
+				action="/community?/addTopic"
+				onsubmit={handleSubmit}
+				class="flex w-full flex-col gap-5"
+			>
 				<label class="form-control w-full">
 					<p>Topic</p>
 					<input
@@ -127,6 +176,36 @@
 						id="content"
 						placeholder="What's on your mind?"
 					></textarea>
+				</label>
+				<label class="form-control w-full">
+					<p>Images</p>
+					<div class="my-2 flex w-full flex-wrap space-x-2">
+						{#each images as image, index}
+							<button
+								type="button"
+								class="tooltip tooltip-error"
+								data-tip="Click to remove"
+								onclick={() => images.splice(index, 1)}
+							>
+								<!-- svelte-ignore a11y_click_events_have_key_events -->
+								<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+								<img
+									src={URL.createObjectURL(image)}
+									alt={image.name}
+									class="h-10 w-10 rounded border p-1"
+								/>
+							</button>
+						{/each}
+					</div>
+					<input
+						type="file"
+						accept="image/*"
+						name="images"
+						class="file-input file-input-bordered"
+						id="images"
+						multiple
+						onchange={handleFileChange}
+					/>
 				</label>
 				<label class="form-control w-full">
 					<p>Tags</p>
@@ -177,7 +256,7 @@
 	</div>
 </dialog>
 <!--Submit ProjectSpace Project Modal-->
-<!-- Create TOpic modal-->
+
 <dialog id="projectSpaceModal" class="modal modal-bottom z-50 sm:modal-middle">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">

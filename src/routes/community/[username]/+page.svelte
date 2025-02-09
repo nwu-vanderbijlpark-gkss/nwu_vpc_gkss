@@ -9,6 +9,18 @@
 	onMount(() => {
 		myProfile = location.pathname.includes('profile');
 	});
+	let topics = $state(data.topics);
+	const deleteTopic = async (topic, index) => {
+		if (confirm("Delete topic: '" + topic.topic + "'?")) {
+			const formData = new FormData();
+			formData.append('id', topic.id);
+			await fetch('/community?/deleteTopic', {
+				method: 'POST',
+				body: formData
+			});
+			topics.splice(index, 1);
+		}
+	};
 </script>
 
 <title>{data.username} | NWU Vaal GKSS</title>
@@ -65,8 +77,8 @@
 			class="tab font-bold text-black [--tab-bg:red]"
 		/>
 		<div role="tabpanel" class="tab-content divide-y rounded-box p-6">
-			{#each data.topics as topic}
-				<Topic {topic} {myProfile} />
+			{#each topics as topic, index}
+				<Topic {topic} {myProfile} {deleteTopic} {index} />
 			{/each}
 		</div>
 
