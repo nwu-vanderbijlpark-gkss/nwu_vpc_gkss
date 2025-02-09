@@ -8,10 +8,7 @@
 
 <PwaInstallPrompt />
 <Header isLoggedIn={data.isLoggedIn} isExecutive={data.isExecutive} />
-<div
-	class="mt-[65px] flex min-h-screen flex-col items-center justify-center bg-gray-200 font-bold text-black lg:flex-row"
->
-	<p>NWU VAAL GKSS is currently under maintenance</p>
-	<img src="/updates.png" alt="Maintenance" />
+<div class="mt-[65px] min-h-screen bg-gray-200">
+	{@render children()}
 </div>
 <Footer />
