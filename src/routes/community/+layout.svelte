@@ -126,9 +126,13 @@
 		</ul>
 		<ul class="menu w-full rounded-lg p-2">
 			<h2 class="menu-title border-b text-xl font-bold text-black">Popular topics</h2>
-			{#each data.most_viewed as topic}
+			{#each data.most_viewed as topic, index}
 				<li>
-					<a href={`/community/topic/${topic.id}`} class="navItem text-base">
+					<a
+						href={`/community/topic/${topic.id}`}
+						class="navItem grid-cols-[(0.5fr, 1.4fr)] grid flex-wrap items-center text-base"
+					>
+						<p class=" font-bold text-gray-500">{index + 1}</p>
 						{topic.topic}
 					</a>
 				</li>

@@ -19,13 +19,13 @@ export async function load({params, locals: {supabase}}) {
         if(data.length > 0){
             //fetch all topics by this member
             //did this offline, check it when online...
-            const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*),topic_views(*),topic_images(image)").eq("author_id",data[0].id).order('created_at', { ascending: false });
+            const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image,name,surname),Comment(*),topic_views(*),topic_images(image)").eq("author_id",data[0].id).order('created_at', { ascending: false });
             let allTopics = [];
             let user_views = 0;
             for(let topic of Forum_topic){
                 let publicUrl = await supabase.storage.from("files").getPublicUrl(topic.Member.image.substring(topic.Member.image.indexOf("/")+1));//removing the first "file/"
                 user_views += topic.topic_views.length;
-                topic = {...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username}};
+                topic = {...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username, fullName: topic.Member.name + " " + topic.Member.surname}};
                 const finalImages = [];
                 for(const file of topic.topic_images){
                     let publicUrl = await supabase.storage.from("files").getPublicUrl(file.image);
@@ -35,7 +35,7 @@ export async function load({params, locals: {supabase}}) {
                 allTopics.push(topic);
             }
             
-            const {data: Project} = await supabase.from("Project").select("name,image,description,technologies,link,created_at,id,Member(username)").eq("user_id",data[0].id).order('created_at', { ascending: false });
+            const {data: Project} = await supabase.from("Project").select("name,image,description,technologies,link,created_at,id,Member(username,name,surname)").eq("user_id",data[0].id).order('created_at', { ascending: false });
             let projects = [];
             let user_rating = 0;
             for(const project of Project){
@@ -54,10 +54,10 @@ export async function load({params, locals: {supabase}}) {
             
 
             //return the object with the user's topics and details
-            email = data[0].email;
+            email = user.email;
             let publicUrl = await supabase.storage.from("files").getPublicUrl(data[0].image.substring(data[0].image.indexOf("/")+1));//removing the first "file/"
             let image = publicUrl.data.publicUrl;
-            return {username,email,image,topics: allTopics, projects, user_rating, user_views};
+            return {fullName: data[0].name + " " + data[0].surname,username,email,image,topics: allTopics, projects, user_rating, user_views};
         }
         else{
             //the query was negative, as the username does not exist in the database, we throw error

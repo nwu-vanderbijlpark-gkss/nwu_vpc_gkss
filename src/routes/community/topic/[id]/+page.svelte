@@ -46,14 +46,20 @@
 	onMount(() => {
 		const id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 		topic = data.allTopics.filter((topic) => topic.id == id)[0];
-		console.log(topic);
 	});
 </script>
 
 {#if !topic}
-	<div class="my-20 flex items-center justify-center">
-		<p class="text-lg font-bold">Loading Please wait...</p>
-		<span class="loading loading-ring loading-lg"></span>
+	<div class="my-20 flex flex-col items-center justify-center">
+		<p class="flex items-center text-lg font-bold">
+			Loading Please wait... <span class="loading loading-ring loading-lg"></span>
+		</p>
+		<p>
+			If this is taking longer, please reload the page or <button
+				class="btn btn-primary"
+				onclick={() => location.reload()}>Click here...</button
+			>
+		</p>
 	</div>
 {:else}
 	<title>{topic.topic} | NWU Vaal GKSS</title>
@@ -69,7 +75,7 @@
 						<img class="object-fit" src={topic.Member.image} alt={topic.Member.username} />
 					</div>
 					<a class=" link-hover" href={`/community/${topic.Member.username}`}
-						>{topic.Member.username}</a
+						>{topic.Member.fullName}</a
 					>
 					<Dot />
 					<p class="text-gray-400">{moment(topic.created_at).fromNow()}</p></span
@@ -122,7 +128,7 @@
 		</div>
 		<hr />
 		<div
-			class="fixed bottom-0 flex w-full items-center border-t bg-white p-2 shadow-lg lg:relative lg:border-none lg:shadow-none"
+			class="fixed bottom-16 flex w-full items-center border-t bg-white p-2 shadow-lg lg:relative lg:bottom-0 lg:border-none lg:shadow-none"
 		>
 			<input
 				class="input input-bordered w-full bg-gray-100"
@@ -150,7 +156,7 @@
 									/>
 								</div>
 								<a class=" link-hover" href={`/${comment.Member.username}`}
-									>{comment.Member.username}</a
+									>{comment.Member.fullName}</a
 								>
 								<Dot />
 								<p class="text-gray-400">{moment(comment.created_at).fromNow()}</p></span

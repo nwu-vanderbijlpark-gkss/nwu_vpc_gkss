@@ -143,7 +143,7 @@
 			<div class="mr-2 h-[25px] w-[25px] overflow-hidden rounded-full">
 				<img class="object-fit" src={topic.Member.image} alt={topic.Member.username} />
 			</div>
-			<a class=" link-hover" href={`/community/${topic.Member.username}`}>{topic.Member.username}</a
+			<a class=" link-hover" href={`/community/${topic.Member.username}`}>{topic.Member.fullName}</a
 			>
 			<Dot />
 			<p class="text-gray-400">{moment(topic.created_at).fromNow()}</p></span

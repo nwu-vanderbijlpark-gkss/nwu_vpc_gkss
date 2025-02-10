@@ -4,7 +4,10 @@ export const actions =   {
     addTopic: async ({locals: {supabase}, request}) => {
         const {data: {user}} = await supabase.auth.getUser();
         const {data:Member,error} = await supabase.from("Member").select().eq("id",user.id);
-        if(error){
+        if(error || !Member[0].interests){
+            if(!Member[0].interests){
+                redirect(303, "/onboarding");
+            }
             console.error(error)
         }else{
             //making a post

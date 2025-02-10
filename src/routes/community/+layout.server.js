@@ -1,7 +1,7 @@
 export async function load({locals: {supabase}}) {
     const {data: {user}} = await supabase.auth.getUser();
     let finalArray = [];
-    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*,Member(username, image)),topic_views(*),topic_images(image)").order('created_at', { ascending: false });
+    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image,name, surname),Comment(*,Member(username, image, name, surname)),topic_views(*),topic_images(image)").order('created_at', { ascending: false });
     if(error){
         console.error(error)
     }
@@ -9,7 +9,7 @@ export async function load({locals: {supabase}}) {
     for(let topic of Forum_topic){
         //for member profile images
         let publicUrl = await supabase.storage.from("files").getPublicUrl(topic.Member.image.substring(topic.Member.image.indexOf("/")+1));//removing the first "file/"
-        topic = {...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username}}
+        topic = {...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username, fullName: topic.Member.name + " " +topic.Member.surname}}
         //for topic images
         const finalImages = [];
         for(const file of topic.topic_images){
@@ -21,7 +21,7 @@ export async function load({locals: {supabase}}) {
         const comments = [];
         for(let comment of topic.Comment){
             let publicUrl = await supabase.storage.from("files").getPublicUrl(comment.Member.image.substring(topic.Member.image.indexOf("/")));//removing the first "file/"
-            comment = {...comment,Member: {image: publicUrl.data.publicUrl, username: comment.Member.username}};
+            comment = {...comment,Member: {image: publicUrl.data.publicUrl, username: comment.Member.username, fullName: comment.Member.name + " " +comment.Member.surname}};
             comments.push(comment)
         }
         topic = {...topic, Comment: comments};
@@ -47,7 +47,6 @@ export async function load({locals: {supabase}}) {
     
     //for most viewed
     let most_viewed = allTopics.sort((a, b) => b.topic_views.length - a.topic_views.length);
-    most_viewed = most_viewed.sort((a, b) => b.Comment.length - a.Comment.length).slice(0, 3);
 
 
     return {email,latest,most_viewed, allTopics, projects};

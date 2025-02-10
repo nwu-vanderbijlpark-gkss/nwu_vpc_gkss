@@ -32,7 +32,8 @@
 	<div class="flex w-full flex-wrap gap-3 lg:flex-row">
 		<span class="flex flex-col items-center lg:w-2/4">
 			<img src={data.image} alt={data.username} class="h-[160px] w-[160px] rounded-full" />
-			<h1 class="text-xl font-bold">{data.username}</h1>
+			{#if !data.fullName.includes('null')}<h1 class="text-xl font-bold">{data.fullName}</h1>{/if}
+			<h2 class="">@{data.username}</h2>
 		</span>
 		<div class="p card w-full space-y-2 border p-5 lg:w-2/5">
 			<h1 class="text-lg font-bold">Contribution</h1>
