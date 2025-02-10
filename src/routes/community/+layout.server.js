@@ -1,7 +1,7 @@
 export async function load({locals: {supabase}}) {
     const {data: {user}} = await supabase.auth.getUser();
     let finalArray = [];
-    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*),topic_views(*),topic_images(image)").order('created_at', { ascending: false });
+    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image),Comment(*,Member(username, image)),topic_views(*),topic_images(image)").order('created_at', { ascending: false });
     if(error){
         console.error(error)
     }
@@ -17,6 +17,14 @@ export async function load({locals: {supabase}}) {
             finalImages.push(publicUrl.data.publicUrl);
         }
         topic = {...topic, topic_images: finalImages};
+        //for comments
+        const comments = [];
+        for(let comment of topic.Comment){
+            let publicUrl = await supabase.storage.from("files").getPublicUrl(comment.Member.image.substring(topic.Member.image.indexOf("/")));//removing the first "file/"
+            comment = {...comment,Member: {image: publicUrl.data.publicUrl, username: comment.Member.username}};
+            comments.push(comment)
+        }
+        topic = {...topic, Comment: comments};
         allTopics.push(topic);
     }
     const {data: Project} = await supabase.from("Project").select("name,image,description,technologies,link,created_at,id,Member(username)").order('created_at', { ascending: false });

@@ -142,6 +142,13 @@
 					<div id={comment.id} class=" p-2">
 						<div class="flex items-center justify-between text-sm">
 							<span class="flex items-center">
+								<div class="mr-2 h-[25px] w-[25px] overflow-hidden rounded-full">
+									<img
+										class="object-fit"
+										src={comment.Member.image}
+										alt={comment.Member.username}
+									/>
+								</div>
 								<a class=" link-hover" href={`/${comment.Member.username}`}
 									>{comment.Member.username}</a
 								>
