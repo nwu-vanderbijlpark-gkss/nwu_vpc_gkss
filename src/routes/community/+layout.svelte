@@ -72,11 +72,6 @@
 				<a href="/community/projectspace" class="navItem text-lg"><CodeXml /> ProjectSpace</a>
 			</li>
 			{#if data.email != null}
-				<li>
-					<a href="/dashboard" data-sveltekit-reload class="navItem text-lg"
-						><ChartBar /> Dashboard</a
-					>
-				</li>
 				<li><a href="/community/profile" class="navItem text-lg"><User /> Profile</a></li>
 				<button class="btn btn-primary" onclick={() => my_modal_1.show()}
 					><PlusCircle /> Create topic</button

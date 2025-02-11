@@ -155,7 +155,7 @@
 										alt={comment.Member.username}
 									/>
 								</div>
-								<a class=" link-hover" href={`/${comment.Member.username}`}
+								<a class=" link-hover" href={`/community/${comment.Member.username}`}
 									>{comment.Member.fullName}</a
 								>
 								<Dot />
