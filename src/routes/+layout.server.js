@@ -14,8 +14,10 @@ export const load = async({request, locals: {supabase}}) => {
                     currentUser = member;                 
                 }
             });
+        if(isMember){
         let publicUrl = await supabase.storage.from("files").getPublicUrl(currentUser.image.substring(currentUser.image.indexOf("/")));//removing the first "file/"
         currentUser = {...currentUser,image: publicUrl.data.publicUrl}
+}
        return {isLoggedIn: true, isExecutive: isMember, currentUser};
         }
     }
