@@ -58,7 +58,7 @@
 </script>
 
 <title>Dashboard | NWU VAAL GKSS</title>
-<div class="toast toast-end toast-bottom">
+<div class="toast toast-end toast-bottom bottom-16 lg:bottom-0">
 	<div class="alert alert-info">
 		<span class="flex gap-4 font-bold"
 			><AlertCircle /> Note that this page is still being developed</span
