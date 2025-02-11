@@ -1,12 +1,25 @@
 <script>
 	let currentPath = $state('');
-	let {isLoggedIn, isExecutive} = $props();
+	let { isLoggedIn, isExecutive } = $props();
 	import { onMount } from 'svelte';
 
 	onMount(() => {
 		currentPath = location.pathname;
 	});
-	import { ChartNoAxesColumn, HeartHandshake, Home, Link, LogIn, Menu, MessageCircleMoreIcon, PlusCircle, Search, User, UserCog, Users } from 'lucide-svelte';
+	import {
+		ChartNoAxesColumn,
+		HeartHandshake,
+		Home,
+		Link,
+		LogIn,
+		Menu,
+		MessageCircleMoreIcon,
+		PlusCircle,
+		Search,
+		User,
+		UserCog,
+		Users
+	} from 'lucide-svelte';
 </script>
 
 <div
@@ -48,48 +61,39 @@
 				<a
 					href="/dashboard"
 					data-sveltekit-reload
-					class="navItem btn btn-bordered border-red-500 hover:border-b hover:text-white"
+					class="navItem btn-bordered btn border-red-500 hover:border-b hover:text-white"
 					class:selected={currentPath === '/dashboard'}>Dashboard</a
 				>
 				{#if isExecutive}
 					<a
-					href="/executive"
-					data-sveltekit-reload
-					class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white"
-					>Admin</a
+						href="/executive"
+						data-sveltekit-reload
+						class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white">Admin</a
 					>
 				{/if}
-				
 			{:else}
-			
-			<a
-				href="/team"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/team'}>The team</a
-			>
-			<a
-				href="/#contact"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/#contact'}>Contact Us</a
-			>
-			<a
-				href="/team"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/team'}>The team</a
-			>
-			{#if currentPath != "/login"}
-			<a
-				href="/login"
-				data-sveltekit-reload
-				class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white"
+				<a
+					href="/team"
+					data-sveltekit-reload
+					class="navItem border-red-500 hover:border-b hover:text-white"
+					class:selected={currentPath === '/team'}>The team</a
 				>
-				<LogIn/>
-				Login</a
-			>
-			{/if}
+				<a
+					href="/#contact"
+					data-sveltekit-reload
+					class="navItem border-red-500 hover:border-b hover:text-white"
+					class:selected={currentPath === '/#contact'}>Contact Us</a
+				>
+				{#if currentPath != '/login'}
+					<a
+						href="/login"
+						data-sveltekit-reload
+						class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white"
+					>
+						<LogIn />
+						Login</a
+					>
+				{/if}
 			{/if}
 		</nav>
 	{/if}
@@ -161,96 +165,94 @@
 					<a
 						href="/dashboard"
 						data-sveltekit-reload
-						class="navItem btn btn-bordered border-red-500 hover:border-b my-2 hover:text-white"
+						class="navItem btn-bordered btn my-2 border-red-500 hover:border-b hover:text-white"
 						class:selected={currentPath === '/dashboard'}>Dashboard</a
 					>
 					{#if isExecutive}
 						<a
-						href="/executive"
-						data-sveltekit-reload
-						class="navItem btn btn-primary border-red-500 hover:border-b my-2 hover:text-white"
-						>Admin</a
+							href="/executive"
+							data-sveltekit-reload
+							class="navItem btn btn-primary my-2 border-red-500 hover:border-b hover:text-white"
+							>Admin</a
 						>
 					{/if}
-				
+				{:else}
+					<li>
+						<a
+							href="/#contact"
+							data-sveltekit-reload
+							class="navItem text-lg"
+							class:selected={currentPath === '/#contact'}>Contact Us</a
+						>
+					</li>
+					{#if currentPath != '/login'}
+						<li>
+							<a
+								href="/login"
+								data-sveltekit-reload
+								class="navItem btn btn-primary my-2 border-red-500 hover:border-b hover:text-white"
+							>
+								<LogIn />
+								Login</a
+							>
+						</li>
+					{/if}
+				{/if}
 			{:else}
-
-				<li>
-					<a
-						href="/#contact"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/#contact'}>Contact Us</a
-					>
-				</li>
-				{#if currentPath != "/login"}
-					<li><a
-					href="/login"
-					data-sveltekit-reload
-					class="navItem btn btn-primary my-2 border-red-500 hover:border-b hover:text-white"
-					>
-					<LogIn/>
-					Login</a
-				></li>
-			{/if}
-				
-			{/if}
-			{:else}
-				<li class="menu-title flex bg-gray-800 text-white rounded-box my-2">
+				<li class="menu-title my-2 flex rounded-box bg-gray-800 text-white">
 					<div>
 						<h2>Executive</h2>
 					</div>
 				</li>
 				<li>
-				  <a href="/executive">
-					<Home/>
-					Home
-				  </a>
+					<a href="/executive">
+						<Home />
+						Home
+					</a>
 				</li>
 				<li>
-				  <a href="/executive/events">
-					<ChartNoAxesColumn/>
-					Event Management
-				  </a>
+					<a href="/executive/events">
+						<ChartNoAxesColumn />
+						Event Management
+					</a>
 				</li>
 				<li>
 					<a href="/executive/team">
-					  <UserCog/>
-					  Executive Team
+						<UserCog />
+						Executive Team
 					</a>
-				  </li>
+				</li>
 				<li>
-				  <a href="/executive/membership">
-					<Users/>
-					Members
-				  </a>
+					<a href="/executive/membership">
+						<Users />
+						Members
+					</a>
 				</li>
 				<li>
 					<a href="/executive/">
-					  <HeartHandshake/>
-					  Sponsors
+						<HeartHandshake />
+						Sponsors
 					</a>
-				  </li>
+				</li>
+				<li></li>
 				<li>
-					<li>
-						<details open>
-						  <summary><Link/>Other links</summary>
-						  <ul>
+					<details open>
+						<summary><Link />Other links</summary>
+						<ul>
 							<li>
 								<a data-sveltekit-reload href="/dashboard">
-								<User/>
-								Dashboard
+									<User />
+									Dashboard
 								</a>
 							</li>
 							<li>
 								<a data-sveltekit-reload href="/community">
-								<MessageCircleMoreIcon/>
-								Community
+									<MessageCircleMoreIcon />
+									Community
 								</a>
 							</li>
-						  </ul>
-						</details>
-				
+						</ul>
+					</details>
 				</li>
 			{/if}
 		</ul>

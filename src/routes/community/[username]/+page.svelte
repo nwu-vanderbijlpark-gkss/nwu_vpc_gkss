@@ -91,9 +91,11 @@
 			aria-label="Projects"
 		/>
 		<div role="tabpanel" class="tab-content rounded-box p-6">
-			{#each data.projects as project}
-				<Project {project} />
-			{/each}
+			<div class="flex max-h-screen w-full flex-col gap-2 overflow-auto lg:flex-row lg:flex-wrap">
+				{#each data.projects as project}
+					<Project {project} />
+				{/each}
+			</div>
 		</div>
 	</div>
 </div>

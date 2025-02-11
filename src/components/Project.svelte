@@ -16,14 +16,13 @@
 		//calculate average
 		let i = 0;
 		let sum = 0;
-		if(project.rating){
+		if (project.rating) {
 			for (const rate of project.rating) {
 				sum += rate.rating;
 				i++;
 			}
 		}
 		rating = sum / i;
-	
 	});
 	function handleStarHover(rating) {
 		hoverRating = rating;

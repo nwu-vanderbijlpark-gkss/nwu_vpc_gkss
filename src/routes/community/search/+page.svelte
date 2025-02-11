@@ -15,10 +15,13 @@
 	import { slide } from 'svelte/transition';
 	import Topic from '../../../components/Topic.svelte';
 	import Project from '../../../components/Project.svelte';
+	import MemberCard from '../../../components/MemberCard.svelte';
 
 	let text = $state('');
-	let results = $state([]); //results array
-	let project_results = $state([]);
+	let results = $state([]); //topic results array
+	let project_results = $state([]); //project results array
+	let member_results = $state([]); //members results array
+	let filter = $state('none'); //filter, can be none, projects, topics or members
 	let fav_id = $state([]);
 	const setFavId = () => {
 		let fav = localStorage.getItem('fav_ids');
@@ -27,42 +30,70 @@
 		}
 	};
 
+	const setFilter = (text) => (filter = text);
 	onMount(() => {
 		setFavId();
 	});
 	let { data } = $props();
 	const handleSearch = (event) => {
+		//clear all the result arrays
 		results = [];
 		project_results = [];
+		member_results = [];
+		if (text.length < 3) return 'searching...';
 		text = text.toLowerCase();
 		let textTokens = text.split(/\s+/);
 
+		/**Helper method for finding the text within given data string*/
 		const isFound = (data) => {
 			let found = false;
 			for (let i = 0; i < textTokens.length; i++) {
-				if (data.toLowerCase().includes(textTokens[i])) {
-					found = true;
+				if (data) {
+					if (data.toLowerCase().includes(textTokens[i])) {
+						found = true;
+					}
 				}
 			}
 			return found;
 		};
-		for (let i = 0; i < data.allTopics.length; i++) {
-			let post = data.allTopics[i];
-			const topicMatch = isFound(post.topic);
-			const contentMatch = isFound(post.content);
-			const tagsMatch = isFound(post.tags);
 
-			if (topicMatch || contentMatch || tagsMatch) {
-				results.push(post); //add the post in the results array
+		/**searching in topics*/
+		if (filter == 'none' || filter == 'topics') {
+			for (let i = 0; i < data.allTopics.length; i++) {
+				let post = data.allTopics[i];
+				const topicMatch = isFound(post.topic);
+				const contentMatch = isFound(post.content);
+				const tagsMatch = isFound(post.tags);
+
+				if (topicMatch || contentMatch || tagsMatch) {
+					results.push(post); //add the post in the results array
+				}
 			}
 		}
-		for (const project of data.projects) {
-			const nameMatch = isFound(project.name);
-			const linkMatch = isFound(project.link);
-			const descriptionMatch = isFound(project.description);
-			const technologiesMatch = isFound(project.technologies);
-			if (nameMatch || linkMatch || descriptionMatch || technologiesMatch) {
-				project_results.push(project);
+
+		/**searching in projects*/
+		if (filter == 'none' || filter == 'projects') {
+			for (const project of data.projects) {
+				const nameMatch = isFound(project.name);
+				const linkMatch = isFound(project.link);
+				const descriptionMatch = isFound(project.description);
+				const technologiesMatch = isFound(project.technologies);
+				if (nameMatch || linkMatch || descriptionMatch || technologiesMatch) {
+					project_results.push(project);
+				}
+			}
+		}
+		/**searching in members*/
+		if (filter == 'none' || filter == 'members') {
+			for (const member of data.members) {
+				const nameMatch = isFound(member.name + ' ' + member.surname);
+				const usernameMatch = isFound(member.username);
+				const qualificationMatch = isFound(member.qualification);
+				const interestsMatch = isFound(member.interests);
+
+				if (nameMatch || usernameMatch || qualificationMatch || interestsMatch) {
+					member_results.push(member);
+				}
 			}
 		}
 	};
@@ -102,6 +133,26 @@
 		}
 		setFavId();
 	};
+	// function to handle multiple terms
+	function highlightText(fullText, match) {
+		if (!match) return fullText;
+
+		// Split the match variable into individual words or phrases
+		const terms = match.split(/\s+/); // Split by spaces or other delimiters
+
+		// Create a regex to match all terms
+		const regex = new RegExp(`(${terms.join('|')})`, 'gi');
+
+		// Highlight matching terms in the full text
+		return fullText
+			.split(regex)
+			.map((part) =>
+				terms.some((term) => part.toLowerCase() === term.toLowerCase())
+					? `<span class="bg-primary/30">${part}</span>`
+					: part
+			)
+			.join('');
+	}
 </script>
 
 <title>Search {text} | NWU Vaal GKSS</title>
@@ -123,18 +174,47 @@
 		</form>
 	</section>
 
-	{#if results.length > 0}
-		<p class="bg-white p-2 text-sm text-info">{results.length} results found</p>
-		<div class="max-h-[80vh] divide-y overflow-auto">
-			{#each results as topic}
-				<Topic {topic} {text} />
-			{/each}
-			<h2 class="py-3 text-lg font-bold">Projects</h2>
-			{#each project_results as project}
-				<Project {project} {text} />
-			{/each}
+	{#if results.length > 0 || project_results.length > 0 || member_results.length > 0}
+		<div class="bg-white p-2">
+			<p class="text-sm text-info">
+				{results.length + project_results.length + member_results.length} results found
+			</p>
+			<div class="flex gap-3 p-2">
+				{#each [{ show: 'none', text: 'All' }, { show: 'projects', text: 'Projects' }, { show: 'topics', text: 'Topics' }, { show: 'members', text: 'Members' }] as filterBtn}
+					<button
+						class={'btn btn-sm ' +
+							`${filter == filterBtn.show ? 'btn-primary border border-red-200' : 'btn-ghost bg-gray-200'}`}
+						onclick={() => setFilter(filterBtn.show)}>{filterBtn.text}</button
+					>
+				{/each}
+			</div>
 		</div>
-	{:else if text.length > 0}
+
+		<div class="max-h-[80vh] divide-y overflow-auto">
+			{#if member_results.length > 0 && (filter == 'none' || filter == 'members')}
+				<h2 class="py-3 text-lg font-bold">Members</h2>
+				<div class="flex w-full flex-col gap-2 p-2 lg:flex-row lg:flex-wrap">
+					{#each member_results as member}
+						<MemberCard {member} {text} {highlightText} />
+					{/each}
+				</div>
+			{/if}
+			{#if results.length > 0 && (filter == 'none' || filter == 'topics')}
+				<h2 class="py-3 text-lg font-bold">Topics</h2>
+				{#each results as topic}
+					<Topic {topic} {text} {highlightText} />
+				{/each}
+			{/if}
+			{#if project_results.length > 0 && (filter == 'none' || filter == 'projects')}
+				<h2 class="py-3 text-lg font-bold">Projects</h2>
+				<div class="flex w-full flex-col gap-2 p-2 lg:flex-row lg:flex-wrap">
+					{#each project_results as project}
+						<Project {project} {text} {highlightText} />
+					{/each}
+				</div>
+			{/if}
+		</div>
+	{:else if text.length > 3}
 		<p>No results for: {text}</p>
 	{:else}
 		<p>Start typing your search query</p>

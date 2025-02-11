@@ -37,8 +37,8 @@
 				<p class="text-sm">Click to view</p>
 			</div>
 		</a>
-		<div class="flex flex-col items-center justify-center gap-3 p-2 lg:grid lg:grid-cols-2">
-			{#each projects as project}
+		<div class="flex max-h-screen w-full flex-col gap-2 overflow-auto p-2 lg:flex-row lg:flex-wrap">
+			{#each data.projects as project}
 				<Project {project} />
 			{/each}
 		</div>

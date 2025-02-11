@@ -75,7 +75,7 @@
 			console.error('Failed to copy the link:', error);
 		}
 	};
-	// function to handle multiple terms
+	// it had to be duplicated cos when shared, svelte produces an error on build
 	function highlightText(fullText, match) {
 		if (!match) return fullText;
 
