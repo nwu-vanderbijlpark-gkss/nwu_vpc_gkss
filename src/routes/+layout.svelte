@@ -4,10 +4,11 @@
 	import Header from '../components/Header.svelte';
 	import PwaInstallPrompt from '../components/PWAInstallPrompt.svelte';
 	let { children, data } = $props();
+	console.log(data);
 </script>
 
 <PwaInstallPrompt />
-<Header isLoggedIn={data.isLoggedIn} isExecutive={data.isExecutive} />
+<Header isLoggedIn={data.isLoggedIn} isExecutive={data.isExecutive} user={data.currentUser} />
 <div class="mt-[65px] min-h-screen bg-gray-200">
 	{@render children()}
 </div>

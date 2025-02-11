@@ -192,22 +192,22 @@
 
 		<div class="max-h-[80vh] divide-y overflow-auto">
 			{#if member_results.length > 0 && (filter == 'none' || filter == 'members')}
-				<h2 class="py-3 text-lg font-bold">Members</h2>
-				<div class="flex w-full flex-col gap-2 p-2 lg:flex-row lg:flex-wrap">
+				<h2 class="py-3 text-lg">Members</h2>
+				<div transition:slide class="flex w-full flex-col gap-2 p-2 lg:flex-row lg:flex-wrap">
 					{#each member_results as member}
 						<MemberCard {member} {text} {highlightText} />
 					{/each}
 				</div>
 			{/if}
 			{#if results.length > 0 && (filter == 'none' || filter == 'topics')}
-				<h2 class="py-3 text-lg font-bold">Topics</h2>
+				<h2 class="py-3 text-lg">Topics</h2>
 				{#each results as topic}
 					<Topic {topic} {text} {highlightText} />
 				{/each}
 			{/if}
 			{#if project_results.length > 0 && (filter == 'none' || filter == 'projects')}
-				<h2 class="py-3 text-lg font-bold">Projects</h2>
-				<div class="flex w-full flex-col gap-2 p-2 lg:flex-row lg:flex-wrap">
+				<h2 class="py-3 text-lg">Projects</h2>
+				<div transition:slide class="flex w-full flex-col gap-2 p-2 lg:flex-row lg:flex-wrap">
 					{#each project_results as project}
 						<Project {project} {text} {highlightText} />
 					{/each}

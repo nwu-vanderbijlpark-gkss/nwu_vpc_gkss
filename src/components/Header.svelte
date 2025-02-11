@@ -1,6 +1,6 @@
 <script>
 	let currentPath = $state('');
-	let { isLoggedIn, isExecutive } = $props();
+	let { isLoggedIn, isExecutive, user } = $props();
 	import { onMount } from 'svelte';
 
 	onMount(() => {
@@ -199,11 +199,17 @@
 					{/if}
 				{/if}
 			{:else}
-				<li class="menu-title my-2 flex rounded-box bg-gray-800 text-white">
-					<div>
-						<h2>Executive</h2>
+				<li class="menu-title my-2 flex flex-col rounded-box bg-gray-800 p-4 text-white">
+					<!-- User Information (Image, Name, Surname) -->
+					<div class="flex items-center gap-x-4">
+						<img src={user.image} alt={user.surname} class="h-[50px] w-[50px] rounded-full" />
+						<h2 class="text-lg font-semibold">{user.name} {user.surname}</h2>
 					</div>
+
+					<!-- Role below the name and picture -->
+					<p class="mt-2 text-sm text-gray-400">{user.role}</p>
 				</li>
+
 				<li>
 					<a href="/executive">
 						<Home />

@@ -1,15 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
-export const load = async({locals:{supabase}}) => {
 
-    //load the team
-    const {data, error} = await supabase.from("Team").select("*");
-    if(error){
-        console.error(error);
-        return {error: "Unexpected error occurred"};
-    }
-    return {team: data};
-}
 
 export const actions = {
     addMember: async ({locals: {supabase},request}) => {

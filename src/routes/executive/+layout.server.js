@@ -12,20 +12,38 @@ export async function load({locals: {supabase}}) {
      * if its an executive member, do not redirect
      */
     const {data: {user}} = await supabase.auth.getUser();
+    let currentUser = null;
     if(user){
         let { data: Team } = await supabase
             .from('Team')
-            .select('email')   
+            .select('*')   
         if(Team){
             let isMember = false;
-            Team.forEach(member => {
+            Team.forEach(async(member) => {
                 //check if the user accessing the executive pages is an executive member
                 if(user.email === (member.email)){ 
                     isMember = true;
+                    currentUser = member;
                 }
             });
             !isMember && redirect(303,"/dashboard");//redirect the user to member dashboard if theyre not an executive member
         }
+        //data to be returned
+        let publicUrl = await supabase.storage.from("files").getPublicUrl(currentUser.image.substring(currentUser.image.indexOf("/")));//removing the first "file/"
+        currentUser = {...currentUser,image: publicUrl.data.publicUrl}
+        let returnData = {currentUser}; //initially with the current logged in user
+        //EVENTS
+        const {data: Events, error} = await supabase.from("Events")
+                            .select('*')                      
+        returnData = {...returnData, events: Events};//insert the events data
+
+        //MEMBERS
+        const {data: Member} = await supabase.from("Member").select('*');
+        returnData = {...returnData, members: Member};
+        //TEAM
+        returnData = {...returnData, team: Team};//insert the events data
+        //get more data like event registrations, event attendance, get the turnout percentage
+        return returnData;
     }
     else{
         redirect(303,"/login");

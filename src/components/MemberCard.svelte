@@ -24,7 +24,7 @@
 	}
 </script>
 
-<div transition:slide class="flex rounded-lg border p-3 shadow-md lg:hover:scale-105">
+<div transition:slide class="flex rounded-lg border p-3 lg:hover:scale-105 lg:hover:shadow">
 	<a
 		class="mr-2 h-[50px] w-[50px] overflow-hidden rounded-full border-2"
 		href={`/community/${member.username}`}

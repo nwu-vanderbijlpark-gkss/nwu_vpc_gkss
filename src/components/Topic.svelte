@@ -4,6 +4,7 @@
 	let { topic, text, myProfile, deleteTopic, index } = $props();
 	import moment from 'moment';
 	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 	let fav_id = $state([]);
 	const setFavId = () => {
 		let fav = localStorage.getItem('fav_ids');
@@ -96,7 +97,6 @@
 			.join('');
 	}
 
-	console.log(topic.topic_images);
 	function getGridClass(count) {
 		switch (count) {
 			case 1:
@@ -137,7 +137,7 @@
 	let remainingCount = Math.max(0, topic.topic_images.length - 5);
 </script>
 
-<div class="bg-white p-2 hover:bg-gray-50">
+<div transition:slide class="bg-white p-2 hover:bg-gray-50">
 	<div class="flex items-center justify-between text-sm">
 		<span class="flex items-center">
 			<div class="mr-2 h-[25px] w-[25px] overflow-hidden rounded-full">

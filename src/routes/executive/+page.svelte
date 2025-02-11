@@ -1,113 +1,140 @@
 <script>
-    // This member can view stats and charts
+	// This member can view stats and charts
 
-    import { slide } from "svelte/transition";
-    import moment from "moment";
-    let { data } = $props();
-    console.log(data);
+	import { slide } from 'svelte/transition';
+	import moment from 'moment';
+	import { CalendarClockIcon, Users } from 'lucide-svelte';
+	import Chart from '../../components/Chart.svelte';
+	let { data } = $props();
+	let year = new Date();
+	let levels_of_study = ['1st', '2nd', '3rd', '4th', '4th+'];
+	year = year.getFullYear();
+	let memberDetailed = $state({
+		gender: { males: 0, females: 0, other: 0 },
+		ages: [],
+		year_of_study: [
+			{ year: '1st', count: 0 },
+			{ year: '2nd', count: 0 },
+			{ year: '3rd', count: 0 },
+			{ year: '4th', count: 0 }
+		],
+		interests: [],
+		interestsDetailed: []
+	});
+	// Object to store interest counts for faster lookup
+	const interestMap = new Map();
+
+	for (const member of data.members) {
+		if (member.interests) {
+			for (const interest of member.interests.split(',')) {
+				if (interestMap.has(interest)) {
+					// Increment count if interest already exists
+					interestMap.get(interest).count += 1;
+				} else {
+					// Add new interest with count 1
+					interestMap.set(interest, { name: interest, count: 1 });
+				}
+			}
+		}
+	}
+	// Convert map values to an array
+	memberDetailed.interestsDetailed = Array.from(interestMap.values());
+	/**YEAR OF STUDY*/
+	for (const member of data.members) {
+		if (member.year_of_study) {
+			if (levels_of_study.includes(member.year_of_study)) {
+				memberDetailed.year_of_study[levels_of_study.indexOf(member.year_of_study)].count++;
+			}
+		}
+	}
+	console.log(memberDetailed.year_of_study);
+
+	//find the sum of males and females
+	for (const member of data.members) {
+		if (member.gender) {
+			if (member.gender.toLowerCase() == 'male') {
+				memberDetailed.gender.males++;
+			} else if (member.gender.toLowerCase() == 'female') {
+				memberDetailed.gender.females++;
+			} else {
+				memberDetailed.gender.other++;
+			}
+		}
+	}
+	//get the percentages
+	memberDetailed.gender.males = ((memberDetailed.gender.males / data.members.length) * 100).toFixed(
+		1
+	);
+	memberDetailed.gender.females = (
+		(memberDetailed.gender.females / data.members.length) *
+		100
+	).toFixed(1);
+	console.log(data);
 </script>
 
-<div class="p-6 lg:max-h-[85svh] overflow-auto">
-    <h1 class="text-4xl font-extrabold text-center text-primary mb-10">Admin Dashboard</h1>
+<div class="overflow-auto p-6 lg:max-h-[85svh]">
+	<h1 class="my-3 text-center text-2xl font-extrabold text-primary">Executive Dashboard</h1>
 
-    <!-- Stats Section -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Members Card -->
-        <div class="card bg-primary text-white shadow-xl transition-all transform hover:scale-105">
-            <div class="card-body">
-                <h2 class="text-5xl font-bold">{data.members.length}</h2>
-                <p class="text-lg">Total Members</p>
-            </div>
-        </div>
+	<div class="stats stats-vertical w-full shadow lg:stats-horizontal">
+		<div class="stat">
+			<div class="stat-figure text-primary">
+				<Users />
+			</div>
+			<div class="stat-title">Total Members</div>
+			<div class="stat-value text-primary">{data.members.length}</div>
+			<div class="stat-desc">Members signed up on this system</div>
+		</div>
+		<div class="stat">
+			<div class="stat-figure text-primary"></div>
+			<div class="stat-title">Males</div>
+			<div class="stat-value text-primary">{memberDetailed.gender.males}%</div>
+		</div>
+		<div class="stat">
+			<div class="stat-figure text-primary"></div>
+			<div class="stat-title">Females</div>
+			<div class="stat-value text-primary">{memberDetailed.gender.females}%</div>
+		</div>
 
-        <!-- Events Card -->
-        <div class="card bg-secondary text-white shadow-xl transition-all transform hover:scale-105">
-            <div class="card-body">
-                <h2 class="text-5xl font-bold">{data.events.length}</h2>
-                <p class="text-lg">Total Events</p>
-            </div>
-        </div>
-
-        <!-- Upcoming Events Card -->
-        <div class="card bg-info text-white shadow-xl transition-all transform hover:scale-105">
-            <div class="card-body">
-                <h2 class="text-5xl font-bold">
-                    {data.events.filter(event => moment(event.date).isAfter(moment())).length}
-                </h2>
-                <p class="text-lg">Upcoming Events</p>
-            </div>
-        </div>
-
-        <!-- Past Events Card -->
-        <div class="card bg-error text-white shadow-xl transition-all transform hover:scale-105">
-            <div class="card-body">
-                <h2 class="text-5xl font-bold">
-                    {data.events.filter(event => moment(event.date).isBefore(moment())).length}
-                </h2>
-                <p class="text-lg">Past Events</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Placeholder for future charts and graphs -->
-    <div class="mt-12">
-        <h2 class="text-2xl font-bold text-center text-primary mb-6">Analytics</h2>
-
-        <!-- Placeholder for charts and visual stats -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Example Chart 1 -->
-            <div class="card bg-base-200 shadow-lg">
-                <div class="card-body">
-                    <h3 class="text-xl font-semibold">Chart 1</h3>
-                    <div class="h-64 bg-gray-200 rounded-lg"></div> <!-- Placeholder for chart -->
-                </div>
-            </div>
-
-            <!-- Example Chart 2 -->
-            <div class="card bg-base-200 shadow-lg">
-                <div class="card-body">
-                    <h3 class="text-xl font-semibold">Chart 2</h3>
-                    <div class="h-64 bg-gray-200 rounded-lg"></div> <!-- Placeholder for chart -->
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="stat">
+			<div class="stat-figure text-secondary">
+				<CalendarClockIcon />
+			</div>
+			<div class="stat-title">Total Events</div>
+			<div class="stat-value text-secondary">{data.events.length}</div>
+			<div class="stat-desc">
+				Events for the year: {year}
+			</div>
+		</div>
+	</div>
+	<h1 class="my-3 text-center text-2xl font-extrabold text-primary">Charts</h1>
+	<div class="flex w-full flex-col py-3 lg:grid lg:grid-cols-2">
+		<div>
+			<h2 class="text-center text-lg font-bold text-base-200">Student interests in tech</h2>
+			<Chart
+				yValues={memberDetailed.interestsDetailed.map((interest) => interest.count)}
+				xValues={memberDetailed.interestsDetailed.map((interest) => interest.name)}
+				title="Students"
+				backgroundColor="red"
+				borderColor="red"
+				xLabel="Interest"
+				yLabel="Number of students"
+			/>
+		</div>
+		<div>
+			<h2 class="text-center text-lg font-bold text-base-200">Students per year of study</h2>
+			<Chart
+				yValues={memberDetailed.year_of_study.map((interest) => interest.count)}
+				xValues={memberDetailed.year_of_study.map((interest) => interest.year)}
+				title="Students"
+				backgroundColor="red"
+				borderColor="red"
+				xLabel="Interest"
+				yLabel="Number of students"
+				chartType="pie"
+			/>
+		</div>
+	</div>
 </div>
 
 <style>
-    .card {
-        @apply rounded-xl p-6 flex items-center justify-center transition-all duration-300;
-    }
-
-    .bg-primary {
-        @apply bg-blue-600;
-    }
-
-    .bg-secondary {
-        @apply bg-green-600;
-    }
-
-    .bg-accent {
-        @apply bg-yellow-600;
-    }
-
-    .bg-info {
-        @apply bg-teal-600;
-    }
-
-    .bg-error {
-        @apply bg-red-600;
-    }
-
-    .btn {
-        @apply px-6 py-3 rounded-full text-white font-semibold transition-colors;
-    }
-
-    .btn-primary {
-        @apply bg-blue-600 hover:bg-blue-700;
-    }
-
-    .btn-secondary {
-        @apply bg-green-600 hover:bg-green-700;
-    }
 </style>
