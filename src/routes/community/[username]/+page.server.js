@@ -19,10 +19,10 @@ export async function load({params, locals: {supabase}}) {
         if(data.length > 0){
             //fetch all topics by this member
             //did this offline, check it when online...
-            const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image,name,surname),Comment(*),topic_views(*),topic_images(image)").eq("author_id",data[0].id).order('created_at', { ascending: false });
+            const {data: Topic, error} = await supabase.from("Topic").select("id,content,created_at,tags,topic, Member(username,image,name,surname),Comment(*),topic_views(*),topic_images(image)").eq("author_id",data[0].id).order('created_at', { ascending: false });
             let allTopics = [];
             let user_views = 0;
-            for(let topic of Forum_topic){
+            for(let topic of Topic){
                 let publicUrl = await supabase.storage.from("files").getPublicUrl(topic.Member.image.substring(topic.Member.image.indexOf("/")+1));//removing the first "file/"
                 user_views += topic.topic_views.length;
                 topic = {...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username, fullName: topic.Member.name + " " + topic.Member.surname}};
@@ -60,7 +60,7 @@ export async function load({params, locals: {supabase}}) {
         }
         else{
             //the query was negative, as the username does not exist in the database, we throw error
-            error(404, "User not found");
+            return {notFound: true}
         }
     }
     

@@ -31,10 +31,8 @@ export const actions =   {
         return {error: error.code}
       }else{
         //get the member data, check if the interests are not null, if null, then redirect to onboarding
-        console.log(data)
         const {data: Member} = await supabase.from("Member").select().eq("id",data.user.id);
         if(Member.length > 0){
-            console.log(Member[0].interests);
             if(Member[0].interests){
               redirect(303,redirectTo)
             }
@@ -47,7 +45,6 @@ export const actions =   {
     resetPassword: async ({locals: {supabase}, request}) => {
       const formData = await request.formData();
       const email = formData.get("email");
-      console.log(email)
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: 'https://nwu-vaal-gkss.netlify.app/update-password',
       })      

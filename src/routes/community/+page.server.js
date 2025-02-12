@@ -13,7 +13,7 @@ export const actions =   {
             //making a post
             const formData = await request.formData();
             const images = formData.getAll("files[]");
-            const {data,error} = await supabase.from("Forum_topic").insert({
+            const {data,error} = await supabase.from("Topic").insert({
                 topic: formData.get("topic"),
                 content: formData.get("content"),
                 tags: formData.get("tags"),
@@ -29,7 +29,6 @@ export const actions =   {
                     let d;
                     if(image instanceof File){
                         
-                        console.log("processing file "+image.name)
                         const file_url = `images/topic_images/${Date.now()}_${image.name}`;
                         const {data,error} = await supabase.storage
                                                     .from("files")
@@ -46,6 +45,10 @@ export const actions =   {
                         }
                     }
                 }
+                //award the member with 20 points
+                const {data: Member} = await supabase.from("Member").select("points").eq("id",user.id);
+                let newPts = Number(Member[0].points) + 20;
+                await supabase.from("Member").update({points: newPts}).eq("id",user.id);
                 redirect(303,`/community/topic/${topic_id}`);
             }
         }
@@ -55,7 +58,7 @@ export const actions =   {
     deleteTopic : async ({request, locals: {supabase}}) => {
         const data = await request.formData();
         const id = data.get("id");
-        const {error} = await supabase.from("Forum_topic").delete().eq("id",id);
+        const {error} = await supabase.from("Topic").delete().eq("id",id);
         if(error){
             console.error(error);
         }

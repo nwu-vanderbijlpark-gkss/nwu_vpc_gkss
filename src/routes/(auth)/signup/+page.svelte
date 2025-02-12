@@ -1,6 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { fade, slide } from 'svelte/transition';
+	import Loading from '../../../components/Loading.svelte';
 
 	let email = $state('');
 	let password = $state('');
@@ -30,6 +31,7 @@
 		if (isValid) {
 			// Submit the form if all validations pass
 			sessionStorage.setItem('signup', true);
+			isLoading = true;
 			event.target.submit();
 		}
 	}
@@ -42,6 +44,7 @@
 		inputField.insertAdjacentElement('afterend', errorMessage);
 	}
 	let { form } = $props();
+	let isLoading = $state(false);
 </script>
 
 <title>Signup | NWU Vaal GKSS</title>
@@ -50,45 +53,50 @@
 <meta name="twitter:image:alt" content="Signup | NWU Vaal GKSS" />
 <meta property="title" content="Signup" />
 
-<div transition:slide class="flex w-full min-h-screen bg-[#0c0c0c] justify-around items-center p-5">
-	<img src="/createAccount.png" alt="code" class="w-2/5 rounded-lg hidden lg:flex"/>
-	<div class="flex flex-col items-center p-5 justify-center space-y-5 rounded-xl w-full lg:w-2/5 lg:shadow-2xl lg:bg-base-200">
-		<h1 class="text-xl font-bold text-white">Create an account</h1>
-	<p class="text-white">
-		Use your gmail account, you will receive an email then open gmail and verify your email.
-	</p>
-	<p class=" text-error">{form?.error}</p>
-	<form
-		use:enhance
-		method="post"
-		class="flex w-full flex-col gap-5 p-5"
-		onsubmit={validateForm}
+<div transition:slide class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
+	<img src="/createAccount.png" alt="code" class="hidden w-2/5 rounded-lg lg:flex" />
+	<div
+		class="flex w-full flex-col items-center justify-center space-y-5 rounded-xl p-5 lg:w-2/5 lg:bg-base-200 lg:shadow-2xl"
 	>
-		<label class="form-control w-full">
-			<p>Email</p>
-			<input
-				type="email"
-				bind:value={email}
-				name="email"
-				class="input input-bordered"
-				id="email"
-				placeholder="name@domain.com"
-			/>
-		</label>
-		<label class="form-control w-full">
-			<p>Password</p>
-			<input
-				type="password"
-				bind:value={password}
-				name="password"
-				class="input input-bordered"
-				id="password"
-				placeholder="Create your password"
-			/>
-		</label>
-		<button type="submit" class="btn btn-primary text-white">Signup</button>
-		<a href="/login" class="btn btn-outline">Login here.</a>
-
-	</form>
-</div>
+		{#if isLoading}
+			<Loading />
+		{:else}
+			<h1 class="text-xl font-bold text-white">Create an account</h1>
+			<p class="text-white">
+				Use your gmail account, you will receive an email then open gmail and verify your email.
+			</p>
+			<p class=" text-error">{form?.error}</p>
+			<form
+				use:enhance
+				method="post"
+				class="flex w-full flex-col gap-5 p-5"
+				onsubmit={validateForm}
+			>
+				<label class="form-control w-full">
+					<p>Email</p>
+					<input
+						type="email"
+						bind:value={email}
+						name="email"
+						class="input input-bordered"
+						id="email"
+						placeholder="name@domain.com"
+					/>
+				</label>
+				<label class="form-control w-full">
+					<p>Password</p>
+					<input
+						type="password"
+						bind:value={password}
+						name="password"
+						class="input input-bordered"
+						id="password"
+						placeholder="Create your password"
+					/>
+				</label>
+				<button type="submit" class="btn btn-primary text-white">Signup</button>
+				<a href="/login" class="btn btn-outline">Login here.</a>
+			</form>
+		{/if}
+	</div>
 </div>

@@ -16,6 +16,7 @@
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
+	import NotFoundPage from '../../../../components/NotFoundPage.svelte';
 	// Web Share API function
 	export const shareTopic = async (topicTitle, url) => {
 		if (navigator.share) {
@@ -43,24 +44,36 @@
 	};
 	let { data } = $props();
 	let topic = $state(null);
+	let notFound = $state(false);
 	onMount(() => {
 		const id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 		topic = data.allTopics.filter((topic) => topic.id == id)[0];
+		if (!topic) {
+			notFound = true;
+		}
 	});
 </script>
 
 {#if !topic}
-	<div class="my-20 flex flex-col items-center justify-center">
-		<p class="flex items-center text-lg font-bold">
-			Loading Please wait... <span class="loading loading-ring loading-lg"></span>
-		</p>
-		<p>
-			If this is taking longer, please reload the page or <button
-				class="btn btn-primary"
-				onclick={() => location.reload()}>Click here...</button
-			>
-		</p>
-	</div>
+	{#if notFound}
+		<NotFoundPage
+			title="Topic not found"
+			homeUrl="/community"
+			message="Sorry, this topic does not exist, it might have been deleted by its owner."
+		/>
+	{:else}
+		<div class="my-20 flex flex-col items-center justify-center">
+			<p class="flex items-center text-lg font-bold">
+				Loading Please wait... <span class="loading loading-ring loading-lg"></span>
+			</p>
+			<p>
+				If this is taking longer, please reload the page or <button
+					class="btn btn-primary"
+					onclick={() => location.reload()}>Click here...</button
+				>
+			</p>
+		</div>
+	{/if}
 {:else}
 	<title>{topic.topic} | NWU Vaal GKSS</title>
 	<div class="space-y-2 rounded-lg bg-white" transition:slide>

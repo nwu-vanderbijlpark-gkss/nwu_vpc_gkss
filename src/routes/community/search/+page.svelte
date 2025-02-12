@@ -16,8 +16,10 @@
 	import Topic from '../../../components/Topic.svelte';
 	import Project from '../../../components/Project.svelte';
 	import MemberCard from '../../../components/MemberCard.svelte';
+	import Loading from '../../../components/Loading.svelte';
 
 	let text = $state('');
+	let isLoading = $state(false);
 	let results = $state([]); //topic results array
 	let project_results = $state([]); //project results array
 	let member_results = $state([]); //members results array
@@ -37,10 +39,11 @@
 	let { data } = $props();
 	const handleSearch = (event) => {
 		//clear all the result arrays
+		isLoading = true;
 		results = [];
 		project_results = [];
 		member_results = [];
-		if (text.length < 3) return 'searching...';
+		if (text.length < 3 && text.length > 0) return 'searching...';
 		text = text.toLowerCase();
 		let textTokens = text.split(/\s+/);
 
@@ -67,6 +70,7 @@
 
 				if (topicMatch || contentMatch || tagsMatch) {
 					results.push(post); //add the post in the results array
+					isLoading = false;
 				}
 			}
 		}
@@ -80,6 +84,7 @@
 				const technologiesMatch = isFound(project.technologies);
 				if (nameMatch || linkMatch || descriptionMatch || technologiesMatch) {
 					project_results.push(project);
+					isLoading = false;
 				}
 			}
 		}
@@ -93,6 +98,7 @@
 
 				if (nameMatch || usernameMatch || qualificationMatch || interestsMatch) {
 					member_results.push(member);
+					isLoading = false;
 				}
 			}
 		}
@@ -166,7 +172,7 @@
 			<input
 				class="input input-bordered w-full bg-gray-50"
 				bind:value={text}
-				onkeydown={() => handleSearch()}
+				onkeyup={() => handleSearch()}
 				type="search"
 				placeholder="Search here..."
 			/>
@@ -174,6 +180,9 @@
 		</form>
 	</section>
 
+	{#if isLoading}
+		<Loading />
+	{/if}
 	{#if results.length > 0 || project_results.length > 0 || member_results.length > 0}
 		<div class="bg-white p-2">
 			<p class="text-sm text-info">

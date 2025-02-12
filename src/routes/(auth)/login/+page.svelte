@@ -1,7 +1,8 @@
 <script>
 	import { ArrowLeft } from 'lucide-svelte';
-import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
+	import Loading from '../../../components/Loading.svelte';
 
 	let email = $state('');
 	let password = $state('');
@@ -31,6 +32,7 @@ import { onMount } from 'svelte';
 
 		if (isValid) {
 			// Submit the form if validations pass
+			isLoading = true;
 			event.target.submit();
 		}
 	};
@@ -46,7 +48,8 @@ import { onMount } from 'svelte';
 		fromSignup = sessionStorage.getItem('signup');
 	});
 	let { form } = $props();
-	let view = $state("login");//can be login for the login form or reset for reset password form
+	let view = $state('login'); //can be login for the login form or reset for reset password form
+	let isLoading = $state(false);
 </script>
 
 <title>Login | NWU Vaal GKSS</title>
@@ -54,67 +57,104 @@ import { onMount } from 'svelte';
 <meta name="twitter:title" content="Login | NWU Vaal GKSS" />
 <meta name="twitter:image:alt" content="Login | NWU Vaal GKSS" />
 <meta property="title" content="Login" />
-<div transition:slide class="flex w-full min-h-screen bg-[#0c0c0c] justify-around items-center p-5">
-	<img src="/geek.png" alt="code" class="w-2/5 rounded-lg hidden lg:flex"/>
-	<div class="flex flex-col items-center p-5 justify-center space-y-5 rounded-xl w-full lg:w-2/5 lg:shadow-2xl lg:bg-base-200">
-		<h1 class="text-xl font-bold text-white flex items-center w-full space-x-2">
-			{#if view == "login"}
-			 Login to your account
-			 {:else}
-			  <button class="btn btn-ghost rounded-full" onclick={(event) => {event.preventDefault(); view = "login"}}><ArrowLeft/></button> Reset Password
-			{/if}
-		</h1>
-		<p class="text-error">
-			{#if form?.error === "invalid_credentials"}
-			  Incorrect email or password 
-			  <a href="/login" onclick={(event) => {event.preventDefault(); view = "reset"}}  class="link text-sm link-secondary">Forgot password?</a>
-			{/if}
-		  </p>
-		  {#if view == "login"}
-			<form transition:slide method="post" action="/login?/login" class="flex w-full flex-col gap-5 p-5 " onsubmit={validateForm}>
-			<label class="form-control w-full">
-				<p>Email</p>
-				<input
-					type="email"
-					bind:value={email}
-					name="email"
-					class="input input-bordered"
-					id="email"
-					placeholder="name.surname@domain.com"
-				/>
-			</label>
-			<label class="form-control w-full">
-				<p>Password</p>
-				<input
-					type="password"
-					bind:value={password}
-					name="password"
-					class="input input-bordered"
-					id="password"
-					placeholder="Enter your password"
-				/>
-			</label>
-			<button type="submit" class="btn btn-primary text-white">Login</button>
-			<a href="/signup" class="btn btn-outline">Create an account here.</a>
-		</form>
-		<div class="w-full flex justify-between">
-			<a href="/login" onclick={(event) => {event.preventDefault(); view = "reset"}} class="btn btn-ghost link-hover link-primary">Forgot password?</a>
-		</div>
+<div transition:slide class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
+	<img src="/geek.png" alt="code" class="hidden w-2/5 rounded-lg lg:flex" />
+	<div
+		class="flex w-full flex-col items-center justify-center space-y-5 rounded-xl p-5 lg:w-2/5 lg:bg-base-200 lg:shadow-2xl"
+	>
+		{#if isLoading}
+			<Loading />
 		{:else}
-		<form method="post" transition:slide action="/login?/resetPassword" class="flex w-full flex-col gap-5 p-2 ">
-			<p>Enter your email to reset password</p>
-			<label class="form-control w-full">
-				<p>Email</p>
-				<input
-					type="email"
-					name="email"
-					class="input input-bordered"
-					id="email"
-					placeholder="Enter your email"
-				/>
-			</label>
-			<button type="submit" class="btn btn-primary text-white">Reset password</button>
-		</form>
+			<h1 class="flex w-full items-center space-x-2 text-xl font-bold text-white">
+				{#if view == 'login'}
+					Login to your account
+				{:else}
+					<button
+						class="btn btn-ghost rounded-full"
+						onclick={(event) => {
+							event.preventDefault();
+							view = 'login';
+						}}><ArrowLeft /></button
+					> Reset Password
+				{/if}
+			</h1>
+			<p class="text-error">
+				{#if form?.error === 'invalid_credentials'}
+					Incorrect email or password
+					<a
+						href="/login"
+						onclick={(event) => {
+							event.preventDefault();
+							view = 'reset';
+						}}
+						class="link link-secondary text-sm">Forgot password?</a
+					>
+				{/if}
+			</p>
+			{#if view == 'login'}
+				<form
+					transition:slide
+					method="post"
+					action="/login?/login"
+					class="flex w-full flex-col gap-5 p-5"
+					onsubmit={validateForm}
+				>
+					<label class="form-control w-full">
+						<p>Email</p>
+						<input
+							type="email"
+							bind:value={email}
+							name="email"
+							class="input input-bordered"
+							id="email"
+							placeholder="name.surname@domain.com"
+						/>
+					</label>
+					<label class="form-control w-full">
+						<p>Password</p>
+						<input
+							type="password"
+							bind:value={password}
+							name="password"
+							class="input input-bordered"
+							id="password"
+							placeholder="Enter your password"
+						/>
+					</label>
+					<button type="submit" class="btn btn-primary text-white">Login</button>
+					<a href="/signup" class="btn btn-outline">Create an account here.</a>
+				</form>
+				<div class="flex w-full justify-between">
+					<a
+						href="/login"
+						onclick={(event) => {
+							event.preventDefault();
+							view = 'reset';
+						}}
+						class="link-hover btn btn-ghost link-primary">Forgot password?</a
+					>
+				</div>
+			{:else}
+				<form
+					method="post"
+					transition:slide
+					action="/login?/resetPassword"
+					class="flex w-full flex-col gap-5 p-2"
+				>
+					<p>Enter your email to reset password</p>
+					<label class="form-control w-full">
+						<p>Email</p>
+						<input
+							type="email"
+							name="email"
+							class="input input-bordered"
+							id="email"
+							placeholder="Enter your email"
+						/>
+					</label>
+					<button type="submit" class="btn btn-primary text-white">Reset password</button>
+				</form>
+			{/if}
 		{/if}
 	</div>
 </div>

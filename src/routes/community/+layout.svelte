@@ -14,6 +14,8 @@
 		Users,
 		X
 	} from 'lucide-svelte';
+	import Loading from '../../components/Loading.svelte';
+	import Editor from '../../components/Editor.svelte';
 
 	let { children, data } = $props();
 	let images = $state([]);
@@ -38,6 +40,7 @@
 	};
 	async function handleSubmit(event) {
 		event.preventDefault();
+		isLoading = true;
 		const formData = new FormData(event.target);
 
 		if (images.length > 0) {
@@ -53,9 +56,9 @@
 			body: formData
 		});
 		//event.target.submit();
-		document.getElementById('my_modal_1').close();
-		//console.log(result);
+		location.reload();
 	}
+	let isLoading = $state(false);
 </script>
 
 <main class="flex min-h-screen divide-x bg-gray-200">
@@ -125,6 +128,7 @@
 				<li>
 					<a
 						href={`/community/topic/${topic.id}`}
+						data-sveltekit-reload
 						class="navItem grid-cols-[(0.5fr, 1.4fr)] grid flex-wrap items-center text-base"
 					>
 						<p class=" font-bold text-gray-500">{index + 1}</p>
@@ -139,87 +143,91 @@
 <!-- Create TOpic modal-->
 <dialog id="my_modal_1" class="modal modal-bottom z-50 sm:modal-middle">
 	<div class="modal-box text-white">
-		<div class="flex items-center justify-between">
-			<p class="text-lg font-bold text-white">Create a topic</p>
-			<div class="modal-action">
-				<form method="dialog">
-					<button class="btn"><X />Close</button>
-				</form>
-			</div>
-		</div>
-		{#if data.email != null}
-			<p class="py-4 text-sm">Enter the required details</p>
-			<form
-				method="post"
-				enctype="multipart/form-data"
-				action="/community?/addTopic"
-				onsubmit={handleSubmit}
-				class="flex w-full flex-col gap-5"
-			>
-				<label class="form-control w-full">
-					<p>Topic</p>
-					<input
-						type="text"
-						name="topic"
-						class="input input-bordered"
-						id="topic"
-						placeholder="Study tips..."
-						required
-					/>
-				</label>
-				<label class="form-control w-full">
-					<p>Content</p>
-					<textarea
-						name="content"
-						class="textarea textarea-bordered"
-						id="content"
-						placeholder="What's on your mind?"
-					></textarea>
-				</label>
-				<label class="form-control w-full">
-					<p>Images</p>
-					<div class="my-2 flex w-full flex-wrap space-x-2">
-						{#each images as image, index}
-							<button
-								type="button"
-								class="tooltip tooltip-error"
-								data-tip="Click to remove"
-								onclick={() => images.splice(index, 1)}
-							>
-								<!-- svelte-ignore a11y_click_events_have_key_events -->
-								<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-								<img
-									src={URL.createObjectURL(image)}
-									alt={image.name}
-									class="h-10 w-10 rounded border p-1"
-								/>
-							</button>
-						{/each}
-					</div>
-					<input
-						type="file"
-						accept="image/*"
-						name="images"
-						class="file-input file-input-bordered"
-						id="images"
-						multiple
-						onchange={handleFileChange}
-					/>
-				</label>
-				<label class="form-control w-full">
-					<p>Tags</p>
-					<textarea
-						name="tags"
-						class="textarea textarea-bordered"
-						id="tags"
-						placeholder="Enter tags, comma separated"
-					></textarea>
-				</label>
-				<button type="submit" class="btn btn-primary text-white">Create</button>
-			</form>
+		{#if isLoading}
+			<Loading />
 		{:else}
-			<p class="py-4 text-sm">You need to login to be able to create a topic</p>
-			<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
+			<div class="flex items-center justify-between">
+				<p class="text-lg font-bold text-white">Create a topic</p>
+				<div class="modal-action">
+					<form method="dialog">
+						<button class="btn"><X />Close</button>
+					</form>
+				</div>
+			</div>
+			{#if data.email != null}
+				<p class="py-4 text-sm">Enter the required details</p>
+				<form
+					method="post"
+					enctype="multipart/form-data"
+					action="/community?/addTopic"
+					onsubmit={handleSubmit}
+					class="flex w-full flex-col gap-5"
+				>
+					<label class="form-control w-full">
+						<p>Topic</p>
+						<input
+							type="text"
+							name="topic"
+							class="input input-bordered"
+							id="topic"
+							placeholder="Study tips..."
+							required
+						/>
+					</label>
+					<label class="form-control w-full">
+						<p>Content</p>
+						<textarea
+							name="content"
+							class="textarea textarea-bordered"
+							id="content"
+							placeholder="What's on your mind?"
+						></textarea>
+					</label>
+					<label class="form-control w-full">
+						<p>Images</p>
+						<div class="my-2 flex w-full flex-wrap space-x-2">
+							{#each images as image, index}
+								<button
+									type="button"
+									class="tooltip tooltip-error"
+									data-tip="Click to remove"
+									onclick={() => images.splice(index, 1)}
+								>
+									<!-- svelte-ignore a11y_click_events_have_key_events -->
+									<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+									<img
+										src={URL.createObjectURL(image)}
+										alt={image.name}
+										class="h-10 w-10 rounded border p-1"
+									/>
+								</button>
+							{/each}
+						</div>
+						<input
+							type="file"
+							accept="image/*"
+							name="images"
+							class="file-input file-input-bordered"
+							id="images"
+							multiple
+							onchange={handleFileChange}
+						/>
+					</label>
+					<label class="form-control w-full">
+						<p>Tags</p>
+						<textarea
+							name="tags"
+							class="textarea textarea-bordered"
+							id="tags"
+							placeholder="Enter tags, comma separated"
+						></textarea>
+					</label>
+					<button type="submit" class="btn btn-primary text-white">Create</button>
+				</form>
+			{:else}
+				<p class="py-4 text-sm">You need to login to be able to create a topic</p>
+				<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
+			{/if}
 		{/if}
 	</div>
 </dialog>

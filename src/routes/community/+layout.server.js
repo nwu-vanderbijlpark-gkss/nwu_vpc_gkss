@@ -4,13 +4,13 @@ export async function load({locals: {supabase}}) {
 
     /**TOPICS */
     //fetch all topics
-    const {data: Forum_topic, error} = await supabase.from("Forum_topic").select("id,content,created_at,tags,topic, Member(username,image,name, surname),Comment(*,Member(username, image, name, surname)),topic_views(*),topic_images(image)").order('created_at', { ascending: false });
+    const {data: Topic, error} = await supabase.from("Topic").select("id,content,created_at,tags,topic, Member(username,image,name, surname),Comment(*,Member(username, image, name, surname)),topic_views(*),topic_images(image)").order('created_at', { ascending: false });
     if(error){
         console.error(error)
     }
     let allTopics = [];
     //format the topics for viewing, by getting the public url for the images on each topic 
-    for(let topic of Forum_topic){
+    for(let topic of Topic){
         //for member profile images
         let publicUrl = await supabase.storage.from("files").getPublicUrl(topic.Member.image.substring(topic.Member.image.indexOf("/")+1));//removing the first "file/"
         topic = {...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username, fullName: topic.Member.name + " " +topic.Member.surname}}

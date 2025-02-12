@@ -15,7 +15,6 @@
 
 	let { children, data } = $props();
 	const currentUser = data.currentUser;
-	console.log(currentUser.image);
 </script>
 
 <title>Executive | NWU Vaal GKSS </title>

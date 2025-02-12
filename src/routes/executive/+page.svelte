@@ -47,7 +47,6 @@
 			}
 		}
 	}
-	console.log(memberDetailed.year_of_study);
 
 	//find the sum of males and females
 	for (const member of data.members) {
@@ -69,7 +68,6 @@
 		(memberDetailed.gender.females / data.members.length) *
 		100
 	).toFixed(1);
-	console.log(data);
 </script>
 
 <div class="overflow-auto p-6 lg:max-h-[85svh]">

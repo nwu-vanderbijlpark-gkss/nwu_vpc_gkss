@@ -27,7 +27,7 @@
 		{ email: 'friend@example.com', status: 'Pending', date: '2024-03-01' },
 		{ email: 'colleague@example.com', status: 'Accepted', date: '2024-02-28' }
 	]);
-	let member = $state(data);
+	let member = $state(data.member);
 	let memberData = $state({
 		name: 'Lethabo',
 		surname: 'Maepa',
@@ -58,13 +58,7 @@
 </script>
 
 <title>Dashboard | NWU VAAL GKSS</title>
-<div class="toast toast-end toast-bottom bottom-16 lg:bottom-0">
-	<div class="alert alert-info">
-		<span class="flex gap-4 font-bold"
-			><AlertCircle /> Note that this page is still being developed</span
-		>
-	</div>
-</div>
+
 <!-- Logout modal-->
 <dialog id="logoutModal" class="modal z-50 sm:modal-middle">
 	<div class="modal-box text-white">
@@ -98,7 +92,7 @@
 		</div>
 
 		<div class="flex flex-grow flex-col space-y-2 p-4">
-			{#each [{ id: 'stats', icon: ChartBar, text: 'Dashboard' }, { id: 'profile', icon: User, text: 'Profile' }, { id: 'security', icon: Shield, text: 'Security' }, { id: 'invite', icon: UserPlus, text: 'Invite Friends' }] as item}
+			{#each [{ id: 'stats', icon: ChartBar, text: 'Dashboard' }, { id: 'profile', icon: User, text: 'Profile' }, { id: 'security', icon: Shield, text: 'Security' }] as item}
 				<button
 					class="flex items-center space-x-2 rounded-lg p-3 {activeTab === item.id
 						? 'bg-primary text-white'
@@ -164,15 +158,17 @@
 	<main class="mb-16 flex-1 p-6 text-base-200 md:mb-0 md:ml-64">
 		{#if activeTab === 'stats'}
 			<!-- Dashboard content -->
-			<div transition:slide class="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Next Event', icon: Calendar, value: memberData.upcomingEvents[0]?.title, sub: memberData.upcomingEvents[0]?.date ? moment(memberData.upcomingEvents[0].date).format('MMMM D, YYYY') : 'No events' }, { title: 'Recent Achievement', icon: Book, value: memberData.achievements[0]?.title, sub: memberData.achievements[0]?.date ? moment(memberData.achievements[0].date).format('MMMM D, YYYY') : 'No achievements' }] as stat}
-					<div class="rounded-xl bg-white p-6 shadow-md">
-						<div class="flex items-center justify-between">
-							<h3 class="text-lg font-semibold">{stat.title}</h3>
+			<div class="stats stats-vertical my-4 w-full shadow lg:stats-horizontal">
+				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Study Level', icon: Calendar, value: member.year_of_study, sub: '' }, { title: 'Age', icon: Book, value: moment(member.date_of_birth)
+								.fromNow()
+								.substring(0, moment(member.date_of_birth).fromNow().lastIndexOf('a')) }] as stat}
+					<div class="stat">
+						<div class="stat-figure">
 							<svelte:component this={stat.icon} class="text-primary" size={24} />
 						</div>
-						<p class="mt-2 text-xl font-semibold">{stat.value}</p>
-						<p class="mt-1 text-sm text-gray-600">{stat.sub}</p>
+						<div class="stat-title">{stat.title}</div>
+						<div class="stat-value">{stat.value}</div>
+						<div class="stat-desc">{stat.sub}</div>
 					</div>
 				{/each}
 			</div>
@@ -191,17 +187,18 @@
 				</div>
 
 				<div class="rounded-xl bg-white p-6 shadow-md">
-					<h3 class="mb-4 text-xl font-semibold">Recent Activity</h3>
+					<h3 class="mb-4 text-xl font-semibold">Upcoming Events and sessions</h3>
 					<div class="space-y-4">
-						{#each [...memberData.achievements, ...memberData.upcomingEvents]
+						{#each data.events
 							.sort((a, b) => moment(b.date).valueOf() - moment(a.date).valueOf())
-							.slice(0, 5) as activity}
+							.slice(0, 5) as event}
 							<div class="flex items-start">
 								<div class="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-primary"></div>
 								<div class="ml-4">
-									<p class="font-medium">{activity.title}</p>
+									<p class="font-medium">{event.topic}</p>
+									<p class="font-medium">Venue: <span class="font-bold">{event.venue}</span></p>
 									<p class="text-sm text-gray-600">
-										{moment(activity.date).format('MMMM D, YYYY')}
+										{moment(event.date).format('LLL')}
 									</p>
 								</div>
 							</div>
@@ -214,8 +211,6 @@
 		{:else if activeTab === 'security'}
 			<!-- Security content -->
 			<Page />
-		{:else if activeTab === 'invite'}
-			<Invite history={inviteHistory} />
 		{/if}
 	</main>
 </div>

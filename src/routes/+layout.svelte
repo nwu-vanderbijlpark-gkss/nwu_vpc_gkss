@@ -4,7 +4,6 @@
 	import Header from '../components/Header.svelte';
 	import PwaInstallPrompt from '../components/PWAInstallPrompt.svelte';
 	let { children, data } = $props();
-	console.log(data);
 </script>
 
 <PwaInstallPrompt />

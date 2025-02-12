@@ -94,7 +94,10 @@ export const actions = {
                         rating
                     });
             }
-    
+            //award the member with 50 points
+            const {data: Member} = await supabase.from("Member").select("points").eq("id",user.id);
+            let newPts = Number(Member[0].points) + 50;
+            await supabase.from("Member").update({points: newPts}).eq("id",user.id);
             if (result.error) {
                 return {
                     status: 500,
