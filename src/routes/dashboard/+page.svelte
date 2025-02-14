@@ -13,7 +13,12 @@
 		UserPlus,
 		Mail,
 		X,
-		AlertCircle
+		AlertCircle,
+		XCircle,
+		Upload,
+		EditIcon,
+		PenBoxIcon,
+		Camera
 	} from 'lucide-svelte';
 	import Profile from './components/Profile.svelte';
 	import Invite from './components/Invite.svelte';
@@ -28,25 +33,22 @@
 		{ email: 'colleague@example.com', status: 'Accepted', date: '2024-02-28' }
 	]);
 	let member = $state(data.member);
-	let memberData = $state({
-		name: 'Lethabo',
-		surname: 'Maepa',
-		date_of_birth: '2004-05-06',
-		gender: 'Male',
-		qualification: 'hhh',
-		student_no: 12345678,
-		year_of_study: '2nd',
-		profileImage: '/Stay Wild.png',
-		interests: ['Web Development', 'AI', 'Mobile Dev', 'Data Science'],
-		achievements: [
-			{ title: 'First Project Completed', date: '2024-01-15' },
-			{ title: 'Hackathon Winner', date: '2024-02-20' }
-		],
-		upcomingEvents: [
-			{ title: 'Tech Workshop', date: '2024-03-15' },
-			{ title: 'Coding Competition', date: '2024-03-20' }
-		]
-	});
+	let birthDayMonth = member.date_of_birth.substring(member.date_of_birth.indexOf('-') + 1);
+
+	// Current year
+	let currentYear = moment().year();
+
+	// Set the birthday to the current year, using birth month and day
+	let birthdayThisYear = moment(`${currentYear}-${birthDayMonth}`, 'YYYY-MM-DD');
+
+	// Calculate the difference in days from today
+	let birthDayCountdown = birthdayThisYear.diff(moment(), 'days');
+
+	// If the birthday has already passed this year, adjust it to next year
+	if (birthDayCountdown < 0) {
+		birthdayThisYear.add(1, 'year');
+		birthDayCountdown = birthdayThisYear.diff(moment(), 'days');
+	}
 
 	// Handlers
 	const handleLogout = (event) => {
@@ -74,17 +76,57 @@
 		</div>
 	</div>
 </dialog>
+<!-- Logout modal-->
+<dialog id="imageModal" class="modal z-50 sm:modal-middle">
+	<div class="modal-box flex flex-col items-center justify-center text-white">
+		<div class="flex w-full items-center justify-between">
+			<p class="text-lg font-bold text-white">{member.name} {member.surname}</p>
+			<button onclick={() => imageModal.close()} class="btn btn-ghost"><XCircle /></button>
+		</div>
+		<img
+			src={member.image}
+			alt="Profile"
+			class=" h-40 w-40 rounded-full border-4 border-primary/20 object-cover transition-all group-hover:border-primary/50"
+		/>
+		<p class="py-4 text-sm">Upload new picture</p>
+		<div class="">
+			<form
+				method="post"
+				enctype="multipart/form-data"
+				action="?/uploadImage"
+				class="w-full space-y-5"
+			>
+				<input
+					class="file-input file-input-bordered w-full"
+					type="file"
+					accept="image/*"
+					name="image"
+					id="image"
+				/>
+				<button type="submit" class="btn btn-primary w-full"><Upload />Upload</button>
+			</form>
+		</div>
+	</div>
+</dialog>
 <div class="flex min-h-screen flex-col bg-gray-100 md:flex-row">
 	<!-- Sidebar -->
 	<nav class="fixed hidden h-screen w-64 flex-col bg-base-200 text-white shadow-lg md:flex">
 		<div class="flex flex-col items-center space-y-4 border-b p-6">
 			<div class="group relative">
-				<img
-					src={member.image}
-					alt="Profile"
-					class="h-24 w-24 rounded-full border-4 border-primary/20 object-cover transition-all group-hover:border-primary/50"
-				/>
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+				<div class="tooltip tooltip-right tooltip-info" data-tip="Click here to change image">
+					<img
+						onclick={() => imageModal.show()}
+						src={member.image}
+						alt="Profile"
+						class="h-24 w-24 rounded-full border-4 border-primary/20 object-cover transition-all group-hover:border-primary/50"
+					/>
+				</div>
 			</div>
+			<button class="btn btn-outline" onclick={() => imageModal.show()}
+				><Upload /> Upload new Image</button
+			>
 			<div class="text-center">
 				<h2 class="font-bold">{member.name} {member.surname}</h2>
 				<p class="text-sm text-gray-200">Student No: {member.student_no}</p>
@@ -119,12 +161,22 @@
 	<header
 		class="sticky top-0 z-10 flex items-center justify-between bg-white p-4 shadow-md md:hidden"
 	>
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div class="flex items-center space-x-3">
-			<img
-				src={member.image}
-				alt="Profile"
-				class="h-10 w-10 rounded-full border-2 border-primary/20 object-cover"
-			/>
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<div class="tooltip tooltip-right tooltip-info" data-tip="Click here to change image">
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
+				<div class="indicator" onclick={() => imageModal.show()}>
+					<div class="indicator-item indicator-middle text-black">
+						<div class="rounded-full bg-gray-300 p-1"><Camera /></div>
+					</div>
+					<img
+						src={member.image}
+						alt="Profile"
+						class=" h-14 w-14 rounded-full border-2 border-primary/20 object-cover"
+					/>
+				</div>
+			</div>
 			<h1 class="font-bold text-gray-800">{member.name}</h1>
 		</div>
 		<button class="relative p-2" onclick={handleNotificationClick}>
@@ -141,7 +193,7 @@
 	<!-- Bottom navigation for mobile -->
 	<nav class="fixed bottom-0 left-0 right-0 z-50 bg-base-200 text-white shadow-lg md:hidden">
 		<div class="flex justify-around p-4">
-			{#each [{ id: 'stats', icon: ChartBar, text: 'Dashboard' }, { id: 'profile', icon: User, text: 'Profile' }, { id: 'security', icon: Shield, text: 'Security' }, { id: 'invite', icon: UserPlus, text: 'Invite' }, { id: 'logout', icon: LogOut, text: 'Logout', onClick: handleLogout, class: 'text-red-600' }] as item}
+			{#each [{ id: 'stats', icon: ChartBar, text: 'Dashboard' }, { id: 'profile', icon: User, text: 'Profile' }, { id: 'security', icon: Shield, text: 'Security' }, { id: 'logout', icon: LogOut, text: 'Logout', onClick: handleLogout, class: 'text-red-600' }] as item}
 				<button
 					class="flex flex-col items-center space-y-1 {item.class || ''} {activeTab === item.id
 						? 'text-primary'
@@ -172,6 +224,29 @@
 					</div>
 				{/each}
 			</div>
+			{#if birthDayCountdown < 60}
+				<div class="my-4 rounded-xl bg-white p-6 shadow-md">
+					<h3 class="mb-4 text-xl font-semibold">Birthday Countdown</h3>
+					<div class="flex items-center space-x-4">
+						<span class="font-bold text-primary">
+							{#if birthDayCountdown === 0}
+								<span class="text-xl text-red-600">🎉 It's your birthday today! 🎉</span>
+							{:else}
+								<p class="font-medium">Your birthday is:</p>
+
+								{#if birthDayCountdown > 0}
+									{birthDayCountdown}
+									{#if birthDayCountdown === 1}day{:else}days{/if} away
+								{:else}
+									<span class="text-sm text-gray-500"
+										>Your birthday has passed this year. It's in {Math.abs(birthDayCountdown)} days.</span
+									>
+								{/if}
+							{/if}
+						</span>
+					</div>
+				</div>
+			{/if}
 
 			<!-- Interests and Activity -->
 			<div class="space-y-6">

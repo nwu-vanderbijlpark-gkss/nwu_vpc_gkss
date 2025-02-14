@@ -1,16 +1,5 @@
 <script>
-	import {
-		ArrowLeft,
-		ChartNoAxesColumn,
-		Dot,
-		Forward,
-		MessageCircleMore,
-		Search,
-		Share2,
-		Star,
-		StarOff
-	} from 'lucide-svelte';
-	import moment from 'moment';
+	import { ArrowLeft, Search } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import Topic from '../../../components/Topic.svelte';
@@ -18,138 +7,118 @@
 	import MemberCard from '../../../components/MemberCard.svelte';
 	import Loading from '../../../components/Loading.svelte';
 
+	// Using Svelte 5 runes for reactive state
 	let text = $state('');
 	let isLoading = $state(false);
-	let results = $state([]); //topic results array
-	let project_results = $state([]); //project results array
-	let member_results = $state([]); //members results array
-	let filter = $state('none'); //filter, can be none, projects, topics or members
+	let results = $state([]);
+	let project_results = $state([]);
+	let member_results = $state([]);
+	let filter = $state('none'); // possible values: 'none', 'projects', 'topics', 'members'
 	let fav_id = $state([]);
+
+	// Set favorite IDs from localStorage
 	const setFavId = () => {
-		let fav = localStorage.getItem('fav_ids');
+		const fav = localStorage.getItem('fav_ids');
 		if (fav) {
 			fav_id = JSON.parse(fav);
 		}
 	};
 
-	const setFilter = (text) => (filter = text);
+	const setFilter = (val) => (filter = val);
+
 	onMount(() => {
 		setFavId();
 	});
+
+	// Get initial data passed via $props()
 	let { data } = $props();
-	const handleSearch = (event) => {
-		//clear all the result arrays
+
+	// Debounce function for input events
+	let debounceTimeout;
+	function debouncedSearch() {
+		clearTimeout(debounceTimeout);
+		debounceTimeout = setTimeout(() => {
+			// Create a synthetic event to pass to the handler
+			handleSearch(new Event('submit'));
+		}, 300);
+	}
+
+	// Form submission handler – using native "onsubmit"
+	function handleSearch(e) {
+		e.preventDefault();
 		isLoading = true;
 		results = [];
 		project_results = [];
 		member_results = [];
-		if (text.length < 3 && text.length > 0) return 'searching...';
-		text = text.toLowerCase();
-		let textTokens = text.split(/\s+/);
 
-		/**Helper method for finding the text within given data string*/
-		const isFound = (data) => {
-			let found = false;
-			for (let i = 0; i < textTokens.length; i++) {
-				if (data) {
-					if (data.toLowerCase().includes(textTokens[i])) {
-						found = true;
-					}
-				}
-			}
-			return found;
+		if (text.length < 1) {
+			isLoading = false;
+			return;
+		}
+
+		const searchTerm = text.toLowerCase();
+		const tokens = searchTerm.split(/\s+/).filter(Boolean);
+
+		const isFound = (str) => {
+			return str && tokens.some((token) => str.toLowerCase().includes(token));
 		};
 
-		/**searching in topics*/
-		if (filter == 'none' || filter == 'topics') {
-			for (let i = 0; i < data.allTopics.length; i++) {
-				let post = data.allTopics[i];
-				const topicMatch = isFound(post.topic);
-				const contentMatch = isFound(post.content);
-				const tagsMatch = isFound(post.tags);
-
-				if (topicMatch || contentMatch || tagsMatch) {
-					results.push(post); //add the post in the results array
-					isLoading = false;
-				}
-			}
+		if (filter === 'none' || filter === 'topics') {
+			results = data.allTopics.filter(
+				(post) => isFound(post.topic) || isFound(post.content) || isFound(post.tags)
+			);
 		}
 
-		/**searching in projects*/
-		if (filter == 'none' || filter == 'projects') {
-			for (const project of data.projects) {
-				const nameMatch = isFound(project.name);
-				const linkMatch = isFound(project.link);
-				const descriptionMatch = isFound(project.description);
-				const technologiesMatch = isFound(project.technologies);
-				if (nameMatch || linkMatch || descriptionMatch || technologiesMatch) {
-					project_results.push(project);
-					isLoading = false;
-				}
-			}
+		if (filter === 'none' || filter === 'projects') {
+			project_results = data.projects.filter(
+				(project) =>
+					isFound(project.name) ||
+					isFound(project.link) ||
+					isFound(project.description) ||
+					isFound(project.technologies)
+			);
 		}
-		/**searching in members*/
-		if (filter == 'none' || filter == 'members') {
-			for (const member of data.members) {
-				const nameMatch = isFound(member.name + ' ' + member.surname);
-				const usernameMatch = isFound(member.username);
-				const qualificationMatch = isFound(member.qualification);
-				const interestsMatch = isFound(member.interests);
 
-				if (nameMatch || usernameMatch || qualificationMatch || interestsMatch) {
-					member_results.push(member);
-					isLoading = false;
-				}
-			}
+		if (filter === 'none' || filter === 'members') {
+			member_results = data.members.filter(
+				(member) =>
+					isFound(member.name + ' ' + member.surname) ||
+					isFound(member.username) ||
+					isFound(member.qualification) ||
+					isFound(member.interests)
+			);
 		}
-	};
 
+		isLoading = false;
+	}
+
+	// Handler to toggle favorite status
 	const handleFavorite = (topic) => {
-		//have 2 stores in localstorage
-		//fav: holds the complete info of the topics and fav_ids holds only the ids of the topic for quick operations
-		//get the favorites item in localstorage
-		let favorites = JSON.parse(localStorage.getItem('fav'));
+		let favorites = JSON.parse(localStorage.getItem('fav')) || [];
 		let fav_ids = [];
-		if (favorites) {
-			let exists = false;
-			let newArray = [];
-			for (let i = 0; i < favorites.length; i++) {
-				let favorite = favorites[i];
-				if (favorite.id == $state.snapshot(topic).id) {
-					//item exists in the array, skip it
-					exists = true;
-				} else {
-					//push the item into the new array
-					newArray.push(favorite);
-					fav_ids.push(favorite.id);
-				}
+		let exists = false;
+		favorites = favorites.filter((fav) => {
+			if (fav.id === $state.snapshot(topic).id) {
+				exists = true;
+				return false;
 			}
-			if (!exists) {
-				//the topic does not exist, push to the array
-				newArray.push($state.snapshot(topic));
-				fav_ids.push($state.snapshot(topic).id);
-			}
-			//update the favorites item in localstorage
-			localStorage.setItem('fav', JSON.stringify(newArray));
-			localStorage.setItem('fav_ids', JSON.stringify(fav_ids));
-		} else {
-			//the favorites item in localstorage does not exist, set a new one
-			localStorage.setItem('fav', JSON.stringify([$state.snapshot(topic)]));
-			localStorage.setItem('fav_ids', JSON.stringify([$state.snapshot(topic).id]));
+			fav_ids.push(fav.id);
+			return true;
+		});
+		if (!exists) {
+			favorites.push($state.snapshot(topic));
+			fav_ids.push($state.snapshot(topic).id);
 		}
+		localStorage.setItem('fav', JSON.stringify(favorites));
+		localStorage.setItem('fav_ids', JSON.stringify(fav_ids));
 		setFavId();
 	};
-	// function to handle multiple terms
+
+	// Highlight matching tokens in text
 	function highlightText(fullText, match) {
 		if (!match) return fullText;
-
-		// Split the match variable into individual words or phrases
-		const terms = match.split(/\s+/); // Split by spaces or other delimiters
-
-		// Create a regex to match all terms
+		const terms = match.split(/\s+/).filter(Boolean);
 		const regex = new RegExp(`(${terms.join('|')})`, 'gi');
-
-		// Highlight matching terms in the full text
 		return fullText
 			.split(regex)
 			.map((part) =>
@@ -161,71 +130,115 @@
 	}
 </script>
 
-<title>Search {text} | NWU Vaal GKSS</title>
-<div class="space-y-1 divide-y" transition:slide>
-	<section class="flex w-full items-center gap-3 rounded-lg bg-white p-2">
-		<span class="flex items-center">
-			<button class="btn btn-ghost rounded-full" onclick={history.back(-1)}><ArrowLeft /></button>
-		</span>
+<!-- The main container is responsive and mobile-friendly -->
+<main class="mx-auto max-w-4xl p-4 sm:p-6">
+	<!-- Header with semantic markup -->
+	<header class="-mt-5 flex items-center justify-between rounded-lg bg-white p-2 shadow-sm">
+		<button
+			class="p-2 text-lg focus:outline-none"
+			onclick={() => history.back(-1)}
+			aria-label="Go back"
+		>
+			<ArrowLeft class="h-6 w-6" />
+		</button>
+		<h1 class="text-xl font-bold sm:text-2xl">Search</h1>
+		<span class="h-6 w-6"></span>
+		<!-- Spacer -->
+	</header>
 
-		<form onsubmit={() => handleSearch()} class="flex w-full items-center">
+	<!-- Search Form -->
+	<section class=" rounded-lg bg-white p-4 shadow-sm">
+		<form onsubmit={handleSearch} class="flex items-center" role="search" aria-label="Search form">
 			<input
-				class="input input-bordered w-full bg-gray-50"
+				class="flex-1 rounded border border-gray-300 p-2 focus:border-red-800 focus:outline-none focus:ring"
 				bind:value={text}
-				onkeyup={() => handleSearch()}
+				oninput={debouncedSearch}
 				type="search"
-				placeholder="Search here..."
+				placeholder="Type to search..."
+				aria-label="Search input"
 			/>
-			<button class="btn btn-ghost"><Search /></button>
+			<button
+				class="ml-3 p-2 text-primary hover:text-red-800 focus:outline-none"
+				type="submit"
+				aria-label="Submit search"
+			>
+				<Search class="h-6 w-6" />
+			</button>
 		</form>
 	</section>
 
+	<!-- Loading Indicator -->
 	{#if isLoading}
-		<Loading />
+		<section class="flex justify-center">
+			<Loading />
+		</section>
 	{/if}
-	{#if results.length > 0 || project_results.length > 0 || member_results.length > 0}
-		<div class="bg-white p-2">
-			<p class="text-sm text-info">
-				{results.length + project_results.length + member_results.length} results found
-			</p>
-			<div class="flex gap-3 p-2">
-				{#each [{ show: 'none', text: 'All' }, { show: 'projects', text: 'Projects' }, { show: 'topics', text: 'Topics' }, { show: 'members', text: 'Members' }] as filterBtn}
-					<button
-						class={'btn btn-sm ' +
-							`${filter == filterBtn.show ? 'btn-primary border border-red-200' : 'btn-ghost bg-gray-200'}`}
-						onclick={() => setFilter(filterBtn.show)}>{filterBtn.text}</button
-					>
-				{/each}
-			</div>
-		</div>
 
-		<div class="max-h-[80vh] divide-y overflow-auto">
-			{#if member_results.length > 0 && (filter == 'none' || filter == 'members')}
-				<h2 class="py-3 text-lg">Members</h2>
-				<div transition:slide class="flex w-full flex-col gap-2 p-2 lg:flex-row lg:flex-wrap">
-					{#each member_results as member}
-						<MemberCard {member} {text} {highlightText} />
+	<!-- Results Section -->
+	<section>
+		{#if results.length > 0 || project_results.length > 0 || member_results.length > 0}
+			<div class="rounded-lg bg-white p-4 shadow-sm">
+				<p class="text-sm text-gray-600">
+					{$state.snapshot(results).length +
+						$state.snapshot(project_results).length +
+						$state.snapshot(member_results).length} results found
+				</p>
+				<div class="mt-3 flex flex-wrap gap-2">
+					{#each [{ show: 'none', text: 'All' }, { show: 'projects', text: 'Projects' }, { show: 'topics', text: 'Topics' }, { show: 'members', text: 'Members' }] as btn}
+						<button
+							class={'rounded px-3 py-1 ' +
+								(filter === btn.show ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700')}
+							onclick={() => setFilter(btn.show)}
+						>
+							{btn.text}
+						</button>
 					{/each}
 				</div>
-			{/if}
-			{#if results.length > 0 && (filter == 'none' || filter == 'topics')}
-				<h2 class="py-3 text-lg">Topics</h2>
-				{#each results as topic}
-					<Topic {topic} {text} {highlightText} />
-				{/each}
-			{/if}
-			{#if project_results.length > 0 && (filter == 'none' || filter == 'projects')}
-				<h2 class="py-3 text-lg">Projects</h2>
-				<div transition:slide class="flex w-full flex-col gap-2 p-2 lg:flex-row lg:flex-wrap">
-					{#each project_results as project}
-						<Project {project} {text} {highlightText} />
-					{/each}
-				</div>
-			{/if}
-		</div>
-	{:else if text.length > 3}
-		<p>No results for: {text}</p>
-	{:else}
-		<p>Start typing your search query</p>
-	{/if}
-</div>
+			</div>
+
+			<div class="mt-4 space-y-8">
+				{#if member_results.length > 0 && (filter === 'none' || filter === 'members')}
+					<section aria-labelledby="members-heading">
+						<h2 id="members-heading" class="border-b pb-2 text-lg font-semibold">Members</h2>
+						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+							{#each member_results as member}
+								<MemberCard {member} {text} {highlightText} />
+							{/each}
+						</div>
+					</section>
+				{/if}
+
+				{#if results.length > 0 && (filter === 'none' || filter === 'topics')}
+					<section aria-labelledby="topics-heading">
+						<h2 id="topics-heading" class="border-b pb-2 text-lg font-semibold">Topics</h2>
+						<div class="space-y-4">
+							{#each results as topic}
+								<Topic
+									{topic}
+									{text}
+									{highlightText}
+									onclickFavorite={() => handleFavorite(topic)}
+								/>
+							{/each}
+						</div>
+					</section>
+				{/if}
+
+				{#if project_results.length > 0 && (filter === 'none' || filter === 'projects')}
+					<section aria-labelledby="projects-heading">
+						<h2 id="projects-heading" class="border-b pb-2 text-lg font-semibold">Projects</h2>
+						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+							{#each project_results as project}
+								<Project {project} {text} {highlightText} />
+							{/each}
+						</div>
+					</section>
+				{/if}
+			</div>
+		{:else if text.length > 3}
+			<p class="text-center text-gray-600">No results found for "{text}"</p>
+		{:else}
+			<p class="text-center text-gray-600">Start typing your search query...</p>
+		{/if}
+	</section>
+</main>

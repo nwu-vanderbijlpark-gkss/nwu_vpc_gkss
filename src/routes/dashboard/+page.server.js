@@ -6,7 +6,7 @@ export const load = async ({locals: {supabase}}) => {
         redirect(303,"/login");
     }
     const {data: Member} = await supabase.from("Member").select("").eq("id",user.id);
-    if(Member.length > 0){
+    if(Member && Member.length > 0){
         if(Member[0].interests){
             let member = Member[0];
             let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")+1));//removing the first "file/"
@@ -72,4 +72,42 @@ export const actions = {
         }
 
     },
+    uploadImage: async ({locals: {supabase},request}) => {
+        //get the user's image from db, delete that image, then upload new one, to save storage.
+        const {data: {user}} = await supabase.auth.getUser();
+        const {data: Member} = await supabase.from("Member").select("image").eq("id",user.id);
+        let image = null;
+        const formData = await request.formData();
+        const newImage = formData.get("image");
+        //replace the image if its not the default
+        if(Member[0].image != "files/images/avatar.png"){
+            const image_path = Member[0].image.replace("files/","");//remove the files/
+            const { data, error } = await supabase
+            .storage
+            .from('files')
+            .update(image_path, newImage);
+            if(error){
+                console.error(error);
+            }else{
+                image = data.fullPath;
+            }
+        }
+        else{
+            //upload new image
+            const fileName = `images/user/${Date.now()}${newImage.name.substring(newImage.name.lastIndexOf("."))}`;
+            const {data,error} = await supabase.storage.from("files").upload(fileName,newImage);
+            image = data.fullPath;
+        }
+        //update the member
+        if(image){
+            const {error} = await supabase.from("Member").update({image: image}).eq("id",user.id);
+            if(error){
+                console.error(error)
+            }
+        }
+        else{
+            console.error("No image");
+        }
+        
+    }
 }

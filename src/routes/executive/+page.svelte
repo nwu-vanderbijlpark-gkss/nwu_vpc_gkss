@@ -5,9 +5,17 @@
 	import moment from 'moment';
 	import { CalendarClockIcon, Users } from 'lucide-svelte';
 	import Chart from '../../components/Chart.svelte';
+	import TodaysBirthdays from '../../components/TodaysBirthdays.svelte';
 	let { data } = $props();
 	let year = new Date();
 	let levels_of_study = ['1st', '2nd', '3rd', '4th', '4th+'];
+	let todaysBirthdays = data.members.filter((member) => {
+		const today = new Date();
+		const birthDate = new Date(member.date_of_birth);
+
+		// Check if the member's birthday is today (ignore the year)
+		return today.getDate() === birthDate.getDate() && today.getMonth() === birthDate.getMonth();
+	});
 	year = year.getFullYear();
 	let memberDetailed = $state({
 		gender: { males: 0, females: 0, other: 0 },
@@ -131,6 +139,9 @@
 				chartType="pie"
 			/>
 		</div>
+	</div>
+	<div>
+		<TodaysBirthdays {todaysBirthdays} />
 	</div>
 </div>
 

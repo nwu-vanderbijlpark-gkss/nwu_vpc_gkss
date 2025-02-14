@@ -14,6 +14,7 @@
 		<table class="w-full text-left text-sm text-gray-600 shadow-xl">
 			<thead class="bg-gray-100 text-xs uppercase text-gray-700">
 				<tr>
+					<th class="px-6 py-4 font-medium">Image</th>
 					<th class="px-6 py-4 font-medium">Full Name</th>
 					<th class="px-6 py-4 font-medium">Gender</th>
 					<th class="px-6 py-4 font-medium">Qualification</th>
@@ -23,6 +24,13 @@
 			<tbody>
 				{#each members as member, index}
 					<tr class="border-b transition-colors hover:bg-gray-50">
+						<td class="px-6 py-4 font-semibold text-gray-800"
+							><img
+								class="h-[30px] w-[30px] rounded-full"
+								src={member.image}
+								alt={member.surname}
+							/></td
+						>
 						<td class="px-6 py-4 font-semibold text-gray-800"
 							>{member.name ? member.name : 'Not provided'} {member.surname}</td
 						>

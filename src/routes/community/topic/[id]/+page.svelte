@@ -4,47 +4,74 @@
 		ArrowLeft,
 		ChartNoAxesColumn,
 		ChevronLeft,
+		ChevronRight,
 		Dot,
 		Eye,
 		Forward,
 		MessageCircleMore,
 		SendHorizontal,
 		Share2,
-		ThumbsDown,
-		ThumbsUp
+		ThumbsUp,
+		MoreVertical
 	} from 'lucide-svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { slide, fade } from 'svelte/transition';
 	import NotFoundPage from '../../../../components/NotFoundPage.svelte';
-	// Web Share API function
+
+	let { data } = $props();
+	let topic = $state(null);
+	let notFound = $state(false);
+	let currentImageIndex = $state(0);
+	let commentInput = $state('');
+	let textarea;
+
+	// Auto-resize function for textarea
+	function autoResize() {
+		if (textarea) {
+			textarea.style.height = 'auto';
+			textarea.style.height = `${Math.min(Math.max(textarea.scrollHeight, 40), 200)}px`;
+		}
+	}
+
+	// Web Share API function with improved error handling
 	export const shareTopic = async (topicTitle, url) => {
-		if (navigator.share) {
-			try {
+		try {
+			if (navigator.share) {
 				await navigator.share({
 					title: topicTitle,
 					text: `Check out this topic: ${topicTitle}`,
 					url: url
 				});
-			} catch (error) {
-				console.error('Error sharing the topic:', error);
+			} else {
+				await copyToClipboard(url);
 			}
-		} else {
-			// Fallback to copy link
-			copyToClipboard();
+		} catch (error) {
+			console.error('Error sharing:', error);
 		}
 	};
-	export const copyToClipboard = async () => {
+
+	export const copyToClipboard = async (url) => {
 		try {
 			await navigator.clipboard.writeText(url);
-			alert('Link copied to clipboard!');
+			// Replace alert with a toast notification
+			showToast('Link copied to clipboard!');
 		} catch (error) {
-			console.error('Failed to copy the link:', error);
+			console.error('Failed to copy:', error);
+			showToast('Failed to copy link');
 		}
 	};
-	let { data } = $props();
-	let topic = $state(null);
-	let notFound = $state(false);
+
+	const navigateImage = (direction) => {
+		if (direction === 'next') {
+			currentImageIndex =
+				currentImageIndex === topic.topic_images.length - 1 ? 0 : currentImageIndex + 1;
+		} else {
+			currentImageIndex =
+				currentImageIndex === 0 ? topic.topic_images.length - 1 : currentImageIndex - 1;
+		}
+	};
+
 	onMount(() => {
 		const id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 		topic = data.allTopics.filter((topic) => topic.id == id)[0];
@@ -62,138 +89,194 @@
 			message="Sorry, this topic does not exist, it might have been deleted by its owner."
 		/>
 	{:else}
-		<div class="my-20 flex flex-col items-center justify-center">
-			<p class="flex items-center text-lg font-bold">
-				Loading Please wait... <span class="loading loading-ring loading-lg"></span>
-			</p>
-			<p>
-				If this is taking longer, please reload the page or <button
-					class="btn btn-primary"
-					onclick={() => location.reload()}>Click here...</button
-				>
-			</p>
+		<div class="flex min-h-[50vh] flex-col items-center justify-center" transition:fade>
+			<div class="loading loading-spinner loading-lg text-primary"></div>
+			<p class="mt-4 text-lg font-medium">Loading topic...</p>
 		</div>
 	{/if}
 {:else}
 	<title>{topic.topic} | NWU Vaal GKSS</title>
-	<div class="space-y-2 rounded-lg bg-white" transition:slide>
-		<div class="p-2">
-			<div class="flex items-center justify-between text-sm">
-				<span class="flex items-center">
+	<div class="mx-auto max-w-3xl space-y-4 rounded-lg bg-white shadow-sm" transition:slide>
+		<!-- Header Section -->
+		<header class="border-b p-4">
+			<div class="mb-4 flex items-center justify-between">
+				<div class="flex items-center space-x-3">
 					<button
-						onclick={history.back(-1)}
-						class="mr-2 rounded-full bg-base-content p-2 hover:scale-105"><ArrowLeft /></button
+						on:click={() => history.back()}
+						class="btn btn-circle btn-ghost btn-sm hover:bg-gray-100"
 					>
-					<div class="mr-2 h-[25px] w-[25px] overflow-hidden rounded-full">
-						<img class="object-fit" src={topic.Member.image} alt={topic.Member.username} />
-					</div>
-					<a class=" link-hover" href={`/community/${topic.Member.username}`}
-						>{topic.Member.fullName}</a
-					>
-					<Dot />
-					<p class="text-gray-400">{moment(topic.created_at).fromNow()}</p></span
-				>
-				<button class="btn btn-ghost">Report</button>
-			</div>
-			<h3 class="text-2xl font-bold">{topic.topic}</h3>
-			<p class="mt-2 text-sm text-gray-500">{topic.content}</p>
-			{#if topic.topic_images.length > 0}
-				<div class="carousel w-full">
-					{#each topic.topic_images as image, index}
-						<div id={`image${index}`} class="carousel-item relative w-full">
-							<img src={image} class="w-full p-2" alt={`Image${index}`} />
-							<div
-								class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
-							>
-								<a
-									href={`#image${index - 1 == -1 ? topic.topic_images.length - 1 : index - 1}`}
-									class="btn btn-circle">❮</a
-								>
-								<a
-									href={`#image${index + 1 == topic.topic_images.length ? 0 : index + 1}`}
-									class="btn btn-circle">❯</a
-								>
+						<ArrowLeft size={20} />
+					</button>
+					<div class="flex items-center">
+						<div class="avatar mr-2">
+							<div class="h-8 w-8 overflow-hidden rounded-full">
+								<img src={topic.Member.image} alt={topic.Member.username} class="object-cover" />
 							</div>
 						</div>
-					{/each}
-				</div>
-			{/if}
-			<div class="mt-5 text-xs">
-				<div class="tooltip" data-tip={`${topic.topic_views.length} Total views`}>
-					<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-						><ChartNoAxesColumn size="20px" />
-						<p>{topic.topic_views.length}</p></button
-					>
-				</div>
-				<div class="tooltip" data-tip="Comments">
-					<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-						><MessageCircleMore size="20px" />
-						<p>{topic.Comment.length}</p></button
-					>
-				</div>
-				<button
-					onclick={() => shareTopic(topic.topic, location.href)}
-					class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-					><Share2 size="20px" />
-					<p>Share</p></button
-				>
-			</div>
-		</div>
-		<hr />
-		<div
-			class="fixed bottom-16 flex w-full items-center border-t bg-white p-2 shadow-lg lg:relative lg:bottom-0 lg:border-none lg:shadow-none"
-		>
-			<input
-				class="input input-bordered w-full bg-gray-100"
-				placeholder="Add a comment"
-				readonly
-				onclick={() => commentModal.show()}
-			/>
-
-			<button type="submit" class="btn btn-ghost text-primary"><SendHorizontal /></button>
-		</div>
-		<div class="min-h-screen divide-y overflow-auto">
-			<h3 class="mb-10 p-2 text-lg font-bold">Comments</h3>
-			{#if topic.Comment.length == 0}
-				<p class="p-4 text-sm text-gray-400">No comments yet, be the first to leave a comment.</p>
-			{:else}
-				{#each topic.Comment as comment}
-					<div id={comment.id} class=" p-2">
-						<div class="flex items-center justify-between text-sm">
-							<span class="flex items-center">
-								<div class="mr-2 h-[25px] w-[25px] overflow-hidden rounded-full">
-									<img
-										class="object-fit"
-										src={comment.Member.image}
-										alt={comment.Member.username}
-									/>
-								</div>
-								<a class=" link-hover" href={`/community/${comment.Member.username}`}
-									>{comment.Member.fullName}</a
-								>
-								<Dot />
-								<p class="text-gray-400">{moment(comment.created_at).fromNow()}</p></span
+						<div class="flex items-center text-sm">
+							<a href={`/community/${topic.Member.username}`} class="font-medium hover:underline"
+								>{topic.Member.fullName}</a
 							>
-							<button class="btn btn-ghost">Report</button>
-						</div>
-						<p class="mt-2 text-sm text-gray-800">
-							{comment.content}
-						</p>
-						<div class="mt-5 text-xs">
-							<button class="btn btn-ghost hidden rounded-full bg-base-100/10 text-xs"
-								><ThumbsUp size="20px" />
-								<p>0</p></button
-							>
-							<button
-								onclick={() => shareTopic(comment.content, `${location.href}#${comment.id}`)}
-								class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-								><Forward size="20px" />
-								<p>Share</p></button
-							>
+							<Dot size={16} class="text-gray-400" />
+							<span class="text-gray-500">{moment(topic.created_at).fromNow()}</span>
 						</div>
 					</div>
-				{/each}
-			{/if}
+				</div>
+				<button class="btn btn-ghost btn-sm">
+					<MoreVertical size={20} />
+				</button>
+			</div>
+
+			<h1 class="mb-2 text-2xl font-bold">{topic.topic}</h1>
+			<p class="text-gray-600">{topic.content}</p>
+		</header>
+
+		<!-- Image Carousel -->
+		{#if topic.topic_images.length > 0}
+			<div class="relative h-[400px] w-full bg-gray-100">
+				<img
+					src={topic.topic_images[currentImageIndex]}
+					alt={`Image ${currentImageIndex + 1}`}
+					class="h-full w-full object-contain"
+				/>
+				{#if topic.topic_images.length > 1}
+					<div class="absolute inset-0 flex items-center justify-between px-4">
+						<button
+							class="btn btn-circle btn-sm bg-white/80 hover:bg-white"
+							on:click={() => navigateImage('prev')}
+						>
+							<ChevronLeft size={20} />
+						</button>
+						<button
+							class="btn btn-circle btn-sm bg-white/80 hover:bg-white"
+							on:click={() => navigateImage('next')}
+						>
+							<ChevronRight size={20} />
+						</button>
+					</div>
+					<div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+						{#each topic.topic_images as _, index}
+							<button
+								class="h-2 w-2 rounded-full transition-colors {index === currentImageIndex
+									? 'bg-primary'
+									: 'bg-gray-300'}"
+								on:click={() => (currentImageIndex = index)}
+							/>
+						{/each}
+					</div>
+				{/if}
+			</div>
+		{/if}
+
+		<!-- Engagement Section -->
+		<div class="flex items-center space-x-2 px-4 py-2">
+			<div class="tooltip" data-tip={`${topic.topic_views.length} views`}>
+				<button class="btn btn-ghost btn-sm gap-2">
+					<ChartNoAxesColumn size={18} />
+					<span class="text-sm">{topic.topic_views.length}</span>
+				</button>
+			</div>
+			<div class="tooltip" data-tip="Comments">
+				<button class="btn btn-ghost btn-sm gap-2">
+					<MessageCircleMore size={18} />
+					<span class="text-sm">{topic.Comment.length}</span>
+				</button>
+			</div>
+			<button
+				on:click={() => shareTopic(topic.topic, location.href)}
+				class="btn btn-ghost btn-sm gap-2"
+			>
+				<Share2 size={18} />
+				<span class="text-sm">Share</span>
+			</button>
+		</div>
+
+		<!-- Comments Section -->
+		<section class="border-t">
+			<h2 class="p-4 text-lg font-semibold">Comments</h2>
+			<div class="divide-y">
+				{#if topic.Comment.length === 0}
+					<p class="px-4 py-8 text-center text-gray-500">
+						No comments yet. Be the first to share your thoughts!
+					</p>
+				{:else}
+					{#each topic.Comment as comment}
+						<article id={comment.id} class="p-4 hover:bg-gray-50">
+							<div class="mb-2 flex items-center justify-between">
+								<div class="flex items-center space-x-2">
+									<div class="avatar">
+										<div class="h-6 w-6 overflow-hidden rounded-full">
+											<img
+												src={comment.Member.image}
+												alt={comment.Member.username}
+												class="object-cover"
+											/>
+										</div>
+									</div>
+
+									<a
+										href={`/community/${comment.Member.username}`}
+										class="text-sm font-medium hover:underline">{comment.Member.fullName}</a
+									>
+									<span class="text-sm text-gray-500">
+										{moment(comment.created_at).fromNow()}
+									</span>
+								</div>
+								<button class="btn btn-circle btn-ghost btn-sm">
+									<MoreVertical size={16} />
+								</button>
+							</div>
+							<p class="pl-8 text-gray-700">{comment.content}</p>
+							<div class="mt-2 flex items-center space-x-2 pl-8">
+								<button class="btn btn-ghost btn-xs gap-1">
+									<Forward size={14} />
+									<span>Reply</span>
+								</button>
+								<button class="btn btn-ghost btn-xs gap-1">
+									<Share2 size={14} />
+									<span>Share</span>
+								</button>
+							</div>
+						</article>
+					{/each}
+				{/if}
+			</div>
+		</section>
+
+		<!-- Comment Input -->
+		<div class="fixed bottom-16 w-full border-t bg-white p-4 shadow-lg lg:sticky lg:bottom-10">
+			<form method="post" class="flex items-center gap-2">
+				<textarea
+					bind:this={textarea}
+					bind:value={commentInput}
+					name="comment"
+					id="comment"
+					rows="1"
+					placeholder="Add a comment..."
+					class="input input-bordered max-h-[200px] min-h-[40px] flex-1 resize-none overflow-hidden bg-gray-200 py-2"
+					on:input={autoResize}
+				></textarea>
+				<button class="btn btn-circle btn-primary flex-shrink-0" disabled={!commentInput.trim()}>
+					<SendHorizontal size={18} />
+				</button>
+			</form>
 		</div>
 	</div>
 {/if}
+
+<style>
+	/* Add any custom styles here */
+	:global(.avatar) {
+		@apply relative inline-block;
+	}
+
+	:global(.loading) {
+		@apply animate-spin;
+	}
+
+	textarea {
+		line-height: 1.5;
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+</style>

@@ -58,6 +58,20 @@ export const actions =   {
     deleteTopic : async ({request, locals: {supabase}}) => {
         const data = await request.formData();
         const id = data.get("id");
+        //get the images and delete them also
+        const {data: topic_images} = await supabase.from("topic_images").select().eq("topic_id",id);
+        const images = [];
+        if(topic_images.length > 0){
+            for(const image of topic_images){
+                images.push(image.image);
+            }
+            //delete the images
+            const {error} = await supabase.storage.from("files").remove(images);
+            if(error){
+                console.error(error);
+            }
+        }
+
         const {error} = await supabase.from("Topic").delete().eq("id",id);
         if(error){
             console.error(error);

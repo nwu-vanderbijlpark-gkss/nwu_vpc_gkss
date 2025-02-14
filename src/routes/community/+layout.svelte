@@ -18,6 +18,14 @@
 	import Editor from '../../components/Editor.svelte';
 
 	let { children, data } = $props();
+	let todaysBirthdays = data.members.filter((member) => {
+		const today = new Date();
+		const birthDate = new Date(member.date_of_birth);
+
+		// Check if the member's birthday is today (ignore the year)
+		return today.getDate() === birthDate.getDate() && today.getMonth() === birthDate.getMonth();
+	});
+	let popularTopics = $state(data.most_viewed.slice(0, 3));
 	let images = $state([]);
 	let error = $state();
 	const convertToMB = (bytes) => {
@@ -76,9 +84,9 @@
 			</li>
 			{#if data.email != null}
 				<li><a href="/community/profile" class="navItem text-lg"><User /> Profile</a></li>
-				<button class="btn btn-primary" onclick={() => my_modal_1.show()}
-					><PlusCircle /> Create topic</button
-				>
+				<li>
+					<a href="/community/create-topic" class="btn btn-primary"><PlusCircle /> Create topic</a>
+				</li>
 			{:else}
 				<li>
 					<a
@@ -90,147 +98,119 @@
 			{/if}
 		</ul>
 	</div>
-	<div class=" w-full overflow-auto bg-white text-black lg:max-h-screen lg:w-2/3 lg:p-2">
+
+	<!-- Main Content -->
+	<div class="w-full overflow-auto bg-white text-black lg:max-h-screen lg:flex-1 lg:p-4">
 		{@render children()}
 	</div>
-	<div class="btm-nav lg:hidden">
-		<a href="/community" class=""><Users /> Discussions </a>
-		<a href="/community/search">
-			<Search /> Search
-		</a>
-		<a href="/community/projectspace"> <CodeXml /> ProjectSpace</a>
-		{#if data.email != null}
-			<a href="/community/profile"> <User /> Profile</a>
-		{:else}
-			<a href="/login"> <LogIn />Login</a>
-		{/if}
-	</div>
+
+	<!-- Right Sidebar -->
 	<div
-		class="hidden min-h-screen w-2/12 flex-col items-center space-y-4 bg-white p-2 text-black lg:flex"
+		class="hidden min-h-screen w-64 flex-col items-center space-y-4 bg-white p-4 text-black lg:flex"
 	>
-		<ul class="menu w-full rounded-lg p-2">
-			<h2 class="menu-title border-b text-xl font-bold text-black">Top Projects</h2>
-			{#each data.projects as project}
-				<li>
+		<!-- Top Projects -->
+		<div class="w-full space-y-4">
+			<div class="space-y-3 rounded-lg border p-3">
+				<h2 class="text-lg font-semibold text-black">Top Projects</h2>
+				{#each data.projects.slice(0, 3) as project}
 					<a
 						href={`/community/projectspace/${project.id}`}
-						class="navItem flex items-center justify-between text-base"
+						class="flex items-center justify-between rounded-md p-2 hover:bg-gray-100"
 					>
-						{project.name}
-						<img src={project.image} alt={project.name} class="h-[20px] w-[20px] rounded-full" />
+						<span class="truncate text-base">{project.name}</span>
+						<img src={project.image} alt={project.name} class="h-6 w-6 rounded-full" />
 					</a>
-				</li>
-			{/each}
-		</ul>
-		<ul class="menu w-full rounded-lg p-2">
-			<h2 class="menu-title border-b text-xl font-bold text-black">Popular topics</h2>
-			{#each data.most_viewed as topic, index}
-				<li>
+				{/each}
+			</div>
+
+			<!-- Popular Topics -->
+			<div class="space-y-3 rounded-lg border p-3">
+				<h2 class="text-lg font-semibold text-black">Popular Topics</h2>
+				{#each popularTopics as topic, index}
 					<a
 						href={`/community/topic/${topic.id}`}
-						data-sveltekit-reload
-						class="navItem grid-cols-[(0.5fr, 1.4fr)] grid flex-wrap items-center text-base"
+						class="flex items-center gap-3 rounded-md p-2 hover:bg-gray-100"
 					>
-						<p class=" font-bold text-gray-500">{index + 1}</p>
-						{topic.topic}
+						<span class="w-4 text-sm font-medium text-gray-500">{index + 1}.</span>
+						<span class="flex-1 truncate text-base">{topic.topic}</span>
 					</a>
-				</li>
-			{/each}
-		</ul>
+				{/each}
+			</div>
+			<div class="space-y-3 rounded-lg border p-3">
+				<h2 class="text-lg font-semibold text-black">Today's birthdays</h2>
+				{#if todaysBirthdays.length == 0}
+					<p class="text-gray-400">No birthdays for today😓</p>
+				{/if}
+				{#each todaysBirthdays as member}
+					<a
+						href={`/community/${member.username}`}
+						class="flex items-center gap-3 rounded-md p-2 hover:bg-gray-100"
+					>
+						<img src={member.image} alt={member.name} class="h-6 w-6 rounded-full" />
+
+						<span class="truncate text-base">{member.name} {member.surname}</span>
+					</a>
+				{/each}
+			</div>
+		</div>
+	</div>
+
+	<!-- Mobile Navigation -->
+	<div class="btm-nav border-t bg-white py-2 shadow-md lg:hidden">
+		<a
+			href="/community"
+			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+		>
+			<Users class="h-5 w-5" />
+			<span>Discussions</span>
+		</a>
+
+		<a
+			href="/community/search"
+			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+		>
+			<Search class="h-5 w-5" />
+			<span>Search</span>
+		</a>
+
+		<a
+			href="/community/create-topic"
+			class="flex flex-col items-center text-sm font-semibold text-primary"
+		>
+			<div class="rounded-full bg-primary p-2 text-white shadow-lg">
+				<PlusCircle class="h-6 w-6" />
+			</div>
+			<span>Create</span>
+		</a>
+
+		<a
+			href="/community/projectspace"
+			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+		>
+			<CodeXml class="h-5 w-5" />
+			<span>Projects</span>
+		</a>
+
+		{#if data.email != null}
+			<a
+				href="/community/profile"
+				class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+			>
+				<User class="h-5 w-5" />
+				<span>Profile</span>
+			</a>
+		{:else}
+			<a
+				href="/login"
+				class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+			>
+				<LogIn class="h-5 w-5" />
+				<span>Login</span>
+			</a>
+		{/if}
 	</div>
 </main>
 
-<!-- Create TOpic modal-->
-<dialog id="my_modal_1" class="modal modal-bottom z-50 sm:modal-middle">
-	<div class="modal-box text-white">
-		{#if isLoading}
-			<Loading />
-		{:else}
-			<div class="flex items-center justify-between">
-				<p class="text-lg font-bold text-white">Create a topic</p>
-				<div class="modal-action">
-					<form method="dialog">
-						<button class="btn"><X />Close</button>
-					</form>
-				</div>
-			</div>
-			{#if data.email != null}
-				<p class="py-4 text-sm">Enter the required details</p>
-				<form
-					method="post"
-					enctype="multipart/form-data"
-					action="/community?/addTopic"
-					onsubmit={handleSubmit}
-					class="flex w-full flex-col gap-5"
-				>
-					<label class="form-control w-full">
-						<p>Topic</p>
-						<input
-							type="text"
-							name="topic"
-							class="input input-bordered"
-							id="topic"
-							placeholder="Study tips..."
-							required
-						/>
-					</label>
-					<label class="form-control w-full">
-						<p>Content</p>
-						<textarea
-							name="content"
-							class="textarea textarea-bordered"
-							id="content"
-							placeholder="What's on your mind?"
-						></textarea>
-					</label>
-					<label class="form-control w-full">
-						<p>Images</p>
-						<div class="my-2 flex w-full flex-wrap space-x-2">
-							{#each images as image, index}
-								<button
-									type="button"
-									class="tooltip tooltip-error"
-									data-tip="Click to remove"
-									onclick={() => images.splice(index, 1)}
-								>
-									<!-- svelte-ignore a11y_click_events_have_key_events -->
-									<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-									<img
-										src={URL.createObjectURL(image)}
-										alt={image.name}
-										class="h-10 w-10 rounded border p-1"
-									/>
-								</button>
-							{/each}
-						</div>
-						<input
-							type="file"
-							accept="image/*"
-							name="images"
-							class="file-input file-input-bordered"
-							id="images"
-							multiple
-							onchange={handleFileChange}
-						/>
-					</label>
-					<label class="form-control w-full">
-						<p>Tags</p>
-						<textarea
-							name="tags"
-							class="textarea textarea-bordered"
-							id="tags"
-							placeholder="Enter tags, comma separated"
-						></textarea>
-					</label>
-					<button type="submit" class="btn btn-primary text-white">Create</button>
-				</form>
-			{:else}
-				<p class="py-4 text-sm">You need to login to be able to create a topic</p>
-				<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
-			{/if}
-		{/if}
-	</div>
-</dialog>
 <!-- Comment Modal-->
 <dialog id="commentModal" class="modal modal-bottom z-50 sm:modal-middle">
 	<div class="modal-box text-white">

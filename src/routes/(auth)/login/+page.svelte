@@ -92,6 +92,7 @@
 				{/if}
 			</p>
 			{#if view == 'login'}
+				<p>If you just signed up, check your email for confirmation email</p>
 				<form
 					transition:slide
 					method="post"

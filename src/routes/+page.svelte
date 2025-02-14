@@ -1,6 +1,7 @@
 <script>
 	import ContactUs from '../components/ContactUs.svelte';
 	import Events from '../components/Events.svelte';
+	import TodaysBirthdays from '../components/TodaysBirthdays.svelte';
 	let { data } = $props();
 </script>
 
@@ -72,5 +73,6 @@
 </section>
 
 <Events events={data.events} />
+<TodaysBirthdays todaysBirthdays={data.todaysBirthdays} />
 
 <ContactUs />

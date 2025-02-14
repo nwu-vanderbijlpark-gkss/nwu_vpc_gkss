@@ -63,7 +63,8 @@
 		{:else}
 			<h1 class="text-xl font-bold text-white">Create an account</h1>
 			<p class="text-white">
-				Use your gmail account, you will receive an email then open gmail and verify your email.
+				Use your email account, you will receive an email then open your email app and verify your
+				email.
 			</p>
 			<p class=" text-error">{form?.error}</p>
 			<form
