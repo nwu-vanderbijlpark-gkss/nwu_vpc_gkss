@@ -3,6 +3,13 @@
 	import Events from '../components/Events.svelte';
 	import TodaysBirthdays from '../components/TodaysBirthdays.svelte';
 	let { data } = $props();
+	let todaysBirthdays = data.members.filter((member) => {
+		const today = new Date();
+		const birthDate = new Date(member.date_of_birth);
+
+		// Check if the member's birthday is today (ignore the year)
+		return today.getDate() === birthDate.getDate() && today.getMonth() === birthDate.getMonth();
+	});
 </script>
 
 <title>Home | NWU Vaal GKSS</title>
@@ -26,7 +33,7 @@
 </div>
 <section class="flex min-h-screen items-center justify-center bg-base-200">
 	<div
-		class="container mx-auto grid items-center gap-8 bg-gray-100 p-5 lg:grid-cols-2 lg:px-6 lg:py-0"
+		class="container mx-auto grid items-center gap-8 overflow-hidden bg-gray-100 p-5 lg:grid-cols-2 lg:px-6 lg:py-0"
 	>
 		<!-- Text Content -->
 		<div class="text-center lg:text-left">
@@ -73,6 +80,8 @@
 </section>
 
 <Events events={data.events} />
-<TodaysBirthdays todaysBirthdays={data.todaysBirthdays} />
+<div class="p-4">
+	<TodaysBirthdays {todaysBirthdays} />
+</div>
 
 <ContactUs />

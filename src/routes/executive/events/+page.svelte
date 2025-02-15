@@ -36,6 +36,7 @@
 					<th class="px-6 py-4 font-medium">Event</th>
 					<th class="hidden px-6 py-4 font-medium lg:table-cell">Description</th>
 					<th class="px-6 py-4 font-medium">Date and time</th>
+					<th class="px-6 py-4 font-medium">Venue</th>
 					<th class="px-6 py-4 font-medium">Type</th>
 					<th class="px-6 py-4 text-center font-medium">Actions</th>
 				</tr>
@@ -50,6 +51,7 @@
 							>{event.description}</td
 						>
 						<td class="px-6 py-4">{moment(event.date).format('llll')}</td>
+						<td class="px-6 py-4">{event.venue}</td>
 						<td class="hidden max-w-[300px] overflow-hidden px-6 py-4 lg:table-cell"
 							>{event.public ? 'Public' : 'Private'}</td
 						>
@@ -103,10 +105,26 @@
 				/>
 			</label>
 			<label class="form-control w-full">
+				<p>Venue</p>
+				<input
+					type="text"
+					name="venue"
+					class="input input-bordered"
+					id="venu"
+					placeholder="The name of the venue."
+				/>
+			</label>
+			<div class="form-control w-52">
+				<label class="label cursor-pointer">
+					<span class="label-text">Make event public</span>
+					<input type="checkbox" name="public" class="toggle toggle-primary" checked="checked" />
+				</label>
+			</div>
+			<label class="form-control w-full">
 				<p>Date and Time</p>
 				<input type="datetime-local" name="date" class="input input-bordered" id="date" />
 			</label>
-			<label class="form-control w-full">
+			<label class="form-control hidden w-full">
 				<p>Poster</p>
 				<input
 					type="file"

@@ -1,6 +1,7 @@
 <script>
 	import {
 		ChartBar,
+		ChartColumnBig,
 		CodeXml,
 		Dot,
 		Forward,
@@ -16,6 +17,7 @@
 	} from 'lucide-svelte';
 	import Loading from '../../components/Loading.svelte';
 	import Editor from '../../components/Editor.svelte';
+	import { slide } from 'svelte/transition';
 
 	let { children, data } = $props();
 	let todaysBirthdays = data.members.filter((member) => {
@@ -69,7 +71,7 @@
 	let isLoading = $state(false);
 </script>
 
-<main class="flex min-h-screen divide-x bg-gray-200">
+<main transition:slide class="flex min-h-screen divide-x bg-gray-200">
 	<div class="hidden min-h-screen w-2/12 flex-col items-center bg-white p-2 text-black lg:flex">
 		<ul class="menu min-h-full w-full space-y-2 p-2">
 			<h2 class="menu-title border-b text-xl font-bold text-gray-400">Community</h2>
@@ -81,6 +83,9 @@
 			</li>
 			<li>
 				<a href="/community/projectspace" class="navItem text-lg"><CodeXml /> ProjectSpace</a>
+			</li>
+			<li>
+				<a href="/community/leaderboard" class="navItem text-lg"><ChartColumnBig /> LeaderBoard</a>
 			</li>
 			{#if data.email != null}
 				<li><a href="/community/profile" class="navItem text-lg"><User /> Profile</a></li>

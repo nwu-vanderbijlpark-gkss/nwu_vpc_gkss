@@ -4,7 +4,7 @@ export async function load({locals: {supabase}}) {
 
     /**TOPICS */
     //fetch all topics
-    const {data: Topic, error} = await supabase.from("Topic").select("id,content,created_at,tags,topic, Member(username,image,name, surname),Comment(*,Member(username, image, name, surname)),topic_views(*),topic_images(image)").order('created_at', { ascending: false });
+    const {data: Topic, error} = await supabase.from("Topic").select("id,content,created_at,tags,topic, Member(username,image,name, surname),Comment(*,Member(username, image, name, surname)),topic_views(id),topic_images(image)").order('created_at', { ascending: false });
     if(error){
         console.error(error)
     }
@@ -41,7 +41,7 @@ export async function load({locals: {supabase}}) {
         projects.push({...project,image: publicUrl.data.publicUrl,rating: rating})
     }
     /**MEMBERS */
-    const {data: Member} = await supabase.from("Member").select("name, surname, bio, qualification, username, image, year_of_study, interests, gender, date_of_birth");
+    const {data: Member} = await supabase.from("Member").select("name, surname, bio, qualification, username, image, year_of_study, interests, gender, date_of_birth, points, Topic(id),Project(id)");
     let members = [];
     for(const member of Member){
         let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")+1));//removing the first "file/"

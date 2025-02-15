@@ -8,7 +8,9 @@ export const actions = {
         .from('Events')
         .insert({  topic: data.get('topic'),
             description: data.get('description'),
-            date: data.get('date')
+            date: data.get('date'),
+            venue: data.get("venue"),
+            public: data.get("public")
          })
 
          if(error){

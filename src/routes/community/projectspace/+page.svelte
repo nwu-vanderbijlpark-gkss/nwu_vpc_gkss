@@ -32,7 +32,7 @@
 
 	<div class="max-h-[90svh] space-y-4 overflow-auto">
 		<a
-			href="/community/projectspace/rankings"
+			href="/community/leaderboard#projects"
 			class="flex items-center gap-4 rounded-lg border border-gray-300 bg-gradient-to-br from-black to-red-400 p-5 text-white shadow-lg transition-transform hover:scale-105 hover:shadow-2xl"
 		>
 			<ChartNoAxesColumnIcon size="40px" />
