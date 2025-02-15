@@ -66,8 +66,7 @@
 	// Build a Map where each username maps to its rank
 	const rankMap = new Map();
 	members.forEach((person, index) => {
-		index = index === 0 ? '1st' : index == 1 ? '2nd' : index == 2 ? '3rd' : `${index + 1}th`;
-		rankMap.set(person.username, index);
+		rankMap.set(person.username, index + 1);
 	});
 
 	// Each lookup is constant time
@@ -225,7 +224,7 @@
 		{#if activeTab === 'stats'}
 			<!-- Dashboard content -->
 			<div class="stats stats-vertical my-4 w-full shadow lg:stats-horizontal">
-				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Rank', icon: ChartColumnIcon, value: rankMap.get(member.username) }, { title: 'Study Level', icon: Calendar, value: member.year_of_study, sub: '' }] as stat}
+				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Rank', icon: ChartColumnIcon, value: rankMap.get(member.username) / members.length }, { title: 'Study Level', icon: Calendar, value: member.year_of_study, sub: '' }] as stat}
 					<div class="stat">
 						<div class="stat-figure">
 							<svelte:component this={stat.icon} class="text-primary" size={24} />
