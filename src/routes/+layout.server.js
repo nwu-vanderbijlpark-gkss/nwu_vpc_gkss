@@ -31,6 +31,6 @@ export const load = async({request, locals: {supabase}}) => {
         }
     }
     else{
-        return {isLoggedIn: false, todaysBirthdays};
+        return {isLoggedIn: false, members};
     }
 }
