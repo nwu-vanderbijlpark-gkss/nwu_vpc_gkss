@@ -7,6 +7,7 @@
 		Forward,
 		LogIn,
 		MessageCircleMore,
+		MoreHorizontal,
 		PlusCircle,
 		Search,
 		ThumbsDown,
@@ -80,6 +81,9 @@
 			</li>
 			<li>
 				<a href="/community" class="navItem text-lg"><Users /> Discussions</a>
+			</li>
+			<li>
+				<a href="/community/chat" class="navItem text-lg"><MessageCircleMore />Geek AI models</a>
 			</li>
 			<li>
 				<a href="/community/projectspace" class="navItem text-lg"><CodeXml /> ProjectSpace</a>
@@ -192,30 +196,61 @@
 			href="/community/projectspace"
 			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
 		>
-			<CodeXml class="h-5 w-5" />
-			<span>Projects</span>
+			<MessageCircleMore class="h-5 w-5" />
+			<span>Geek AI</span>
 		</a>
-
-		{#if data.email != null}
-			<a
-				href="/community/profile"
-				class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
-			>
-				<User class="h-5 w-5" />
-				<span>Profile</span>
-			</a>
-		{:else}
-			<a
-				href="/login"
-				class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
-			>
-				<LogIn class="h-5 w-5" />
-				<span>Login</span>
-			</a>
-		{/if}
+		<button
+			onclick={() => moreModal.show()}
+			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+		>
+			<MoreHorizontal class="h-5 w-5" />
+			<span>More</span>
+		</button>
 	</div>
 </main>
+<!--Menu/More modal-->
+<dialog id="moreModal" class="modal modal-bottom z-50 sm:modal-middle">
+	<div class="modal-box text-white">
+		<div class="flex items-center justify-between">
+			<p class="text-lg font-bold text-white">More links</p>
+			<div class="modal-action">
+				<form method="dialog">
+					<button class="btn"><X />Close</button>
+				</form>
+			</div>
+		</div>
+		<div class="text-whte flex flex-col items-center p-2">
+			<ul class="menu min-h-full w-full space-y-2 p-2">
+				<li>
+					<a href="/community/projectspace" class="navItem flex text-lg"><CodeXml /> ProjectSpace</a
+					>
+				</li>
 
+				<li>
+					<a href="/community/leaderboard" class="navItem flex text-lg"
+						><ChartColumnBig /> LeaderBoard</a
+					>
+				</li>
+
+				{#if data.email != null}
+					<li>
+						<a href="/community/profile" class="navItem flex text-lg">
+							<User class="h-5 w-5" />
+							<span>Profile</span>
+						</a>
+					</li>
+				{:else}
+					<li>
+						<a href="/login" class="navItem flex text-lg">
+							<LogIn class="h-5 w-5" />
+							<span>Login</span>
+						</a>
+					</li>
+				{/if}
+			</ul>
+		</div>
+	</div>
+</dialog>
 <!-- Comment Modal-->
 <dialog id="commentModal" class="modal modal-bottom z-50 sm:modal-middle">
 	<div class="modal-box text-white">
