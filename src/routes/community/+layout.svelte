@@ -193,7 +193,7 @@
 		</a>
 
 		<a
-			href="/community/projectspace"
+			href="/community/chat"
 			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
 		>
 			<MessageCircleMore class="h-5 w-5" />

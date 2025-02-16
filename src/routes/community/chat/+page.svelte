@@ -122,7 +122,7 @@
 								{/if}
 							</div>
 							<div class="chat-footer mt-1 flex items-center gap-1 text-xs opacity-50">
-								{new Date(response.timestamp).toLocaleTimeString()}
+								To: {response.model}
 								{#if response.status === 'sending'}
 									<span class="loading loading-spinner loading-xs"></span>
 								{/if}
@@ -155,7 +155,7 @@
 								{response.response}
 							</div>
 							<div class="chat-footer mt-1 flex items-center gap-1 text-xs opacity-50">
-								{new Date(response.timestamp).toLocaleTimeString()}
+								{response.model}
 								{#if response.status === 'processing'}
 									<span class="loading loading-dots loading-xs"></span>
 								{/if}
