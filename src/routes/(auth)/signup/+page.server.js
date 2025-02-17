@@ -28,7 +28,7 @@ export const actions =   {
             return {error: "Account already exists"};
           }
           else{
-            redirect(303,"/login")
+            redirect(303,"/onboarding")
           }
       }
     }
