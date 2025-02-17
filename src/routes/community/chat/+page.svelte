@@ -3,8 +3,11 @@
 	import { SendHorizontal } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import MarkDown from '../../../components/MarkDown.svelte';
+
 	let { data } = $props();
 	let message = $state('');
+	let isLoading = $state(false);
 	let responses = $state(data.chat ? JSON.parse(data.chat) : []); //read the past messages or initialize an empty chat
 	const models = [
 		'deepseek-r1-distill-llama-70b',
@@ -27,6 +30,7 @@
 	let model = $state(models[0]);
 	async function handleSubmit(e) {
 		e.preventDefault();
+		isLoading = true;
 		if (message.length > 0) {
 			const response = await fetch('/community/ai-chat', {
 				method: 'POST',
@@ -38,6 +42,7 @@
 			const result = await response.json();
 			responses.push({ message: message, response: result.response, model: model });
 			message = '';
+			isLoading = false;
 		}
 	}
 	onMount(() => {});
@@ -48,7 +53,7 @@
 		e.target.style.height = 'auto';
 		e.target.style.height = `${e.target.scrollHeight}px`;
 	};
-	let chatContainer;
+	let chatContainer = $state();
 	let isTyping = $state(false);
 	let isSending = $state(false);
 	const handleKeyDown = (e) => {
@@ -68,23 +73,13 @@
 	<header class="border-b p-4">
 		<div class="mx-auto max-w-4xl">
 			<h1 class="text-xl font-bold text-primary">Geek AI Chat</h1>
-			<p class="text-sm text-gray-500">
-				Using: <select
-					bind:value={model}
-					class="select select-bordered border-gray-600 bg-white font-bold"
-				>
-					{#each models as mod}
-						<option>{mod}</option>
-					{/each}
-				</select>
-			</p>
 		</div>
 	</header>
 	{#if data.isLoggedIn}
 		<!-- Chat Messages -->
-		<div class="chat-container relative flex-1">
-			<div class="mx-auto h-full max-w-4xl overflow-y-auto p-4" bind:this={chatContainer}>
-				<div class="flex min-h-full flex-col justify-end space-y-4">
+		<div class="chat-container relative flex-1" bind:this={chatContainer}>
+			<div class="mx-auto h-full max-w-4xl overflow-y-auto p-4">
+				<div class=" mb-56 flex min-h-full flex-col justify-end space-y-4 lg:mb-10">
 					{#each responses as response, i}
 						<!-- User Message -->
 						<div class="chat chat-end" in:fade={{ duration: 200 }}>
@@ -133,7 +128,7 @@
 						<div class="chat chat-start" in:fade={{ duration: 200 }}>
 							<div class="avatar chat-image">
 								<div
-									class="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white"
+									class="flex h-10 max-w-10 items-center justify-center rounded-full bg-accent text-white"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -151,8 +146,8 @@
 									</svg>
 								</div>
 							</div>
-							<div class="chat-bubble chat-bubble-accent max-w-2xl whitespace-pre-wrap">
-								{response.response}
+							<div class="chat-bubble chat-bubble-accent max-w-[80vw] whitespace-pre-wrap">
+								<MarkDown content={response.response} />
 							</div>
 							<div class="chat-footer mt-1 flex items-center gap-1 text-xs opacity-50">
 								{response.model}
@@ -197,6 +192,16 @@
 
 		<!-- Input Area -->
 		<div class="fixed bottom-16 w-full border-t bg-white shadow-lg lg:sticky lg:bottom-10">
+			<p class="text-sm text-gray-500">
+				Using: <select
+					bind:value={model}
+					class="select select-bordered select-sm border-gray-600 bg-white font-bold"
+				>
+					{#each models as mod}
+						<option>{mod}</option>
+					{/each}
+				</select>
+			</p>
 			<form class="mx-auto max-w-4xl p-4" onsubmit={handleSubmit}>
 				<div class="join w-full">
 					<textarea
@@ -211,10 +216,10 @@
 					<button
 						class="btn btn-primary join-item rounded-r-lg disabled:text-black"
 						type="submit"
-						disabled={!message.trim() || isSending}
+						disabled={!message.trim() || isLoading}
 						aria-label="Send message"
 					>
-						{#if isSending}
+						{#if isLoading}
 							<span class="loading loading-spinner loading-sm"></span>
 						{:else}
 							<svg
