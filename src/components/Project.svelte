@@ -2,6 +2,7 @@
 	import { ArrowUpRightFromSquare, MessageSquare, Star, ThumbsUp } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fly, scale } from 'svelte/transition';
+	import moment from 'moment';
 
 	let { project, form, text } = $props();
 	let isHovered = $state(false);
@@ -95,138 +96,44 @@
 			.join('');
 	}
 </script>
-
-<svelte:window onkeydown={handleEscape} />
-
-<div
-	class="card relative w-full space-y-4 border bg-white p-5 transition-all duration-300 hover:shadow-lg lg:w-[400px]"
-	onmouseenter={() => (isHovered = true)}
-	onmouseleave={() => (isHovered = false)}
-	role="article"
->
-	<!-- Header with title and rating -->
-	<div class="flex w-full items-center justify-between">
-		<div class="space-y-1">
-			<h1 class="text-xl font-bold text-gray-900">{@html highlightText(project.name, text)}</h1>
-			<a
-				href={`/community/${project.Member.username}`}
-				class="text-sm text-blue-600 transition-colors hover:text-blue-800"
-			>
-				by {project.Member.username}
-			</a>
+<li>
+	<a
+		href={`/community/tools/${project.id}`}
+		class="hover:border-primary-300 focus:ring-primary-500 group relative flex h-full flex-col rounded-lg border border-gray-200 bg-white p-6 transition-all hover:shadow-md focus:outline-none focus:ring-2"
+	>
+		<div class="mb-4 flex items-center gap-3">
+			<div>
+				<p class="text-sm font-medium text-gray-700">
+					{@html highlightText(project.Member.name,text)}
+					{@html highlightText(project.Member.surname,text)}
+				</p>
+				{#if project.created_at}
+					<time class="text-xs text-gray-500" datetime={project.created_at}>
+						{moment(project.created_at).fromNow()}
+					</time>
+				{/if}
+			</div>
 		</div>
-		<div class="flex items-center gap-1 font-bold">
-			<Star color="gold" fill="gold" size={20} />
-			{rating?.toFixed(1) || '0.0'}
-		</div>
-	</div>
 
-	<!-- Project Image -->
-	<div class="relative h-[200px] w-full overflow-hidden rounded-lg">
-		<img
-			src={project.image}
-			alt={project.name}
-			class="h-full w-full object-cover transition-transform duration-300"
-			class:scale-110={isHovered}
-		/>
-	</div>
+		<div class="flex flex-1 flex-col">
+			<h2 class="group-hover:text-primary-600 mb-2 text-xl font-semibold text-gray-900">
+				{@html highlightText(project.name,text)}
+			</h2>
+			<p class="mb-4 line-clamp-3 flex-1 text-base text-gray-600">
+				{@html highlightText(project.description,text)}
+			</p>
 
-	<!-- Description -->
-	<p class="line-clamp-2 text-gray-600">{@html highlightText(project.description, text)}</p>
-
-	<!-- Action Buttons -->
-	<div class="flex items-center justify-between">
-		<div class="relative flex items-center gap-2">
-			<button
-				bind:this={rateButtonRef}
-				class="btn btn-ghost flex items-center gap-2 bg-gray-100 transition-colors hover:bg-gray-200 disabled:opacity-50"
-				onclick={() => (showRatingInput = !showRatingInput)}
-				disabled={isSubmitting}
-				aria-expanded={showRatingInput}
-				aria-haspopup="true"
-				aria-controls="rating-popup"
-			>
-				<ThumbsUp size={18} /> Rate
-			</button>
-
-			{#if showRatingInput}
-				<div
-					id="rating-popup"
-					class="absolute bottom-12 left-0 min-w-[200px] rounded-lg border bg-white p-3 shadow-lg"
-					transition:scale={{ duration: 200 }}
-					role="dialog"
-					aria-label="Rate this project"
-				>
-					<div class="space-y-3">
-						<div class="flex justify-center gap-1" role="radiogroup" aria-label="Star rating">
-							{#each Array(5) as _, i}
-								<button
-									role="radio"
-									aria-checked={i < (hoverRating || rating)}
-									aria-label={`Rate ${i + 1} star${i === 0 ? '' : 's'}`}
-									onclick={() => !isSubmitting && handleRate(i + 1, project.id)}
-									onmouseenter={() => handleStarHover(i + 1)}
-									onmouseleave={handleStarLeave}
-									disabled={isSubmitting}
-									class="rounded transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-								>
-									<Star
-										size={24}
-										color={i < (hoverRating || rating) ? 'gold' : 'gray'}
-										fill={i < (hoverRating || rating) ? 'gold' : 'none'}
-									/>
-								</button>
-							{/each}
-						</div>
-
-						{#if isSubmitting}
-							<p class="text-center text-sm text-gray-600" role="status">Submitting rating...</p>
-						{/if}
-
-						{#if errorMessage}
-							<p class="text-center text-sm text-red-500" role="alert" transition:fly={{ y: 10 }}>
-								{errorMessage}
-							</p>
-						{/if}
-
-						{#if successMessage}
-							<p
-								class="text-center text-sm text-green-500"
-								role="status"
-								transition:fly={{ y: 10 }}
-							>
-								{successMessage}
-							</p>
-						{/if}
-					</div>
+			{#if project.tags}
+				<div class="mt-auto flex flex-wrap gap-2">
+					{#each project.tags as tag}
+						<span
+							class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
+						>
+							{tag}
+						</span>
+					{/each}
 				</div>
 			{/if}
-
-			<button
-				class="btn btn-ghost flex items-center gap-2 bg-gray-100 transition-colors hover:bg-gray-200"
-				aria-label="Add comment"
-			>
-				<MessageSquare size={18} /> Comment
-			</button>
 		</div>
-		<a
-			href={project.link.includes('http') ? project.link : `https://${project.link}`}
-			target="_blank"
-			rel="noopener noreferrer"
-			class="btn btn-ghost flex items-center gap-2 border transition-colors hover:bg-gray-50"
-			aria-label="View project"
-		>
-			<ArrowUpRightFromSquare size={18} /> View
-		</a>
-	</div>
-</div>
-
-<style>
-	.line-clamp-2 {
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-</style>
+	</a>
+</li>

@@ -1,8 +1,4 @@
 export const load = async({locals: {supabase}}) => {
-    const {data: {user}} = await supabase.auth.getUser();
-    if(user){
-        const {data: Member, error} = await supabase.from("Member").select("ai_chat").eq("id",user.id);
-        return {chat: Member[0].ai_chat};
-    }
-
+    const {data: Project} = await supabase.from("Project").select("name,description,link,created_at,id,Member(username,name,surname)").order('created_at', { ascending: false });
+    return {projects: Project}
 }

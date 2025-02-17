@@ -145,7 +145,7 @@
 							<tbody class="divide-y divide-gray-200">
 								{#each projects as project, index}
 									<tr
-										on:click={() => (window.location = `/projects/${project.id}`)}
+										on:click={() => (window.location = `/community/tools/${project.id}`)}
 										class="cursor-pointer transition-colors hover:bg-gray-50"
 									>
 										<td class="px-4 py-3 font-medium text-gray-900">{index + 1}</td>

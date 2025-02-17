@@ -5,13 +5,9 @@
 
 	let { data } = $props();
 	let notFound = $state(false);
-	let project = $state();
+	let project = $state(data.project);
 	onMount(() => {
-		const id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-		project = data.projects.filter((project) => project.id == id)[0];
-		if (!project) {
-			notFound = true;
-		}
+		
 	});
 </script>
 

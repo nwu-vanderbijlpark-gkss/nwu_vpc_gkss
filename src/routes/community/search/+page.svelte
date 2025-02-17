@@ -74,8 +74,7 @@
 				(project) =>
 					isFound(project.name) ||
 					isFound(project.link) ||
-					isFound(project.description) ||
-					isFound(project.technologies)
+					isFound(project.description)
 			);
 		}
 
@@ -227,11 +226,13 @@
 				{#if project_results.length > 0 && (filter === 'none' || filter === 'projects')}
 					<section aria-labelledby="projects-heading">
 						<h2 id="projects-heading" class="border-b pb-2 text-lg font-semibold">Projects</h2>
-						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+						<section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+							<ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">							
 							{#each project_results as project}
 								<Project {project} {text} {highlightText} />
 							{/each}
-						</div>
+							</ul>
+						</section>
 					</section>
 				{/if}
 			</div>

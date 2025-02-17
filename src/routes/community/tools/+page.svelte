@@ -1,12 +1,15 @@
 <script>
 	import { LogIn, X } from 'lucide-svelte';
-	import { SendHorizontal } from 'lucide-svelte';
+	import { SendHorizontal,PlusCircle } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import MarkDown from '../../../components/MarkDown.svelte';
+	import Loading from '../../../components/Loading.svelte';
+	import Project from '../../../components/Project.svelte';
 
 	let { data } = $props();
-	let message = $state('');
+	let form = $state({ name: '', description: '', link: '' });
+	let projects = $state(data.projects);
 	let isLoading = $state(false);
 	let responses = $state(data.chat ? JSON.parse(data.chat) : []); //read the past messages or initialize an empty chat
 	const models = [
@@ -31,43 +34,27 @@
 	async function handleSubmit(e) {
 		e.preventDefault();
 		isLoading = true;
-		if (message.length > 0) {
-			const response = await fetch('/community/ai-api', {
+
+		if (form.name.length > 0 && form.link.length > 0 && form.description.length > 0) {
+			const response = await fetch('/community/tools/addTool', {
 				method: 'POST',
-				body: JSON.stringify({ message, model, responses }),
+				body: JSON.stringify({ form }),
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			});
 			const result = await response.json();
-			responses.push({ message: message, response: result.response, model: model });
-			message = '';
+			projects = result.projects;
 			isLoading = false;
+			submitToolModal.close();
 		}
 	}
 	onMount(() => {});
-	let textarea;
 
-	// Auto-resize function for textarea
-	const autoResize = (e) => {
-		e.target.style.height = 'auto';
-		e.target.style.height = `${e.target.scrollHeight}px`;
-	};
-	let chatContainer = $state();
-	let isTyping = $state(false);
-	let isSending = $state(false);
-	const handleKeyDown = (e) => {
-		if (e.key === 'Enter' && !e.shiftKey) {
-			e.preventDefault();
-			if (message.trim()) handleSubmit(e);
-		}
-	};
-	// Auto-scroll to bottom when new messages are added
-	$derived: if (chatContainer) {
-		chatContainer.scrollTop = chatContainer.scrollHeight;
-	}
 	let website = $state();
 </script>
+
+<title>Tools & Projects | NWU Vaal GKSS</title>
 
 <div class="flex h-screen flex-col">
 	<!-- Header -->
@@ -81,7 +68,7 @@
 			</span>
 
 			<button onclick={() => submitToolModal.show()} class="btn btn-primary text-white">
-				<h2 class="text-lg font-semibold">Submit Project</h2>
+				<h2 class="text-lg font-semibold flex gap-2 items-center">Submit Project<PlusCircle/>  </h2> 
 			</button>
 		</div>
 	</header>
@@ -89,23 +76,13 @@
 	<main class="flex-1 bg-gray-50">
 		{#if data.isLoggedIn}
 			<!-- Logged-in Content -->
-			<div class="mx-auto max-w-4xl space-y-2 px-4 py-8">
-				<div class="flex flex-col flex-wrap gap-6 md:flex-row">
-					{#each data.projects as project}
-						<a
-							href={`/community/tools/${project.id}`}
-							class="flex flex-1 flex-col rounded-lg border bg-white p-6 transition-all hover:border-primary hover:shadow-md"
-						>
-							<h2 class="text-lg font-semibold text-gray-900">
-								{project.name}
-							</h2>
-							<p class="mt-2 text-sm text-gray-600">
-								{project.description}
-							</p>
-						</a>
+			<section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+				<ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+					{#each projects as project}
+						<Project {project}/>
 					{/each}
-				</div>
-			</div>
+				</ul>
+			</section>
 		{:else}
 			<!-- Guest Content -->
 			<div class="mx-auto max-w-md px-4 py-12">
@@ -144,8 +121,8 @@
 				</form>
 			</div>
 		</div>
-		{#if data.isLoggedIn}
-			<form method="post" action="/community?/addProject" class="flex w-full flex-col gap-5">
+		{#if data.isLoggedIn && !isLoading}
+			<form method="post" onsubmit={handleSubmit} class="flex w-full flex-col gap-5">
 				<label class="form-control w-full">
 					<p>Name</p>
 					<input
@@ -153,11 +130,18 @@
 						placeholder="The name of the tool"
 						class="input input-bordered"
 						name="name"
+						bind:value={form.name}
 					/>
 				</label>
 				<label class="form-control w-full">
 					<p>Link to tool</p>
-					<input type="url" placeholder="https://" class="input input-bordered" name="link" />
+					<input
+						type="url"
+						bind:value={form.link}
+						placeholder="https://"
+						class="input input-bordered"
+						name="link"
+					/>
 				</label>
 				<label class="form-control w-full">
 					<p>Description</p>
@@ -167,10 +151,13 @@
 						id="description"
 						placeholder="Add the tool's description"
 						required
+						bind:value={form.description}
 					></textarea>
 				</label>
 				<button type="submit" class="btn btn-primary text-white">Submit</button>
 			</form>
+		{:else if isLoading}
+			<Loading />
 		{:else}
 			<p class="py-4 text-sm">You need to login to be able to submit a tool</p>
 			<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
