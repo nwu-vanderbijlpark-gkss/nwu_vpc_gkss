@@ -1,26 +1,35 @@
 
-export async function load({locals: {supabase},request,params}) {
-    const topic_id = params.id;//get the topic id from params
+export async function load({ locals: { supabase }, request, params, getClientAddress }) {
+    const topic_id = params.id;
+    let ip_address = getClientAddress();
+    try {
+        // Check for existing view from this IP
+        const { data: existingViews, error: lookupError } = await supabase
+            .from('topic_views')
+            .select('id')
+            .eq('topic_id', topic_id)
+            .eq('ip_address', ip_address)
+            .limit(1);
 
-    //create/update the topic_views as the topic is being viewed now
-    const {data: {user}} = await supabase.auth.getUser();
-    if(user){
-        const {data} = await supabase.from("topic_views").select("*").eq("user_id",user.id);//get the topics viewed by the current user
-        let alreadyExists = false;//check if the view already exists
-        for(let i = 0; i < data.length; i++){
-            let topic = data[i];
-            if(topic.topic_id == topic_id){
-                alreadyExists = true;
-            }
+        if (lookupError) throw lookupError;
+
+        // Only create new view if no existing record
+        if (!existingViews || existingViews.length === 0) {
+            const { error: insertError } = await supabase
+                .from('topic_views')
+                .insert({
+                    topic_id: topic_id,
+                    ip_address: ip_address,
+                });
+
+            if (insertError) throw insertError;
         }
-        if(!alreadyExists){
-            //create a new view or new row in the topic_views table
-            const {data} = await supabase.from("topic_views").insert({
-                topic_id: topic_id,
-                user_id: user.id,
-            })
-        }
+
+    } catch (error) {
+        console.error('Error tracking view:', error);
     }
+
+    return {};
 }
 export const actions =   {
     default: async({locals: {supabase},request,params}) => {
