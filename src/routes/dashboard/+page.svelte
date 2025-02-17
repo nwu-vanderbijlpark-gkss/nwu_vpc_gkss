@@ -55,8 +55,11 @@
 	const handleLogout = (event) => {
 		logoutModal.showModal();
 	};
-	const handleImageUpload = (event) =>
-		event.target.files[0] && console.log('Image uploaded:', event.target.files[0].name);
+	const handleImageChange = (event) => {
+		let image = event.target.files[0];
+		member.image = URL.createObjectURL(image);
+		console.log('Image uploaded:', event.target.files[0].name);
+	};
 	const handleNotificationClick = () => (notifications = 0);
 	let members = $state(
 		data.members
@@ -115,6 +118,7 @@
 					accept="image/*"
 					name="image"
 					id="image"
+					onchange={handleImageChange}
 				/>
 				<button type="submit" class="btn btn-primary w-full"><Upload />Upload</button>
 			</form>

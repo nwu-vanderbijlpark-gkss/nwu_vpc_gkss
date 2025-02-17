@@ -35,11 +35,10 @@ export async function load({params, locals: {supabase}}) {
                 allTopics.push(topic);
             }
             
-            const {data: Project} = await supabase.from("Project").select("name,image,description,technologies,link,created_at,id,Member(username,name,surname)").eq("user_id",data[0].id).order('created_at', { ascending: false });
+            const {data: Project} = await supabase.from("Project").select("name,description,link,created_at,id,Member(username,name,surname)").eq("user_id",data[0].id).order('created_at', { ascending: false });
             let projects = [];
             let user_rating = 0;
             for(const project of Project){
-                let publicUrl = await supabase.storage.from("files").getPublicUrl(project.image.substring(project.image.indexOf("/")+1));//removing the first "file/"
                 const {data: Project_rating} = await supabase.from("Project_rating").select("rating,Member(id)").eq("project_id",project.id);
                 let rating = Project_rating;
                 
@@ -48,7 +47,7 @@ export async function load({params, locals: {supabase}}) {
                 }
                 //project rating average
                 user_rating = user_rating/rating.length;
-                projects.push({...project,image: publicUrl.data.publicUrl,rating: rating})
+                projects.push({...project,rating: rating})
             }
             user_rating = user_rating/projects.length;
             

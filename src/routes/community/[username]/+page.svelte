@@ -132,15 +132,17 @@
 					class="tab font-medium text-gray-500 [--tab-bg:transparent] aria-selected:bg-primary aria-selected:text-white"
 				/>
 				<div role="tabpanel" class="tab-content mt-4">
-					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{#each data.projects as project}
-							<Project {project} />
-						{:else}
-							<div class="col-span-full rounded-lg bg-gray-50 p-6 text-center text-gray-500">
-								No projects submitted yet
-							</div>
-						{/each}
-					</div>
+					<section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+						<ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+							{#each data.projects as project}
+								<Project {project} />
+							{:else}
+								<div class="col-span-full rounded-lg bg-gray-50 p-6 text-center text-gray-500">
+									No projects submitted yet
+								</div>
+							{/each}
+						</ul>
+					</section>
 				</div>
 			</div>
 		</div>
