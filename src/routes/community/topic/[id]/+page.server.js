@@ -1,25 +1,35 @@
+import CryptoJS from "crypto-js";
+import { GROQ_API_KEY } from '$env/static/private';
+
+const SECRET_KEY = GROQ_API_KEY; 
+
+function hashIP(ip) {
+    return CryptoJS.HmacSHA256(ip, SECRET_KEY).toString(CryptoJS.enc.Hex);
+}
 
 export async function load({ locals: { supabase }, request, params, getClientAddress }) {
     const topic_id = params.id;
     let ip_address = getClientAddress();
+    let hashed_ip = hashIP(ip_address);
+
     try {
-        // Check for existing view from this IP
+        // Check if this IP already viewed the topic
         const { data: existingViews, error: lookupError } = await supabase
             .from('topic_views')
             .select('id')
             .eq('topic_id', topic_id)
-            .eq('ip_address', ip_address)
+            .eq('ip_address', hashed_ip)
             .limit(1);
 
         if (lookupError) throw lookupError;
 
-        // Only create new view if no existing record
+        // Only insert if there's no existing view
         if (!existingViews || existingViews.length === 0) {
             const { error: insertError } = await supabase
                 .from('topic_views')
                 .insert({
                     topic_id: topic_id,
-                    ip_address: ip_address,
+                    ip_address: hashed_ip, // Store hashed IP
                 });
 
             if (insertError) throw insertError;
@@ -31,6 +41,8 @@ export async function load({ locals: { supabase }, request, params, getClientAdd
 
     return {};
 }
+
+
 export const actions =   {
     default: async({locals: {supabase},request,params}) => {
     //add a comment to db
