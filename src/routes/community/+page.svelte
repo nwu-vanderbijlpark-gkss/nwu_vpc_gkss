@@ -20,18 +20,6 @@
 
 <title>Community | NWU Vaal GKSS</title>
 <div class="h-full w-full space-y-4" in:slide={{ x: 100 }} out:slide={{ x: -100 }}>
-	<!-- Header Section -->
-	<header class="flex items-center justify-between rounded-lg bg-white p-4 shadow-sm">
-		<div class="space-y-1">
-			<h1 class="text-2xl font-bold text-gray-800">Community Discussions</h1>
-			<p class="text-sm text-gray-500">Share your ideas and engage with the community</p>
-		</div>
-		<a href="/community/create-topic" class="btn btn-primary gap-2 hover:shadow-md">
-			<PlusCircle class="h-5 w-5" />
-			New Topic
-		</a>
-	</header>
-
 	<!-- Content Area -->
 	<main class="rounded-lg bg-white">
 		{#if data.allTopics.length === 0}

@@ -1,5 +1,6 @@
 <script>
 	import {
+		Bot,
 		ChartBar,
 		ChartColumnBig,
 		CodeXml,
@@ -83,11 +84,9 @@
 				<a href="/community" class="navItem text-lg"><Users /> Discussions</a>
 			</li>
 			<li>
-				<a href="/community/chat" class="navItem text-lg"><MessageCircleMore />Geek AI models</a>
+				<a href="/community/tools" class="navItem text-lg"><Bot />Geek Tools</a>
 			</li>
-			<li>
-				<a href="/community/projectspace" class="navItem text-lg"><CodeXml /> ProjectSpace</a>
-			</li>
+
 			<li>
 				<a href="/community/leaderboard" class="navItem text-lg"><ChartColumnBig /> LeaderBoard</a>
 			</li>
@@ -117,21 +116,7 @@
 	<div
 		class="hidden min-h-screen w-64 flex-col items-center space-y-4 bg-white p-4 text-black lg:flex"
 	>
-		<!-- Top Projects -->
 		<div class="w-full space-y-4">
-			<div class="space-y-3 rounded-lg border p-3">
-				<h2 class="text-lg font-semibold text-black">Top Projects</h2>
-				{#each data.projects.slice(0, 3) as project}
-					<a
-						href={`/community/projectspace/${project.id}`}
-						class="flex items-center justify-between rounded-md p-2 hover:bg-gray-100"
-					>
-						<span class="truncate text-base">{project.name}</span>
-						<img src={project.image} alt={project.name} class="h-6 w-6 rounded-full" />
-					</a>
-				{/each}
-			</div>
-
 			<!-- Popular Topics -->
 			<div class="space-y-3 rounded-lg border p-3">
 				<h2 class="text-lg font-semibold text-black">Popular Topics</h2>
@@ -193,11 +178,10 @@
 		</a>
 
 		<a
-			href="/community/chat"
+			href="/community/tools"
 			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
 		>
-			<MessageCircleMore class="h-5 w-5" />
-			<span>Geek AI</span>
+			<Bot class="h-6 w-6" /><span>Geek Tools</span>
 		</a>
 		<button
 			onclick={() => moreModal.show()}
@@ -221,11 +205,6 @@
 		</div>
 		<div class="text-whte flex flex-col items-center p-2">
 			<ul class="menu min-h-full w-full space-y-2 p-2">
-				<li>
-					<a href="/community/projectspace" class="navItem flex text-lg"><CodeXml /> ProjectSpace</a
-					>
-				</li>
-
 				<li>
 					<a href="/community/leaderboard" class="navItem flex text-lg"
 						><ChartColumnBig /> LeaderBoard</a

@@ -138,9 +138,6 @@
 										>Project</th
 									>
 									<th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-700"
-										>Technologies</th
-									>
-									<th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-700"
 										>Rating</th
 									>
 								</tr>
@@ -153,25 +150,12 @@
 									>
 										<td class="px-4 py-3 font-medium text-gray-900">{index + 1}</td>
 										<td class="flex items-center gap-3 px-4 py-3">
-											<img
-												class="h-8 w-8 rounded object-cover"
-												src={project.image || '/default-project.png'}
-												alt={`${project.name} thumbnail`}
-											/>
 											<div>
 												<div class="font-medium">{project.name}</div>
 												<div class="line-clamp-2 text-sm text-gray-500">{project.description}</div>
 											</div>
 										</td>
-										<td class="px-4 py-3">
-											<div class="flex flex-wrap gap-2">
-												{#each project.technologies.split(',') as tech}
-													<span class="rounded-full bg-gray-100 px-2 py-1 text-xs"
-														>{tech.trim()}</span
-													>
-												{/each}
-											</div>
-										</td>
+
 										<td class="px-4 py-3 font-semibold">
 											{#if project.rating !== 'N/A'}
 												{project.rating}/5.0

@@ -32,13 +32,12 @@ export async function load({locals: {supabase}}) {
         allTopics.push(topic);
     }
     /**PROJECTS */
-    const {data: Project} = await supabase.from("Project").select("name,image,description,technologies,link,created_at,id,Member(username)").order('created_at', { ascending: false });
+    const {data: Project} = await supabase.from("Project").select("name,description,link,created_at,id,Member(username)").order('created_at', { ascending: false });
     let projects = [];
     for(const project of Project){
-        let publicUrl = await supabase.storage.from("files").getPublicUrl(project.image.substring(project.image.indexOf("/")+1));//removing the first "file/"
         const {data: Project_rating} = await supabase.from("Project_rating").select("rating,Member(id)").eq("project_id",project.id);
         let rating = Project_rating;
-        projects.push({...project,image: publicUrl.data.publicUrl,rating: rating})
+        projects.push({...project,rating: rating})
     }
     /**MEMBERS */
     const {data: Member} = await supabase.from("Member").select("name, surname, bio, qualification, username, image, year_of_study, interests, gender, date_of_birth, points, Topic(id),Project(id)");
