@@ -32,7 +32,7 @@ export async function load({locals: {supabase}}) {
         allTopics.push(topic);
     }
     /**PROJECTS */
-    const {data: Project} = await supabase.from("Project").select("name,description,link,created_at,id,Member(username,name,surname)").order('created_at', { ascending: false });
+    const {data: Project} = await supabase.from("Project").select("name,description,link,created_at,id,type,Member(username,name,surname),project_views(id)").order('created_at', { ascending: false });
     let projects = [];
     for(const project of Project){
         const {data: Project_rating} = await supabase.from("Project_rating").select("rating,Member(id)").eq("project_id",project.id);

@@ -1,5 +1,5 @@
 <script>
-	import { ArrowUpRightFromSquare, MessageSquare, Star, ThumbsUp } from 'lucide-svelte';
+	import { ArrowUpRightFromSquare, Eye, MessageSquare, Star, ThumbsUp } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fly, scale } from 'svelte/transition';
 	import moment from 'moment';
@@ -96,6 +96,7 @@
 			.join('');
 	}
 </script>
+
 <li>
 	<a
 		href={`/community/tools/${project.id}`}
@@ -104,8 +105,8 @@
 		<div class="mb-4 flex items-center gap-3">
 			<div>
 				<p class="text-sm font-medium text-gray-700">
-					{@html highlightText(project.Member.name,text)}
-					{@html highlightText(project.Member.surname,text)}
+					{@html highlightText(project.Member.name, text)}
+					{@html highlightText(project.Member.surname, text)}
 				</p>
 				{#if project.created_at}
 					<time class="text-xs text-gray-500" datetime={project.created_at}>
@@ -117,23 +118,21 @@
 
 		<div class="flex flex-1 flex-col">
 			<h2 class="group-hover:text-primary-600 mb-2 text-xl font-semibold text-gray-900">
-				{@html highlightText(project.name,text)}
+				{@html highlightText(project.name, text)}
 			</h2>
 			<p class="mb-4 line-clamp-3 flex-1 text-base text-gray-600">
-				{@html highlightText(project.description,text)}
+				{@html highlightText(project.description, text)}
 			</p>
 
-			{#if project.tags}
-				<div class="mt-auto flex flex-wrap gap-2">
-					{#each project.tags as tag}
-						<span
-							class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
-						>
-							{tag}
-						</span>
-					{/each}
-				</div>
-			{/if}
+			<div class="mt-auto flex flex-wrap items-center justify-between gap-2">
+				<span
+					class="flex items-center gap-3 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
+				>
+					<Eye />{project.project_views.length} view{project.project_views.length > 1 ? 's' : ''}
+				</span>
+
+				<p class="text-sm text-gray-500">{project.type}</p>
+			</div>
 		</div>
 	</a>
 </li>

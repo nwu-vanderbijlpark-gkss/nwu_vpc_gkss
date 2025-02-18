@@ -1,6 +1,6 @@
 <script>
 	import { LogIn, X } from 'lucide-svelte';
-	import { SendHorizontal,PlusCircle } from 'lucide-svelte';
+	import { SendHorizontal, PlusCircle } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import MarkDown from '../../../components/MarkDown.svelte';
@@ -8,7 +8,7 @@
 	import Project from '../../../components/Project.svelte';
 
 	let { data } = $props();
-	let form = $state({ name: '', description: '', link: '' });
+	let form = $state({ name: '', description: '', link: '', type: 'Tool' });
 	let projects = $state(data.projects);
 	let isLoading = $state(false);
 	let responses = $state(data.chat ? JSON.parse(data.chat) : []); //read the past messages or initialize an empty chat
@@ -49,59 +49,97 @@
 			submitToolModal.close();
 		}
 	}
-	onMount(() => {});
+	// Tab management
+	let tab = $state('all');
+	const handleHashChange = () => {
+		const validTabs = ['all', 'projects', 'tools'];
+		const newTab = location.hash.replace('#', '');
+		tab = validTabs.includes(newTab) ? newTab : 'all';
+	};
+
+	onMount(() => {
+		window.addEventListener('hashchange', handleHashChange);
+		handleHashChange();
+		isLoading = false;
+		return () => window.removeEventListener('hashchange', handleHashChange);
+	});
 
 	let website = $state();
 </script>
 
 <title>Tools & Projects | NWU Vaal GKSS</title>
-
 <div class="flex h-screen flex-col">
-	<!-- Header -->
-	<header class="border-b bg-gray-50 px-4 py-6">
-		<div class="mx-auto flex max-w-4xl justify-between">
-			<span>
-				<h1 class="text-2xl font-bold tracking-tight text-primary md:text-3xl">Tools & Projects</h1>
+	<!-- Header - Adjusted for mobile stacking -->
+	<header class="border-b bg-gray-50 px-4 py-4 sm:py-6">
+		<div class="mx-auto flex max-w-4xl flex-col gap-4 sm:flex-row sm:justify-between">
+			<div class="flex-1">
+				<h1 class="text-xl font-bold tracking-tight text-primary sm:text-2xl md:text-3xl">
+					Tools & Projects
+				</h1>
 				<p class="mt-1 text-sm text-gray-600">
-					Discover and share open source AI tools with the community
+					Discover and share open source tools and showcase projects.
 				</p>
-			</span>
+			</div>
 
-			<button onclick={() => submitToolModal.show()} class="btn btn-primary text-white">
-				<h2 class="text-lg font-semibold flex gap-2 items-center">Submit Project<PlusCircle/>  </h2> 
-			</button>
+			<div class="flex items-center justify-between gap-4">
+				<nav aria-label="Tool categories" class="flex flex-wrap gap-2">
+					{#each [{ id: 'all', label: 'All' }, { id: 'projects', label: 'Projects' }, { id: 'tools', label: 'Tools' }] as btn}
+						<a
+							href="#{btn.id}"
+							class="rounded px-2 py-1 text-sm sm:px-3 sm:text-base"
+							class:bg-primary={tab === btn.id}
+							class:text-white={tab === btn.id}
+							class:bg-gray-100={tab !== btn.id}
+							class:text-gray-700={tab !== btn.id}
+							aria-current={tab === btn.id ? 'page' : undefined}
+						>
+							{btn.label}
+						</a>
+					{/each}
+				</nav>
+				<button onclick={() => submitToolModal.show()} class="btn btn-primary text-white sm:btn-md">
+					<span class="flex items-center gap-1 sm:gap-2">
+						<span class="">Submit Project</span>
+						<PlusCircle class="h-4 w-4 sm:h-5 sm:w-5" />
+					</span>
+				</button>
+			</div>
 		</div>
 	</header>
 
 	<main class="flex-1 bg-gray-50">
 		{#if data.isLoggedIn}
-			<!-- Logged-in Content -->
-			<section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-				<ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			<!-- Grid adjusted for mobile -->
+			<section class="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-8 lg:px-8">
+				<ul role="list" class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
 					{#each projects as project}
-						<Project {project}/>
+						{#if tab === 'all' || tab.includes(project.type.toLowerCase())}
+							<Project {project} />
+						{/if}
 					{/each}
 				</ul>
 			</section>
 		{:else}
-			<!-- Guest Content -->
-			<div class="mx-auto max-w-md px-4 py-12">
-				<div class="rounded-xl border bg-white p-8 text-center shadow-sm">
-					<div class="space-y-5">
-						<div class="bg-primary-100 mx-auto w-max rounded-full p-4">
-							<LogIn class="h-8 w-8 text-primary" />
+			<!-- Guest content optimized for mobile -->
+			<div class="mx-auto max-w-md px-4 py-8 sm:py-12">
+				<div class="rounded-xl border bg-white p-6 text-center shadow-sm sm:p-8">
+					<div class="space-y-4 sm:space-y-5">
+						<div class="bg-primary-100 mx-auto w-max rounded-full p-3 sm:p-4">
+							<LogIn class="h-6 w-6 text-primary sm:h-8 sm:w-8" />
 						</div>
 						<div class="space-y-2">
-							<h2 class="text-xl font-semibold text-gray-900">Join Our Developer Community</h2>
-							<p class="text-gray-600">
+							<h2 class="text-lg font-semibold text-gray-900 sm:text-xl">
+								Join Our Developer Community
+							</h2>
+							<p class="text-sm text-gray-600 sm:text-base">
 								Sign in to access AI tools repository and contribute your own
 							</p>
 						</div>
 						<a
 							href="/login"
-							class="hover:bg-primary-dark inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 font-medium text-white transition-all"
+							class="hover:bg-primary-dark inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 font-medium text-white transition-all sm:py-3"
 						>
-							<LogIn class="h-5 w-5" />
+							<LogIn class="h-4 w-4 sm:h-5 sm:w-5" />
 							Continue with Login
 						</a>
 					</div>
@@ -110,57 +148,67 @@
 		{/if}
 	</main>
 </div>
-<!-- Add tool Modal-->
+
+<!-- Modal adjustments for mobile -->
 <dialog id="submitToolModal" class="modal modal-bottom z-50 sm:modal-middle">
-	<div class="modal-box text-white">
+	<div class="modal-box max-h-[90vh] overflow-y-auto text-white">
 		<div class="flex items-center justify-between">
-			<p class="text-lg font-bold text-white">Submit tool/Project</p>
-			<div class="modal-action">
-				<form method="dialog">
-					<button class="btn"><X />Close</button>
-				</form>
-			</div>
+			<p class="text-lg font-bold">Submit tool/Project</p>
+			<form method="dialog">
+				<button class="btn btn-circle btn-ghost btn-sm"><X class="h-4 w-4" /></button>
+			</form>
 		</div>
 		{#if data.isLoggedIn && !isLoading}
-			<form method="post" onsubmit={handleSubmit} class="flex w-full flex-col gap-5">
+			<form method="post" onsubmit={handleSubmit} class="flex w-full flex-col gap-3 sm:gap-4">
 				<label class="form-control w-full">
-					<p>Name</p>
+					<p class="text-sm sm:text-base">Name</p>
 					<input
 						type="text"
-						placeholder="The name of the tool"
-						class="input input-bordered"
+						placeholder="Tool name"
+						class="input input-sm input-bordered sm:input-md"
 						name="name"
 						bind:value={form.name}
 					/>
 				</label>
 				<label class="form-control w-full">
-					<p>Link to tool</p>
+					<p class="text-sm sm:text-base">Link</p>
 					<input
 						type="url"
 						bind:value={form.link}
-						placeholder="https://"
-						class="input input-bordered"
+						placeholder="Website link, Github repo link, etc."
+						class="input input-sm input-bordered sm:input-md"
 						name="link"
 					/>
 				</label>
 				<label class="form-control w-full">
-					<p>Description</p>
+					<p class="text-sm sm:text-base">Type</p>
+					<select
+						class="select select-bordered select-sm sm:select-md"
+						name="type"
+						placeholder="Project or Tool"
+						bind:value={form.type}
+					>
+						<option value="Project">Project</option>
+						<option value="Tool">Tool</option>
+					</select>
+				</label>
+				<label class="form-control w-full">
+					<p class="text-sm sm:text-base">Description</p>
 					<textarea
-						class="textarea textarea-bordered"
+						class="textarea textarea-bordered textarea-sm sm:textarea-md"
 						name="description"
-						id="description"
-						placeholder="Add the tool's description"
+						placeholder="Description"
 						required
 						bind:value={form.description}
 					></textarea>
 				</label>
-				<button type="submit" class="btn btn-primary text-white">Submit</button>
+				<button type="submit" class="btn btn-primary btn-sm text-white sm:btn-md">Submit</button>
 			</form>
 		{:else if isLoading}
 			<Loading />
 		{:else}
-			<p class="py-4 text-sm">You need to login to be able to submit a tool</p>
-			<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
+			<p class="py-4 text-sm">You need to login to submit a tool</p>
+			<a href="/login" class="btn btn-primary btn-sm w-full text-white sm:btn-md">Login</a>
 		{/if}
 	</div>
 </dialog>

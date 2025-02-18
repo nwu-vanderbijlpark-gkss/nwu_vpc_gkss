@@ -108,7 +108,9 @@
 	</div>
 
 	<!-- Main Content -->
-	<div class="w-full overflow-auto bg-white text-black lg:max-h-screen lg:flex-1 lg:p-4">
+	<div
+		class="mb-20 w-full overflow-auto bg-white text-black lg:mb-10 lg:max-h-screen lg:flex-1 lg:p-4"
+	>
 		{@render children()}
 	</div>
 

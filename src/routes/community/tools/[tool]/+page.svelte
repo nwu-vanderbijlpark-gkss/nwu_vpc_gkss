@@ -1,14 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
 	import NotFoundPage from '../../../../components/NotFoundPage.svelte';
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft, ArrowUpRightFromSquare, Eye } from 'lucide-svelte';
 
 	let { data } = $props();
 	let notFound = $state(false);
 	let project = $state(data.project);
-	onMount(() => {
-		
-	});
+	onMount(() => {});
 </script>
 
 {#if !project}
@@ -39,11 +37,20 @@
 			</div>
 		</div>
 		<div class="flex flex-col justify-center border-t border-base-300">
-			<a
-				target="_blank"
-				href={project.link.includes('http') ? project.link : `https://${project.link}`}
-				class="btn btn-primary m-2">Visit the project</a
-			>
+			<div class="flex justify-between p-2">
+				<span
+					class="tooltip tooltip-right flex cursor-pointer items-center gap-2"
+					data-tip={`Number of people who viewed this ${project.type}`}
+					><Eye />{project.project_views.length} view{project.project_views.length > 1
+						? 's'
+						: ''}</span
+				>
+				<a
+					target="_blank"
+					href={project.link.includes('http') ? project.link : `https://${project.link}`}
+					class="btn btn-primary m-2">Visit this {project.type} <ArrowUpRightFromSquare /></a
+				>
+			</div>
 			<iframe
 				src={project.link.includes('http') ? project.link : `https://${project.link}`}
 				title={project.name}
