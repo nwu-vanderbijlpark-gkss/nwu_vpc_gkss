@@ -35,7 +35,7 @@ export async function load({params, locals: {supabase}}) {
                 allTopics.push(topic);
             }
             
-            const {data: Project} = await supabase.from("Project").select("name,description,link,created_at,id,Member(username,name,surname)").eq("user_id",data[0].id).order('created_at', { ascending: false });
+            const {data: Project} = await supabase.from("Project").select("name,description,link,created_at,id,type,Member(username,name,surname),project_views(id)").eq("user_id",data[0].id).order('created_at', { ascending: false });
             let projects = [];
             let user_rating = 0;
             for(const project of Project){
