@@ -1,5 +1,13 @@
 <script>
-	import { ChartNoAxesColumn, Dot, MessageCircleMore, Share2, Star, Trash } from 'lucide-svelte';
+	import {
+		ChartNoAxesColumn,
+		Eye,
+		Dot,
+		MessageCircleMore,
+		Share2,
+		Star,
+		Trash
+	} from 'lucide-svelte';
 
 	let { topic, text, myProfile, deleteTopic, index } = $props();
 	import moment from 'moment';
@@ -189,7 +197,7 @@
 			data-tip={`${topic.topic_views.length} view${topic.topic_views.length == 1 ? '' : 's'}`}
 		>
 			<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
-				><ChartNoAxesColumn size="20px" />
+				><Eye size="20px" />
 				<p>{topic.topic_views.length}</p></button
 			>
 		</div>

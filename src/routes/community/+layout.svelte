@@ -1,11 +1,13 @@
 <script>
 	import {
 		Bot,
+		Brain,
 		ChartBar,
 		ChartColumnBig,
 		CodeXml,
 		Dot,
 		Forward,
+		Lightbulb,
 		LogIn,
 		MessageCircleMore,
 		MoreHorizontal,
@@ -86,11 +88,18 @@
 			<li>
 				<a href="/community/tools" class="navItem text-lg"><Bot />Geek Tools</a>
 			</li>
+			<li>
+				<a href="/community/idea-generator" class="navItem text-lg"><Brain /> Idea Generator</a>
+			</li>
 
 			<li>
 				<a href="/community/leaderboard" class="navItem text-lg"><ChartColumnBig /> LeaderBoard</a>
 			</li>
-			{#if data.email != null}
+
+			{#if data.isLoggedIn}
+				<li>
+					<a href="/community/ideas" class="navItem text-lg"><Lightbulb /> Saved ideas</a>
+				</li>
 				<li><a href="/community/profile" class="navItem text-lg"><User /> Profile</a></li>
 				<li>
 					<a href="/community/create-topic" class="btn btn-primary"><PlusCircle /> Create topic</a>
@@ -194,7 +203,7 @@
 		</button>
 	</div>
 </main>
-<!--Menu/More modal-->
+<!--Menu/More modal FOR MOBILE-->
 <dialog id="moreModal" class="modal modal-bottom z-50 sm:modal-middle">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">
@@ -212,8 +221,13 @@
 						><ChartColumnBig /> LeaderBoard</a
 					>
 				</li>
-
-				{#if data.email != null}
+				<li>
+					<a href="/community/idea-generator" class="navItem text-lg"><Brain /> Idea Generator</a>
+				</li>
+				{#if data.isLoggedIn}
+					<li>
+						<a href="/community/ideas" class="navItem text-lg"><Lightbulb /> Saved ideas</a>
+					</li>
 					<li>
 						<a href="/community/profile" class="navItem flex text-lg">
 							<User class="h-5 w-5" />

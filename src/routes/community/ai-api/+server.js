@@ -32,7 +32,7 @@ export const POST = async ({ request, getClientAddress, locals:{supabase} }) => 
             throw error(400, 'Invalid JSON payload');
         }
 
-        const { message, model, responses } = data;
+        const { message, model } = data;
         
         // Validate inputs
         if (!message?.trim() || typeof message !== 'string') {
@@ -58,12 +58,6 @@ export const POST = async ({ request, getClientAddress, locals:{supabase} }) => 
         // Validate response
         if (!completion?.choices?.[0]?.message?.content) {
             throw error(500, 'Invalid response from AI provider');
-        }
-        const {data: {user}} = await supabase.auth.getUser();
-        if(user){
-            responses.push({ message: message, response: completion.choices[0].message.content, model: model });
-            const {data: Member, error} = await supabase.from("Member").update({ai_chat: JSON.stringify(responses)}).eq("id",user.id);
-            
         }
         return json({
             success: true,

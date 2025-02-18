@@ -46,10 +46,12 @@ export async function load({locals: {supabase}}) {
         let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")+1));//removing the first "file/"
         members.push({...member,image: publicUrl.data.publicUrl});
     }
-
+    let currentUser = null;
     let email = null;
-    if(user != null){
-        email = user.email
+    if(user){
+        email = user.email;
+        const {data: sessionUser} = await supabase.from("Member").select("name, surname, bio, qualification, username, image, year_of_study, interests, gender, date_of_birth, points").eq("id",user.id);
+        currentUser = sessionUser[0];
     }
     else{
         email =   null;
@@ -59,9 +61,9 @@ export async function load({locals: {supabase}}) {
     
     //for most viewed
     let most_viewed = allTopics.sort((a, b) => b.topic_views.length - a.topic_views.length);
+     
 
-
-    return {email,latest,most_viewed, allTopics, projects, members};
+    return {email,latest,most_viewed, allTopics, projects, members, currentUser};
 
 }
 
