@@ -19,12 +19,14 @@
 		EditIcon,
 		PenBoxIcon,
 		Camera,
-		ChartColumnIcon
+		ChartColumnIcon,
+		CalendarCheck
 	} from 'lucide-svelte';
 	import Profile from './components/Profile.svelte';
 	import Invite from './components/Invite.svelte';
 	import Page from '../update-password/+page.svelte';
 	import { slide } from 'svelte/transition';
+	import CalendarView from '../../components/CalendarView.svelte';
 
 	let activeTab = $state('stats');
 	let notifications = $state(3);
@@ -228,7 +230,7 @@
 		{#if activeTab === 'stats'}
 			<!-- Dashboard content -->
 			<div class="stats stats-vertical my-4 w-full shadow lg:stats-horizontal">
-				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Rank', icon: ChartColumnIcon, value: `${rankMap.get(member.username)} / ${members.length} ` }, { title: 'Study Level', icon: Calendar, value: member.year_of_study, sub: '' }] as stat}
+				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Rank', icon: ChartColumnIcon, value: `${rankMap.get(member.username)} / ${members.length} ` }, { title: 'Events Registered', icon: Calendar, value: `${member.event_attendee.length}/${data.events.length}`, sub: '' }, { title: 'Events attended', icon: CalendarCheck, value: `${member.event_attendee.filter((a) => a.status == 'attended').length}/${member.event_attendee.length}`, sub: '' }] as stat}
 					<div class="stat">
 						<div class="stat-figure">
 							<svelte:component this={stat.icon} class="text-primary" size={24} />
@@ -273,6 +275,11 @@
 								>{interest}</span
 							>
 						{/each}
+					</div>
+				</div>
+				<div class="space-y-6">
+					<div class="rounded-xl bg-white p-6 shadow-md">
+						<CalendarView events={data.events} />
 					</div>
 				</div>
 

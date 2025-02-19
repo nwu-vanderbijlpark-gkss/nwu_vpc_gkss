@@ -4,6 +4,7 @@
 	import { CalendarClockIcon, Users } from 'lucide-svelte';
 	import Chart from '../../components/Chart.svelte';
 	import TodaysBirthdays from '../../components/TodaysBirthdays.svelte';
+	import CalendarView from '../../components/CalendarView.svelte';
 
 	let { data } = $props();
 
@@ -154,6 +155,11 @@
 	<!-- Today's Birthdays -->
 	<div class="mt-6">
 		<TodaysBirthdays {todaysBirthdays} />
+	</div>
+	<div class="card bg-base-100 shadow-xl">
+		<div class="card-body">
+			<CalendarView events={data.events} />
+		</div>
 	</div>
 </div>
 

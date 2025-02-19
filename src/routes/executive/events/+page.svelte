@@ -5,16 +5,47 @@
 	let array = [];
 	let { data, form } = $props();
 	let events = $state(data.events);
+	let editData = $state({ topic: '', description: '', venue: '', date: '', public: '' });
+	let isEditing = $state(false);
 
 	const handleDelete = (id) => {
-		const data = new FormData();
-		data.append('id', id);
-		fetch('?/deleteEvent', {
+		if (
+			confirm(
+				`Click Ok to confirm to delete "${events.filter((event) => event.id == id)[0].topic}""`
+			)
+		) {
+			const data = new FormData();
+			data.append('id', id);
+			fetch('?/deleteEvent', {
+				method: 'POST',
+				body: data
+			});
+			// Remove the deleted event from state
+			events = events.filter((event) => event.id !== id);
+		}
+	};
+	const showEdit = (id) => {
+		isEditing = true;
+		editData = events.filter((event) => event.id == id)[0];
+		my_modal_1.showModal();
+	};
+	const handleEdit = async () => {
+		const res = await fetch('/executive/api/editEvent', {
 			method: 'POST',
-			body: data
+			body: JSON.stringify({ editData }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		});
-		// Remove the deleted event from state
-		events = events.filter((event) => event.id !== id);
+		const response = await res.json();
+		if (response.success) {
+			my_modal_1.close();
+			editData = { topic: '', description: '', venue: '', date: '', public: '' };
+			isEditing = false;
+		} else {
+			alert('Unexpected error');
+			isEditing = false;
+		}
 	};
 </script>
 
@@ -57,6 +88,7 @@
 						>
 						<td class="flex justify-center space-x-4 px-6 py-4 text-center">
 							<button
+								onclick={() => showEdit(event.id)}
 								class="btn btn-ghost btn-sm hidden items-center space-x-1 hover:bg-gray-100 lg:flex"
 							>
 								<Edit class="mr-1" /> <span class="text-xs">Edit</span>
@@ -80,7 +112,7 @@
 		</table>
 	</div>
 </div>
-
+<!--CREATE/EDIT EVENT MODAL-->
 <dialog id="my_modal_1" class="modal modal-bottom z-50 sm:modal-middle">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">
@@ -102,6 +134,7 @@
 					class="input input-bordered"
 					id="topic"
 					placeholder="The name of the event"
+					bind:value={editData.topic}
 				/>
 			</label>
 			<label class="form-control w-full">
@@ -112,17 +145,29 @@
 					class="input input-bordered"
 					id="venu"
 					placeholder="The name of the venue."
+					bind:value={editData.venue}
 				/>
 			</label>
 			<div class="form-control w-52">
 				<label class="label cursor-pointer">
 					<span class="label-text">Make event public</span>
-					<input type="checkbox" name="public" class="toggle toggle-primary" checked="checked" />
+					<input
+						bind:checked={editData.public}
+						type="checkbox"
+						name="public"
+						class="toggle toggle-primary"
+					/>
 				</label>
 			</div>
 			<label class="form-control w-full">
 				<p>Date and Time</p>
-				<input type="datetime-local" name="date" class="input input-bordered" id="date" />
+				<input
+					bind:value={editData.date}
+					type="datetime-local"
+					name="date"
+					class="input input-bordered"
+					id="date"
+				/>
 			</label>
 			<label class="form-control hidden w-full">
 				<p>Poster</p>
@@ -137,13 +182,18 @@
 			<label class="form-control w-full">
 				<p>Description</p>
 				<textarea
+					bind:value={editData.description}
 					name="description"
 					class="textarea textarea-bordered"
 					id="description"
 					placeholder="What is the event about?"
 				></textarea>
 			</label>
-			<button type="submit" class="btn btn-primary text-white">Create</button>
+			{#if isEditing}
+				<button type="button" onclick={handleEdit} class="btn btn-primary text-white">Edit</button>
+			{:else}
+				<button type="submit" class="btn btn-primary text-white">Create</button>
+			{/if}
 		</form>
 	</div>
 </dialog>

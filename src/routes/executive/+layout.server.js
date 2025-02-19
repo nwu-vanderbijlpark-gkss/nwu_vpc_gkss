@@ -34,7 +34,7 @@ export async function load({locals: {supabase}}) {
         let returnData = {currentUser}; //initially with the current logged in user
         //EVENTS
         const {data: Events, error} = await supabase.from("Events")
-                            .select('*')                      
+                            .select('*,event_attendee(id)')                      
         returnData = {...returnData, events: Events};//insert the events data
 
         //MEMBERS

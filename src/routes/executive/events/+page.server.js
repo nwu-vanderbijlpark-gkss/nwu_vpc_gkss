@@ -1,3 +1,4 @@
+import { json } from '@sveltejs/kit';
 
 /** @satisfies {import('./$types').Actions} */
 export const actions = {
@@ -24,12 +25,12 @@ export const actions = {
         const id = data.get("id");
         const {error} = await supabase.from("Events").delete().eq("id",id);
         if(!error){
-            return {
-            status: 200,
-            body: {
-              message: "Form submitted successfully!",
-            },
-        }
+            return json({
+            success: true,
+            message: "Form submitted successfully!",
+        })
         }
     },
+    
+    
 };
