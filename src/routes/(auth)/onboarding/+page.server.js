@@ -39,7 +39,7 @@ export const actions = {
         if(user){
             const {data,error} = await supabase.from("Member").update({
                 name: form.name, surname: form.surname, date_of_birth: form.date_of_birth, gender: form.gender,
-        qualification: form.qualification, student_no: form.student_no, year_of_study: form.year_of_study,
+        qualification: form.qualification, year_of_study: form.year_of_study,
         interests: interests(),
             }).eq("id",user.id);
 

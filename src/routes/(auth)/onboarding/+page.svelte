@@ -9,7 +9,6 @@
 		date_of_birth: '',
 		gender: '',
 		qualification: '',
-		student_no: '',
 		year_of_study: '',
 		interests: [],
 		customInterest: ''
@@ -62,11 +61,8 @@
 	const validateAcademicInfo = () => {
 		const errors = [];
 		if (!form.qualification) errors.push('Qualification is required');
-		if (!form.student_no) errors.push('Student number is required');
 		if (!form.year_of_study) errors.push('Year of study is required');
-		if (!/^\d{8}$/.test(form.student_no)) {
-			errors.push('Student number must be exactly 8 digits');
-		}
+
 		return errors;
 	};
 
@@ -257,22 +253,6 @@
 							bind:value={form.qualification}
 							required
 						/>
-					</label>
-
-					<label class="form-control w-full">
-						<p class="mb-2">Student Number</p>
-						<input
-							type="number"
-							name="student_no"
-							class="input input-bordered w-full"
-							class:input-error={!form.student_no || !/^\d{8}$/.test(form.student_no)}
-							placeholder="Enter your 8-digit student number"
-							bind:value={form.student_no}
-							required
-						/>
-						{#if form.student_no && !/^\d{8}$/.test(form.student_no)}
-							<p class="mt-1 text-sm text-error">Student number must be exactly 8 digits</p>
-						{/if}
 					</label>
 
 					<label class="form-control w-full">

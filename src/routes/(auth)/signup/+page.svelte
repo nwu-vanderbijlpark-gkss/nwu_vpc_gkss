@@ -97,6 +97,17 @@
 				</label>
 				<button type="submit" class="btn btn-primary text-white">Signup</button>
 				<a href="/login" class="btn btn-outline">Login here.</a>
+				<span class="text-sm"
+					>By signing up, I agree to NWU VAAL GKSS's <a
+						class="link underline"
+						target="_blank"
+						href="/docs/Terms and Conditions.pdf">Terms of Use</a
+					>
+					and
+					<a class="link underline" target="_blank" href="/docs/Privacy Policy.pdf"
+						>Privacy Policy</a
+					></span
+				>
 			</form>
 		{/if}
 	</div>

@@ -148,7 +148,7 @@
 			>
 			<div class="text-center">
 				<h2 class="font-bold">{member.name} {member.surname}</h2>
-				<p class="text-sm text-gray-200">Student No: {member.student_no}</p>
+				<p class="text-sm text-gray-200">{member.qualification}</p>
 			</div>
 		</div>
 

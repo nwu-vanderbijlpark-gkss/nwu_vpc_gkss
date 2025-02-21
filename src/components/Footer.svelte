@@ -60,6 +60,12 @@
 				class="navItem border-red-500 hover:border-b hover:text-white">Contact Us</a
 			>
 		</div>
-		<p class="text-sm">© {year} NWU Vaal GKSS. All Rights Reserved</p>
+		<p class="text-sm">
+			© {year} NWU Vaal GKSS. All Rights Reserved.
+			<a class="link underline" target="_blank" href="/docs/Terms and Conditions.pdf"
+				>Terms of Use</a
+			>
+			<a class="link underline" target="_blank" href="/docs/Privacy Policy.pdf">Privacy Policy</a>
+		</p>
 	</footer>
 {/if}
