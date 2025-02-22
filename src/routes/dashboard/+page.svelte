@@ -1,5 +1,6 @@
 <script>
 	import moment from 'moment';
+	import QrCode from 'svelte-qrcode';
 	import {
 		User,
 		Shield,
@@ -31,10 +32,6 @@
 	let activeTab = $state('stats');
 	let notifications = $state(3);
 	let { data } = $props();
-	let inviteHistory = $state([
-		{ email: 'friend@example.com', status: 'Pending', date: '2024-03-01' },
-		{ email: 'colleague@example.com', status: 'Accepted', date: '2024-02-28' }
-	]);
 	let member = $state(data.member);
 	let birthDayMonth = member.date_of_birth.substring(member.date_of_birth.indexOf('-') + 1);
 
@@ -277,6 +274,23 @@
 						{/each}
 					</div>
 				</div>
+				{#if member.event_attendee.length}
+					{#each member.event_attendee as event}
+						{#if moment(event.Events.date).isSame(moment(), 'day') && event.status == 'registered'}
+							<div class="w-full space-y-6">
+								<div class="w-full rounded-xl bg-white p-6 shadow-md">
+									<h3 class="mb-4 text-xl font-semibold">{event.Events.topic}</h3>
+									<span class="flex w-full flex-col items-center justify-center space-y-3">
+										<p>Ask a leader to scan for your attendance</p>
+										<QrCode
+											value={`https://nwu-vaal-gkss.netlify.app/executive/events/${event.Events.id}/${event.id}`}
+										/>
+									</span>
+								</div>
+							</div>
+						{/if}
+					{/each}
+				{/if}
 				<div class="space-y-6">
 					<div class="rounded-xl bg-white p-6 shadow-md">
 						<CalendarView events={data.events} />

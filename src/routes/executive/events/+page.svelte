@@ -1,5 +1,14 @@
 <script>
-	import { ArrowUpRightFromSquareIcon, Edit, PlusCircle, Trash2, X } from 'lucide-svelte';
+	import {
+		ArrowUpRightFromSquareIcon,
+		Edit,
+		Eye,
+		Pencil,
+		PlusCircle,
+		Trash,
+		Trash2,
+		X
+	} from 'lucide-svelte';
 	import moment from 'moment';
 
 	let array = [];
@@ -61,51 +70,89 @@
 	</div>
 
 	<div class="overflow-x-auto px-6 pb-6">
-		<table class="w-full border-separate space-y-4 text-left text-sm text-gray-600 shadow-xl">
-			<thead class="bg-gray-100 text-xs uppercase text-gray-700">
+		<table class="w-full border-separate border-spacing-0 text-left shadow-lg">
+			<caption class="sr-only">List of upcoming events</caption>
+			<thead class="bg-gray-50">
 				<tr>
-					<th class="px-6 py-4 font-medium">Event</th>
-					<th class="hidden px-6 py-4 font-medium lg:table-cell">Description</th>
-					<th class="px-6 py-4 font-medium">Date and time</th>
-					<th class="px-6 py-4 font-medium">Venue</th>
-					<th class="px-6 py-4 font-medium">Type</th>
-					<th class="px-6 py-4 text-center font-medium">Actions</th>
+					<th
+						class="rounded-tl-lg px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700"
+						>Event</th
+					>
+					<th
+						class="hidden px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700 lg:table-cell"
+						>Description</th
+					>
+					<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700"
+						>Date & Time</th
+					>
+					<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700"
+						>Venue</th
+					>
+					<th
+						class="hidden px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700 lg:table-cell"
+						>Type</th
+					>
+					<th
+						class="rounded-tr-lg px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700"
+						>Actions</th
+					>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="divide-y divide-gray-200">
 				{#each events as event}
-					<tr class="border-b bg-white transition-colors hover:bg-gray-50">
-						<td class="px-6 py-4 font-semibold text-gray-800">
-							<a href={`/executive/events/${event.id}`} class="block">{event.topic}</a>
-						</td>
-						<td class="hidden max-w-[300px] overflow-hidden px-6 py-4 lg:table-cell"
-							>{event.description}</td
-						>
-						<td class="px-6 py-4">{moment(event.date).format('llll')}</td>
-						<td class="px-6 py-4">{event.venue}</td>
-						<td class="hidden max-w-[300px] overflow-hidden px-6 py-4 lg:table-cell"
-							>{event.public ? 'Public' : 'Private'}</td
-						>
-						<td class="flex justify-center space-x-4 px-6 py-4 text-center">
-							<button
-								onclick={() => showEdit(event.id)}
-								class="btn btn-ghost btn-sm hidden items-center space-x-1 hover:bg-gray-100 lg:flex"
-							>
-								<Edit class="mr-1" /> <span class="text-xs">Edit</span>
-							</button>
-							<button
-								onclick={() => handleDelete(event.id)}
-								class="btn btn-ghost btn-sm flex items-center space-x-1 text-red-600 hover:bg-red-100"
-							>
-								<Trash2 class="mr-1" /> <span class="text-xs">Delete</span>
-							</button>
+					<tr class="transition-colors even:bg-gray-50 hover:bg-gray-100">
+						<td class="px-4 py-4 text-base font-medium text-gray-900">
 							<a
 								href={`/executive/events/${event.id}`}
-								class="btn btn-ghost btn-sm flex items-center space-x-1 hover:bg-gray-100"
+								class="hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
 							>
-								<ArrowUpRightFromSquareIcon /> <span class="text-xs">View</span>
+								{event.topic}
 							</a>
 						</td>
+						<td
+							class="hidden max-w-[300px] truncate px-4 py-4 text-base text-gray-600 lg:table-cell"
+						>
+							{event.description}
+						</td>
+						<td class="px-4 py-4 text-base text-gray-600">
+							<span class="whitespace-nowrap">{moment(event.date).format('MMM D, YYYY')}</span>
+							<span class="block text-sm text-gray-500">{moment(event.date).format('h:mm A')}</span>
+						</td>
+						<td class="px-4 py-4 text-base text-gray-600">{event.venue}</td>
+						<td class="hidden px-4 py-4 lg:table-cell">
+							<span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium">
+								{event.public ? 'Public' : 'Private'}
+							</span>
+						</td>
+						<td class="px-4 py-4 text-base text-gray-600">
+							<div class="flex items-center justify-end space-x-2">
+								<a
+									href={`/executive/events/${event.id}`}
+									class="rounded-md p-1.5 text-gray-500 hover:bg-gray-200 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+								>
+									<span class="sr-only">View</span>
+									<Eye class="h-5 w-5" />
+								</a>
+								<button
+									onclick={() => showEdit(event.id)}
+									class="rounded-md p-1.5 text-gray-500 hover:bg-gray-200 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+								>
+									<span class="sr-only">Edit</span>
+									<Pencil class="h-5 w-5" />
+								</button>
+								<button
+									onclick={() => handleDelete(event.id)}
+									class="rounded-md p-1.5 text-red-500 hover:bg-red-100 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+								>
+									<span class="sr-only">Delete</span>
+									<Trash class="h-5 w-5" />
+								</button>
+							</div>
+						</td>
+					</tr>
+				{:else}
+					<tr>
+						<td colspan="6" class="px-4 py-6 text-center text-gray-500">No events found</td>
 					</tr>
 				{/each}
 			</tbody>

@@ -5,7 +5,7 @@ export const load = async ({locals: {supabase}}) => {
     if(!user){
         redirect(303,"/login");
     }
-    const {data: Member} = await supabase.from("Member").select("*,event_attendee(status)").eq("id",user.id);
+    const {data: Member} = await supabase.from("Member").select("*,event_attendee(id,status,Events(*))").eq("id",user.id);
     if(Member && Member.length > 0){
         if(Member[0].interests){
             let member = Member[0];
