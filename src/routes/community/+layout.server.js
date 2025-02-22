@@ -40,7 +40,7 @@ export async function load({locals: {supabase}}) {
         projects.push({...project,rating: rating})
     }
     /**MEMBERS */
-    const {data: Member} = await supabase.from("Member").select("name, surname, bio, qualification, username, image, year_of_study, interests, gender, date_of_birth, points, Topic(id),Project(id)");
+    const {data: Member} = await supabase.from("Member").select("name, surname, qualification, username, image, year_of_study, interests, gender, date_of_birth, points, Topic(id),Project(id)");
     let members = [];
     for(const member of Member){
         let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")+1));//removing the first "file/"
@@ -50,7 +50,7 @@ export async function load({locals: {supabase}}) {
     let email = null;
     if(user){
         email = user.email;
-        const {data: sessionUser} = await supabase.from("Member").select("name, surname, bio, qualification, username, image, year_of_study, interests, gender, date_of_birth, points").eq("id",user.id);
+        const {data: sessionUser} = await supabase.from("Member").select("name, surname, qualification, username, image, year_of_study, interests, gender, date_of_birth, points").eq("id",user.id);
         currentUser = sessionUser[0];
     }
     else{
