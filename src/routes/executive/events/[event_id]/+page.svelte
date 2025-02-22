@@ -84,25 +84,27 @@
 				</thead>
 				<tbody>
 					{#each event.event_attendee as attendee, index}
-						<tr class="border-b transition-colors hover:bg-gray-50">
-							<td class="px-6 py-4 font-semibold text-gray-800"
-								>{attendee.Member.name ? attendee.Member.name : 'Not provided'}
-								{attendee.Member.surname}</td
-							>
-							<td class="px-6 py-4"
-								>{attendee.Member.gender ? attendee.Member.gender : 'Not provided'}</td
-							>
-							<td class="px-6 py-4"
-								>{attendee.Member.qualification
-									? attendee.Member.qualification
-									: 'Not provided'}</td
-							>
-							<td class="px-6 py-4"
-								>{attendee.Member.year_of_study
-									? attendee.Member.year_of_study
-									: 'Not provided'}</td
-							>
-						</tr>
+						{#if attendee.status == 'attended'}
+							<tr class="border-b transition-colors hover:bg-gray-50">
+								<td class="px-6 py-4 font-semibold text-gray-800"
+									>{attendee.Member.name ? attendee.Member.name : 'Not provided'}
+									{attendee.Member.surname}</td
+								>
+								<td class="px-6 py-4"
+									>{attendee.Member.gender ? attendee.Member.gender : 'Not provided'}</td
+								>
+								<td class="px-6 py-4"
+									>{attendee.Member.qualification
+										? attendee.Member.qualification
+										: 'Not provided'}</td
+								>
+								<td class="px-6 py-4"
+									>{attendee.Member.year_of_study
+										? attendee.Member.year_of_study
+										: 'Not provided'}</td
+								>
+							</tr>
+						{/if}
 					{/each}
 				</tbody>
 			</table>
