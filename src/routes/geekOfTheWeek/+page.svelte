@@ -1,33 +1,50 @@
-<title>Geek of the Week | NWU Vaal GKSS</title>
-<meta property="og:site_name" content="Geek of the Week | NWU Vaal GKSS">
-<meta name="twitter:title" content="Geek of the Week | NWU Vaal GKSS">
-<meta name="twitter:image:alt" content="Geek of the Week | NWU Vaal GKSS">
-<meta property="title" content="Geek of the Week">
+<script>
+	let { data } = $props();
 
-<div class="p-10 min-h-screen bg-gray-100">
-  <!-- Section Title -->
-  <div class="text-center mb-12">
-    <h1 class="text-4xl font-bold text-purple-600 mb-4">Geek of the Week</h1>
-    <p class="text-xl text-gray-700">
-      Celebrating a standout Geekulcha member for their exceptional contributions to innovation and technology.
-    </p>
-  </div>
+	// Reactive state
+	let tab = $state('all');
+	let isLoading = $state(true);
 
-  <!-- Featured Geek Section -->
-  <div class="flex flex-col items-center bg-white rounded-lg shadow-lg p-8 w-full h-full mx-auto">
-    <!-- Geek's Picture -->
-    <img
-      src="hacker.png"
-      alt="Picture of the Geek of the Week"
-      class="w-full h-[500px] object-contain mb-6 shadow-md" 
-    />
-    
-    <!-- Geek's Name -->
-    <h2 class="text-2xl font-bold text-gray-800 mb-2">Hacker_1</h2>
+	let geek = $state(
+		data.members
+			.filter((m) => m.name && m.username)
+			.sort((a, b) => b.points - a.points)
+			.slice(0, 1)[0]
+	); //
+</script>
 
-    <!-- Geek's Accomplishments -->
-    <p class="text-gray-600 text-center text-lg">
-      Hacker_1 shown exceptional creativity by leading our latest hackathon project and developing a real-time collaboration tool that impressed the entire community.
-    </p>
-  </div>
+<title>Geek of the Week ({geek.name} {geek.surname}) | NWU Vaal GKSS</title>
+<meta property="og:site_name" content="Geek of the Week | NWU Vaal GKSS" />
+<meta name="twitter:title" content="Geek of the Week | NWU Vaal GKSS" />
+<meta name="twitter:image:alt" content="Geek of the Week | NWU Vaal GKSS" />
+<meta property="title" content="Geek of the Week" />
+
+<div class="min-h-screen bg-gray-100 p-10">
+	<!-- Section Title -->
+	<div class="mb-12 text-center">
+		<h1 class="mb-4 text-4xl font-bold text-purple-600">Geek of the Week</h1>
+		<p class="text-xl text-gray-700">
+			Celebrating a standout Geekulcha member for their exceptional contributions to innovation and
+			technology.
+		</p>
+	</div>
+
+	<!-- Featured Geek Section -->
+	<div class="mx-auto flex h-full w-full flex-col items-center rounded-lg bg-white p-8 shadow-lg">
+		<!-- Geek's Picture -->
+		<img
+			src={geek.image}
+			alt={`${geek.name} ${geek.surname}`}
+			class="mb-6 h-[500px] w-full object-contain shadow-md"
+		/>
+
+		<!-- Geek's Name -->
+		<h2 class="mb-2 text-2xl font-bold text-gray-800">{geek.name} {geek.surname}</h2>
+
+		<!-- Geek's Accomplishments -->
+		<p class="text-center text-lg text-gray-600">
+			{geek.name}
+			{geek.surname} earned this spot by actively participating in activities held by the gkss.
+		</p>
+	</div>
 </div>
