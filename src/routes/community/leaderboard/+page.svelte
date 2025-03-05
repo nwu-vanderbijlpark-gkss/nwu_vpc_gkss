@@ -59,13 +59,10 @@
 		}
 	};
 
-
-
 	onMount(async () => {
 		window.addEventListener('hashchange', handleHashChange);
 		handleHashChange();
 		isLoading = false;
-
 
 		// Initial fetch
 		fetchLeaderBoard();
@@ -79,7 +76,6 @@
 			window.removeEventListener('hashchange', handleHashChange);
 			clearInterval(interval);
 		};
-
 	});
 </script>
 
@@ -109,9 +105,9 @@
 			<Loading />
 		</div>
 	{:else}
-		<main class="max-h-screen space-y-8 overflow-auto px-6">
+		<main class="max-h-screen space-y-8 overflow-auto px-1">
 			{#if ['all', 'members'].includes(tab)}
-				<section aria-labelledby="members-heading" class="p-4 md:p-8">
+				<section aria-labelledby="members-heading" class=" md:p-8">
 					<!-- Enhanced Title Section -->
 					<div class="mb-8 text-center md:mb-12">
 						<div class="inline-block rounded-2xl bg-gradient-to-r from-amber-400 to-amber-600 p-1">
@@ -153,15 +149,13 @@
 							<tbody>
 								{#each members as member, index}
 									<tr
-
 										class="group cursor-pointer transition-all duration-300 hover:bg-gray-100"
 										onclick={() => (window.location = `/community/${member.username}`)}
 										transition:slide={{ delay: index * 50 }}
-
 									>
 										<!-- Rank Column -->
 										<td class="font-bold">
-											<div class="flex items-center gap-2">
+											<div class="flex items-center gap-1">
 												{#if index == 0}
 													<Trophy
 														class="h-5 w-5 {['text-amber-400', 'text-slate-400', 'text-amber-600'][
@@ -189,7 +183,7 @@
 
 										<!-- Member Column -->
 										<td>
-											<div class="flex items-center gap-3">
+											<div class="flex items-center gap-1">
 												<div class="avatar">
 													<div class="mask mask-circle h-8 w-8 md:h-10 md:w-10">
 														<img
@@ -212,7 +206,7 @@
 										<!-- Responsive Columns -->
 
 										<td>
-											<div class="badge badge-primary badge-lg gap-2 font-bold">
+											<div class="badge badge-primary badge-lg gap-1 font-bold">
 												<Sparkles class="h-4 w-4" />
 												<span class="text-sm md:text-base">{member.points}</span>
 											</div>

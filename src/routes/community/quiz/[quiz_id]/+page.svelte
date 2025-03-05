@@ -7,33 +7,16 @@
 	import moment from 'moment';
 	let { data } = $props();
 	let quiz = $state(data.quiz);
+	function shuffleQuestions() {
+		const questions = [...quiz.quiz_questions];
+		for (let i = questions.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[questions[i], questions[j]] = [questions[j], questions[i]];
+		}
+		quiz.quiz_questions = questions;
+	}
+	shuffleQuestions();
 	let alreadyCompleted = $state(data.alreadyCompleted);
-	// You would typically get this from your quiz storage
-	const sampleQuiz = {
-		title: 'Test123 Quiz',
-		questions: [
-			{
-				type: 'multipleChoice',
-				questionText: 'What is Svelte?',
-				options: ['Framework', 'Library', 'Language', 'Tool'],
-				correctOption: 0,
-				points: 2
-			},
-			{
-				type: 'trueFalse',
-				questionText: 'Svelte uses virtual DOM',
-				correctAnswer: false,
-				points: 1
-			},
-			{
-				type: 'shortAnswer',
-				questionText:
-					'What is the language mostly used for android app development and embedded system, runs on the JVM?',
-				correctAnswer: 'Java',
-				points: 5
-			}
-		]
-	};
 
 	let intervalId = $state();
 	let isClosed = $state(false);
