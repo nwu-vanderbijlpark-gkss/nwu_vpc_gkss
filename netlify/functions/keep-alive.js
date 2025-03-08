@@ -1,4 +1,5 @@
-export const handler = async (event, context) => {
+export const handler = async (req) => {
+    const { next_run } = await req.json()
     try {
         const url = 'https://nwu-vaal-gkss.netlify.app/community/api/getLeaderBoard';
 
