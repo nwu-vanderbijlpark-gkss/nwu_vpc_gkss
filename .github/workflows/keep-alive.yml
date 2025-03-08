@@ -1,0 +1,12 @@
+name: Keep Alive
+on:
+  schedule:
+    - cron: '*/30 * * * *' # Every 15 minutes
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Netlify Function
+        run: |
+          curl -X POST "https://nwu-vaal-gkss.netlify.app/.netlify/functions/keep-alive" 
