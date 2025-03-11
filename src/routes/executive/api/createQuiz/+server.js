@@ -24,23 +24,7 @@ export const POST = async ({locals: {supabase},request}) => {
             }).select();  
         });
 
-        //send emails to every member with an email
-        members.forEach(async(member) => {
-            if(member.email){
-                let data = {
-                    subject: 'New Quiz Alert',
-                    message: `A new quiz: <b>${quiz.title}</b> has been posted,<br>
-                The quiz is due: ${quiz.due}<br/>
-                This is an automatic message sent by our website. <a href="https://nwu-vaal-gkss.netlify.app">https://nwu-vaal-gkss.netlify.app<a/><br/>
-                    `
-                };
         
-                const res = await fetch('https://nwu-vaal-gkss.netlify.app/community/api/sendEmail', {
-                    method: 'POST',
-                    body: JSON.stringify({ data })
-                });
-        }
-        });
         return json({success: true})
     }else{
         return json({success: false,error});

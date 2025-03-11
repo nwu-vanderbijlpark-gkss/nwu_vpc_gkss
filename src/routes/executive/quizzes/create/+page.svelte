@@ -7,6 +7,7 @@
 		questions: []
 	});
 	let isLoading = $state(false);
+	let { data } = $props();
 
 	const questionTypes = [
 		{ value: 'multipleChoice', label: 'Multiple Choice' },
@@ -94,6 +95,28 @@
 		});
 		const res = await response.json();
 		if (res.success) {
+			//send emails to every member with an email
+			data.members.forEach(async (member) => {
+				if (member.email) {
+					let data = {
+						type: 'broadcast',
+						email: member.email,
+						fullName: member.name + ' ' + member.surname,
+						subject: 'New Quiz Alert',
+						message: `A new quiz: <b>${newQuiz.title}</b> has been posted,<br>
+                The quiz is due: ${newQuiz.due}<br/>
+				You can find the quiz here: <a href="https://nwu-vaal-gkss.netlify.app/community/quiz">${newQuiz.title}<a/>
+                    `
+					};
+
+					const res = await fetch('/community/api/sendEmail', {
+						method: 'POST',
+						body: JSON.stringify({ data })
+					});
+					const r = await res.json();
+					console.log(r);
+				}
+			});
 			location = '/executive/quizzes';
 		} else {
 			alert('Failed to create quiz, contact admin, message: ' + res.error);

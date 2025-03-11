@@ -55,6 +55,10 @@ const emailTemplate = (message, fullName) => `
           <img src="${logo}" alt="Logo" class="logo" />
           <h2>Dear ${fullName},</h2>
           <p>${message}</p>
+          <p>This is an automatic message sent by our website. <a href="https://nwu-vaal-gkss.netlify.app">https://nwu-vaal-gkss.netlify.app</a></p>
+          <br/>
+
+          
           <div class="footer">
               <p>&copy; ${new Date().getFullYear()} NWU VAAL GKSS. All rights reserved.</p>
           </div>
@@ -64,15 +68,16 @@ const emailTemplate = (message, fullName) => `
 `;
 
 
-
 export const POST = async ({request, locals:{supabase}}) => {
     let { data } = await request.json();
     const {data:{user}} = await supabase.auth.getUser();
+    let email = data.email;
     //get the member's full name
-    let fullName = "student";
+    let fullName = data.fullName ? data.fullName : "student";
     const {data: member, error} = await supabase.from("Member").select().eq("id",user.id);
-    if(member[0].name){
+    if(member[0].name && data.type != "broadcast"){
         fullName = member[0].name + " " + member[0].surname;
+        email = user.email;
     }
     //event registration, event attendance, quiz completion and mass emailing from executive
     // Use the Brevo API
@@ -85,7 +90,7 @@ export const POST = async ({request, locals:{supabase}}) => {
         },
         body: JSON.stringify({
           sender: { email: 'shysnylethabo11@gmail.com', name: 'NWU VAAL GKSS' },
-          to: [{ email: user.email }],
+          to: [{ email }],
           subject: data.subject,
           htmlContent: emailTemplate(data.message, fullName),
         }),
