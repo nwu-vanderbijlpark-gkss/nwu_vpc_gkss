@@ -26,7 +26,7 @@
 <div
 	class="navbar fixed top-0 z-50 flex w-screen items-center justify-between bg-base-200 shadow-lg backdrop-blur"
 >
-	<a href="/"><img src="/logo_white.png" alt="logo" class="ml-5 h-[20px] w-[150px]" /></a>
+	<a href="/"><img src="/logo.png" alt="logo" class="ml-5 h-[60px] w-[100px]" /></a>
 	{#if !currentPath.includes('/executive')}
 		<nav class="mr-5 hidden items-center space-x-5 lg:flex">
 			<a
