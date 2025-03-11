@@ -15,7 +15,9 @@
 		}
 		quiz.quiz_questions = questions;
 	}
-	shuffleQuestions();
+	if (!data.error) {
+		shuffleQuestions();
+	}
 	let alreadyCompleted = $state(data.alreadyCompleted);
 
 	let intervalId = $state();
