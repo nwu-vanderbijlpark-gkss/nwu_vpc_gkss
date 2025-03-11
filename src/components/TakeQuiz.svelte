@@ -47,6 +47,19 @@
 			method: 'POST',
 			body: JSON.stringify({ points: score, quiz_id: quiz.id })
 		});
+
+		let data = {
+			subject: 'Quiz Submission',
+			message: `You have attempted the following quiz: <b>${quiz.title}</b>,<br>
+		Your score: ${score} / ${totalPoints}<br/><br/>
+		This is an automatic message sent by our website. <a href="https://nwu-vaal-gkss.netlify.app">https://nwu-vaal-gkss.netlify.app<a/><br/>
+			`
+		};
+
+		const res = await fetch('/community/api/sendEmail', {
+			method: 'POST',
+			body: JSON.stringify({ data })
+		});
 	};
 
 	const handleNext = () => {

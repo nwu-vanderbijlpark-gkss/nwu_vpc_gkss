@@ -32,10 +32,41 @@
 			});
 
 			const res = await response.json();
-			console.log(res);
 			if (res.success) {
 				registrationCount++;
 				registrationSuccess = true;
+				let data = {
+					subject: 'Event Registration',
+					message: `
+        <p>You have registered for the following event: <b>${event.topic}</b></p>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 16px;">${event.topic}</h1>
+            <p style="color: #555; font-size: 16px; margin-bottom: 16px;">${event.description}</p>
+            <div style="background-color: #fff; padding: 16px; border-radius: 6px; border: 1px solid #ddd;">
+                <div style="margin-bottom: 8px; display: flex; justify-content: space-between;">
+                    <span style="font-weight: bold;">Date:</span>
+                    <span>${moment(event.date).format('LLLL')}</span>
+                </div>
+                <div style="margin-bottom: 8px; display: flex; justify-content: space-between;">
+                    <span style="font-weight: bold;">Venue:</span>
+                    <span>${event.venue}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="font-weight: bold;">Registered Attendees:</span>
+                    <span>${registrationCount}</span>
+                </div>
+            </div>
+        </div>
+        <p style="margin-top: 16px;">This is an automatic message sent by our website. Visit: 
+        <a href="https://nwu-vaal-gkss.netlify.app" style="color: #007bff; text-decoration: none;">https://nwu-vaal-gkss.netlify.app</a></p>
+    `
+				};
+
+				const res = await fetch('/community/api/sendEmail', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ data })
+				});
 			}
 		} catch (error) {
 			registrationError = true;

@@ -1,7 +1,7 @@
 export const load = async({request, locals: {supabase}}) => {
     const {data: {user}} = await supabase.auth.getUser();
     let currentUser = null;
-    const {data: Member} = await supabase.from("Member").select('image,date_of_birth,name,surname,username,year_of_study,qualification, points');
+    const {data: Member} = await supabase.from("Member").select('image,date_of_birth,name,surname,username,year_of_study,qualification, points, email');
     const members = [];
     for(let member of Member){
         let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")));//removing the first "file/"
@@ -31,6 +31,9 @@ export const load = async({request, locals: {supabase}}) => {
                 let publicUrl = await supabase.storage.from("files").getPublicUrl(currentUser.image.substring(currentUser.image.indexOf("/")));//removing the first "file/"
                 currentUser = {...currentUser,image: publicUrl.data.publicUrl}
             }
+            //take the user email and insert into the database
+            const {data, error} = await supabase.from("Member").update({email: user.email}).eq("id", user.id);
+
             return {isLoggedIn: true, isExecutive: isMember, currentUser, members};
         }
     }

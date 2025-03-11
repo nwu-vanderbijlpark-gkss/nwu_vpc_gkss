@@ -40,7 +40,7 @@
 		}
 	};
 
-	onMount(() => {
+	onMount(async () => {
 		// Check immediately first
 		checkDueTime();
 
