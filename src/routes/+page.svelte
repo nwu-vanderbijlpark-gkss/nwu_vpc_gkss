@@ -361,7 +361,7 @@
 </div>
 
 <!-- Contact Us Section -->
-<div data-section="contact">
+<div data-section="contact" id="contact">
 	{#if sectionsVisible.contact}
 		<div in:fly={{ y: 50, duration: 800, easing: elasticOut }}>
 			<ContactUs />
