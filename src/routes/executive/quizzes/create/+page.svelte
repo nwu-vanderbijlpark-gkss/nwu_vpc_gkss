@@ -1,4 +1,5 @@
 <script>
+	import { fade, fly } from 'svelte/transition';
 	import Loading from '../../../../components/Loading.svelte';
 
 	let newQuiz = $state({
@@ -124,7 +125,11 @@
 	};
 </script>
 
-<div class="container mx-auto max-h-screen overflow-auto p-4 lg:p-10">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="container mx-auto max-h-screen overflow-auto p-4 lg:p-10"
+>
 	{#if isLoading}
 		<Loading />
 	{:else}

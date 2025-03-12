@@ -1,6 +1,8 @@
 <script>
 	import { LogIn } from 'lucide-svelte';
 	import moment from 'moment';
+	import { elasticOut } from 'svelte/easing';
+	import { fly } from 'svelte/transition';
 
 	let { data } = $props();
 	let events = $state(data.events);
@@ -8,7 +10,7 @@
 
 <title>Event Groups | NWU Vaal GKSS</title>
 {#if data.isLoggedIn}
-	<div class="p-3">
+	<div class="p-3" in:fly={{ y: -50, duration: 800, easing: elasticOut }}>
 		<h1 class="text-lg font-bold">Events you registered for</h1>
 		<p>Below you will see events you registered for which require you to be in a group.</p>
 		<section class="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-8 lg:px-8">

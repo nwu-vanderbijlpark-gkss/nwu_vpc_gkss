@@ -1,7 +1,8 @@
 <script>
 	import { LogIn, PlusCircle, X } from 'lucide-svelte';
 	import Loading from '../../../components/Loading.svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 
 	let { data } = $props();
 	let images = $state([]);
@@ -55,7 +56,7 @@
 	}
 </script>
 
-<div class="mx-auto max-w-2xl p-5" transition:slide>
+<div class="mx-auto max-w-2xl p-5" in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }}>
 	{#if isLoading}
 		<Loading text="Creating your topic..." />
 	{:else}

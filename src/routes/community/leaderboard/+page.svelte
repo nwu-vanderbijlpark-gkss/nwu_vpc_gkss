@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import Loading from '../../../components/Loading.svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 
 	import { Award, Icon, Medal, Sparkles, Star, Trophy } from 'lucide-svelte';
 
@@ -78,31 +78,36 @@
 		};
 	});
 </script>
+
 <meta property="og:url" content="https://nwu-vaal-gkss.netlify.app/community/leaderboard" />
- <meta property="og:site_name" content="#site_name" />
- <meta property="og:title" content="@title" />
- <meta property="og:description" content="@description" />
- <meta property="og:image" content="@url/images/@image-large.png" />
- <meta property="og:image:type" content="image/png" />
- <meta property="og:image:width" content="1200" />
- <meta property="og:image:height" content="630" />
- <meta property="og:image:alt" content="@title" />
- <meta property="og:image" content="@url/images/@image-medium.png" />
- <meta property="og:image:type" content="image/png" />
- <meta property="og:image:width" content="600" />
- <meta property="og:image:height" content="314" />
- <meta property="og:image:alt" content="@title" />
- <meta property="og:image" content="@url/images/@image-small.png" />
- <meta property="og:image:type" content="image/png" />
- <meta property="og:image:width" content="400" />
- <meta property="og:image:height" content="400" />
- <meta property="og:image:alt" content="@title" />
- <meta name="twitter:card" content="summary"/>
- <meta name="twitter:site" content="#site_twitter"/>
- <meta name="twitter:creator" content="#creator_twitter" />
+<meta property="og:site_name" content="#site_name" />
+<meta property="og:title" content="@title" />
+<meta property="og:description" content="@description" />
+<meta property="og:image" content="@url/images/@image-large.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="@title" />
+<meta property="og:image" content="@url/images/@image-medium.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="600" />
+<meta property="og:image:height" content="314" />
+<meta property="og:image:alt" content="@title" />
+<meta property="og:image" content="@url/images/@image-small.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="400" />
+<meta property="og:image:height" content="400" />
+<meta property="og:image:alt" content="@title" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="#site_twitter" />
+<meta name="twitter:creator" content="#creator_twitter" />
 <title>LeaderBoard | NWU Vaal GKSS</title>
 
-<div class="overflow-hidden rounded-lg bg-white shadow-xl">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="overflow-hidden rounded-lg bg-white shadow-xl"
+>
 	<header class=" flex flex-col items-center justify-between p-6 py-1">
 		<nav aria-label="Leaderboard categories" class="mt-3 flex flex-wrap items-center gap-2">
 			{#each [{ id: 'all', label: 'All' }, { id: 'projects', label: 'Projects' }, { id: 'members', label: 'Members' }] as btn}

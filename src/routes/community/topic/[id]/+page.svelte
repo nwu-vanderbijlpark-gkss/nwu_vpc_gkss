@@ -16,7 +16,7 @@
 	} from 'lucide-svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
-	import { slide, fade } from 'svelte/transition';
+	import { slide, fade, fly } from 'svelte/transition';
 	import NotFoundPage from '../../../../components/NotFoundPage.svelte';
 
 	let { data } = $props();
@@ -89,21 +89,29 @@
 			message="Sorry, this topic does not exist, it might have been deleted by its owner."
 		/>
 	{:else}
-		<div class="flex min-h-[50vh] flex-col items-center justify-center" transition:fade>
+		<div
+			class="flex min-h-[50vh] flex-col items-center justify-center"
+			in:fly={{ x: 100, duration: 400 }}
+			out:fade={{ duration: 300 }}
+		>
 			<div class="loading loading-spinner loading-lg text-primary"></div>
 			<p class="mt-4 text-lg font-medium">Loading topic...</p>
 		</div>
 	{/if}
 {:else}
 	<title>{topic.topic} | NWU Vaal GKSS</title>
-	<div class="mx-auto max-w-3xl space-y-4 rounded-lg bg-white shadow-sm" transition:slide>
+	<div
+		class="mx-auto max-w-3xl space-y-4 rounded-lg bg-white shadow-sm"
+		in:fly={{ x: 100, duration: 400 }}
+		out:fade={{ duration: 300 }}
+	>
 		<!-- Header Section -->
 		<header class="border-b p-4">
 			<div class="mb-4 flex items-center justify-between">
 				<div class="flex items-center space-x-3">
 					<button
 						on:click={() => history.back()}
-						class="btn btn-circle btn-ghost btn-sm hover:bg-gray-100"
+						class="btn btn-circle btn-ghost btn-sm text-black hover:bg-gray-100"
 					>
 						<ArrowLeft size={20} />
 					</button>

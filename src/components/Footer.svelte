@@ -24,40 +24,20 @@
 			<a href="https://www.instagram.com/gkss_nwu" class="btn"><Instagram /></a>
 		</div>
 		<div class="hidden items-start justify-center space-x-4 lg:flex lg:flex-row">
-			<a
-				href="/"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white">Home</a
+			<a href="/" class="navItem border-red-500 hover:border-b hover:text-white">Home</a>
+			<p class="cDivider">|</p>
+			<a href="/about" class="navItem border-red-500 hover:border-b hover:text-white">About</a>
+			<p class="cDivider">|</p>
+			<a href="/events" class="navItem border-red-500 hover:border-b hover:text-white">Events</a>
+			<p class="cDivider">|</p>
+			<a href="/community" class="navItem border-red-500 hover:border-b hover:text-white"
+				>Community</a
 			>
 			<p class="cDivider">|</p>
-			<a
-				href="/about"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white">About</a
-			>
+			<a href="/team" class="navItem border-red-500 hover:border-b hover:text-white">The team</a>
 			<p class="cDivider">|</p>
-			<a
-				href="/events"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white">Events</a
-			>
-			<p class="cDivider">|</p>
-			<a
-				href="/community"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white">Community</a
-			>
-			<p class="cDivider">|</p>
-			<a
-				href="/team"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white">The team</a
-			>
-			<p class="cDivider">|</p>
-			<a
-				href="/#contact"
-				data-sveltekit-reload
-				class="navItem border-red-500 hover:border-b hover:text-white">Contact Us</a
+			<a href="/#contact" class="navItem border-red-500 hover:border-b hover:text-white"
+				>Contact Us</a
 			>
 		</div>
 		<p class="text-sm">

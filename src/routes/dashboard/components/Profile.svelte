@@ -1,7 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
 	import moment from 'moment';
-	import { slide } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 	import Loading from '../../../components/Loading.svelte';
 
 	// Profile editing
@@ -17,7 +17,11 @@
 </script>
 
 <!-- Profile content -->
-<div transition:slide class="rounded-xl bg-white p-6 shadow-md">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="rounded-xl bg-white p-6 shadow-md"
+>
 	<div class="mb-6 flex items-center justify-between">
 		<h2 class="text-2xl font-semibold text-base-100">Personal Information</h2>
 		{#if !isEditing}

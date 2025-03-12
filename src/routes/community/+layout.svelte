@@ -25,6 +25,7 @@
 	import { slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import moment from 'moment';
+	import { page } from '$app/stores';
 
 	let { children, data } = $props();
 	let todaysBirthdays = data.members.filter((member) => {
@@ -111,36 +112,72 @@
 		<ul class="menu min-h-full w-full space-y-1 p-2">
 			<h2 class="menu-title border-b text-xl font-bold text-gray-400">Community</h2>
 			<li>
-				<a href="/community/search" class="navItem text-lg"><Search /> Search</a>
+				<a
+					href="/community/search"
+					class="navItem text-lg"
+					class:selected={$page.url.pathname === '/community/search'}><Search /> Search</a
+				>
 			</li>
 			<li>
-				<a href="/community" class="navItem text-lg"><MessageCircleMore /> Discussions</a>
+				<a
+					href="/community"
+					class="navItem text-lg"
+					class:selected={$page.url.pathname === '/community'}><MessageCircleMore /> Discussions</a
+				>
 			</li>
 			<li>
-				<a href="/community/quiz" class="navItem text-lg"
+				<a
+					class:selected={$page.url.pathname === '/community/quiz'}
+					href="/community/quiz"
+					class="navItem text-lg"
 					><FileEdit />Quizzes
 					<div class="badge badge-primary">{quizzes.length}</div></a
 				>
-
 			</li>
 			<li>
-				<a href="/community/idea-generator" class="navItem text-lg"><Brain /> Idea Generator</a>
+				<a
+					class:selected={$page.url.pathname === '/community/idea-generator'}
+					href="/community/idea-generator"
+					class="navItem text-lg"><Brain /> Idea Generator</a
+				>
 			</li>
 
 			<li>
-				<a href="/community/leaderboard" class="navItem text-lg"><ChartColumnBig /> LeaderBoard</a>
+				<a
+					class:selected={$page.url.pathname === '/community/leaderboard'}
+					href="/community/leaderboard"
+					class="navItem text-lg"><ChartColumnBig /> LeaderBoard</a
+				>
 			</li>
 
 			{#if data.isLoggedIn}
 				<li>
-					<a href="/community/event-groups" class="navItem text-lg"><Users /> Event Groups</a>
+					<a
+						class:selected={$page.url.pathname === '/community/event-groups'}
+						href="/community/event-groups"
+						class="navItem text-lg"><Users /> Event Groups</a
+					>
 				</li>
 				<li>
-					<a href="/community/event-groups" class="navItem text-lg"><Users /> Event Groups</a>
+					<a
+						class:selected={$page.url.pathname === '/community/tools'}
+						href="/community/tools"
+						class="navItem text-lg"><Bot /><span>Geek Tools</span></a
+					>
 				</li>
-				<li><a href="/community/profile" class="navItem text-lg"><User /> Profile</a></li>
 				<li>
-					<a href="/community/create-topic" class="btn btn-primary"><PlusCircle /> Create topic</a>
+					<a
+						class:selected={$page.url.pathname === '/community/profile'}
+						href="/community/profile"
+						class="navItem text-lg"><User /> Profile</a
+					>
+				</li>
+				<li>
+					<a
+						class:selected={$page.url.pathname === '/community/create-topic'}
+						href="/community/create-topic"
+						class="btn btn-primary"><PlusCircle /> Create topic</a
+					>
 				</li>
 			{:else}
 				<li>
@@ -201,6 +238,7 @@
 	<div class="btm-nav border-t bg-white py-2 shadow-md lg:hidden">
 		<a
 			href="/community"
+			class:selected={$page.url.pathname === '/community'}
 			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
 		>
 			<MessageCircleMore class="h-5 w-5" />
@@ -209,6 +247,7 @@
 
 		<a
 			href="/community/search"
+			class:selected={$page.url.pathname === '/community/search'}
 			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
 		>
 			<Search class="h-5 w-5" />
@@ -217,6 +256,7 @@
 
 		<a
 			href="/community/create-topic"
+			class:selected={$page.url.pathname === '/community/create-topic'}
 			class="flex flex-col items-center text-sm font-semibold text-primary"
 		>
 			<div class="rounded-full bg-primary p-2 text-white shadow-lg">
@@ -227,7 +267,7 @@
 
 		<a
 			href="/community/quiz"
-
+			class:selected={$page.url.pathname === '/community/quiz'}
 			class="relative flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
 		>
 			<div class="relative">
@@ -240,7 +280,6 @@
 			</div>
 			<span>Quizzes</span>
 		</a>
-
 
 		<button
 			onclick={() => moreModal.show()}
@@ -265,12 +304,18 @@
 		<div class="text-whte flex flex-col items-center p-2">
 			<ul class="menu min-h-full w-full space-y-2 p-2">
 				<li>
-					<a href="/community/leaderboard" class="navItem flex text-lg"
-						><ChartColumnBig /> LeaderBoard</a
+					<a
+						class:selected={$page.url.pathname === '/community/leaderboard'}
+						href="/community/leaderboard"
+						class="navItem flex text-lg"><ChartColumnBig /> LeaderBoard</a
 					>
 				</li>
 				<li>
-					<a href="/community/idea-generator" class="navItem text-lg"><Brain /> Idea Generator</a>
+					<a
+						class:selected={$page.url.pathname === '/community/idea-generator'}
+						href="/community/idea-generator"
+						class="navItem text-lg"><Brain /> Idea Generator</a
+					>
 				</li>
 				<li>
 					<a href="/community/tools" class="navItem text-lg">
@@ -279,13 +324,25 @@
 				</li>
 				{#if data.isLoggedIn}
 					<li>
-						<a href="/community/event-groups" class="navItem text-lg"><Users /> Event Groups</a>
+						<a
+							class:selected={$page.url.pathname === '/community/event-groups'}
+							href="/community/event-groups"
+							class="navItem text-lg"><Users /> Event Groups</a
+						>
 					</li>
 					<li>
-						<a href="/community/ideas" class="navItem text-lg"><Lightbulb /> Saved ideas</a>
+						<a
+							class:selected={$page.url.pathname === '/community/ideas'}
+							href="/community/ideas"
+							class="navItem text-lg"><Lightbulb /> Saved ideas</a
+						>
 					</li>
 					<li>
-						<a href="/community/profile" class="navItem flex text-lg">
+						<a
+							class:selected={$page.url.pathname === '/community/profile'}
+							href="/community/profile"
+							class="navItem flex text-lg"
+						>
 							<User class="h-5 w-5" />
 							<span>Profile</span>
 						</a>
@@ -414,3 +471,9 @@
 		{/if}
 	</div>
 </dialog>
+
+<style>
+	.selected {
+		@apply link-primary font-bold;
+	}
+</style>

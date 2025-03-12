@@ -1,6 +1,7 @@
 <script>
 	import moment from 'moment';
 	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	let { events } = $props();
 	let modalEvent = $state(null);
@@ -53,7 +54,7 @@
 </script>
 
 {#if events.length}
-	<div class="min-h-screen bg-gray-50 p-10">
+	<div class="min-h-screen bg-gray-50 p-10" in:fly={{ x: -100, duration: 400 }}>
 		<h2 class="mb-8 text-center text-4xl font-semibold text-gray-900">Upcoming Events</h2>
 		<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
 			{#each events as event (event.id)}
@@ -133,11 +134,7 @@
 									</div>
 								</div>
 							</div>
-							<a
-								data-sveltekit-reload
-								href={`/events/${event.id}`}
-								class="btn btn-primary w-full text-center"
-							>
+							<a href={`/events/${event.id}`} class="btn btn-primary w-full text-center">
 								Register Now
 							</a>
 						{:else}
@@ -162,13 +159,7 @@
 				<p class="mb-4 text-base text-gray-600">{modalEvent.description}</p>
 				<div class="flex items-center justify-between">
 					<p class="text-sm text-gray-500">{moment(modalEvent.date).format('LL')}</p>
-					<a
-						href={`/events/${modalEvent.id}#register`}
-						class="btn btn-primary"
-						data-sveltekit-reload
-					>
-						Register Now
-					</a>
+					<a href={`/events/${modalEvent.id}#register`} class="btn btn-primary"> Register Now </a>
 				</div>
 			</div>
 		</div>

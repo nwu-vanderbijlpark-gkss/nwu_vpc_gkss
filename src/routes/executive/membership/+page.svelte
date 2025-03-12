@@ -2,6 +2,7 @@
 	import { Edit, PlusCircle, SendHorizontal, Trash2, X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import Loading from '../../../components/Loading.svelte';
+	import { fade, fly } from 'svelte/transition';
 
 	let { data, form } = $props();
 	let members = $state(data.members);
@@ -34,7 +35,11 @@
 	};
 </script>
 
-<div class="overflow-hidden rounded-lg bg-white shadow-xl">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="overflow-hidden rounded-lg bg-white shadow-xl"
+>
 	<div class="flex items-center justify-between p-6">
 		<h2 class="text-3xl font-semibold text-gray-800">Members</h2>
 	</div>

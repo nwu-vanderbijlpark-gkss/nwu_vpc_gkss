@@ -1,5 +1,6 @@
 <script>
 	import { Edit, PlusCircle, Trash2, X } from 'lucide-svelte';
+	import { fade, fly } from 'svelte/transition';
 
 	let roles = [
 		'Chairperson',
@@ -22,12 +23,16 @@
 			body: data
 		});
 		// Remove the deleted member from state
-		team = team.filter(member => member.id !== id);
+		team = team.filter((member) => member.id !== id);
 	};
 </script>
 
-<div class="bg-white shadow-xl rounded-lg overflow-hidden">
-	<div class="mb-8 flex justify-between items-center p-6">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="overflow-hidden rounded-lg bg-white shadow-xl"
+>
+	<div class="mb-8 flex items-center justify-between p-6">
 		<h2 class="text-3xl font-semibold text-gray-800">Executive Team</h2>
 		<button class="btn btn-primary" onclick={() => addMemberModal.show()}>
 			<PlusCircle class="mr-2" /> Add Team Member
@@ -35,26 +40,29 @@
 	</div>
 
 	<div class="max-h-screen overflow-auto px-6 pb-6">
-		<table class="w-full text-sm text-left text-gray-600 shadow-xl">
+		<table class="w-full text-left text-sm text-gray-600 shadow-xl">
 			<thead class="bg-gray-100 text-xs uppercase text-gray-700">
 				<tr>
 					<th class="px-6 py-4 font-medium">Role</th>
 					<th class="px-6 py-4 font-medium">Full Name</th>
 					<th class="px-6 py-4 font-medium">Contact Email</th>
-					<th class="px-6 py-4 font-medium text-center">Actions</th>
+					<th class="px-6 py-4 text-center font-medium">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				{#each team as member, index}
-					<tr class="border-b hover:bg-gray-50 transition-colors">
+					<tr class="border-b transition-colors hover:bg-gray-50">
 						<td class="px-6 py-4 font-semibold text-gray-800">{member.role}</td>
 						<td class="px-6 py-4">{member.name} {member.surname}</td>
 						<td class="px-6 py-4">{member.email}</td>
-						<td class="px-6 py-4 flex justify-center space-x-2">
+						<td class="flex justify-center space-x-2 px-6 py-4">
 							<button class="btn btn-ghost btn-sm">
 								<Edit class="mr-1" /> Edit
 							</button>
-							<button onclick={() => handleDelete(member.id)} class="btn btn-ghost btn-sm text-red-600">
+							<button
+								onclick={() => handleDelete(member.id)}
+								class="btn btn-ghost btn-sm text-red-600"
+							>
 								<Trash2 class="mr-1" /> Delete
 							</button>
 						</td>

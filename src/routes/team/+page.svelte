@@ -8,7 +8,11 @@
 <meta name="twitter:image:alt" content="Team | NWU Vaal GKSS" />
 <meta property="title" content="Team" />
 
-<div class="min-h-screen space-y-8 bg-gray-100 p-6">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="min-h-screen space-y-8 bg-gray-100 p-6"
+>
 	<h1 class="text-center text-4xl font-extrabold text-black">Meet the Team</h1>
 	<div class="grid grid-cols-1 gap-6 p-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 		{#each data.team as team}

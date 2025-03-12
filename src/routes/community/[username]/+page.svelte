@@ -4,6 +4,8 @@
 	import Topic from '../../../components/Topic.svelte';
 	import Project from '../../../components/Project.svelte';
 	import { onMount } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 
 	let { data } = $props();
 	let myProfile = $state(false);
@@ -42,7 +44,7 @@
 	<meta name="twitter:image:alt" content={`${data.fullName} | NWU Vaal GKSS`} />
 	<meta property="title" content="User profile" />
 
-	<div class="min-h-screen pb-8">
+	<div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="min-h-screen pb-8">
 		<!-- Profile Header -->
 		<div class="flex flex-col items-center gap-8 px-4 py-6 lg:flex-row lg:items-start lg:px-8">
 			<!-- Profile Image -->

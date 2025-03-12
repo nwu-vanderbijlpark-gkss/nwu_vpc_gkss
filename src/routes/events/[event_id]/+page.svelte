@@ -3,6 +3,7 @@
 	import moment from 'moment';
 	import { LogIn, Medal } from 'lucide-svelte';
 	import Loading from '../../../components/Loading.svelte';
+	import { fade, fly } from 'svelte/transition';
 
 	let { data } = $props();
 	let event = $state(data.event);
@@ -76,7 +77,11 @@
 </script>
 
 <title>{event.topic} | NWU VAAL GKSS</title>
-<div class="container mx-auto px-4 py-8">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="container mx-auto px-4 py-8"
+>
 	<div class="grid gap-8 text-black md:grid-cols-2">
 		<!-- Event Details -->
 		<div>

@@ -1,7 +1,7 @@
 <script>
 	import { Mail } from 'lucide-svelte';
 	import moment from 'moment';
-	import { slide } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 	import Loading from '../../../components/Loading.svelte';
 
 	let inviteEmail = $state('');
@@ -22,7 +22,11 @@
 </script>
 
 <!-- Invite content -->
-<div transition:slide class="space-y-6 text-base-200">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="space-y-6 text-base-200"
+>
 	<div class="rounded-xl bg-white p-6 shadow-md">
 		<h2 class="mb-6 text-2xl font-semibold">Invite Friends</h2>
 		<div class="max-w-md">

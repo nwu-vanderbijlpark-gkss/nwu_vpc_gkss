@@ -13,13 +13,17 @@
 		ThumbsUp,
 		User
 	} from 'lucide-svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 	import Topic from '../../components/Topic.svelte';
 	let { data } = $props();
 </script>
 
 <title>Community | NWU Vaal GKSS</title>
-<div class="h-full w-full space-y-4" in:slide={{ x: 100 }} out:slide={{ x: -100 }}>
+<div
+	class="h-full w-full space-y-4"
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+>
 	<!-- Content Area -->
 	<main class="rounded-lg bg-white">
 		{#if data.allTopics.length === 0}

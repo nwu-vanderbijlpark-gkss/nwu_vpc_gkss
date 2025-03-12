@@ -1,11 +1,8 @@
 <script>
-	let currentPath = $state('');
 	let { isLoggedIn, isExecutive, user } = $props();
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
-	onMount(() => {
-		currentPath = location.pathname;
-	});
 	import {
 		ChartNoAxesColumn,
 		FileEdit,
@@ -24,71 +21,62 @@
 </script>
 
 <div
-	class="navbar fixed top-0 z-50 flex w-screen items-center justify-between bg-base-200 shadow-lg backdrop-blur"
+	class="navbar fixed top-0 z-50 flex w-screen items-center justify-between bg-base-200/95 shadow-lg backdrop-blur"
 >
-	<a href="/"><img src="/logo.png" alt="logo" class="ml-5 h-[60px] w-[100px]" /></a>
-	{#if !currentPath.includes('/executive')}
+	<a href="/"><img src="/logo.png" alt="logo" class="ml-5 h-[50px] w-[100px]" /></a>
+	{#if !$page.url.pathname.includes('/executive')}
 		<nav class="mr-5 hidden items-center space-x-5 lg:flex">
 			<a
 				href="/"
-				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/'}>Home</a
+				class:selected={$page.url.pathname === '/'}>Home</a
 			>
 			<a
 				href="/about"
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/about'}>About</a
+				class:selected={$page.url.pathname === '/about'}>About</a
 			>
 			<a
 				href="/events"
-				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath.includes('/events')}>Events</a
+				class:selected={$page.url.pathname.includes('/events')}>Events</a
 			>
 			<a
 				href="/geekOfTheWeek"
-				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/geekOfTheWeek'}>Geek Of The Week</a
+				class:selected={$page.url.pathname === '/geekOfTheWeek'}>Geek Of The Week</a
 			>
 			<a
 				href="/community"
-				data-sveltekit-reload
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath.includes('/community')}>Community</a
+				class:selected={$page.url.pathname.includes('/community')}>Community</a
 			>
 			{#if isLoggedIn}
 				<a
 					href="/dashboard"
-					data-sveltekit-reload
 					class="navItem btn-bordered btn border-red-500 hover:border-b hover:text-white"
-					class:selected={currentPath === '/dashboard'}>Dashboard</a
+					class:selected={$page.url.pathname === '/dashboard'}>Dashboard</a
 				>
 				{#if isExecutive}
 					<a
 						href="/executive"
-						data-sveltekit-reload
 						class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white">Admin</a
 					>
 				{/if}
 			{:else}
 				<a
 					href="/team"
-					data-sveltekit-reload
 					class="navItem border-red-500 hover:border-b hover:text-white"
-					class:selected={currentPath === '/team'}>The team</a
+					class:selected={$page.url.pathname === '/team'}>The team</a
 				>
 				<a
 					href="/#contact"
-					data-sveltekit-reload
 					class="navItem border-red-500 hover:border-b hover:text-white"
-					class:selected={currentPath === '/#contact'}>Contact Us</a
+					class:selected={$page.url.pathname === '/#contact'}>Contact Us</a
 				>
-				{#if currentPath != '/login'}
+				{#if $page.url.pathname != '/login'}
 					<a
 						href="/login"
-						data-sveltekit-reload
 						class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white"
 					>
 						<LogIn />
@@ -113,66 +101,51 @@
 		<ul class="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
 			<h2 class="text-2xl font-bold text-white">Menu</h2>
 			<!-- Sidebar content here -->
-			{#if !currentPath.includes('/executive')}
+			{#if !$page.url.pathname.includes('/executive')}
 				<li>
-					<a
-						href="/"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/'}>Home</a
-					>
+					<a href="/" class="navItem text-lg" class:selected={$page.url.pathname === '/'}>Home</a>
 				</li>
 				<li>
-					<a
-						href="/about"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/about'}>About</a
+					<a href="/about" class="navItem text-lg" class:selected={$page.url.pathname === '/about'}
+						>About</a
 					>
 				</li>
 				<li>
 					<a
 						href="/events"
-						data-sveltekit-reload
 						class="navItem text-lg"
-						class:selected={currentPath.includes('/events')}>Events</a
+						class:selected={$page.url.pathname.includes('/events')}>Events</a
 					>
 				</li>
 				<li>
 					<a
 						href="/geekOfTheWeek"
-						data-sveltekit-reload
 						class="navItem text-lg"
-						class:selected={currentPath === '/geekOfTheWeek'}>Geek Of The Week</a
+						class:selected={$page.url.pathname === '/geekOfTheWeek'}>Geek Of The Week</a
 					>
 				</li>
 				<li>
 					<a
 						href="/community"
-						data-sveltekit-reload
 						class="navItem text-lg"
-						class:selected={currentPath.includes('/community')}>Community</a
+						class:selected={$page.url.pathname.includes('/community')}>Community</a
 					>
 				</li>
 				<li>
-					<a
-						href="/team"
-						data-sveltekit-reload
-						class="navItem text-lg"
-						class:selected={currentPath === '/team'}>The team</a
+					<a href="/team" class="navItem text-lg" class:selected={$page.url.pathname === '/team'}
+						>The team</a
 					>
 				</li>
 				{#if isLoggedIn}
 					<a
 						href="/dashboard"
-						data-sveltekit-reload
 						class="navItem btn-bordered btn my-2 border-red-500 hover:border-b hover:text-white"
-						class:selected={currentPath === '/dashboard'}>Dashboard</a
+						class:selected={$page.url.pathname === '/dashboard'}>Dashboard</a
 					>
 					{#if isExecutive}
 						<a
 							href="/executive"
-							data-sveltekit-reload
+							class:selected={$page.url.pathname === '/executive'}
 							class="navItem btn btn-primary my-2 border-red-500 hover:border-b hover:text-white"
 							>Admin</a
 						>
@@ -181,16 +154,14 @@
 					<li>
 						<a
 							href="/#contact"
-							data-sveltekit-reload
 							class="navItem text-lg"
-							class:selected={currentPath === '/#contact'}>Contact Us</a
+							class:selected={$page.url.pathname === '/#contact'}>Contact Us</a
 						>
 					</li>
-					{#if currentPath != '/login'}
+					{#if $page.url.pathname != '/login'}
 						<li>
 							<a
 								href="/login"
-								data-sveltekit-reload
 								class="navItem btn btn-primary my-2 border-red-500 hover:border-b hover:text-white"
 							>
 								<LogIn />
@@ -212,31 +183,40 @@
 				</li>
 
 				<li>
-					<a href="/executive">
+					<a href="/executive" class:selected={$page.url.pathname === '/executive'}>
 						<Home />
 						Home
 					</a>
 				</li>
 				<li>
-					<a href="/executive/events">
+					<a
+						class:selected={$page.url.pathname.includes('/executive/events')}
+						href="/executive/events"
+					>
 						<ChartNoAxesColumn />
 						Event Management
 					</a>
 				</li>
 				<li>
-					<a href="/executive/team">
+					<a class:selected={$page.url.pathname === '/executive/team'} href="/executive/team">
 						<UserCog />
 						Executive Team
 					</a>
 				</li>
 				<li>
-					<a href="/executive/membership">
+					<a
+						class:selected={$page.url.pathname === '/executive/membership'}
+						href="/executive/membership"
+					>
 						<Users />
 						Members
 					</a>
 				</li>
 				<li>
-					<a href="/executive/quizzes">
+					<a
+						class:selected={$page.url.pathname.includes('/executive/quizzes')}
+						href="/executive/quizzes"
+					>
 						<FileEdit />
 						Quizzes
 					</a>
@@ -247,13 +227,13 @@
 						<summary><Link />Other links</summary>
 						<ul>
 							<li>
-								<a data-sveltekit-reload href="/dashboard">
+								<a href="/dashboard">
 									<User />
 									Dashboard
 								</a>
 							</li>
 							<li>
-								<a data-sveltekit-reload href="/community">
+								<a href="/community">
 									<MessageCircleMoreIcon />
 									Community
 								</a>

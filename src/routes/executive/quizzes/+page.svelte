@@ -1,6 +1,7 @@
 <script>
 	import moment from 'moment';
 	import { onMount } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
 
 	let quizzes = $state([]);
 
@@ -31,7 +32,7 @@
 	onMount(() => fetchQuizzes());
 </script>
 
-<div class="container mx-auto p-4">
+<div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="container mx-auto p-4">
 	<!-- Header -->
 	<div class="mb-8 flex items-center justify-between">
 		<h1 class="text-3xl font-bold text-black">Quiz Manager</h1>

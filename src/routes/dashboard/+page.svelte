@@ -26,7 +26,7 @@
 	import Profile from './components/Profile.svelte';
 	import Invite from './components/Invite.svelte';
 	import Page from '../update-password/+page.svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 	import CalendarView from '../../components/CalendarView.svelte';
 
 	let activeTab = $state('stats');
@@ -124,7 +124,11 @@
 		</div>
 	</div>
 </dialog>
-<div class="flex min-h-screen flex-col bg-gray-100 md:flex-row">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="flex min-h-screen flex-col bg-gray-100 md:flex-row"
+>
 	<!-- Sidebar -->
 	<nav class="fixed hidden h-screen w-64 flex-col bg-base-200 text-white shadow-lg md:flex">
 		<div class="flex flex-col items-center space-y-4 border-b p-6">
@@ -223,7 +227,11 @@
 		</div>
 	</nav>
 	<!-- Main content -->
-	<main class="mb-16 flex-1 p-6 text-base-200 md:mb-0 md:ml-64">
+	<main
+		in:fly={{ x: 100, duration: 400 }}
+		out:fade={{ duration: 300 }}
+		class="mb-16 flex-1 p-6 text-base-200 md:mb-0 md:ml-64"
+	>
 		{#if activeTab === 'stats'}
 			<!-- Dashboard content -->
 			<div class="stats stats-vertical my-4 w-full shadow lg:stats-horizontal">

@@ -1,5 +1,5 @@
 <script>
-	import { slide } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 	import moment from 'moment';
 	import { CalendarClockIcon, Users } from 'lucide-svelte';
 	import Chart from '../../components/Chart.svelte';
@@ -73,7 +73,11 @@
 	}
 </script>
 
-<div class="overflow-auto p-6 lg:max-h-[90svh]">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="overflow-auto p-6 lg:max-h-[90svh]"
+>
 	<h1 class="my-3 text-center text-2xl font-extrabold text-primary">Executive Dashboard</h1>
 
 	<!-- Statistics Cards -->

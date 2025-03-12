@@ -5,6 +5,7 @@
 	import { onDestroy } from 'svelte'; // or framework equivalent
 
 	import moment from 'moment';
+	import { fade, fly } from 'svelte/transition';
 	let { data } = $props();
 	let quiz = $state(data.quiz);
 	function shuffleQuestions() {
@@ -57,7 +58,11 @@
 <title>{quiz ? quiz.title : 'Quiz'} | NWU Vaal GKSS</title>
 {#if data.isLoggedIn}
 	{#if isClosed}
-		<div class="flex min-h-screen items-center justify-center">
+		<div
+			in:fly={{ x: 100, duration: 400 }}
+			out:fade={{ duration: 300 }}
+			class="flex min-h-screen items-center justify-center"
+		>
 			<div class="alert alert-warning mx-auto max-w-md animate-pulse">
 				<div class="flex items-center gap-4">
 					<svg
@@ -86,7 +91,11 @@
 		<TakeQuiz {alreadyCompleted} {quiz} />
 	{/if}
 {:else}
-	<div class="rounded-xl border-2 border-dashed p-8 text-center">
+	<div
+		in:fly={{ x: 100, duration: 400 }}
+		out:fade={{ duration: 300 }}
+		class="rounded-xl border-2 border-dashed p-8 text-center"
+	>
 		<div class="mx-auto max-w-xs space-y-4">
 			<LogIn class="mx-auto h-12 w-12 text-primary" />
 			<h4 class="text-xl font-semibold">Join the Community</h4>

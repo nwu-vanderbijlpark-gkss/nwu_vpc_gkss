@@ -10,6 +10,7 @@
 		X
 	} from 'lucide-svelte';
 	import moment from 'moment';
+	import { fade, fly } from 'svelte/transition';
 
 	let array = [];
 	let { data, form } = $props();
@@ -67,7 +68,11 @@
 	};
 </script>
 
-<div class="overflow-hidden rounded-lg shadow-xl">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="overflow-hidden rounded-lg shadow-xl"
+>
 	<div class="mb-8 flex items-center justify-between p-6">
 		<h2 class="text-3xl font-semibold text-gray-800">Event Management</h2>
 		<button

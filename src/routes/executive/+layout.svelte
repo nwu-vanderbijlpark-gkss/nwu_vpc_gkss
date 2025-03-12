@@ -11,8 +11,9 @@
 		UserCog,
 		Users
 	} from 'lucide-svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 	import PwaInstallPrompt from '../../components/PWAInstallPrompt.svelte';
+	import { page } from '$app/stores';
 
 	let { children, data } = $props();
 	const currentUser = data.currentUser;
@@ -21,6 +22,8 @@
 <title>Executive | NWU Vaal GKSS </title>
 
 <div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
 	class="flex min-h-screen w-full justify-between bg-gradient-to-b from-white to-gray-200 lg:p-1"
 >
 	<ul class="menu hidden min-h-[90svh] w-56 rounded-box bg-base-200 lg:flex">
@@ -40,31 +43,37 @@
 		</li>
 
 		<li>
-			<a href="/executive">
+			<a href="/executive" class:selected={$page.url.pathname === '/executive'}>
 				<Home />
 				Home
 			</a>
 		</li>
 		<li>
-			<a href="/executive/events">
+			<a href="/executive/events" class:selected={$page.url.pathname.includes('/executive/events')}>
 				<ChartNoAxesColumn />
 				Event Management
 			</a>
 		</li>
 		<li>
-			<a href="/executive/team">
+			<a href="/executive/team" class:selected={$page.url.pathname === '/executive/team'}>
 				<UserCog />
 				Executive Team
 			</a>
 		</li>
 		<li>
-			<a href="/executive/membership">
+			<a
+				href="/executive/membership"
+				class:selected={$page.url.pathname === '/executive/membership'}
+			>
 				<Users />
 				Members
 			</a>
 		</li>
 		<li>
-			<a href="/executive/quizzes">
+			<a
+				href="/executive/quizzes"
+				class:selected={$page.url.pathname.includes('/executive/quizzes')}
+			>
 				<FileEdit />
 				Quizzes
 			</a>
@@ -75,13 +84,13 @@
 				<summary><Link />Other links</summary>
 				<ul>
 					<li>
-						<a data-sveltekit-reload href="/dashboard">
+						<a href="/dashboard">
 							<User />
 							Dashboard
 						</a>
 					</li>
 					<li>
-						<a data-sveltekit-reload href="/community">
+						<a href="/community">
 							<MessageCircleMoreIcon />
 							Community
 						</a>
@@ -94,3 +103,9 @@
 		{@render children()}
 	</div>
 </div>
+
+<style>
+	.selected {
+		@apply link-primary font-bold;
+	}
+</style>

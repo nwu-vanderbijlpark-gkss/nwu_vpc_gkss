@@ -1,11 +1,11 @@
 <script>
 	import moment from 'moment';
 	import { onMount } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
 
 	let quizzes = $state([]);
 
 	const fetchQuizzes = async () => {
-
 		quizzesLoading = true;
 
 		const response = await fetch('/executive/api/fetchQuizzes', {
@@ -13,7 +13,6 @@
 		});
 		const res = await response.json();
 		if (res.success) {
-
 			quizzes = res.quizzes.filter((quiz) => moment(quiz.due).isAfter(moment()));
 		}
 		quizzesLoading = false;
@@ -24,7 +23,7 @@
 
 <title> Quizzes | NWU Vaal GKSS</title>
 
-<div class="container mx-auto p-4">
+<div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="container mx-auto p-4">
 	<!-- Header -->
 	<div class="mb-8 flex items-center justify-between">
 		<h1 class="text-3xl font-bold text-black">Quizzes</h1>
@@ -32,10 +31,7 @@
 
 	<!-- Quiz Grid -->
 	<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-
 		{#if quizzesLoading}
-
-
 			{#each [1, 2, 3, 4, 5, 6] as num}
 				<div class="card bg-base-100 shadow-xl">
 					<div class="skeleton h-32 w-full"></div>
@@ -44,10 +40,8 @@
 					<div class="skeleton h-4 w-full"></div>
 				</div>
 			{/each}
-
 		{:else if !quizzes.length}
 			<p class="font-bold text-base-100">There are no open quizzes currently, try again later.</p>
-
 		{:else}
 			{#each quizzes as quiz (quiz.id)}
 				{#if !moment(quiz.due).isSameOrBefore(moment())}

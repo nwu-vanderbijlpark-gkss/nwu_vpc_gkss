@@ -1,4 +1,6 @@
 <script>
+	import { fade, fly } from 'svelte/transition';
+
 	let { data } = $props();
 
 	// Reactive state
@@ -19,7 +21,11 @@
 <meta name="twitter:image:alt" content="Geek of the Week | NWU Vaal GKSS" />
 <meta property="title" content="Geek of the Week" />
 
-<div class="min-h-screen bg-gray-100 p-10">
+<div
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="min-h-screen bg-gray-100 p-10"
+>
 	<!-- Section Title -->
 	<div class="mb-12 text-center">
 		<h1 class="mb-4 text-4xl font-bold text-purple-600">Geek of the Week</h1>

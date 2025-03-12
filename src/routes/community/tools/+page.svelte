@@ -2,7 +2,7 @@
 	import { LogIn, X } from 'lucide-svelte';
 	import { SendHorizontal, PlusCircle } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import MarkDown from '../../../components/MarkDown.svelte';
 	import Loading from '../../../components/Loading.svelte';
 	import Project from '../../../components/Project.svelte';
@@ -68,7 +68,7 @@
 </script>
 
 <title>Tools & Projects | NWU Vaal GKSS</title>
-<div class="flex h-screen flex-col">
+<div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="flex h-screen flex-col">
 	<!-- Header - Adjusted for mobile stacking -->
 	<header class="border-b bg-gray-50 px-4 py-4 sm:py-6">
 		<div class="mx-auto flex max-w-4xl flex-col gap-4 sm:flex-row sm:justify-between">

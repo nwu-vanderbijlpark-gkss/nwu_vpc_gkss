@@ -1,7 +1,7 @@
 <script>
 	import { ArrowLeft, Search } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 	import Topic from '../../../components/Topic.svelte';
 	import Project from '../../../components/Project.svelte';
 	import MemberCard from '../../../components/MemberCard.svelte';
@@ -71,10 +71,7 @@
 
 		if (filter === 'none' || filter === 'projects') {
 			project_results = data.projects.filter(
-				(project) =>
-					isFound(project.name) ||
-					isFound(project.link) ||
-					isFound(project.description)
+				(project) => isFound(project.name) || isFound(project.link) || isFound(project.description)
 			);
 		}
 
@@ -130,7 +127,11 @@
 </script>
 
 <!-- The main container is responsive and mobile-friendly -->
-<main class="mx-auto max-w-4xl p-4 sm:p-6">
+<main
+	in:fly={{ x: 100, duration: 400 }}
+	out:fade={{ duration: 300 }}
+	class="mx-auto max-w-4xl p-4 sm:p-6"
+>
 	<!-- Header with semantic markup -->
 	<header class="-mt-5 flex items-center justify-between rounded-lg bg-white p-2 shadow-sm">
 		<button
@@ -227,10 +228,10 @@
 					<section aria-labelledby="projects-heading">
 						<h2 id="projects-heading" class="border-b pb-2 text-lg font-semibold">Projects</h2>
 						<section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-							<ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">							
-							{#each project_results as project}
-								<Project {project} {text} {highlightText} />
-							{/each}
+							<ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+								{#each project_results as project}
+									<Project {project} {text} {highlightText} />
+								{/each}
 							</ul>
 						</section>
 					</section>
