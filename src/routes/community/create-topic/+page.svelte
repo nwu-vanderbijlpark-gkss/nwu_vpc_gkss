@@ -72,7 +72,7 @@
 			<form on:submit={handleSubmit} class="space-y-6">
 				<!-- Title Input -->
 				<div class="space-y-2">
-					<label class="block font-medium text-gray-700">
+					<label for="topic" class="block font-medium text-gray-700">
 						Topic Title
 						<span class="text-error">*</span>
 					</label>
@@ -87,7 +87,7 @@
 
 				<!-- Content Input -->
 				<div class="space-y-2">
-					<label class="block font-medium text-gray-700">
+					<label for="content" class="block font-medium text-gray-700">
 						Detailed Description
 						<span class="text-error">*</span>
 					</label>
@@ -102,7 +102,7 @@
 
 				<!-- File Upload -->
 				<div class="space-y-3">
-					<label class="block font-medium text-gray-700">
+					<label for="images" class="block font-medium text-gray-700">
 						Add Media
 						<span class="text-sm font-normal">(Max 50MB per file)</span>
 					</label>
@@ -165,7 +165,7 @@
 
 				<!-- Tags Input -->
 				<div class="space-y-2">
-					<label class="block font-medium text-gray-700"> Add Tags </label>
+					<label for="tags" class="block font-medium text-gray-700"> Add Tags </label>
 					<input
 						type="text"
 						name="tags"
