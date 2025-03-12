@@ -82,7 +82,7 @@
 	let quizzes = $state([]);
 	const fetchQuizzes = async () => {
 		try {
-			const response = await fetch('/executive/api/fetchQuizzes', {
+			const response = await fetch('/api/quiz/fetchQuizzes', {
 				method: 'GET'
 			});
 			const res = await response.json();

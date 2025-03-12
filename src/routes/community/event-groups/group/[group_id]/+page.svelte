@@ -17,7 +17,7 @@
 	});
 	const joinTeam = async () => {
 		isSubmitting = true;
-		const response = await fetch('/community/api/joinGroup', {
+		const response = await fetch('/api/groups/joinGroup', {
 			method: 'POST',
 			body: JSON.stringify({ group_id })
 		});

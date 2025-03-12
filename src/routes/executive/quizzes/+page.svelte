@@ -8,7 +8,7 @@
 	const deleteQuiz = async (id) => {
 		//remove the quiz from document
 		quizzes = quizzes.filter((quiz) => quiz.id !== id);
-		const response = await fetch('/executive/api/deleteQuiz', {
+		const response = await fetch('/api/quiz/deleteQuiz', {
 			method: 'POST',
 			body: JSON.stringify({ quiz_id: id })
 		});
@@ -17,7 +17,7 @@
 	const fetchQuizzes = async () => {
 		quizzesLoading = true;
 
-		const response = await fetch('/executive/api/fetchQuizzes', {
+		const response = await fetch('/api/quiz/fetchQuizzes', {
 			method: 'GET'
 		});
 		const res = await response.json();

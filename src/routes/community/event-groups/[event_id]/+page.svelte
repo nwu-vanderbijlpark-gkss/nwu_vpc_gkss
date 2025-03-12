@@ -14,7 +14,7 @@
 	onMount(async () => {
 		const event_id = location.pathname.split('/').pop();
 		event = data.events.filter((event) => event.id == event_id).pop();
-		const result = await fetch('/community/api/getEventGroups', {
+		const result = await fetch('/api/groups/getEventGroups', {
 			method: 'POST',
 			body: JSON.stringify({ event_id: event.id })
 		});
@@ -28,7 +28,7 @@
 		isSubmitting = true;
 		e.preventDefault();
 		groupForm = { ...groupForm, event_id: event.id };
-		const response = await fetch('/community/api/createNewGroup', {
+		const response = await fetch('/api/groups/createNewGroup', {
 			method: 'POST',
 			body: JSON.stringify({ groupForm })
 		});

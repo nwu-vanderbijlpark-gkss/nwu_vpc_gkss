@@ -5,7 +5,7 @@
 	let newQuiz = $state({
 		title: '',
 		due: '',
-		questions: []
+		questions: [] //text, image
 	});
 	let isLoading = $state(false);
 	let { data } = $props();
@@ -90,10 +90,29 @@
 
 	const submitQuiz = async () => {
 		isLoading = true;
-		const response = await fetch('/executive/api/createQuiz', {
-			method: 'POST',
-			body: JSON.stringify({ quiz: newQuiz })
+		console.log(newQuiz);
+		const formData = new FormData();
+
+		formData.append('title', newQuiz.title);
+		formData.append('due', newQuiz.due);
+
+		newQuiz.questions.forEach((question, index) => {
+			formData.append(`questions[${index}][text]`, question.text);
+			formData.append(`questions[${index}][type]`, question.type);
+			formData.append(`questions[${index}][options]`, JSON.stringify(question.options));
+			formData.append(`questions[${index}][correctOption]`, question.correctOption);
+			formData.append(`questions[${index}][correctAnswer]`, question.correctAnswer);
+			formData.append(`questions[${index}][points]`, question.points);
+			if (question.image instanceof File) {
+				formData.append(`questions[${index}][image]`, question.image);
+			}
 		});
+
+		const response = await fetch('/api/quiz/createQuiz', {
+			method: 'POST',
+			body: formData
+		});
+
 		const res = await response.json();
 		if (res.success) {
 			//send emails to every member with an email
@@ -110,7 +129,7 @@
                     `
 					};
 
-					const res = await fetch('/community/api/sendEmail', {
+					const res = await fetch('/api/sendEmail', {
 						method: 'POST',
 						body: JSON.stringify({ data })
 					});
@@ -118,6 +137,7 @@
 					console.log(r);
 				}
 			});
+
 			location = '/executive/quizzes';
 		} else {
 			alert('Failed to create quiz, contact admin, message: ' + res.error);
@@ -178,11 +198,23 @@
 					</div>
 
 					<!-- Question Text -->
+					<label for={qi}>Question</label>
 					<textarea
+						name={qi}
 						class="textarea textarea-bordered mb-4"
 						placeholder="Enter your question"
 						bind:value={question.text}
 					></textarea>
+					<label for={`file-${qi}`}>Upload an image or snippet</label>
+					<input
+						name={`file-${qi}`}
+						type="file"
+						accept="image/*"
+						class="file-input file-input-bordered"
+						onchange={(e) => {
+							question.image = e.target.files[0];
+						}}
+					/>
 
 					<!-- Question Type-Specific Inputs -->
 					{#if question.type === 'multipleChoice'}

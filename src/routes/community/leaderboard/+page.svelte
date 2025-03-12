@@ -38,7 +38,7 @@
 	};
 
 	const fetchLeaderBoard = async () => {
-		const response = await fetch('/community/api/getLeaderBoard', {
+		const response = await fetch('/api/getLeaderBoard', {
 			method: 'GET'
 		});
 		const res = await response.json();

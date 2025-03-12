@@ -49,7 +49,7 @@
 		my_modal_1.showModal();
 	};
 	const handleEdit = async () => {
-		const res = await fetch('/executive/api/editEvent', {
+		const res = await fetch('/api/event/editEvent', {
 			method: 'POST',
 			body: JSON.stringify({ editData }),
 			headers: {

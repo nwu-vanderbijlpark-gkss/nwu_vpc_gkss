@@ -21,7 +21,7 @@
 					email: member.email
 				};
 
-				const res = await fetch('/community/api/sendEmail', {
+				const res = await fetch('/api/sendEmail', {
 					method: 'POST',
 					body: JSON.stringify({ data })
 				});

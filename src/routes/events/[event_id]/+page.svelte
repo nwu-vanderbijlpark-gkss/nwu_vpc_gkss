@@ -24,7 +24,7 @@
 		e.preventDefault();
 		try {
 			let event_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-			const response = await fetch('/executive/api/event-registration', {
+			const response = await fetch('/api/event/event-registration', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -63,7 +63,7 @@
     `
 				};
 
-				const res = await fetch('/community/api/sendEmail', {
+				const res = await fetch('/api/sendEmail', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ data })

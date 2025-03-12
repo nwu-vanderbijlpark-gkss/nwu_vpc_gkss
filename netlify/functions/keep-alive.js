@@ -1,6 +1,6 @@
 export const handler = async ({locals:{ supabase }}) => {
     try {
-      const url = 'https://nwu-vaal-gkss.netlify.app/community/api/getLeaderBoard';
+      const url = 'https://nwu-vaal-gkss.netlify.app/api/getLeaderBoard';
 
         const response = await fetch(url, { method: "GET" });
         const res = await response.json();

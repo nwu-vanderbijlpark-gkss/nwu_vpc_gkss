@@ -43,7 +43,7 @@
 		score = calculatedScore;
 		showScore = true;
 		alreadyCompleted = true;
-		const response = await fetch('/executive/api/submitQuizAttempt', {
+		const response = await fetch('/api/quiz/submitQuizAttempt', {
 			method: 'POST',
 			body: JSON.stringify({ points: score, quiz_id: quiz.id })
 		});
@@ -56,7 +56,7 @@
 			`
 		};
 
-		const res = await fetch('/community/api/sendEmail', {
+		const res = await fetch('/api/sendEmail', {
 			method: 'POST',
 			body: JSON.stringify({ data })
 		});
@@ -91,7 +91,13 @@
 				<div class="card mb-6 bg-base-100 text-white shadow-xl">
 					<div class="card-body">
 						<!-- Question Text -->
-						<h2 class="card-title mb-4 text-xl">{question.text}</h2>
+
+						{#if question.image != 'none'}
+							<h2 class="card-title mb-4 text-lg">{question.text}</h2>
+							<img class="aspect-video h-[200px]" src={question.image} alt={`Question-${qi}`} />
+						{:else}
+							<h2 class="card-title mb-4 text-xl">{question.text}</h2>
+						{/if}
 
 						<!-- Multiple Choice -->
 						{#if question.type === 'multipleChoice'}
