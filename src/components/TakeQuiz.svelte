@@ -50,10 +50,8 @@
 
 		let data = {
 			subject: 'Quiz Submission',
-			message: `You have attempted the following quiz: <b>${quiz.title}</b>,<br>
-		Your score: ${score} / ${totalPoints}<br/><br/>
-		This is an automatic message sent by our website. <a href="https://nwu-vaal-gkss.netlify.app">https://nwu-vaal-gkss.netlify.app<a/><br/>
-			`
+			message: `You have attempted the following quiz: <b>${quiz.title}</b>,<br/>
+		Your score: <b>${score} / ${totalPoints}</b><br/>Well Done👨🏿‍💻😊<br/>	`
 		};
 
 		const res = await fetch('/api/sendEmail', {
@@ -73,14 +71,31 @@
 			currentQuestion--;
 		}
 	};
+	let copyMessages = [
+		'You are not allowed to copy this quiz👨🏿‍💻😊',
+		"Whuu my lord🥺, comrade don't cheat please🥺",
+		"ChatGPT Master😓, we don't do that here🥺",
+		'This is not efundi🥺',
+		'Why?Why?Why?Why?🥺',
+		'🥺Keo thuse?',
+		"The quiz is not that hard, don't cheat.",
+		"We understand🥺, but you can't copy this",
+		"A whole Geek!! Don't copy to gpt"
+	];
 </script>
 
-<div class="container mx-auto max-w-3xl p-4">
+<div
+	class="container mx-auto max-w-3xl p-4"
+	oncopy={() => alert(copyMessages[Math.floor(Math.random() * copyMessages.length)])}
+>
 	{#if !alreadyCompleted}
 		<!-- Quiz Header -->
 		<div class="mb-8 text-center">
 			<h1 class="mb-2 text-3xl font-bold">{quiz.title}</h1>
-			<div class="text-sm text-gray-500">
+			<div
+				class="text-sm text-gray-500"
+				oncopy={() => alert(copyMessages[Math.floor(Math.random() * copyMessages.length)])}
+			>
 				Question {currentQuestion + 1} of {quiz.quiz_questions.length}
 			</div>
 		</div>
