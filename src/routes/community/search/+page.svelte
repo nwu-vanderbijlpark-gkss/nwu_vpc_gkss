@@ -8,7 +8,7 @@
 	import Loading from '../../../components/Loading.svelte';
 
 	// Using Svelte 5 runes for reactive state
-	let text = $state('');
+	let text = $state(''); // Search text
 	let isLoading = $state(false);
 	let results = $state([]);
 	let project_results = $state([]);
@@ -26,8 +26,17 @@
 
 	const setFilter = (val) => (filter = val);
 
+	// On mount, check the URL for the search term and set it if present
 	onMount(() => {
 		setFavId();
+
+		// Get the URL search parameters
+		const urlParams = new URLSearchParams(window.location.search);
+		const searchTerm = urlParams.get('s');
+		if (searchTerm) {
+			text = searchTerm; // Set search term from URL
+			handleSearch(new Event('submit')); // Perform search immediately
+		}
 	});
 
 	// Get initial data passed via $props()
@@ -45,6 +54,9 @@
 
 	// Form submission handler – using native "onsubmit"
 	function handleSearch(e) {
+		// Set the `s` query parameter in the URL
+		// Update the query parameter without reloading the page and without adding a new history entry
+		history.replaceState(null, '', `?s=${encodeURIComponent(text)}`);
 		e.preventDefault();
 		isLoading = true;
 		results = [];
@@ -126,13 +138,12 @@
 	}
 </script>
 
-<!-- The main container is responsive and mobile-friendly -->
+<title> Search | NWU VAAL GKSS</title>
 <main
 	in:fly={{ x: 100, duration: 400 }}
 	out:fade={{ duration: 300 }}
 	class="mx-auto max-w-4xl p-4 sm:p-6"
 >
-	<!-- Header with semantic markup -->
 	<header class="-mt-5 flex items-center justify-between rounded-lg bg-white p-2 shadow-sm">
 		<button
 			class="p-2 text-lg focus:outline-none"
@@ -143,11 +154,9 @@
 		</button>
 		<h1 class="text-xl font-bold sm:text-2xl">Search</h1>
 		<span class="h-6 w-6"></span>
-		<!-- Spacer -->
 	</header>
 
-	<!-- Search Form -->
-	<section class=" rounded-lg bg-white p-4 shadow-sm">
+	<section class="rounded-lg bg-white p-4 shadow-sm">
 		<form onsubmit={handleSearch} class="flex items-center" role="search" aria-label="Search form">
 			<input
 				class="flex-1 rounded border border-gray-300 p-2 focus:border-red-800 focus:outline-none focus:ring"
@@ -167,14 +176,12 @@
 		</form>
 	</section>
 
-	<!-- Loading Indicator -->
 	{#if isLoading}
 		<section class="flex justify-center">
 			<Loading />
 		</section>
 	{/if}
 
-	<!-- Results Section -->
 	<section>
 		{#if results.length > 0 || project_results.length > 0 || member_results.length > 0}
 			<div class="rounded-lg bg-white p-4 shadow-sm">

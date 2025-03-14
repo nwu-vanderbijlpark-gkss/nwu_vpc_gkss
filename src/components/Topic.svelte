@@ -85,24 +85,30 @@
 		}
 	};
 	// it had to be duplicated cos when shared, svelte produces an error on build
-	function highlightText(fullText, match) {
-		if (!match) return fullText;
+	function highlightText(content, searchText) {
+		// Regex to find hashtags and links
+		const hashtagRegex = /#(\w+)/g;
+		const urlRegex = /https?:\/\/[^\s]+/g;
 
-		// Split the match variable into individual words or phrases
-		const terms = match.split(/\s+/); // Split by spaces or other delimiters
+		// Replace hashtags with a highlighted span
+		content = content.replace(hashtagRegex, (match, p1) => {
+			return `<a href="/community/search?s=${match.substring(1)}" class="text-primary">${match}</span>`;
+		});
 
-		// Create a regex to match all terms
-		const regex = new RegExp(`(${terms.join('|')})`, 'gi');
+		// Replace URLs with anchor tags
+		content = content.replace(urlRegex, (url) => {
+			return `<a href="${url}" class="text-blue-600" target="_blank">${url}</a>`;
+		});
 
-		// Highlight matching terms in the full text
-		return fullText
-			.split(regex)
-			.map((part) =>
-				terms.some((term) => part.toLowerCase() === term.toLowerCase())
-					? `<span class="bg-primary/30">${part}</span>`
-					: part
-			)
-			.join('');
+		// If searchText is provided, highlight it
+		if (searchText) {
+			const searchTextRegex = new RegExp(searchText, 'gi');
+			content = content.replace(searchTextRegex, (match) => {
+				return `<span class="bg-yellow-300">${match}</span>`;
+			});
+		}
+
+		return content;
 	}
 
 	function getGridClass(count) {
