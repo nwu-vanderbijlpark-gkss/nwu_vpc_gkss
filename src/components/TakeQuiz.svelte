@@ -86,7 +86,10 @@
 
 <div
 	class="container mx-auto max-w-3xl p-4"
-	oncopy={() => alert(copyMessages[Math.floor(Math.random() * copyMessages.length)])}
+	oncopy={(e) => {
+		e.preventDefault();
+		alert(copyMessages[Math.floor(Math.random() * copyMessages.length)]);
+	}}
 >
 	{#if !alreadyCompleted}
 		<!-- Quiz Header -->
@@ -94,7 +97,10 @@
 			<h1 class="mb-2 text-3xl font-bold">{quiz.title}</h1>
 			<div
 				class="text-sm text-gray-500"
-				oncopy={() => alert(copyMessages[Math.floor(Math.random() * copyMessages.length)])}
+				oncopy={(e) => {
+					e.preventDefault();
+					alert(copyMessages[Math.floor(Math.random() * copyMessages.length)]);
+				}}
 			>
 				Question {currentQuestion + 1} of {quiz.quiz_questions.length}
 			</div>
