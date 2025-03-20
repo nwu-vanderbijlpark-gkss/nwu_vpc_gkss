@@ -43,7 +43,7 @@
 	let { data } = $props();
 
 	// Debounce function for input events
-	let debounceTimeout;
+	let debounceTimeout = $state();
 	function debouncedSearch() {
 		clearTimeout(debounceTimeout);
 		debounceTimeout = setTimeout(() => {

@@ -15,7 +15,6 @@
 		data.members
 			.filter((m) => m.name && m.username) // Filter valid members
 			.sort((a, b) => b.points - a.points || b.Project.length - a.Project.length)
-			.slice(0, 10)
 	);
 
 	let projects = $state(
@@ -45,8 +44,7 @@
 		if (res.success) {
 			members = res.members
 				.filter((m) => m.name && m.username) // Filter valid members
-				.sort((a, b) => b.points - a.points || b.Project.length - a.Project.length)
-				.slice(0, 10);
+				.sort((a, b) => b.points - a.points || b.Project.length - a.Project.length);
 			projects = res.projects
 				.map((p) => ({
 					...p,

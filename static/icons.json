@@ -1,21 +1,19 @@
 {
-  "name": "NWU Vaal GKSS",
-  "short_name": "NWU GKSS",
   "icons": [
     {
-      "src": "windows11/SmallTile.scale-100.png?v=2",
+      "src": "windows11/SmallTile.scale-100.png",
       "sizes": "71x71"
     },
     {
-      "src": "windows11/SmallTile.scale-125.png?v=2",
+      "src": "windows11/SmallTile.scale-125.png",
       "sizes": "89x89"
     },
     {
-      "src": "windows11/SmallTile.scale-150.png?v=2",
+      "src": "windows11/SmallTile.scale-150.png",
       "sizes": "107x107"
     },
     {
-      "src": "windows11/SmallTile.scale-200.png?v=2",
+      "src": "windows11/SmallTile.scale-200.png",
       "sizes": "142x142"
     },
     {
@@ -450,28 +448,5 @@
       "src": "ios/1024.png",
       "sizes": "1024x1024"
     }
-  ],
-  "start_url": "/executive?v=2",
-  "display_override": [
-    "fullscreen",
-    "minimal-ui",
-    "window-controls-overlay",
-    "standalone"
-  ],
-  "display": "standalone",
-  "background_color": "#8B0000",
-  "theme_color": "#8B0000",
-  "id": "nwu vaal geeks",
-  "description": "The north west university vaal campus geekulcha student society",
-  "lang": "en",
-  "orientation": "portrait-primary",
-  "iarc_rating_id": "13",
-  "prefer_related_applications": false,
-  "categories": [
-    "books",
-    "education",
-    "lifestyle",
-    "productivity",
-    "social"
   ]
 }
