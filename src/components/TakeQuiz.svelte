@@ -1,4 +1,6 @@
 <script>
+	import { onMount } from 'svelte';
+
 	let { quiz, alreadyCompleted } = $props();
 
 	let userAnswers = $state({});
@@ -58,6 +60,30 @@
 			method: 'POST',
 			body: JSON.stringify({ data })
 		});
+		//send a notification
+		// Request permission
+		function requestNotificationPermission() {
+			if ('Notification' in window) {
+				Notification.requestPermission().then((permission) => {
+					if (permission === 'granted') {
+					}
+				});
+			}
+		}
+
+		// Send browser notification
+		function sendBrowserNotification(title, options) {
+			if ('Notification' in window && Notification.permission === 'granted') {
+				new Notification(title, options);
+			}
+		}
+
+		// Usage
+		requestNotificationPermission();
+		sendBrowserNotification('Submission', {
+			body: `Congrats on the submission of the quiz, your score ${score} / ${totalPoints}`,
+			icon: '/logo.png'
+		});
 	};
 
 	const handleNext = () => {
@@ -73,7 +99,7 @@
 	};
 	let copyMessages = [
 		'You are not allowed to copy this quiz👨🏿‍💻😊',
-		"Whuu my lord🥺, comrade don't cheat please🥺",
+		"Whuu my lord🥺, don't cheat please🥺",
 		"ChatGPT Master😓, we don't do that here🥺",
 		'This is not efundi🥺',
 		'Why?Why?Why?Why?🥺',
@@ -96,7 +122,7 @@
 		<div class="mb-8 text-center">
 			<h1 class="mb-2 text-3xl font-bold">{quiz.title}</h1>
 			<div
-				class="text-sm text-gray-500"
+				class="unselectable text-sm text-gray-500"
 				oncopy={(e) => {
 					e.preventDefault();
 					alert(copyMessages[Math.floor(Math.random() * copyMessages.length)]);
@@ -316,3 +342,12 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.unselectable {
+		user-select: none; /* Standard syntax */
+		-webkit-user-select: none; /* Safari/Chrome */
+		-moz-user-select: none; /* Firefox */
+		-ms-user-select: none; /* IE/Edge */
+	}
+</style>
