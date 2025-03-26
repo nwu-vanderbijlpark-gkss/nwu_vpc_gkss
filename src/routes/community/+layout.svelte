@@ -135,6 +135,9 @@
 				>
 			</li>
 			<li>
+				<a href="/code-playground" class="navItem text-lg"><CodeXml />Playground </a>
+			</li>
+			<li>
 				<a
 					class:selected={$page.url.pathname === '/community/idea-generator'}
 					href="/community/idea-generator"
@@ -310,6 +313,10 @@
 						class="navItem flex text-lg"><ChartColumnBig /> LeaderBoard</a
 					>
 				</li>
+				<li>
+					<a href="/code-playground" class="navItem text-lg"><CodeXml />Playground </a>
+				</li>
+
 				<li>
 					<a
 						class:selected={$page.url.pathname === '/community/idea-generator'}

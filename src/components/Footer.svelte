@@ -5,13 +5,13 @@
 	let currentPath = '';
 
 	import { onMount } from 'svelte';
-
+	const hiddenFooterPaths = ['/community', '/executive', '/dashbaord', '/code-playground'];
 	onMount(() => {
 		currentPath = location.pathname;
 	});
 </script>
 
-{#if !currentPath.includes('/community') && !currentPath.includes('/executive') && !currentPath.includes('/dashboard')}
+{#if !hiddenFooterPaths.includes(currentPath)}
 	<footer
 		class="mt-1 flex w-full flex-col items-center justify-center space-y-5 bg-base-200 p-5 text-center"
 	>

@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 import { BREVO_API_KEY } from '$env/static/private'
 
-const logo = "https://nwu-vaal-gkss.netlify.app/logo_white.png"; // Logo URL
+const logo = "https://nwu-vaal-gkss.netlify.app/logo.png"; // Logo URL
 
 const emailTemplate = (message, fullName) => `
   <!DOCTYPE html>
