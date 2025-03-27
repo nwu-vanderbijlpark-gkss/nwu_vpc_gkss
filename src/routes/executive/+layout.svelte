@@ -5,6 +5,7 @@
 		HeartHandshake,
 		Home,
 		Link,
+		Logs,
 		LucideUsers,
 		MessageCircleMoreIcon,
 		User,
@@ -76,6 +77,12 @@
 			>
 				<FileEdit />
 				Quizzes
+			</a>
+		</li>
+		<li>
+			<a href="/executive/logs" class:selected={$page.url.pathname.includes('/executive/logs')}>
+				<Logs />
+				Logs
 			</a>
 		</li>
 		<li></li>

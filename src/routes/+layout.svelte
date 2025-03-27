@@ -4,7 +4,20 @@
 	import Footer from '../components/Footer.svelte';
 	import Header from '../components/Header.svelte';
 	import PwaInstallPrompt from '../components/PWAInstallPrompt.svelte';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 	let { children, data } = $props();
+	afterNavigate(async ({ to }) => {
+		if (!to) return;
+		if (data.isLoggedIn) {
+			const res = await fetch('/api/trackUsage', {
+				method: 'POST',
+				body: JSON.stringify({ location: to.url.pathname })
+			});
+			const r = await res.json();
+		}
+	});
 </script>
 
 <PwaInstallPrompt />
