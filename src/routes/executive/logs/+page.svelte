@@ -95,7 +95,7 @@
 	});
 </script>
 
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto overflow-auto px-4 py-8 lg:max-h-[90svh]">
 	<h1 class="mb-6 text-3xl font-bold text-gray-800">Application Usage Logs</h1>
 	<!-- Statistics Cards -->
 	<div class="stats stats-vertical mb-6 w-full shadow lg:stats-horizontal">

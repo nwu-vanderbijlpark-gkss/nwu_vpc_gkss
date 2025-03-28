@@ -1,17 +1,14 @@
 <script>
 	import { Facebook, Github, Instagram, Linkedin, Twitter } from 'lucide-svelte';
+	import { page } from '$app/stores';
 	let year = new Date();
 	year = year.getFullYear();
-	let currentPath = '';
 
 	import { onMount } from 'svelte';
-	const hiddenFooterPaths = ['/community', '/executive', '/dashbaord', '/code-playground'];
-	onMount(() => {
-		currentPath = location.pathname;
-	});
+	const hiddenFooterPaths = ['/dashboard', '/code-playground'];
 </script>
 
-{#if !hiddenFooterPaths.includes(currentPath)}
+{#if (!hiddenFooterPaths.includes($page.url.pathname) && !$page.url.pathname.includes('/community') && !$page.url.pathname.includes('/executive')) || $page.url.pathname.includes('/dashboard') || $page.url.pathname.includes('/code-playground')}
 	<footer
 		class="mt-1 flex w-full flex-col items-center justify-center space-y-5 bg-base-200 p-5 text-center"
 	>

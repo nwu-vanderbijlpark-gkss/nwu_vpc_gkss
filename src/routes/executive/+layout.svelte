@@ -25,9 +25,9 @@
 <div
 	in:fly={{ x: 100, duration: 400 }}
 	out:fade={{ duration: 300 }}
-	class="flex min-h-screen w-full justify-between bg-gradient-to-b from-white to-gray-200 lg:p-1"
+	class="flex min-h-screen w-full justify-between bg-gradient-to-b from-white to-gray-200"
 >
-	<ul class="menu hidden min-h-[90svh] w-56 rounded-box bg-base-200 lg:flex">
+	<ul class="menu hidden w-60 bg-base-200 lg:flex">
 		<li class="menu-title my-2 flex flex-col rounded-box bg-gray-800 p-4 text-white">
 			<!-- User Information (Image, Name, Surname) -->
 			<div class="flex items-center gap-x-4">
