@@ -40,7 +40,7 @@
 			<a
 				href="/gallery"
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={currentPath === '/gallery'}>Gallery</a
+				class:selected={$page.url.pathname === '/gallery'}>Gallery</a
 			>
 
 			<a
@@ -121,9 +121,8 @@
 				<li>
 					<a
 						href="/gallery"
-						data-sveltekit-reload
 						class="navItem text-lg"
-						class:selected={currentPath === '/gallery'}>Gallery</a
+						class:selected={$page.url.pathname === '/gallery'}>Gallery</a
 					>
 				</li>
 
