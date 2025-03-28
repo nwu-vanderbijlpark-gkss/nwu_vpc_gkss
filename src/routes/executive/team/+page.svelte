@@ -9,6 +9,8 @@
 		'Treasurer',
 		'Tech and Innovation Lead',
 		'Community Manager',
+		'Recruitment Officer',
+		'Sponsorship and Fundraising Coordinator',
 		'Marketing Manager',
 		'Project Manager'
 	];
