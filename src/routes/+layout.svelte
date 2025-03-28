@@ -16,6 +16,9 @@
 				body: JSON.stringify({ location: to.url.pathname })
 			});
 			const r = await res.json();
+			if (!r.success) {
+				console.log(r.error);
+			}
 		}
 	});
 </script>

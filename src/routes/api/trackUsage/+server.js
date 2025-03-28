@@ -9,5 +9,5 @@ export const POST = async({request, locals:{supabase}}) => {
         if(!error) return json({success: true});
         else return json({success: false, error});
     }
-    return json({success: false, message: "User not logged in."});
+    return json({success: false, error: "User not logged in."});
 }
