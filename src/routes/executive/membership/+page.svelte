@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import Loading from '../../../components/Loading.svelte';
 	import { fade, fly } from 'svelte/transition';
+	import { notifications } from '$lib/stores';
 
 	let { data, form } = $props();
 	let members = $state(data.members);
@@ -28,6 +29,10 @@
 				const r = await res.json();
 				if (r.success) {
 					sendEmailModal.close();
+					notifications.add({
+						type: 'success',
+						message: 'Email sent successfully!'
+					});
 					isLoading = false;
 				}
 			}

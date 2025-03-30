@@ -1,4 +1,5 @@
 <script>
+	import { notifications } from '$lib/stores.js';
 	import { CheckCheck, LogIn, Settings } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { quintOut } from 'svelte/easing';
@@ -65,8 +66,10 @@
 
 		const res = await response.json();
 		if (res.success) {
-			showToast = true;
-			setTimeout(() => (showToast = false), 6000); // Hide after 3 seconds
+			notifications.add({
+				type: 'success',
+				message: 'Project Idea saved.'
+			});
 		}
 	}
 

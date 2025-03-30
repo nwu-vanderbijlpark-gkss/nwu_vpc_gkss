@@ -1,4 +1,5 @@
 <script>
+	import { notifications } from '$lib/stores';
 	import { onMount } from 'svelte';
 
 	let { quiz, alreadyCompleted } = $props();
@@ -61,6 +62,10 @@
 			body: JSON.stringify({ data })
 		});
 		//send a notification
+		notifications.add({
+			type: 'success',
+			message: 'Quiz submitted successfully!'
+		});
 		// Request permission
 		function requestNotificationPermission() {
 			if ('Notification' in window) {

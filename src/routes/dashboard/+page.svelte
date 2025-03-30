@@ -1,5 +1,6 @@
 <script>
 	import moment from 'moment';
+	import { notifications } from '$lib/stores';
 	import QrCode from 'svelte-qrcode';
 	import {
 		User,
@@ -21,7 +22,13 @@
 		PenBoxIcon,
 		Camera,
 		ChartColumnIcon,
-		CalendarCheck
+		CalendarCheck,
+		BriefcaseBusiness,
+		Linkedin,
+		Github,
+		Edit,
+		Save,
+		Link
 	} from 'lucide-svelte';
 	import Profile from './components/Profile.svelte';
 	import Invite from './components/Invite.svelte';
@@ -30,9 +37,9 @@
 	import CalendarView from '../../components/CalendarView.svelte';
 
 	let activeTab = $state('stats');
-	let notifications = $state(3);
 	let { data } = $props();
 	let member = $state(data.member);
+	let editLinks = $state(false);
 	let birthDayMonth = member.date_of_birth.substring(member.date_of_birth.indexOf('-') + 1);
 
 	// Current year
@@ -59,7 +66,6 @@
 		member.image = URL.createObjectURL(image);
 		console.log('Image uploaded:', event.target.files[0].name);
 	};
-	const handleNotificationClick = () => (notifications = 0);
 	let members = $state(
 		data.members
 			.filter((m) => m.name && m.username) // Filter valid members
@@ -70,8 +76,56 @@
 	members.forEach((person, index) => {
 		rankMap.set(person.username, index + 1);
 	});
-
-	// Each lookup is constant time
+	let errors = $state({});
+	const addPrefix = (event) => {
+		if (!event.target.value.includes('https://'))
+			member[event.target.name] = `https://${event.target.value}`;
+	};
+	const handleEditLinks = async () => {
+		errors = null;
+		if (member.portfolio || member.linkedin || member.github) {
+			//handle links separately and show errors where possible
+			if (member.portfolio && !member.portfolio.includes('https://')) {
+				errors = { ...errors, portfolio: 'Please add a valid Portfolio link' };
+			}
+			if (member.linkedin && !member.linkedin.includes('linkedin.com/in/')) {
+				errors = { ...errors, linkedin: 'Please add a valid LinkedIn link' };
+			}
+			if (member.github && !member.github.includes('github.com/')) {
+				errors = { ...errors, github: 'Please add a valid Github link' };
+			}
+			editLinks = errors ? true : false; //close the edit mode if there are no errors
+			if (!errors) {
+				//send to database
+				const res = await fetch('/api/user/updateLinks', {
+					method: 'POST',
+					body: JSON.stringify({
+						portfolio: member.portfolio,
+						linkedin: member.linkedin,
+						github: member.github
+					})
+				});
+				const result = await res.json();
+				if (result.success) {
+					//do something
+					notifications.add({
+						type: 'success',
+						message: 'Links updated successfully!',
+						timeout: 3000
+					});
+				} else {
+					notifications.add({
+						type: 'error',
+						message: 'Unable to add links',
+						timeout: 3000
+					});
+				}
+			}
+		} else {
+			//handle required errors
+			errors = { ...errors, all: 'Please add at least one link' };
+		}
+	};
 </script>
 
 <title>Dashboard | NWU VAAL GKSS</title>
@@ -199,13 +253,13 @@
 			</div>
 			<h1 class="font-bold text-gray-800">{member.name}</h1>
 		</div>
-		<button class="relative p-2" onclick={handleNotificationClick}>
+		<button class="relative p-2">
 			<Bell size={20} />
 			{#if notifications > 0}
 				<span
 					class="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
 				>
-					{notifications}
+					{$notifications.length}
 				</span>
 			{/if}
 		</button>
@@ -246,6 +300,146 @@
 					</div>
 				{/each}
 			</div>
+			{#if member.event_attendee.length}
+				{#each member.event_attendee as event}
+					{#if moment(event.Events.date).isSame(moment(), 'day') && event.status == 'registered'}
+						<div class="w-full space-y-6">
+							<div class="w-full rounded-xl bg-white p-6 shadow-md">
+								<h3 class="mb-4 text-xl font-semibold">{event.Events.topic}</h3>
+								<span class="flex w-full flex-col items-center justify-center space-y-3">
+									<p>Ask a leader to scan for your attendance</p>
+									<QrCode
+										value={`https://nwu-vaal-gkss.netlify.app/executive/events/${event.Events.id}/${event.id}`}
+									/>
+								</span>
+							</div>
+						</div>
+					{/if}
+				{/each}
+			{/if}
+			<div class="my-4 space-y-2 rounded-xl bg-white p-6 shadow-md">
+				<div class="flex items-center justify-between">
+					<h2 class="flex items-center gap-2 text-lg font-bold">Your links <Link /></h2>
+					<button
+						class="btn btn-primary"
+						onclick={() => {
+							if (editLinks) {
+								//submit
+								handleEditLinks();
+							} else {
+								editLinks = true;
+							}
+						}}
+					>
+						{#if editLinks}
+							<Save />Save
+						{:else}
+							<Edit />Edit Links
+						{/if}
+					</button>
+				</div>
+				{#if !editLinks}
+					<div class="flex flex-col items-start gap-2">
+						<a
+							href={`/community/profile`}
+							class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
+						>
+							<img src="/icon.png" alt="NWU VAAL Member Profile" class="h-5 w-5 rounded-full" />
+							<span class="text-sm font-medium">@{member.username}</span>
+						</a>
+						<a
+							href={member.portfolio}
+							target="_blank"
+							class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
+						>
+							<BriefcaseBusiness class="h-5 w-5" />
+							<span class="text-sm font-medium"
+								>{member.portfolio
+									? member.portfolio.replace('https://', '')
+									: 'No Portfolio Link'}</span
+							>
+						</a>
+						<a
+							href={member.linkedin}
+							target="_blank"
+							class="flex items-center gap-2 text-[#0A66C2]"
+						>
+							<Linkedin class="h-5 w-5 text-[#0A66C2]" />
+							<span class="text-sm font-medium"
+								>{member.linkedin
+									? member.linkedin.replace('https://', '')
+									: 'No LinkedIn Link'}</span
+							>
+						</a>
+						<a href={member.github} target="_blank" class="flex items-center gap-2">
+							<Github class="h-5 w-5 text-gray-800" />
+							<span class="text-sm font-medium"
+								>{member.github ? member.github.replace('https://', '') : 'No Github Link'}</span
+							>
+						</a>
+					</div>
+				{:else}
+					<form class="flex flex-col items-start gap-2">
+						<p class="text-sm text-red-500">{errors ? errors.all : ''}</p>
+
+						<div class="w-full">
+							<p class="text-sm font-bold">Portfolio link</p>
+							<label
+								for="portfolio"
+								class="input input-bordered flex w-full items-center gap-2 bg-gray-200"
+							>
+								<BriefcaseBusiness class="text-primary hover:text-primary/80" />
+								<input
+									bind:value={member.portfolio}
+									type="url"
+									name="portfolio"
+									placeholder="Portfolio Link"
+									class="w-full"
+									onclick={addPrefix}
+								/>
+							</label>
+							<p class="text-sm text-red-500">{errors ? errors.portfolio : ''}</p>
+						</div>
+						<div class="w-full">
+							<p class="text-sm font-bold">LinkedIn link</p>
+							<label
+								for="linkedin"
+								class="input input-bordered flex w-full items-center gap-2 bg-gray-200"
+							>
+								<Linkedin class="text-[#0A66C2]" />
+								<input
+									bind:value={member.linkedin}
+									type="url"
+									name="linkedin"
+									placeholder="LinkedIn Link"
+									class="w-full"
+									onclick={addPrefix}
+								/>
+							</label>
+							<p class="text-sm text-red-500">{errors ? errors.linkedin : ''}</p>
+						</div>
+						<div class="w-full">
+							<p class="text-sm font-bold">Github link</p>
+							<label
+								for="github"
+								class="input input-bordered flex w-full items-center gap-2 bg-gray-200"
+							>
+								<Github />
+								<input
+									bind:value={member.github}
+									type="url"
+									name="github"
+									placeholder="Github Link"
+									class="w-full"
+									onclick={addPrefix}
+								/>
+							</label>
+							<p class="text-sm text-red-500">{errors ? errors.github : ''}</p>
+						</div>
+					</form>
+				{/if}
+			</div>
+
 			{#if birthDayCountdown < 60}
 				<div class="my-4 rounded-xl bg-white p-6 shadow-md">
 					<h3 class="mb-4 text-xl font-semibold">Birthday Countdown</h3>
@@ -282,23 +476,7 @@
 						{/each}
 					</div>
 				</div>
-				{#if member.event_attendee.length}
-					{#each member.event_attendee as event}
-						{#if moment(event.Events.date).isSame(moment(), 'day') && event.status == 'registered'}
-							<div class="w-full space-y-6">
-								<div class="w-full rounded-xl bg-white p-6 shadow-md">
-									<h3 class="mb-4 text-xl font-semibold">{event.Events.topic}</h3>
-									<span class="flex w-full flex-col items-center justify-center space-y-3">
-										<p>Ask a leader to scan for your attendance</p>
-										<QrCode
-											value={`https://nwu-vaal-gkss.netlify.app/executive/events/${event.Events.id}/${event.id}`}
-										/>
-									</span>
-								</div>
-							</div>
-						{/if}
-					{/each}
-				{/if}
+
 				<div class="space-y-6">
 					<div class="rounded-xl bg-white p-6 shadow-md">
 						<CalendarView events={data.events} />

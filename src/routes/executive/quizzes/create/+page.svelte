@@ -1,6 +1,7 @@
 <script>
 	import { fade, fly } from 'svelte/transition';
 	import Loading from '../../../../components/Loading.svelte';
+	import { notifications } from '$lib/stores';
 
 	let newQuiz = $state({
 		title: '',
@@ -90,7 +91,6 @@
 
 	const submitQuiz = async () => {
 		isLoading = true;
-		console.log(newQuiz);
 		const formData = new FormData();
 
 		formData.append('title', newQuiz.title);
@@ -116,16 +116,21 @@
 		const res = await response.json();
 		if (res.success) {
 			//send emails to every member with an email
+			notifications.add({
+				type: 'success',
+				message: 'Quiz created successfully'
+			});
 			data.members.forEach(async (member) => {
 				if (member.email) {
 					let data = {
 						type: 'broadcast',
 						email: member.email,
 						fullName: member.name + ' ' + member.surname,
-						subject: 'New Quiz Alert',
-						message: `A new quiz: <b>${newQuiz.title}</b> has been posted,<br>
-                The quiz is due: ${newQuiz.due}<br/>
-				You can find the quiz here: <a href="https://nwu-vaal-gkss.netlify.app/community/quiz">${newQuiz.title}<a/>
+						subject: 'NWU VAAL GKSS: New Quiz',
+						message: `A new quiz: <b>${newQuiz.title}</b> has been added,<br>
+                The quiz is due: ${moment(newQuiz.due).format('MMMM Do YYYY, [at] h:mm a')}<br/>
+				You can find this quiz here: <a href="https://nwu-vaal-gkss.netlify.app/community/quiz">${newQuiz.title}<a/>
+					<br/>
                     `
 					};
 
@@ -134,7 +139,6 @@
 						body: JSON.stringify({ data })
 					});
 					const r = await res.json();
-					console.log(r);
 				}
 			});
 

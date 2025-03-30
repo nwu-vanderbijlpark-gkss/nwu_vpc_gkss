@@ -3,6 +3,7 @@
 	import Loading from '../../../components/Loading.svelte';
 	import { fade, fly, slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+	import { notifications } from '$lib/stores';
 
 	let { data } = $props();
 	let images = $state([]);
@@ -48,6 +49,10 @@
 			});
 
 			if (!response.ok) throw new Error('Submission failed');
+			notifications.add({
+				type: 'success',
+				message: 'Topic created successfully!'
+			});
 			window.location = '/community';
 		} catch (e) {
 			error = 'Failed to create topic. Please try again.';

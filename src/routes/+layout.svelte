@@ -7,6 +7,8 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
+	import { notifications } from '$lib/stores';
+	import Notification from '../components/Notification.svelte';
 	let { children, data } = $props();
 	afterNavigate(async ({ to }) => {
 		if (!to) return;
@@ -16,13 +18,18 @@
 				body: JSON.stringify({ location: to.url.pathname })
 			});
 			const r = await res.json();
-			if (!r.success) {
-				console.log(r.error);
-			}
 		}
 	});
 </script>
 
+{#each $notifications as notification, index}
+	<Notification
+		id={notification.id}
+		type={notification.type}
+		message={notification.message}
+		timeout={notification.timeout}
+	/>
+{/each}
 <PwaInstallPrompt />
 <Header isLoggedIn={data.isLoggedIn} isExecutive={data.isExecutive} user={data.currentUser} />
 <div

@@ -55,7 +55,9 @@ const emailTemplate = (message, fullName) => `
           <img src="${logo}" alt="Logo" class="logo" />
           <h2>Dear ${fullName},</h2>
           <p>${message}</p>
-          <p>This is an automatic message sent by our website. <a href="https://nwu-vaal-gkss.netlify.app">https://nwu-vaal-gkss.netlify.app</a></p>
+          <br/><br/>
+          <p>If you need help or have a suggestion, let us know in the group chat</p>
+          <p>This message was sent from the NWU Vaal GKSS website. <a href="https://nwu-vaal-gkss.netlify.app">https://nwu-vaal-gkss.netlify.app</a></p>
           <br/>
 
           

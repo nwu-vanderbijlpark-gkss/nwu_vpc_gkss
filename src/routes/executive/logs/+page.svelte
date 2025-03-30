@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { supabase } from '$lib/supabaseClient'; // Your client-side Supabase instance
+	import { supabase } from '$lib/supabaseClient'; // client-side Supabase instance
 	import { Calendar1, CalendarClockIcon, Logs } from 'lucide-svelte';
 	import moment from 'moment';
 

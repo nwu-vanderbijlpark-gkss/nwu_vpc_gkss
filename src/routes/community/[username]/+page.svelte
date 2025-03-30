@@ -1,5 +1,16 @@
 <script>
-	import { ChartNoAxesColumn, CodeXml, Mail, PenBox, Star, Stars, Trash } from 'lucide-svelte';
+	import {
+		BriefcaseBusiness,
+		ChartNoAxesColumn,
+		CodeXml,
+		Github,
+		Linkedin,
+		Mail,
+		PenBox,
+		Star,
+		Stars,
+		Trash
+	} from 'lucide-svelte';
 	import NotFoundPage from '../../../components/NotFoundPage.svelte';
 	import Topic from '../../../components/Topic.svelte';
 	import Project from '../../../components/Project.svelte';
@@ -49,22 +60,65 @@
 		<div class="flex flex-col items-center gap-8 px-4 py-6 lg:flex-row lg:items-start lg:px-8">
 			<!-- Profile Image -->
 			<div class="flex flex-col items-center space-y-3 text-center">
-				<img
-					src={data.image}
-					alt={data.username}
-					class="h-40 w-40 rounded-full border-4 border-white shadow-lg"
-				/>
+				<div class="relative">
+					<img
+						src={data.image}
+						alt={data.username}
+						class="h-32 w-32 rounded-full border-4 border-primary/10 shadow-lg"
+					/>
+					{#if myProfile}
+						<div
+							class="absolute -bottom-2 right-0 rounded-full bg-primary px-3 py-1 text-xs font-medium text-white"
+						>
+							You
+						</div>
+					{/if}
+				</div>
 				<div class="space-y-1">
 					{#if !data.fullName.includes('null')}
 						<h1 class="text-2xl font-bold text-gray-800">{data.fullName}</h1>
 					{/if}
-					<h2 class="text-lg text-gray-600">@{data.username}</h2>
+					{#if data.portfolio}
+						<a
+							href={data.portfolio}
+							target="_blank"
+							class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
+						>
+							<BriefcaseBusiness class="h-5 w-5" />
+							<span class="text-sm font-medium">{new URL(data.portfolio).hostname}</span>
+						</a>
+					{:else}
+						<h2 class="text-lg text-gray-600">@{data.username}</h2>
+					{/if}
+					<!-- Social Links -->
+					<div class="flex gap-4 lg:ml-auto">
+						{#if data.linkedin}
+							<a
+								href={data.linkedin}
+								target="_blank"
+								class="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-200"
+							>
+								<Linkedin class="h-5 w-5 text-[#0A66C2]" />
+								<span class="text-sm font-medium text-gray-700">LinkedIn</span>
+							</a>
+						{/if}
+						{#if data.github}
+							<a
+								href={data.github}
+								target="_blank"
+								class="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-200"
+							>
+								<Github class="h-5 w-5 text-gray-800" />
+								<span class="text-sm font-medium text-gray-700">GitHub</span>
+							</a>
+						{/if}
+					</div>
 				</div>
 			</div>
 
-			<!-- Stats Card -->
 			<div class="w-full max-w-2xl space-y-6 rounded-xl border bg-white p-6 shadow-sm">
 				<h2 class="text-xl font-semibold text-gray-800">Contribution Overview</h2>
+
 				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 					<!-- Topics Created -->
 					<div class="flex items-center justify-between rounded-lg bg-gray-50 p-4">
