@@ -17,7 +17,7 @@
 
 <div transition:fly={{ y: 20, duration: 300 }} class="toast">
 	<div
-		class="alert alert-{type} mb-2 flex items-center gap-3 rounded-lg p-4 text-sm font-medium shadow-lg"
+		class="notification alert alert-{type} mb-2 flex items-center gap-3 rounded-lg p-4 text-sm font-medium shadow-lg"
 		class:bg-success={type === 'success'}
 		class:bg-error={type === 'error'}
 	>
@@ -32,9 +32,6 @@
 
 <style>
 	.notification {
-		position: fixed;
-		bottom: 1rem;
-		right: 1rem;
 		z-index: 100;
 	}
 </style>
