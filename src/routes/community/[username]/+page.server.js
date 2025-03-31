@@ -56,7 +56,7 @@ export async function load({params, locals: {supabase}}) {
             let publicUrl = await supabase.storage.from("files").getPublicUrl(data[0].image.substring(data[0].image.indexOf("/")+1));//removing the first "file/"
             let image = publicUrl.data.publicUrl;
             let member = {fullName: data[0].name + " " + data[0].surname,username,image,topics: allTopics, projects, user_rating, user_views, points: data[0].points};
-            member = {...member, linkedin: data[0].linkedin, github: data[0].github, portfolio: data[0].portfolio}
+            member = {...member, linkedin: data[0].linkedin, github: data[0].github, portfolio: data[0].portfolio,email: data[0].email};
             return member;
         }
         else{

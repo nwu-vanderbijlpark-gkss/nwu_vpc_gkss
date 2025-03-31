@@ -289,10 +289,10 @@
 		{#if activeTab === 'stats'}
 			<!-- Dashboard content -->
 			<div class="stats stats-vertical my-4 w-full shadow lg:stats-horizontal">
-				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Rank', icon: ChartColumnIcon, value: `${rankMap.get(member.username)} / ${members.length} ` }, { title: 'Events Registered', icon: Calendar, value: `${member.event_attendee.length}/${data.events.length}`, sub: '' }, { title: 'Events attended', icon: CalendarCheck, value: `${member.event_attendee.filter((a) => a.status == 'attended').length}/${member.event_attendee.length}`, sub: '' }] as stat}
+				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Your Rank', icon: ChartColumnIcon, value: `${rankMap.get(member.username)} / ${members.length} ` }, { title: 'Events you registered for', icon: Calendar, value: `${member.event_attendee.length}`, sub: '' }, { title: 'Events you attended', icon: CalendarCheck, value: `${member.event_attendee.filter((a) => a.status == 'attended').length}`, sub: '' }] as stat}
 					<div class="stat">
 						<div class="stat-figure">
-							<svelte:component this={stat.icon} class="text-primary" size={24} />
+							<stat.icon class="text-primary" size={24} />
 						</div>
 						<div class="stat-title">{stat.title}</div>
 						<div class="stat-value">{stat.value}</div>
