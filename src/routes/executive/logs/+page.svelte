@@ -104,7 +104,9 @@
 				<Logs />
 			</div>
 			<div class="stat-title">Most used page</div>
-			<div class="stat-value text-primary">{analytics.mostFrequentLocation}</div>
+			<a href={analytics.mostFrequentLocation} class="stat-value text-primary"
+				>{analytics.mostFrequentLocation}</a
+			>
 			<div class="stat-desc">It is the most visited page</div>
 		</div>
 
@@ -143,9 +145,9 @@
 						<div class="col-span-3 font-mono text-sm text-gray-600">
 							{log.user_id}
 						</div>
-						<div class="col-span-6 text-gray-800">
+						<a href={log.location} class="col-span-6 text-gray-800">
 							{log.location || 'Unknown location'}
-						</div>
+						</a>
 						<div class="col-span-3 text-sm text-gray-500">
 							{new Date(log.created_at).toLocaleDateString('en-US', {
 								year: 'numeric',
