@@ -90,58 +90,60 @@
 					</a>
 
 					<!-- Portfolio Hover Card -->
-					<div class="relative inline-block">
-						<a
-							href={data.portfolio}
-							onfocus={this.blur()}
-							target="_blank"
-							class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
-							onmouseover={() => (showPortfolioPreview = true)}
-							onmouseleave={() => (showPortfolioPreview = false)}
-						>
-							<BriefcaseBusiness class="h-5 w-5" />
-							<span class="text-sm font-medium">{new URL(data.portfolio).hostname}</span>
-						</a>
-
-						{#if showPortfolioPreview}
-							<div
-								class="absolute bottom-full left-0 z-50 w-96 rounded-lg border bg-white shadow-xl transition-opacity"
-								transition:fade={{ duration: 150 }}
+					{#if data.portfolio}
+						<div class="relative inline-block">
+							<a
+								href={data.portfolio}
+								onfocus={this.blur()}
+								target="_blank"
+								class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
+								onmouseover={() => (showPortfolioPreview = true)}
+								onmouseleave={() => (showPortfolioPreview = false)}
 							>
-								<div class="relative h-64 overflow-hidden rounded-t-lg">
-									{#if portfolioLoading}
-										<div class="absolute inset-0 flex items-center justify-center bg-gray-50">
+								<BriefcaseBusiness class="h-5 w-5" />
+								<span class="text-sm font-medium">{new URL(data.portfolio).hostname}</span>
+							</a>
+
+							{#if showPortfolioPreview}
+								<div
+									class="absolute bottom-full left-0 z-50 w-96 rounded-lg border bg-white shadow-xl transition-opacity"
+									transition:fade={{ duration: 150 }}
+								>
+									<div class="relative h-64 overflow-hidden rounded-t-lg">
+										{#if portfolioLoading}
+											<div class="absolute inset-0 flex items-center justify-center bg-gray-50">
+												<div
+													class="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"
+												></div>
+											</div>
+										{/if}
+
+										<iframe
+											title="Portfolio Preview"
+											src={data.portfolio}
+											class="h-full w-full"
+											onload={() => (portfolioLoading = false)}
+											onerror={() => {
+												portfolioLoading = false;
+												portfolioError = true;
+											}}
+										></iframe>
+
+										{#if portfolioError}
 											<div
-												class="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"
-											></div>
-										</div>
-									{/if}
-
-									<iframe
-										title="Portfolio Preview"
-										src={data.portfolio}
-										class="h-full w-full"
-										onload={() => (portfolioLoading = false)}
-										onerror={() => {
-											portfolioLoading = false;
-											portfolioError = true;
-										}}
-									></iframe>
-
-									{#if portfolioError}
-										<div
-											class="absolute inset-0 flex items-center justify-center bg-red-50 text-red-600"
-										>
-											Could not load preview
-										</div>
-									{/if}
+												class="absolute inset-0 flex items-center justify-center bg-red-50 text-red-600"
+											>
+												Could not load preview
+											</div>
+										{/if}
+									</div>
+									<div class="p-3 text-sm text-gray-600">
+										Website preview - <span class="text-primary">Click to visit</span>
+									</div>
 								</div>
-								<div class="p-3 text-sm text-gray-600">
-									Website preview - <span class="text-primary">Click to visit</span>
-								</div>
-							</div>
-						{/if}
-					</div>
+							{/if}
+						</div>
+					{/if}
 					<br />
 					<!-- GitHub Hover Card -->
 					{#if data.github}
