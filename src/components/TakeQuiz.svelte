@@ -46,12 +46,13 @@
 
 		score = calculatedScore;
 		showScore = true;
-		alreadyCompleted = true;
 		//break if user has already completed the quiz
 		if (alreadyCompleted) {
 			alert('You have already completed this quiz');
 			return;
 		}
+		alreadyCompleted = true;
+
 		const response = await fetch('/api/quiz/submitQuizAttempt', {
 			method: 'POST',
 			body: JSON.stringify({ points: score, quiz_id: quiz.id })
