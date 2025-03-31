@@ -19,6 +19,7 @@
 			alert('You need to answer the quiz first');
 			return;
 		}
+
 		let calculatedScore = 0;
 		totalPoints = quiz.quiz_questions.reduce((acc, q) => acc + q.points, 0);
 
@@ -46,6 +47,11 @@
 		score = calculatedScore;
 		showScore = true;
 		alreadyCompleted = true;
+		//break if user has already completed the quiz
+		if (alreadyCompleted) {
+			alert('You have already completed this quiz');
+			return;
+		}
 		const response = await fetch('/api/quiz/submitQuizAttempt', {
 			method: 'POST',
 			body: JSON.stringify({ points: score, quiz_id: quiz.id })
@@ -122,7 +128,7 @@
 		alert(copyMessages[Math.floor(Math.random() * copyMessages.length)]);
 	}}
 >
-	{#if !alreadyCompleted}
+	{#if true}<!--- Trying to make everyone attempt the quiz always, but if they've already completed it, they won't get their score recorded -->
 		<!-- Quiz Header -->
 		<div class="mb-8 text-center">
 			<h1 class="mb-2 text-3xl font-bold">{quiz.title}</h1>
