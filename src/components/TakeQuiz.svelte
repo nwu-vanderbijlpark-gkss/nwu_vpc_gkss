@@ -48,7 +48,6 @@
 		showScore = true;
 		//break if user has already completed the quiz
 		if (alreadyCompleted) {
-			alert('You have already completed this quiz');
 			return;
 		}
 		alreadyCompleted = true;
