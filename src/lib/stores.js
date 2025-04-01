@@ -19,5 +19,13 @@ function createNotificationStore() {
         }
     };
 }
-
+export const audioStore = (() => {
+    const { subscribe, set } = writable(null);
+    
+    return {
+      subscribe,
+      playSound: (url) => set(`${url}?t=${Date.now()}`) // Timestamp forces reload
+    };
+  })();
+  
 export const notifications = createNotificationStore();

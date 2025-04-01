@@ -6,9 +6,11 @@
 	let newQuiz = $state({
 		title: '',
 		due: '',
+		time_limit: '',
 		questions: [] //text, image
 	});
 	let isLoading = $state(false);
+	let isSuccess = $state(false);
 	let { data } = $props();
 
 	const questionTypes = [
@@ -94,6 +96,7 @@
 		const formData = new FormData();
 
 		formData.append('title', newQuiz.title);
+		formData.append('time_limit', newQuiz.time_limit);
 		formData.append('due', newQuiz.due);
 
 		newQuiz.questions.forEach((question, index) => {
@@ -115,6 +118,8 @@
 
 		const res = await response.json();
 		if (res.success) {
+			isLoading = false;
+			isSuccess = true;
 			//send emails to every member with an email
 			notifications.add({
 				type: 'success',
@@ -156,6 +161,19 @@
 >
 	{#if isLoading}
 		<Loading />
+	{:else if isSuccess}
+		<div class="card mx-auto mt-8 max-w-md bg-base-100 shadow-lg">
+			<div class="card-body">
+				<h2 class="card-title">Quiz Created</h2>
+				<p>Quiz created successfully</p>
+				<div class="card-actions justify-end">
+					<a href="/community/quiz" class="btn btn-primary">Go to Quizzes</a>
+					<button onclick={() => (isSuccess = false)} class="btn btn-outline"
+						>Create another quiz</button
+					>
+				</div>
+			</div>
+		</div>
 	{:else}
 		<h1 class="mb-8 text-3xl font-bold text-black">Create New Quiz</h1>
 
@@ -173,21 +191,38 @@
 				required
 			/>
 		</div>
-		<!-- Due date -->
-		<div class="form-control mb-8">
-			<label for="due" class="label">
-				<span class="label-text text-black">Due date and time</span>
-			</label>
-			<input
-				type="datetime-local"
-				name="due"
-				placeholder="Enter quiz title"
-				class="input input-bordered w-full"
-				bind:value={newQuiz.due}
-				required
-			/>
-		</div>
-
+		<span class="flex w-full flex-col gap-2 md:flex-row">
+			<!--Time limit-->
+			<div class="form-control mb-8 w-full">
+				<label for="title" class="label">
+					<span class="label-text text-black">Time limit (mins)</span>
+				</label>
+				<input
+					type="number"
+					id="time-limit"
+					name="time-limit"
+					min="1"
+					max="120"
+					step="1"
+					class="input input-bordered w-full"
+					bind:value={newQuiz.time_limit}
+				/>
+			</div>
+			<!-- Due date -->
+			<div class="form-control mb-8 w-full">
+				<label for="due" class="label">
+					<span class="label-text text-black">Due date and time</span>
+				</label>
+				<input
+					type="datetime-local"
+					name="due"
+					placeholder="Enter quiz title"
+					class="input input-bordered w-full"
+					bind:value={newQuiz.due}
+					required
+				/>
+			</div>
+		</span>
 		<!-- Questions -->
 		{#each newQuiz.questions as question, qi (question.id)}
 			<div class="card mb-6 bg-base-100 shadow-xl">

@@ -7,8 +7,9 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
-	import { notifications } from '$lib/stores';
+	import { audioStore, notifications } from '$lib/stores';
 	import Notification from '../components/Notification.svelte';
+	let audioElement = $state();
 	let { children, data } = $props();
 	afterNavigate(async ({ to }) => {
 		if (!to) return;
@@ -20,8 +21,17 @@
 			const r = await res.json();
 		}
 	});
+	$effect(() => {
+		if (audioStore) {
+			audioElement.src = $audioStore;
+			audioElement.play().catch((error) => {
+				console.error('Audio playback failed:', error);
+			});
+		}
+	});
 </script>
 
+<audio bind:this={audioElement} class="hidden"></audio>
 {#each $notifications as notification, index}
 	<Notification
 		id={notification.id}

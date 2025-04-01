@@ -20,7 +20,7 @@
 		shuffleQuestions();
 	}
 	let alreadyCompleted = $state(data.alreadyCompleted);
-
+	let isAuthor = $state(data.isAuthor);
 	let intervalId = $state();
 	let isClosed = $state(false);
 
@@ -88,7 +88,7 @@
 			</div>
 		</div>
 	{:else}
-		<TakeQuiz {alreadyCompleted} {quiz} />
+		<TakeQuiz {alreadyCompleted} {quiz} {isAuthor} />
 	{/if}
 {:else}
 	<div

@@ -6,6 +6,7 @@ export const POST = async ({locals: {supabase},request}) => {
     // Extract quiz details
     const title = formData.get('title');
     const due = formData.get('due');
+    const time_limit = formData.get('time_limit');
 
     // Extract questions
     const questions = [];
@@ -28,7 +29,8 @@ export const POST = async ({locals: {supabase},request}) => {
     const {data: dbQuiz ,error} = await supabase.from("Quiz").insert({
         title: title,
         creator_id: user.id,
-        due: due
+        due: due,
+        time_limit: time_limit
     }).select();
     if(!error){
         //insert questions

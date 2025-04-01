@@ -1,6 +1,7 @@
 export const load = async ({params,locals: {supabase}}) => {
-    const {data: quiz, error} = await supabase.from("Quiz").select("id,title,due,created_at,Member(username,name,surname),quiz_questions(*)").eq("id",params.quiz_id);
+    const {data: quiz, error} = await supabase.from("Quiz").select("id,title,due,time_limit,created_at,Member(username,name,surname,email),quiz_questions(*)").eq("id",params.quiz_id);
     let alreadyCompleted = false;
+    let isAuthor = false;
     const {data: {user}} = await supabase.auth.getUser();
     
     if(quiz && user){
@@ -8,7 +9,10 @@ export const load = async ({params,locals: {supabase}}) => {
         if(attempt.length > 0){
             alreadyCompleted = true;
         }
-        return {quiz: quiz[0], alreadyCompleted};
+        if(user.email == quiz[0].Member.email){
+            isAuthor = true;
+        }
+        return {quiz: quiz[0], alreadyCompleted, isAuthor};
     }
 
     else{

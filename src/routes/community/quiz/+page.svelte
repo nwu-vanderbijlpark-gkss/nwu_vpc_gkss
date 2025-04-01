@@ -1,4 +1,5 @@
 <script>
+	import { PenSquare } from 'lucide-svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
@@ -27,6 +28,7 @@
 	<!-- Header -->
 	<div class="mb-8 flex items-center justify-between">
 		<h1 class="text-3xl font-bold text-black">Quizzes</h1>
+		<a href="/community/quiz/create" class="btn btn-primary"><PenSquare /> Create new quiz</a>
 	</div>
 
 	<!-- Quiz Grid -->
