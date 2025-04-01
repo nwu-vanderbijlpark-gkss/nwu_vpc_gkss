@@ -1,7 +1,7 @@
 <script>
 	import { audioStore, notifications } from '$lib/stores';
 	import moment from 'moment';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	let { quiz, alreadyCompleted, isAuthor } = $props();
 
@@ -121,12 +121,15 @@
 		"We understand🥺, but you can't copy this",
 		"A whole Geek!! Don't copy to gpt"
 	];
+	let countdownCleanup = $state(null);
+
 	let startCountdown = () => {
 		if (quiz.time_limit && Number(quiz.time_limit) > 0) {
+			let timeoutId;
 			const interval = setInterval(() => {
-				if (remainingTime == 0) {
+				if (remainingTime === 0) {
 					clearInterval(interval);
-					setTimeout(() => {
+					timeoutId = setTimeout(() => {
 						audioStore.playSound('/sounds/funny-no-time.mp3');
 					}, 80000);
 					alert('Time is up!');
@@ -138,23 +141,30 @@
 					clearInterval(interval);
 				}
 			}, 1000);
+			// Cleanup function for this countdown
 			return () => {
 				clearInterval(interval);
+				clearTimeout(timeoutId);
 			};
 		}
 	};
+
 	onMount(() => {
 		introModal.showModal();
-		const interval = setInterval(() => {
+		const modalCheckInterval = setInterval(() => {
 			if (!introModal.open) {
-				startCountdown();
-				clearInterval(interval);
+				// Start countdown and store cleanup function
+				countdownCleanup = startCountdown();
+				clearInterval(modalCheckInterval);
 			}
 		}, 1000);
-		return () => {
-			clearInterval(interval);
-		};
-		//start the time limit
+		// Cleanup the modal check interval
+		return () => clearInterval(modalCheckInterval);
+	});
+
+	onDestroy(() => {
+		// Cleanup the countdown when component is destroyed
+		if (countdownCleanup) countdownCleanup();
 	});
 </script>
 
