@@ -13,7 +13,7 @@
 	let { children, data } = $props();
 	afterNavigate(async ({ to }) => {
 		if (!to) return;
-		if (data.isLoggedIn && !to.url.pathname.includes('/executive')) {
+		if (!to.url.pathname.includes('/executive')) {
 			const res = await fetch('/api/trackUsage', {
 				method: 'POST',
 				body: JSON.stringify({ location: to.url.pathname })
