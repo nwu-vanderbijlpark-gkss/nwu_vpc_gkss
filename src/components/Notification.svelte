@@ -26,7 +26,7 @@
 	});
 </script>
 
-<div transition:fly={{ y: 20, duration: 300 }} class="toast">
+<div transition:fly={{ y: 20, duration: 300 }} class="toast toast-middle md:toast-bottom">
 	<!-- Keep your existing DaisyUI markup unchanged -->
 	<div
 		class="notification alert alert-{type} mb-2 flex items-center gap-3 rounded-lg p-4 text-sm font-medium shadow-lg"
