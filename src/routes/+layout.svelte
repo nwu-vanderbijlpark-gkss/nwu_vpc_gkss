@@ -29,6 +29,15 @@
 			});
 		}
 	});
+
+	// Initialize audio context on first click
+	onMount(() => {
+		const handleFirstClick = () => {
+			new AudioContext().resume();
+			window.removeEventListener('click', handleFirstClick);
+		};
+		window.addEventListener('click', handleFirstClick);
+	});
 </script>
 
 <audio bind:this={audioElement} class="hidden"></audio>
