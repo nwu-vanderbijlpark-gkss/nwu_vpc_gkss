@@ -21,7 +21,8 @@
 			alert('You need to answer the quiz first');
 			return;
 		}
-
+		// Cleanup the countdown when the member sbmits the quiz
+		if (countdownCleanup) countdownCleanup();
 		let calculatedScore = 0;
 		totalPoints = quiz.quiz_questions.reduce((acc, q) => acc + q.points, 0);
 

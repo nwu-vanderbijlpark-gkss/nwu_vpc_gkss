@@ -3,6 +3,7 @@
 	import { supabase } from '$lib/supabaseClient'; // client-side Supabase instance
 	import { Calendar1, CalendarClockIcon, Logs } from 'lucide-svelte';
 	import moment from 'moment';
+	import Loading from '../../../components/Loading.svelte';
 
 	let logs = $state([]);
 	let isLoading = $state(true);
@@ -128,21 +129,28 @@
 			{error}
 		</div>
 	{:else if isLoading}
-		<div class="text-center text-gray-600">Loading logs...</div>
+		<div class="text-center text-gray-600">
+			Loading logs...
+			<Loading />
+		</div>
 	{:else}
 		<div class="overflow-hidden rounded-lg bg-white shadow">
 			<div
 				class="grid grid-cols-12 border-b border-gray-200 bg-gray-50 p-4 font-semibold text-gray-600"
 			>
-				<div class="col-span-6">Location</div>
+				<div class="col-span-6">Visitor</div>
+				<div class="col-span-6">Page</div>
 				<div class="col-span-3">Time</div>
 			</div>
 
 			<div class="divide-y divide-gray-100">
 				{#each logs as log}
 					<div class="grid grid-cols-12 p-4 transition-colors hover:bg-gray-50">
+						<div class="col-span-3 text-sm text-gray-500">
+							{log.visitor || 'Unknown visitor'}
+						</div>
 						<a href={log.location} class="col-span-6 text-gray-800">
-							{log.location || 'Unknown location'}
+							{log.location || 'Unknown page'}
 						</a>
 						<div class="col-span-3 text-sm text-gray-500">
 							{new Date(log.created_at).toLocaleDateString('en-US', {
