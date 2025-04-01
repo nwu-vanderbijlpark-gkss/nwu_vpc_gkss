@@ -134,7 +134,6 @@
 			<div
 				class="grid grid-cols-12 border-b border-gray-200 bg-gray-50 p-4 font-semibold text-gray-600"
 			>
-				<div class="col-span-3">User ID</div>
 				<div class="col-span-6">Location</div>
 				<div class="col-span-3">Time</div>
 			</div>
@@ -142,9 +141,6 @@
 			<div class="divide-y divide-gray-100">
 				{#each logs as log}
 					<div class="grid grid-cols-12 p-4 transition-colors hover:bg-gray-50">
-						<div class="col-span-3 font-mono text-sm text-gray-600">
-							{log.user_id}
-						</div>
 						<a href={log.location} class="col-span-6 text-gray-800">
 							{log.location || 'Unknown location'}
 						</a>
