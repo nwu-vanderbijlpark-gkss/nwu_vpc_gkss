@@ -37,6 +37,14 @@
 			window.removeEventListener('click', handleFirstClick);
 		};
 		window.addEventListener('click', handleFirstClick);
+		//when logged in, and in the auth pages, redirect to dashboard
+		if ((data.isLoggedIn && $page.url.pathname == '/login') || $page.url.pathname == '/signup') {
+			notifications.addNotification({
+				type: 'error',
+				message: 'You are already logged in'
+			});
+			window.location.href = '/dashboard';
+		}
 	});
 </script>
 

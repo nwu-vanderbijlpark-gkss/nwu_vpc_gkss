@@ -10,6 +10,7 @@
 	let error = $state('');
 	let subscription = $state(null);
 	let mostVisited = $state({});
+	let groupedLogs = $state({});
 
 	$effect(() => {
 		// Calculate most frequent location
@@ -57,6 +58,29 @@
 		uniqueLocations: 0,
 		averageDailyVisits: 0
 	});
+	const groupLogs = () => {
+		groupedLogs = logs.reduce((acc, log) => {
+			const date = new Date(log.created_at);
+			const dateKey = date.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'short',
+				day: 'numeric'
+			});
+
+			if (!acc[dateKey]) {
+				acc[dateKey] = {
+					date: dateKey,
+					logs: []
+				};
+			}
+
+			acc[dateKey].logs.push(log);
+			return acc;
+		}, {});
+
+		// Convert to array and sort by date (newest first)
+		groupedLogs = Object.values(groupedLogs).sort((a, b) => new Date(b.date) - new Date(a.date));
+	};
 	onMount(async () => {
 		// Initial fetch
 		try {
@@ -69,7 +93,7 @@
 		} catch (e) {
 			error = 'Failed to load initial logs';
 		}
-
+		groupLogs();
 		// Setup realtime subscription
 		subscription = supabase
 			.channel('app-usage')
@@ -83,6 +107,7 @@
 				(payload) => {
 					console.log(payload);
 					logs = [payload.new, ...logs];
+					groupLogs();
 				}
 			)
 			.subscribe();
@@ -138,29 +163,48 @@
 			<div
 				class="grid grid-cols-12 border-b border-gray-200 bg-gray-50 p-4 font-semibold text-gray-600"
 			>
-				<div class="col-span-6">Visitor</div>
-				<div class="col-span-6">Page</div>
+				<div class="col-span-5">Visitor</div>
+				<div class="col-span-4">Page</div>
 				<div class="col-span-3">Time</div>
 			</div>
 
-			<div class="divide-y divide-gray-100">
-				{#each logs as log}
-					<div class="grid grid-cols-12 p-4 transition-colors hover:bg-gray-50">
-						<div class="col-span-3 text-sm text-gray-500">
-							{log.visitor || 'Unknown visitor'}
+			<div>
+				{#each groupedLogs as group, i}
+					<div>
+						<!-- Date Heading -->
+						<div
+							class="grid grid-cols-12 items-center bg-gray-50 p-4 font-semibold text-gray-600 {i ===
+							0
+								? ''
+								: 'border-t border-gray-200'}"
+						>
+							<div class="col-span-12 flex items-center justify-between">
+								{group.date}
+								<p>{group.logs.length} visits</p>
+							</div>
 						</div>
-						<a href={log.location} class="col-span-6 text-gray-800">
-							{log.location || 'Unknown page'}
-						</a>
-						<div class="col-span-3 text-sm text-gray-500">
-							{new Date(log.created_at).toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: 'short',
-								day: 'numeric',
-								hour: '2-digit',
-								minute: '2-digit'
-							})}
-						</div>
+
+						<!-- Log Entries -->
+						{#each group.logs as log, j}
+							<div
+								class="grid grid-cols-12 p-4 transition-colors hover:bg-gray-50 {j === 0
+									? ''
+									: 'border-t border-gray-100'}"
+							>
+								<div class="col-span-3 text-sm text-gray-500">
+									{log.visitor || 'Unknown visitor'}
+								</div>
+								<a href={log.location} class="col-span-6 text-gray-800">
+									{log.location || 'Unknown page'}
+								</a>
+								<div class="col-span-3 text-sm text-gray-500">
+									{new Date(log.created_at).toLocaleTimeString('en-US', {
+										hour: '2-digit',
+										minute: '2-digit'
+									})}
+								</div>
+							</div>
+						{/each}
 					</div>
 				{/each}
 			</div>

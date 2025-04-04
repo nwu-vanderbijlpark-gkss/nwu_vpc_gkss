@@ -54,8 +54,14 @@
 			<tbody>
 				{#each team as member, index}
 					<tr class="border-b transition-colors hover:bg-gray-50">
-						<td class="px-6 py-4 font-semibold text-gray-800">{member.role}</td>
-						<td class="px-6 py-4">{member.name} {member.surname}</td>
+						<td class="flex items-center gap-2 px-6 py-4 font-semibold text-gray-800">
+							<img src={member.image} alt={member.surname} class="h-8 w-8 rounded-full" />
+							{member.role}
+						</td>
+						<td class=" px-6 py-4">
+							{member.name}
+							{member.surname}
+						</td>
 						<td class="px-6 py-4">{member.email}</td>
 						<td class="flex justify-center space-x-2 px-6 py-4">
 							<button class="btn btn-ghost btn-sm">

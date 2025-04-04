@@ -47,7 +47,13 @@ export async function load({locals: {supabase}}) {
         }
         returnData = {...returnData, members};
         //TEAM
-        returnData = {...returnData, team: Team};//insert the events data
+        const team = [];
+        for(let leader of Team){
+            let publicUrl = await supabase.storage.from("files").getPublicUrl(leader.image.substring(leader.image.indexOf("/")));//removing the first "file/"
+            leader = {...leader,image: publicUrl.data.publicUrl};
+            team.push(leader);
+        }
+        returnData = {...returnData, team};//insert the team data
         //get more data like event registrations, event attendance, get the turnout percentage
         return returnData;
     }
