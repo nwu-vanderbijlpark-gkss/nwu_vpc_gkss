@@ -1,7 +1,6 @@
 <script>
 	import { LogIn, PenSquare } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
-	import Trix from 'trix';
 	import Loading from '../../../../components/Loading.svelte';
 	import { notifications } from '$lib/stores';
 
