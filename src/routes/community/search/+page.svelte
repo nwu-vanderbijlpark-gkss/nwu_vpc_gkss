@@ -6,13 +6,16 @@
 	import Project from '../../../components/Project.svelte';
 	import MemberCard from '../../../components/MemberCard.svelte';
 	import Loading from '../../../components/Loading.svelte';
+	import Opportunity from '../../../components/Opportunity.svelte';
 
 	// Using Svelte 5 runes for reactive state
 	let text = $state(''); // Search text
 	let isLoading = $state(false);
 	let results = $state([]);
+	let num_results = $state(0);
 	let project_results = $state([]);
 	let member_results = $state([]);
+	let opportunity_results = $state([]);
 	let filter = $state('none'); // possible values: 'none', 'projects', 'topics', 'members'
 	let fav_id = $state([]);
 
@@ -24,7 +27,24 @@
 		}
 	};
 
-	const setFilter = (val) => (filter = val);
+	const setFilter = (val) => {
+		filter = val;
+		if (val === 'projects') {
+			num_results = project_results.length;
+		} else if (val === 'topics') {
+			num_results = results.length;
+		} else if (val === 'members') {
+			num_results = member_results.length;
+		} else if (val === 'opportunity') {
+			num_results = opportunity_results.length;
+		} else {
+			num_results =
+				results.length +
+				project_results.length +
+				member_results.length +
+				opportunity_results.length;
+		}
+	};
 
 	// On mount, check the URL for the search term and set it if present
 	onMount(() => {
@@ -94,6 +114,15 @@
 					isFound(member.username) ||
 					isFound(member.qualification) ||
 					isFound(member.interests)
+			);
+		}
+		if (filter === 'none' || filter === 'opportunity') {
+			opportunity_results = data.opportunities.filter(
+				(opportunity) =>
+					isFound(opportunity.title) ||
+					isFound(opportunity.type) ||
+					isFound(opportunity.content) ||
+					isFound(opportunity.organization)
 			);
 		}
 
@@ -183,15 +212,13 @@
 	{/if}
 
 	<section>
-		{#if results.length > 0 || project_results.length > 0 || member_results.length > 0}
+		{#if results.length > 0 || project_results.length > 0 || member_results.length > 0 || opportunity_results.length > 0}
 			<div class="rounded-lg bg-white p-4 shadow-sm">
 				<p class="text-sm text-gray-600">
-					{$state.snapshot(results).length +
-						$state.snapshot(project_results).length +
-						$state.snapshot(member_results).length} results found
+					{num_results} results found
 				</p>
 				<div class="mt-3 flex flex-wrap gap-2">
-					{#each [{ show: 'none', text: 'All' }, { show: 'projects', text: 'Projects' }, { show: 'topics', text: 'Topics' }, { show: 'members', text: 'Members' }] as btn}
+					{#each [{ show: 'none', text: 'All' }, { show: 'projects', text: 'Projects' }, { show: 'topics', text: 'Topics' }, { show: 'members', text: 'Members' }, { show: 'opportunity', text: 'Opportunities' }] as btn}
 						<button
 							class={'rounded px-3 py-1 ' +
 								(filter === btn.show ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700')}
@@ -226,6 +253,16 @@
 									{highlightText}
 									onclickFavorite={() => handleFavorite(topic)}
 								/>
+							{/each}
+						</div>
+					</section>
+				{/if}
+				{#if opportunity_results.length > 0 && (filter === 'none' || filter === 'opportunity')}
+					<section aria-labelledby="Opportunities-heading">
+						<h2 id="topics-heading" class="border-b pb-2 text-lg font-semibold">Opportunities</h2>
+						<div class="space-y-4">
+							{#each opportunity_results as opportunity}
+								<Opportunity {opportunity} {text} showContent={true} />
 							{/each}
 						</div>
 					</section>

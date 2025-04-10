@@ -56,6 +56,7 @@
 		"quill": "^2.0.3",
 		"svelte-codemirror-editor": "^1.4.1",
 		"svelte-qrcode": "^1.0.1",
-		"throttle-debounce": "^5.0.2"
+		"throttle-debounce": "^5.0.2",
+		"trix": "^2.1.13"
 	}
 }

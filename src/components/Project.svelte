@@ -97,42 +97,40 @@
 	}
 </script>
 
-<li>
-	<a
-		href={`/community/tools/${project.id}`}
-		class="hover:border-primary-300 focus:ring-primary-500 group relative flex h-full flex-col rounded-lg border border-gray-200 bg-white p-6 transition-all hover:shadow-md focus:outline-none focus:ring-2"
-	>
-		<div class="mb-4 flex items-center gap-3">
-			<div>
-				<p class="text-sm font-medium text-gray-700">
-					{@html highlightText(project.Member.name, text)}
-					{@html highlightText(project.Member.surname, text)}
-				</p>
-				{#if project.created_at}
-					<time class="text-xs text-gray-500" datetime={project.created_at}>
-						{moment(project.created_at).fromNow()}
-					</time>
-				{/if}
-			</div>
-		</div>
-
-		<div class="flex flex-1 flex-col">
-			<h2 class="group-hover:text-primary-600 mb-2 text-xl font-semibold text-gray-900">
-				{@html highlightText(project.name, text)}
-			</h2>
-			<p class="mb-4 line-clamp-3 flex-1 text-base text-gray-600">
-				{@html highlightText(project.description, text)}
+<a
+	href={`/community/tools/${project.id}`}
+	class="hover:border-primary-300 focus:ring-primary-500 group relative flex h-full flex-col bg-white p-6 transition-all hover:shadow-md focus:outline-none focus:ring-2"
+>
+	<div class="mb-4 flex items-center gap-3">
+		<div>
+			<p class="text-sm font-medium text-gray-700">
+				{@html highlightText(project.Member.name, text)}
+				{@html highlightText(project.Member.surname, text)}
 			</p>
-
-			<div class="mt-auto flex flex-wrap items-center justify-between gap-2">
-				<span
-					class="flex items-center gap-3 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
-				>
-					<Eye />{project.project_views.length} view{project.project_views.length > 1 ? 's' : ''}
-				</span>
-
-				<p class="text-sm text-gray-500">{project.type}</p>
-			</div>
+			{#if project.created_at}
+				<time class="text-xs text-gray-500" datetime={project.created_at}>
+					{moment(project.created_at).fromNow()}
+				</time>
+			{/if}
 		</div>
-	</a>
-</li>
+	</div>
+
+	<div class="flex flex-1 flex-col">
+		<h2 class="group-hover:text-primary-600 mb-2 text-xl font-semibold text-gray-900">
+			{@html highlightText(project.name, text)}
+		</h2>
+		<p class="mb-4 line-clamp-3 flex-1 text-base text-gray-600">
+			{@html highlightText(project.description, text)}
+		</p>
+
+		<div class="mt-auto flex flex-wrap items-center justify-between gap-2">
+			<span
+				class="flex items-center gap-3 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
+			>
+				<Eye />{project.project_views.length} view{project.project_views.length > 1 ? 's' : ''}
+			</span>
+
+			<p class="text-sm text-gray-500">{project.type}</p>
+		</div>
+	</div>
+</a>

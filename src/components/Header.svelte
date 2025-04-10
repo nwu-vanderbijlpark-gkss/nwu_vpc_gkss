@@ -55,18 +55,21 @@
 			>
 			<a
 				href="/community"
+				data-sveltekit-preload-data
 				class="navItem border-red-500 hover:border-b hover:text-white"
 				class:selected={$page.url.pathname.includes('/community')}>Community</a
 			>
 			{#if isLoggedIn}
 				<a
 					href="/dashboard"
+					data-sveltekit-preload-data
 					class="navItem btn-bordered btn border-red-500 hover:border-b hover:text-white"
 					class:selected={$page.url.pathname === '/dashboard'}>Dashboard</a
 				>
 				{#if isExecutive}
 					<a
 						href="/executive"
+						data-sveltekit-preload-data
 						class="navItem btn btn-primary border-red-500 hover:border-b hover:text-white">Admin</a
 					>
 				{/if}
@@ -143,6 +146,7 @@
 				<li>
 					<a
 						href="/community"
+						data-sveltekit-preload-data
 						class="navItem text-lg"
 						class:selected={$page.url.pathname.includes('/community')}>Community</a
 					>
@@ -249,7 +253,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="/community">
+								<a href="/community" data-sveltekit-preload-data>
 									<MessageCircleMoreIcon />
 									Community
 								</a>

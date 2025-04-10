@@ -8,8 +8,10 @@
 		Dot,
 		FileEdit,
 		Forward,
+		Home,
 		Lightbulb,
 		LogIn,
+		MessageCircle,
 		MessageCircleMore,
 		MoreHorizontal,
 		PlusCircle,
@@ -122,7 +124,8 @@
 				<a
 					href="/community"
 					class="navItem text-lg"
-					class:selected={$page.url.pathname === '/community'}><MessageCircleMore /> Discussions</a
+					data-sveltekit-preload-data
+					class:selected={$page.url.pathname === '/community'}><Home /> Feed</a
 				>
 			</li>
 			<li>
@@ -156,9 +159,9 @@
 			{#if data.isLoggedIn}
 				<li>
 					<a
-						class:selected={$page.url.pathname === '/community/event-groups'}
-						href="/community/event-groups"
-						class="navItem text-lg"><Users /> Event Groups</a
+						class:selected={$page.url.pathname.includes('/community/opportunities')}
+						href="/community/opportunities"
+						class="navItem text-lg"><Users /> Opportunities</a
 					>
 				</li>
 				<li>
@@ -176,10 +179,8 @@
 					>
 				</li>
 				<li>
-					<a
-						class:selected={$page.url.pathname === '/community/create-topic'}
-						href="/community/create-topic"
-						class="btn btn-primary"><PlusCircle /> Create topic</a
+					<button onclick={() => createModal.show()} class="btn btn-primary"
+						><PlusCircle /> Create</button
 					>
 				</li>
 			{:else}
@@ -242,10 +243,11 @@
 		<a
 			href="/community"
 			class:selected={$page.url.pathname === '/community'}
+			data-sveltekit-preload-data
 			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
 		>
-			<MessageCircleMore class="h-5 w-5" />
-			<span>Discussions</span>
+			<Home class="h-5 w-5" />
+			<span>Feed</span>
 		</a>
 
 		<a
@@ -257,16 +259,15 @@
 			<span>Search</span>
 		</a>
 
-		<a
-			href="/community/create-topic"
-			class:selected={$page.url.pathname === '/community/create-topic'}
+		<button
+			onclick={() => createModal.show()}
 			class="flex flex-col items-center text-sm font-semibold text-primary"
 		>
 			<div class="rounded-full bg-primary p-2 text-white shadow-lg">
 				<PlusCircle class="h-6 w-6" />
 			</div>
 			<span>Create</span>
-		</a>
+		</button>
 
 		<a
 			href="/community/quiz"
@@ -293,6 +294,57 @@
 		</button>
 	</div>
 </main>
+<!--Create modal FOR MOBILE-->
+<dialog id="createModal" class="modal modal-bottom z-50 sm:modal-middle">
+	<div class="modal-box text-white">
+		<div class="flex items-center justify-between">
+			<p class="text-lg font-bold text-white">Create</p>
+			<div class="modal-action">
+				<form method="dialog">
+					<button class="btn"><X />Close</button>
+				</form>
+			</div>
+		</div>
+		<div class="text-whte flex flex-col items-center p-2">
+			<ul class="menu min-h-full w-full space-y-2 p-2">
+				{#if data.isLoggedIn}
+					<li>
+						<a
+							onclick={() => createModal.close()}
+							class:selected={$page.url.pathname === '/community/leaderboard'}
+							href="/community/create-topic"
+							class="navItem flex text-lg"><MessageCircle /> Create a Topic</a
+						>
+					</li>
+					<li>
+						<a
+							onclick={() => createModal.close()}
+							href="/community/quiz/create"
+							class="navItem text-lg"><FileEdit /> Create a Quiz</a
+						>
+					</li>
+
+					<li>
+						<a
+							onclick={() => createModal.close()}
+							class:selected={$page.url.pathname === '/community/idea-generator'}
+							href="/community/opportunities/create"
+							class="navItem text-lg"><Brain /> Post an opportunity</a
+						>
+					</li>
+				{:else}
+					<p>You need to login to create content</p>
+					<li>
+						<a href="/login" class="navItem flex text-lg">
+							<LogIn class="h-5 w-5" />
+							<span>Login</span>
+						</a>
+					</li>
+				{/if}
+			</ul>
+		</div>
+	</div>
+</dialog>
 <!--Menu/More modal FOR MOBILE-->
 <dialog id="moreModal" class="modal modal-bottom z-50 sm:modal-middle">
 	<div class="modal-box text-white">
@@ -308,30 +360,46 @@
 			<ul class="menu min-h-full w-full space-y-2 p-2">
 				<li>
 					<a
+						onclick={() => moreModal.close()}
 						class:selected={$page.url.pathname === '/community/leaderboard'}
 						href="/community/leaderboard"
 						class="navItem flex text-lg"><ChartColumnBig /> LeaderBoard</a
 					>
 				</li>
 				<li>
-					<a href="/code-playground" class="navItem text-lg"><CodeXml />Playground </a>
+					<a onclick={() => moreModal.close()} href="/code-playground" class="navItem text-lg"
+						><CodeXml />Playground
+					</a>
+				</li>
+				<li>
+					<a
+						onclick={() => moreModal.close()}
+						class:selected={$page.url.pathname === '/community/opportunities'}
+						href="/community/opportunities"
+						class="navItem flex text-lg"
+					>
+						<Users class="h-5 w-5" />
+						<span>Opportunities</span>
+					</a>
 				</li>
 
 				<li>
 					<a
+						onclick={() => moreModal.close()}
 						class:selected={$page.url.pathname === '/community/idea-generator'}
 						href="/community/idea-generator"
 						class="navItem text-lg"><Brain /> Idea Generator</a
 					>
 				</li>
 				<li>
-					<a href="/community/tools" class="navItem text-lg">
+					<a onclick={() => moreModal.close()} href="/community/tools" class="navItem text-lg">
 						<Bot /><span>Geek Tools</span>
 					</a>
 				</li>
 				{#if data.isLoggedIn}
 					<li>
 						<a
+							onclick={() => moreModal.close()}
 							class:selected={$page.url.pathname === '/community/event-groups'}
 							href="/community/event-groups"
 							class="navItem text-lg"><Users /> Event Groups</a
@@ -339,6 +407,7 @@
 					</li>
 					<li>
 						<a
+							onclick={() => moreModal.close()}
 							class:selected={$page.url.pathname === '/community/ideas'}
 							href="/community/ideas"
 							class="navItem text-lg"><Lightbulb /> Saved ideas</a
@@ -346,6 +415,7 @@
 					</li>
 					<li>
 						<a
+							onclick={() => moreModal.close()}
 							class:selected={$page.url.pathname === '/community/profile'}
 							href="/community/profile"
 							class="navItem flex text-lg"
@@ -356,7 +426,7 @@
 					</li>
 				{:else}
 					<li>
-						<a href="/login" class="navItem flex text-lg">
+						<a onclick={() => moreModal.close()} href="/login" class="navItem flex text-lg">
 							<LogIn class="h-5 w-5" />
 							<span>Login</span>
 						</a>

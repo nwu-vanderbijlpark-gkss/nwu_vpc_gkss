@@ -61,6 +61,8 @@
 	}
 </script>
 
+<title>Create topic | NWU Vaal GKSS</title>
+
 <div class="mx-auto max-w-2xl p-5" in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }}>
 	{#if isLoading}
 		<Loading text="Creating your topic..." />

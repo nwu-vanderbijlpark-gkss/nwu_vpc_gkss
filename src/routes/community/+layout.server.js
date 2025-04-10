@@ -56,14 +56,17 @@ export async function load({locals: {supabase}}) {
     else{
         email =   null;
     }
+
+    //Opportunities
+    const {data: opportunities} = await supabase.from("Opportunity").select("id,organization,deadline,title,type,content,Member(username,name,surname)");
     //before returning the data, make objects for most viewed, latest
     const latest = allTopics.slice(0, 3);//as it is, just take the top 3
     
     //for most viewed
     let most_viewed = allTopics.sort((a, b) => b.topic_views.length - a.topic_views.length);
-     
+    
 
-    return {email,latest,most_viewed, allTopics, projects, members, currentUser};
+    return {email,latest,most_viewed, allTopics, projects, members, currentUser, opportunities};
 
 }
 

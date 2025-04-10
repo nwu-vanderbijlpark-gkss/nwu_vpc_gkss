@@ -15,10 +15,22 @@
 	} from 'lucide-svelte';
 	import { fade, fly, slide } from 'svelte/transition';
 	import Topic from '../../components/Topic.svelte';
+	import { onMount } from 'svelte';
+	import Project from '../../components/Project.svelte';
+	import Opportunity from '../../components/Opportunity.svelte';
 	let { data } = $props();
+	let feedData = $state([]);
+
+	onMount(() => {
+		feedData = [...data.allTopics, ...data.opportunities, ...data.projects];
+		for (let i = feedData.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[feedData[i], feedData[j]] = [feedData[j], feedData[i]]; // Swap
+		}
+	});
 </script>
 
-<title>Community | NWU Vaal GKSS</title>
+<title>Community Feed | NWU Vaal GKSS</title>
 <div
 	class="h-full w-full space-y-4"
 	in:fly={{ x: 100, duration: 400 }}
@@ -32,7 +44,7 @@
 					<MessageCircleMore class="h-12 w-12 text-gray-400" />
 				</div>
 				<div class="space-y-2">
-					<h2 class="text-xl font-semibold text-gray-800">No Discussions Yet</h2>
+					<h2 class="text-xl font-semibold text-gray-800">Feed is empty</h2>
 					<p class="text-gray-500">Be the first to start a conversation!</p>
 				</div>
 				<button onclick={() => my_modal_1.showModal()} class="btn btn-primary gap-2">
@@ -42,9 +54,18 @@
 			</div>
 		{:else}
 			<div class="divide-y">
-				{#each data.allTopics as topic}
-					<div class="transition-colors duration-150 hover:bg-gray-50">
-						<Topic {topic} />
+				{#each feedData as feed}
+					<div class="space-y-4 transition-colors duration-150 hover:bg-gray-50">
+						{#if feed.topic}
+							<!--Topic-->
+							<Topic topic={feed} />
+						{:else if feed.link}
+							<!--Project-->
+							<Project project={feed} />
+						{:else if feed.content}
+							<!--Opportunity-->
+							<Opportunity opportunity={feed} showContent={true} />
+						{/if}
 					</div>
 				{/each}
 			</div>
