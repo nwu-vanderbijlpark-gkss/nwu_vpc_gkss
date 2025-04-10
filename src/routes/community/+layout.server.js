@@ -58,7 +58,7 @@ export async function load({locals: {supabase}}) {
     }
 
     //Opportunities
-    const {data: opportunities} = await supabase.from("Opportunity").select("id,organization,deadline,title,type,content,Member(username,name,surname)");
+    const {data: opportunities} = await supabase.from("Opportunity").select("id,organization,deadline,title,type,content,created_at,Member(username,name,surname)");
     //before returning the data, make objects for most viewed, latest
     const latest = allTopics.slice(0, 3);//as it is, just take the top 3
     

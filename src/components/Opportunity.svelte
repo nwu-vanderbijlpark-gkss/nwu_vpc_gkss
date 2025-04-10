@@ -42,6 +42,9 @@
 
 	<!-- Details -->
 	<div class="flex-1 space-y-3">
+		<time class="text-xs text-gray-500" datetime={opportunity.created_at}>
+			Posted {moment(opportunity.created_at).fromNow()}
+		</time>
 		<div class="flex items-center gap-2 text-gray-600">
 			<Calendar class="h-5 w-5" />
 			<span class="text-sm">Deadline: {opportunity.deadline}</span>
