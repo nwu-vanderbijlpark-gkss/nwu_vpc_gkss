@@ -13,6 +13,9 @@
 			if (document.visibilityState === 'visible') {
 				audio.play().catch(() => console.log('Audio playback blocked'));
 			}
+			if (navigator.vibrate) {
+				navigator.vibrate([300, 150, 300]);
+			}
 		} catch (error) {
 			console.error('Sound error:', error);
 		}
