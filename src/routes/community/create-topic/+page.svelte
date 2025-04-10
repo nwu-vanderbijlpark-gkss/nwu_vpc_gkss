@@ -18,6 +18,9 @@
 
 		if (invalidFiles.length > 0) {
 			error = `Cannot upload files above 50MB: ${invalidFiles.map((f) => f.name).join(', ')}`;
+			if (navigator.vibrate) {
+				navigator.vibrate(200);
+			}
 			return;
 		}
 
@@ -27,6 +30,9 @@
 
 		if (duplicates.length > 0) {
 			error = `Duplicate files detected: ${duplicates.map((f) => f.name).join(', ')}`;
+			if (navigator.vibrate) {
+				navigator.vibrate(200);
+			}
 			return;
 		}
 
@@ -57,6 +63,9 @@
 		} catch (e) {
 			error = 'Failed to create topic. Please try again.';
 			isLoading = false;
+			if (navigator.vibrate) {
+				navigator.vibrate(200);
+			}
 		}
 	}
 </script>

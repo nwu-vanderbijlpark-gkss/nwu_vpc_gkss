@@ -27,6 +27,9 @@
 			!opportunity.content.length ||
 			!opportunity.organization.length
 		) {
+			if (navigator.vibrate) {
+				navigator.vibrate(200);
+			}
 			if (!opportunity.title.length) {
 				errors.title = 'Please add title';
 			}

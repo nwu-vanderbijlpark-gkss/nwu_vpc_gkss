@@ -62,6 +62,9 @@
 			editData = { topic: '', description: '', venue: '', date: '', public: '' };
 			isEditing = false;
 		} else {
+			if (navigator.vibrate) {
+				navigator.vibrate(200);
+			}
 			alert('Unexpected error');
 			isEditing = false;
 		}

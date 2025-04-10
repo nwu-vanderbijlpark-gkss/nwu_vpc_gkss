@@ -74,8 +74,6 @@
 		return (
 			newQuiz.title.trim() &&
 			newQuiz.questions.every((question) => {
-				if (!question.text.trim()) return false;
-
 				switch (question.type) {
 					case 'multipleChoice':
 						return question.options.every((opt) => opt.trim()) && question.options.length >= 2;
@@ -149,6 +147,9 @@
 
 			location = '/executive/quizzes';
 		} else {
+			if (navigator.vibrate) {
+				navigator.vibrate(200);
+			}
 			alert('Failed to create quiz, contact admin, message: ' + res.error);
 		}
 	};

@@ -20,12 +20,18 @@
 		// Validate email
 		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 		if (!emailPattern.test(email)) {
+			if (navigator.vibrate) {
+				navigator.vibrate(200);
+			}
 			isValid = false;
 			showError('email', 'Please enter a valid email address.');
 		}
 
 		// Validate password
 		if (!password.trim()) {
+			if (navigator.vibrate) {
+				navigator.vibrate(200);
+			}
 			isValid = false;
 			showError('password', 'Password is required.');
 		}
