@@ -3,7 +3,6 @@
 	import { SendHorizontal, PlusCircle } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
-	import MarkDown from '../../../components/MarkDown.svelte';
 	import Loading from '../../../components/Loading.svelte';
 	import Project from '../../../components/Project.svelte';
 
