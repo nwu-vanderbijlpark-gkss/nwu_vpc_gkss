@@ -28,7 +28,6 @@ const emailTemplate = (message, fullName) => `
               box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
               padding: 30px;
               max-width: 600px;
-              text-align: center;
           }
           .logo {
               width: 150px;
@@ -92,7 +91,7 @@ export const POST = async ({request, locals:{supabase}}) => {
           'api-key': BREVO_API_KEY,
         },
         body: JSON.stringify({
-          sender: { email: 'gkssvaal@gmail.com', name: 'NWU VAAL GKSS' },
+          sender: { email: 'gkssvaal@gmail.com', name: 'GKSS: North West University (Vaal)' },
           to: [{ email }],
           subject: data.subject,
           htmlContent: emailTemplate(data.message, fullName),
