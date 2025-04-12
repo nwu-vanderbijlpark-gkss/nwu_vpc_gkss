@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 import { BREVO_API_KEY } from '$env/static/private'
 
-const logo = "https://nwu-vaal-gkss.netlify.app/logo.png"; // Logo URL
+const logo = "https://nwu-vaal-gkss.netlify.app/icon.png"; // Logo URL
 
 const emailTemplate = (message, fullName) => `
   <!DOCTYPE html>
@@ -92,7 +92,7 @@ export const POST = async ({request, locals:{supabase}}) => {
           'api-key': BREVO_API_KEY,
         },
         body: JSON.stringify({
-          sender: { email: 'shysnylethabo11@gmail.com', name: 'NWU VAAL GKSS' },
+          sender: { email: 'gkssvaal@gmail.com', name: 'NWU VAAL GKSS' },
           to: [{ email }],
           subject: data.subject,
           htmlContent: emailTemplate(data.message, fullName),
