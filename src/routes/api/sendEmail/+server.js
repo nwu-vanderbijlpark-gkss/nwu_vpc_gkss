@@ -51,17 +51,17 @@ const emailTemplate = (message, fullName) => `
   </head>
   <body>
       <div class="container">
-          <img src="${logo}" alt="Logo" class="logo" />
+          <img src="${logo}" alt="GKSS-Logo" class="logo" />
           <h2>Dear ${fullName},</h2>
           <p>${message}</p>
           <br/><br/>
           <p>If you need help or have a suggestion, let us know in the group chat</p>
-          <p>This message was sent from the NWU Vaal GKSS website. <a href="https://nwu-vaal-gkss.netlify.app">https://nwu-vaal-gkss.netlify.app</a></p>
+          <p>This message was sent from the GKSS-NWU(Vaal) website. <a href="https://nwu-vaal-gkss.netlify.app">https://nwu-vaal-gkss.netlify.app</a></p>
           <br/>
 
           
           <div class="footer">
-              <p>&copy; ${new Date().getFullYear()} NWU VAAL GKSS. All rights reserved.</p>
+              <p>&copy; ${new Date().getFullYear()} GKSS-NWU(Vaal). All rights reserved.</p>
           </div>
       </div>
   </body>
@@ -91,7 +91,7 @@ export const POST = async ({request, locals:{supabase}}) => {
           'api-key': BREVO_API_KEY,
         },
         body: JSON.stringify({
-          sender: { email: 'gkssvaal@gmail.com', name: 'GKSS: North West University (Vaal)' },
+          sender: { email: 'gkssvaal@gmail.com', name: 'GKSS-NWU(Vaal)' },
           to: [{ email }],
           subject: data.subject,
           htmlContent: emailTemplate(data.message, fullName),
