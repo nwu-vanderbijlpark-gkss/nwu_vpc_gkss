@@ -1,4 +1,6 @@
 <script>
+	import moment from 'moment';
+	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	let { data } = $props();
 
@@ -17,6 +19,29 @@
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
 		</svg>
 	`;
+
+	onMount(async () => {
+		if (data.success) {
+			let data = {
+				subject: 'Event Attendance confirmation',
+				hideSalutations: true,
+				message: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <div style="background-color: #fff; padding: 16px; border-radius: 6px; border: 1px solid #ddd;">
+				Your attendance has been recorded for ${data.info.Events.topic}<br/>
+				You have been awarded 100 points, thank you for your attendance, enjoy!
+            </div>
+        </div>
+    `
+			};
+
+			const res = await fetch('/api/sendEmail', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ data })
+			});
+		}
+	});
 </script>
 
 <div class="flex min-h-screen items-center justify-center bg-gray-50 p-4">

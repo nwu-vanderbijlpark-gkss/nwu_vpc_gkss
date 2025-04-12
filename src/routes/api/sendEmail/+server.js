@@ -76,6 +76,7 @@ export const POST = async ({request, locals:{supabase}}) => {
     let email = data.email;
     //get the member's full name
     let fullName = data.fullName ? data.fullName : "student";
+    fullName = data.hideSalutations ? "student": fullName;
     const {data: member, error} = await supabase.from("Member").select().eq("id",user.id);
     if(member[0].name && data.type != "broadcast"){
         fullName = member[0].name + " " + member[0].surname;

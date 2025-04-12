@@ -21,7 +21,7 @@ export const load = async ({params,locals: {supabase}}) => {
         let event_id = params.event_id;
         let attendance_id = params.attendance_id;
 
-        const {data: attendance,error} = await supabase.from("event_attendee").select("*,Member(name,surname,gender,points)").eq("id",attendance_id);
+        const {data: attendance,error} = await supabase.from("event_attendee").select("*,Events(topic),Member(name,surname,gender,points)").eq("id",attendance_id);
         if(attendance){
             if(attendance[0].status != "attended"){
                 const {data: attending,error} = await supabase.from("event_attendee").update({status: "attended"}).eq("id",attendance_id).select("*,Member(id,name,surname,gender,points)");
