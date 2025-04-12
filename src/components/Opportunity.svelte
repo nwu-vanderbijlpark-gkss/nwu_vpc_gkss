@@ -1,6 +1,8 @@
 <script>
 	import { ArrowUpRightFromSquare, ArrowUpRightIcon, Building, Calendar } from 'lucide-svelte';
 	import moment from 'moment';
+	import { page } from '$app/stores';
+
 	let { opportunity, text, showContent } = $props();
 
 	function highlightText(fullText, match) {
@@ -58,8 +60,10 @@
 	</div>
 
 	<!-- Action Button -->
-	<a href="/community/opportunities/{opportunity.id}" class="btn btn-primary mt-4 w-full">
-		View Details
-		<ArrowUpRightFromSquare />
-	</a>
+	{#if $page.url.pathname == '/community/opportunities' || $page.url.pathname == '/community'}
+		<a href="/community/opportunities/{opportunity.id}" class="btn btn-primary mt-4 w-full">
+			View Details
+			<ArrowUpRightFromSquare />
+		</a>
+	{/if}
 </div>

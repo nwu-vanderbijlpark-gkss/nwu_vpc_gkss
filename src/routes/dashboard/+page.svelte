@@ -311,6 +311,9 @@
 									<QrCode
 										value={`https://nwu-vaal-gkss.netlify.app/executive/events/${event.Events.id}/${event.id}`}
 									/>
+									<a href="/executive/events/{event.Events.id}/{event.id}" class="btn btn-primary"
+										>{`https://nwu-vaal-gkss.netlify.app/executive/events/${event.Events.id}/${event.id}`}</a
+									>
 								</span>
 							</div>
 						</div>
