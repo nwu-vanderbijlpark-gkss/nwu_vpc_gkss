@@ -287,8 +287,33 @@
 		padding-top: 8px;
 		padding-bottom: 8px;
 	}
+	trix-editor h1,
+	.content :global(h1) {
+		@apply mb-2 text-2xl font-bold;
+	}
+
+	trix-editor blockquote,
+	.content :global(blockquote) {
+		@apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+	}
+
+	trix-editor pre,
+	.content :global(pre) {
+		@apply rounded bg-gray-100 p-2 font-mono text-sm;
+	}
+
+	trix-editor a,
 	.content :global(a) {
-		color: #2563eb;
-		text-decoration: underline;
+		@apply text-blue-600 underline;
+	}
+
+	trix-editor ul,
+	.content :global(ul) {
+		@apply list-inside list-disc;
+	}
+
+	trix-editor ol,
+	.content :global(ol) {
+		@apply list-inside list-decimal;
 	}
 </style>
