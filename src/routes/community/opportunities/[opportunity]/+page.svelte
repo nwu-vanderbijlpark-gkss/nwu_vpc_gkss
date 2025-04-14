@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import Opportunity from '../../../../components/Opportunity.svelte';
+	import NotFoundPage from '../../../../components/NotFoundPage.svelte';
 
 	let { data } = $props();
 
@@ -10,4 +11,10 @@
 	);
 </script>
 
-<Opportunity {opportunity} showContent={true} />
+{#if opportunity}
+	<title>{opportunity.title}</title>
+	<Opportunity {opportunity} showContent={true} />
+{:else}
+	<title>Opportunity not found</title>
+	<NotFoundPage title="Opportunity not found" homeUrl="/community/opportunities" />
+{/if}

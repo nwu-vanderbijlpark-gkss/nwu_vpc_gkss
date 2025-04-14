@@ -136,7 +136,7 @@
 			</div>
 
 			<h1 class="mb-2 text-2xl font-bold">{topic.topic}</h1>
-			<p class="text-gray-600">{topic.content}</p>
+			<div class="content text-gray-600">{@html topic.content}</div>
 		</header>
 
 		<!-- Image Carousel -->
@@ -286,5 +286,9 @@
 		line-height: 1.5;
 		padding-top: 8px;
 		padding-bottom: 8px;
+	}
+	.content :global(a) {
+		color: #2563eb;
+		text-decoration: underline;
 	}
 </style>

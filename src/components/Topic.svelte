@@ -96,9 +96,6 @@
 		});
 
 		// Replace URLs with anchor tags
-		content = content.replace(urlRegex, (url) => {
-			return `<a href="${url}" class="text-blue-600" target="_blank">${url}</a>`;
-		});
 
 		// If searchText is provided, highlight it
 		if (searchText) {
@@ -176,9 +173,9 @@
 	</div>
 	<a href={`/community/topic/${topic.id}`}>
 		<h3 class="text-xl font-bold">{@html highlightText(topic.topic, text)}</h3>
-		<p class="mt-2 text-sm text-gray-800">
+		<div class="content mt-2 text-sm text-gray-800">
 			{@html highlightText(topic.content, text)}
-		</p>
+		</div>
 
 		<div class="w-full">
 			{#if displayImages.length > 0}
@@ -222,3 +219,35 @@
 		>
 	</div>
 </div>
+
+<style>
+	trix-editor h1,
+	.content :global(h1) {
+		@apply mb-2 text-2xl font-bold;
+	}
+
+	trix-editor blockquote,
+	.content :global(blockquote) {
+		@apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+	}
+
+	trix-editor pre,
+	.content :global(pre) {
+		@apply rounded bg-gray-100 p-2 font-mono text-sm;
+	}
+
+	trix-editor a,
+	.content :global(a) {
+		@apply text-blue-600 underline;
+	}
+
+	trix-editor ul,
+	.content :global(ul) {
+		@apply list-inside list-disc;
+	}
+
+	trix-editor ol,
+	.content :global(ol) {
+		@apply list-inside list-decimal;
+	}
+</style>

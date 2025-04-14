@@ -107,13 +107,11 @@
 						Detailed Description
 						<span class="text-error">*</span>
 					</label>
-					<textarea
-						name="content"
-						required
-						rows="5"
-						placeholder="Share your thoughts, questions, or ideas here..."
-						class="textarea textarea-bordered w-full bg-gray-100 focus:ring-2 focus:ring-primary"
-					></textarea>
+					<main>
+						<trix-toolbar id="contentToolbar"></trix-toolbar>
+						<input id="content" type="hidden" name="content" />
+						<trix-editor toolbar="contentToolbar" input="content"></trix-editor>
+					</main>
 				</div>
 
 				<!-- File Upload -->
