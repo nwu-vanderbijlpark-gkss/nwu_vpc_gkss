@@ -1,5 +1,5 @@
 # GKSS Website
-
+<img src="https://nwu-vaal-gkss.netlify.app/icon.png" style="width: 100px;height: 100px;"/>
 Welcome to the official GKSS Website repository. This is a modern, full-stack SvelteKit web application styled with Tailwind CSS and DaisyUI. Supabase handles backend services including authentication, database, and storage.
 
 This project is maintained under the [MIT License](#license) and will be made public to encourage collaboration. Contributions are welcome — all code changes are reviewed before being merged.
