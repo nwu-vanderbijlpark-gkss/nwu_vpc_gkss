@@ -21,7 +21,7 @@ This project is maintained under the [MIT License](#license) and will be made pu
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v16+)
-- [Docker + Docker Compose](https://docs.docker.com/get-docker/)
+- [Docker Desktop](https://docs.docker.com/desktop)
 - [Supabase CLI](https://supabase.com/docs/guides/cli)
 - A code editor (e.g., [VS Code](https://code.visualstudio.com/))
 
