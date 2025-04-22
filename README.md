@@ -83,12 +83,12 @@ Create a `.env.local` in the project root then copy and paste:
 
 ```env
 PUBLIC_SUPABASE_URL='http://localhost:54321'
-PUBLIC_SUPABASE_ANON_KEY='<<your-local-anon-key>>'
+PUBLIC_SUPABASE_ANON_KEY='your-local-anon-key'
 ```
 
-> 🔐 Anon keys are printed in the terminal when you run `npx supabase start`.
-> Replace <<your-local-anon-key>> with the value of the anon key printed in your terminal
-> Once all that is done, the app will be running smoothly.
+> - Anon keys are printed in the terminal when you run `npx supabase start`. 
+> -  Replace `your-local-anon-key` with the value of the anon key printed in your terminal
+> - Once all that is done, the app will be running smoothly.
 ### 4. Supabase Client
 
 The Supabase client is already configured inside the project. No need to create a new client — simply import it where needed.
