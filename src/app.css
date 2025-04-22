@@ -22,27 +22,27 @@ trix-editor {
 	padding: 1rem;
   }
   
-  trix-editor h1, .content :global(h1) {
+  trix-editor :global(h1), .content :global(h1) {
 	@apply text-2xl font-bold mb-2;
   }
   
-  trix-editor blockquote, .content :global(blockquote) {
+  trix-editor :global(blockquote), .content :global(blockquote) {
 	@apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
   }
   
-  trix-editor pre, .content :global(pre) {
+  trix-editor :global(pre), .content :global(pre) {
 	@apply bg-gray-100 p-2 rounded text-sm font-mono;
   }
   
-  trix-editor a, .content :global(a) {
+  trix-editor :global(a), .content :global(a) {
 	@apply text-blue-600 underline;
   }
   
-  trix-editor ul, .content :global(ul) {
+  trix-editor :global(ul), .content :global(ul) {
 	@apply list-disc list-inside;
   }
   
-  trix-editor ol, .content :global(ol) {
+  trix-editor :global(ol), .content :global(ol) {
 	@apply list-decimal list-inside;
   }
   

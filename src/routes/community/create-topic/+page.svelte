@@ -85,7 +85,7 @@
 		</div>
 
 		{#if data.email}
-			<form on:submit={handleSubmit} class="space-y-6">
+			<form onsubmit={handleSubmit} class="space-y-6">
 				<!-- Title Input -->
 				<div class="space-y-2">
 					<label for="topic" class="block font-medium text-gray-700">
@@ -127,7 +127,7 @@
 								<div class="group relative">
 									<button
 										type="button"
-										on:click={() => images.splice(index, 1)}
+										onclick={() => images.splice(index, 1)}
 										class="btn btn-circle btn-xs absolute -right-2 -top-2 border-error bg-error text-white hover:scale-105"
 									>
 										<X class="h-3 w-3" />
@@ -147,7 +147,7 @@
 								name="images"
 								accept="image/*"
 								multiple
-								on:change={handleFileChange}
+								onchange={handleFileChange}
 								class="hidden bg-gray-100"
 							/>
 							<div class="btn btn-ghost gap-2">
@@ -221,3 +221,36 @@
 		{/if}
 	{/if}
 </div>
+
+<style>
+	trix-editor {
+		min-height: 200px;
+		border: 1px solid #ddd;
+		border-radius: 0.5rem;
+		padding: 1rem;
+	}
+
+	trix-editor :global(h1) {
+		@apply mb-2 text-2xl font-bold;
+	}
+
+	trix-editor :global(blockquote) {
+		@apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+	}
+
+	trix-editor :global(pre) {
+		@apply rounded bg-gray-100 p-2 font-mono text-sm;
+	}
+
+	trix-editor :global(a) {
+		@apply text-blue-600 underline;
+	}
+
+	trix-editor :global(ul) {
+		@apply list-inside list-disc;
+	}
+
+	trix-editor :global(ol) {
+		@apply list-inside list-decimal;
+	}
+</style>

@@ -1,150 +1,186 @@
 # GKSS Website
 
-Welcome to the GKSS Website project! This repository contains the source code for the GKSS website built using [SvelteKit](https://kit.svelte.dev/), [Tailwind CSS](https://tailwindcss.com/), and [DaisyUI](https://daisyui.com/). This document will guide you on how to navigate the project and make updates or changes, even if you are new to Svelte.
+Welcome to the official GKSS Website repository. This is a modern, full-stack SvelteKit web application styled with Tailwind CSS and DaisyUI. Supabase handles backend services including authentication, database, and storage.
 
-## Project Setup
+This project is maintained under the [MIT License](#license) and will be made public to encourage collaboration. Contributions are welcome — all code changes are reviewed before being merged.
+
+---
+
+## 🚀 Tech Stack
+
+- [SvelteKit](https://kit.svelte.dev) — Frontend Framework
+- [Tailwind CSS](https://tailwindcss.com) — Utility-first Styling
+- [DaisyUI](https://v4.daisyui.com) — Prebuilt UI Components
+- [Supabase](https://supabase.com) — Backend-as-a-Service (PostgreSQL, Auth, Realtime, Storage)
+- [Docker](https://www.docker.com) — Local containerized development
+
+---
+
+## ⚙️ Project Setup
 
 ### Prerequisites
 
-To work on this project, you'll need:
-
-- [Node.js](https://nodejs.org/) (version 16 or later recommended)
+- [Node.js](https://nodejs.org/) (v16+)
+- [Docker + Docker Compose](https://docs.docker.com/get-docker/)
+- [Supabase CLI](https://supabase.com/docs/guides/cli)
 - A code editor (e.g., [VS Code](https://code.visualstudio.com/))
-- Basic understanding of HTML and JavaScript
 
-### Installation
+### 1. Clone the Repository
 
-1. Clone the repository:
+```bash
+git clone https://github.com/NWU-VAAL-GKSS/nwu_vaal_gkss.git
+cd nwu_vaal_gkss
+```
 
-   ```bash
-   git clone https://github.com/your-username/gkss-website.git
-   cd gkss-website
-   ```
+### 2. Install Dependencies
 
-2. Install dependencies:
+```bash
+npm install
+```
 
-   ```bash
-   npm install
-   ```
+### 3. Start SvelteKit (Frontend)
 
-3. Start the development server:
+```bash
+npm run dev
+```
 
-   ```bash
-   npm run dev
-   ```
-
-4. Open the project in your browser at [http://localhost:5173](http://localhost:5173).
+App will be available at: [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## Project Structure
+## 🗃️ Backend: Supabase (Local)
 
-Here is a simplified overview of the project structure:
+We use Supabase in Docker to provide a self-contained local development backend.
+
+### 1. Install Supabase CLI
+
+```bash
+npm install -g supabase
+```
+
+### 2. Start Local Supabase
+
+```bash
+npx supabase start
+```
+
+This starts:
+
+- Supabase Auth
+- PostgreSQL
+- Storage
+- Studio (web dashboard)
+
+Default ports:
+
+- Supabase API: `http://localhost:54321`
+- Studio: `http://localhost:54323`
+
+### 3. Setup `.env.local`
+
+Create a `.env.local` in the project root:
+
+```env
+PUBLIC_SUPABASE_URL='http://localhost:54321'
+PUBLIC_SUPABASE_ANON_KEY='<<your-local-anon-key>>'
+```
+
+> 🔐 Anon keys are printed in the terminal when you run `npx supabase start`.
+
+### 4. Supabase Client
+
+The Supabase client is already configured inside the project. No need to create a new client — simply import it where needed.
+
+---
+
+## 📁 Project Structure
 
 ```
 src/
-├── routes/
-│   ├── +page.svelte      # Homepage
-│   ├── +layout.svelte    # Layout page with shared UI, Header, etc.
-│   ├── about/
-│   │   └── +page.svelte  # About page
-│   └── contact/
-│       └── +page.svelte  # Contact page
-├── components/
-│   ├── Header.svelte     # Navigation bar
-│   ├── Footer.svelte     # Footer section
-│   └── Card.svelte       # Reusable card component for content
-├── app.html              # HTML template for the app
-└── app.css        # Global styles (Tailwind CSS and custom styles)
+├── routes/                 # Page routes
+│   ├── +page.svelte        # Home page
+│   ├── +layout.svelte      # Layout template
+│   ├── about/+page.svelte  # About page
+│   └── contact/+page.svelte# Contact page
+├── components/             # Reusable UI components
+│   ├── Header.svelte
+│   ├── Footer.svelte
+│   └── Card.svelte
+├── lib/                    # Supabase clients and utilities
+├── app.html                # Entry HTML template
+├── app.css                 # Global CSS (Tailwind config)
 ```
 
 ---
 
-## How to Make Changes
+## ✍️ How to Contribute
 
-### 1. **Update Content on a Page**
+### Content Changes
 
-To edit the content of a specific page, locate the corresponding file in the `src/routes/` folder.  
-For example:
+Edit the appropriate `.svelte` file inside `src/routes/`.
 
-- To edit the homepage, open `src/routes/+page.svelte`.
-- For the About page, edit `src/routes/about/+page.svelte`.
+- Home: `src/routes/+page.svelte`
+- About: `src/routes/about/+page.svelte`
 
-Inside these files, you'll see HTML-like code. Simply edit the text inside the tags.
+### Add a New Page
 
-Example:
+1. Create a folder in `src/routes/` (e.g. `events`)
+2. Add a `+page.svelte` file with your content.
+3. Add a link to the navigation inside `src/components/Header.svelte`.
 
-```html
-<h1>Welcome to GKSS</h1>
-<p>Here is some introductory text.</p>
-```
+### Navigation
 
-### 2. **Add a New Page**
+Update `Header.svelte`:
 
-1. Create a new folder under `src/routes/` (e.g., `new-page`).
-2. Create a `+page.svelte` file inside the new folder and add your content.
-3. To link to the new page, update the navigation in `src/components/Header.svelte`.
-
-### 3. **Edit the Navigation Bar**
-
-To add or remove links from the navigation bar, edit `src/components/Header.svelte`.  
-Look for the `<nav>` section and update the links.
-
-Example:
-
-```html
+```svelte
 <nav class="flex space-x-4">
-	<a href="/" class="text-xl">Home</a>
-	<a href="/about" class="text-xl">About</a>
-	<a href="/events" class="text-xl">Events</a>
-	<a href="/contact" class="text-xl">Contact</a>
+	<a href="/">Home</a>
+	<a href="/about">About</a>
+	<a href="/events">Events</a>
+	<a href="/contact">Contact</a>
 </nav>
 ```
 
-This code uses Tailwind CSS classes for styling, such as `text-xl` for large text and `space-x-4` to add spacing between links.
+---
 
-### 4. **Change the Layout**
+## 📦 Common Commands
 
-The layout for all pages is controlled by `src/routes/+layout.svelte`.
-
-- To change the header or footer across all pages, edit this file.
-- For CSS styles, use `src/app.css`.
-
-You can also add Tailwind utility classes here or in specific components.
-
-### 5. **Update Global Styles**
-
-Global styles are located in `src/app.css`. You can modify this file to change the website's overall appearance.
-
-Tailwind CSS is used for utility-first styling, and DaisyUI provides pre-built components. Feel free to mix and match Tailwind utilities and DaisyUI components for a consistent design.
-
-Example:
-
-```css
-/* app.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body {
-	font-family: 'Arial', sans-serif;
-}
-```
+| Command              | Description                      |
+| -------------------- | -------------------------------- |
+| `npm run dev`        | Start frontend dev server        |
+| `npm run build`      | Build frontend for production    |
+| `npm run preview`    | Preview production build         |
+| `npx supabase start` | Start Supabase in Docker locally |
 
 ---
 
-## Common Commands
+## 🧠 Contributor Notes
 
-| Command           | Description                          |
-| ----------------- | ------------------------------------ |
-| `npm run dev`     | Start the development server         |
-| `npm run build`   | Build the project for production     |
-| `npm run preview` | Preview the production build locally |
+- All changes must go through Pull Requests and be reviewed before merging.
+- Feature branches should be prefixed with your initials or team (e.g., `ts-feature-header`)
+- Use semantic commits if possible.
+- Never commit `.env.local` or secret keys.
 
 ---
 
-## Need Help?
+## 📜 License
 
-If you encounter any issues or need assistance, feel free to reach out to the project maintainers or check out the [SvelteKit Documentation](https://kit.svelte.dev/docs), [Tailwind CSS Documentation](https://tailwindcss.com/docs), and [DaisyUI Documentation](https://daisyui.com/docs/).
+This project is open-sourced under the MIT License.  
+See [LICENSE](https://github.com/NWU-VAAL-GKSS/nwu_vaal_gkss/tree/main#MIT-1-ov-file) for full terms.
 
-Happy coding! 🚀
+---
+
+## 📚 Docs & Resources
+
+- [SvelteKit Docs](https://kit.svelte.dev/docs)
+- [Tailwind CSS Docs](https://tailwindcss.com/docs)
+- [DaisyUI Docs](https://daisyui.com/docs)
+- [Supabase Docs](https://supabase.com/docs)
+
+---
+
+## 🤝 Maintainers
+
+This repository is actively maintained. Code reviews are strict to ensure project health, scalability, and security. If you'd like to become a project lead, speak with a current maintainer.
+
+---
