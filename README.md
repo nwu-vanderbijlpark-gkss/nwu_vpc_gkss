@@ -1,5 +1,5 @@
 # GKSS Website
-
+<img src="https://nwu-vaal-gkss.netlify.app/icon.png" style="width: 100px;height: 100px;"/>
 Welcome to the official GKSS Website repository. This is a modern, full-stack SvelteKit web application styled with Tailwind CSS and DaisyUI. Supabase handles backend services including authentication, database, and storage.
 
 This project is maintained under the [MIT License](#license) and will be made public to encourage collaboration. Contributions are welcome — all code changes are reviewed before being merged.
@@ -10,7 +10,7 @@ This project is maintained under the [MIT License](#license) and will be made pu
 
 - [SvelteKit](https://kit.svelte.dev) — Frontend Framework
 - [Tailwind CSS](https://tailwindcss.com) — Utility-first Styling
-- [DaisyUI](https://v4.daisyui.com) — Prebuilt UI Components
+- [DaisyUI](https://v4.daisyui.com) — Prebuilt CSS UI Components
 - [Supabase](https://supabase.com) — Backend-as-a-Service (PostgreSQL, Auth, Realtime, Storage)
 - [Docker](https://www.docker.com) — Local containerized development
 
@@ -21,9 +21,10 @@ This project is maintained under the [MIT License](#license) and will be made pu
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v16+)
-- [Docker + Docker Compose](https://docs.docker.com/get-docker/)
+- [Docker Desktop](https://docs.docker.com/desktop)
 - [Supabase CLI](https://supabase.com/docs/guides/cli)
 - A code editor (e.g., [VS Code](https://code.visualstudio.com/))
+- If using VS Code, install svelte extensions.
 
 ### 1. Clone the Repository
 
@@ -47,10 +48,11 @@ npm run dev
 App will be available at: [http://localhost:5173](http://localhost:5173)
 
 ---
-
+If you visit [http://localhost:5173](http://localhost:5173), the app will probably show a 404 or 500 page,
+This happens because the backend is not running, so to run the backend, read the instructions below
 ## 🗃️ Backend: Supabase (Local)
 
-We use Supabase in Docker to provide a self-contained local development backend.
+We use Supabase in Docker to provide a self-contained local development backend, so make sure docker is running on your machine.
 
 ### 1. Install Supabase CLI
 
@@ -63,7 +65,6 @@ npm install -g supabase
 ```bash
 npx supabase start
 ```
-
 This starts:
 
 - Supabase Auth
@@ -78,18 +79,20 @@ Default ports:
 
 ### 3. Setup `.env.local`
 
-Create a `.env.local` in the project root:
+Create a `.env.local` in the project root then copy and paste:
 
 ```env
 PUBLIC_SUPABASE_URL='http://localhost:54321'
-PUBLIC_SUPABASE_ANON_KEY='<<your-local-anon-key>>'
+PUBLIC_SUPABASE_ANON_KEY='your-local-anon-key'
 ```
 
-> 🔐 Anon keys are printed in the terminal when you run `npx supabase start`.
-
+> - Anon keys are printed in the terminal when you run `npx supabase start`. 
+> -  Replace `your-local-anon-key` with the value of the anon key printed in your terminal
+> - Once all that is done, the app will be running smoothly.
 ### 4. Supabase Client
 
 The Supabase client is already configured inside the project. No need to create a new client — simply import it where needed.
+
 
 ---
 
@@ -99,14 +102,18 @@ The Supabase client is already configured inside the project. No need to create 
 src/
 ├── routes/                 # Page routes
 │   ├── +page.svelte        # Home page
-│   ├── +layout.svelte      # Layout template
-│   ├── about/+page.svelte  # About page
-│   └── contact/+page.svelte# Contact page
+│   ├── +layout.svelte      # Layout template for all pages under a pathname
+│   ├── +page.server.js     # This page runs on the server, see svelteKit docs
+│   └── team/+page.svelte   # Team page
 ├── components/             # Reusable UI components
 │   ├── Header.svelte
 │   ├── Footer.svelte
 │   └── Card.svelte
+├── api/ 		    # All api routes
+|   ├── cities/	    	    # An example cities api route
+|       ├── server.js       # The required file for the api logic, see sveltekit api docs
 ├── lib/                    # Supabase clients and utilities
+├── static/ 		    # Public assets
 ├── app.html                # Entry HTML template
 ├── app.css                 # Global CSS (Tailwind config)
 ```
@@ -126,20 +133,6 @@ Edit the appropriate `.svelte` file inside `src/routes/`.
 
 1. Create a folder in `src/routes/` (e.g. `events`)
 2. Add a `+page.svelte` file with your content.
-3. Add a link to the navigation inside `src/components/Header.svelte`.
-
-### Navigation
-
-Update `Header.svelte`:
-
-```svelte
-<nav class="flex space-x-4">
-	<a href="/">Home</a>
-	<a href="/about">About</a>
-	<a href="/events">Events</a>
-	<a href="/contact">Contact</a>
-</nav>
-```
 
 ---
 
@@ -156,6 +149,7 @@ Update `Header.svelte`:
 
 ## 🧠 Contributor Notes
 
+- Read [how to contribute](./CONTRIBUTING.md)
 - All changes must go through Pull Requests and be reviewed before merging.
 - Feature branches should be prefixed with your initials or team (e.g., `ts-feature-header`)
 - Use semantic commits if possible.

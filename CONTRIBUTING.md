@@ -1,5 +1,7 @@
 # Contributing to the GKSS Website
 
+<img src="https://nwu-vaal-gkss.netlify.app/icon.png" style="width: 100px;height: 100px;"/>
+
 We are excited to have you contribute to the GKSS Website! Whether you're fixing bugs, adding features, or improving documentation, we appreciate your efforts to help make this project better.
 
 This document provides guidelines to help you get started with contributing. Please follow these steps to ensure consistency and clarity in your contributions.
@@ -47,13 +49,13 @@ This document provides guidelines to help you get started with contributing. Ple
    Your local server will run at [http://localhost:5173](http://localhost:5173).
 
 5. **Set up the backend (Supabase) locally:**  
-   If you are working on backend-related features, start the Supabase local instance using the Supabase CLI:
+   The app will not run without the backend, so you will need to start the Supabase local instance using the Supabase CLI:
 
    ```bash
    npx supabase start
    ```
 
-   Make sure to configure the `.env.local` file as per the local development instructions.
+   Make sure to configure the `.env.local` file as per the local development instructions in the [README](./README.md).
 
 ---
 

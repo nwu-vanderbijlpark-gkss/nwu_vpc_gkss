@@ -1,7 +1,12 @@
+// 📢 This endpoint is PUBLIC – used for leaderboard display
+// Do NOT add authentication here unless the frontend changes
+
+
+
 import { json } from '@sveltejs/kit'
 
 export const GET = async ({locals: {supabase}}) => {
-    const {data: Member} = await supabase.from("Member").select("name, surname, qualification, username, image, year_of_study, interests, gender, date_of_birth, points, Topic(id),Project(id)");
+    const {data: Member} = await supabase.from("Member").select("name, surname, username, image, points, Topic(id),Project(id)");
     let members = [];
     for(const member of Member){
         let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")+1));//removing the first "file/"
