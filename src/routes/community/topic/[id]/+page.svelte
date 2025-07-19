@@ -17,7 +17,7 @@
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 	import { slide, fade, fly } from 'svelte/transition';
-	import NotFoundPage from '../../../../components/NotFoundPage.svelte';
+	import NotFoundPage from '$lib/components/NotFoundPage.svelte';
 
 	let { data } = $props();
 	let topic = $state(null);

@@ -3,7 +3,7 @@
 	import { supabase } from '$lib/supabaseClient'; // client-side Supabase instance
 	import { Calendar1, CalendarClockIcon, Logs } from 'lucide-svelte';
 	import moment from 'moment';
-	import Loading from '../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 
 	let logs = $state([]);
 	let isLoading = $state(true);

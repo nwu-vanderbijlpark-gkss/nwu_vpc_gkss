@@ -11,9 +11,9 @@
 		Stars,
 		Trash
 	} from 'lucide-svelte';
-	import NotFoundPage from '../../../components/NotFoundPage.svelte';
-	import Topic from '../../../components/Topic.svelte';
-	import Project from '../../../components/Project.svelte';
+	import NotFoundPage from '$lib/components/NotFoundPage.svelte';
+	import Topic from '$lib/components/Topic.svelte';
+	import Project from '$lib/components/Project.svelte';
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';

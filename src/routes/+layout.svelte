@@ -1,14 +1,14 @@
 <script>
 	import { fade, fly } from 'svelte/transition';
 	import '../app.css';
-	import Footer from '../components/Footer.svelte';
-	import Header from '../components/Header.svelte';
-	import PwaInstallPrompt from '../components/PWAInstallPrompt.svelte';
+	import Footer from '$lib/components/Footer.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import PwaInstallPrompt from '$lib/components/PWAInstallPrompt.svelte';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { audioStore, notifications } from '$lib/stores';
-	import Notification from '../components/Notification.svelte';
+	import Notification from '$lib/components/Notification.svelte';
 	let audioElement = $state();
 	let { children, data } = $props();
 	afterNavigate(async ({ to }) => {

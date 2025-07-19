@@ -32,9 +32,10 @@
 	} from 'lucide-svelte';
 	import Profile from './components/Profile.svelte';
 	import Invite from './components/Invite.svelte';
-	import Page from '../update-password/+page.svelte';
+
 	import { fade, fly, slide } from 'svelte/transition';
-	import CalendarView from '../../components/CalendarView.svelte';
+	import CalendarView from '$lib/components/CalendarView.svelte';
+	import Page from '../../update-password/+page.svelte';
 
 	let activeTab = $state('stats');
 	let { data } = $props();

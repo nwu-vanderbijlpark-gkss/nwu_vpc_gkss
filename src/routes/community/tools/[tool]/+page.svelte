@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import NotFoundPage from '../../../../components/NotFoundPage.svelte';
+	import NotFoundPage from '$lib/components/NotFoundPage.svelte';
 	import { ArrowLeft, ArrowUpRightFromSquare, Eye } from 'lucide-svelte';
 
 	let { data } = $props();

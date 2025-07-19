@@ -1,7 +1,7 @@
 <script>
 	import { fade, fly } from 'svelte/transition';
-	import Page from '../../../executive/quizzes/create/+page.svelte';
 	import { LogIn } from 'lucide-svelte';
+	import Page from '../../../(dashboards)/executive/quizzes/create/+page.svelte';
 	let { data } = $props();
 </script>
 

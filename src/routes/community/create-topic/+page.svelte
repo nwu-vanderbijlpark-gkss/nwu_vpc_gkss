@@ -1,6 +1,6 @@
 <script>
 	import { LogIn, PlusCircle, X } from 'lucide-svelte';
-	import Loading from '../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 	import { fade, fly, slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import { notifications } from '$lib/stores';

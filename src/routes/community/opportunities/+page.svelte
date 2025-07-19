@@ -4,7 +4,7 @@
 	import { supabase } from '$lib/supabaseClient'; // client-side Supabase instance
 	import { onMount } from 'svelte';
 	import moment from 'moment';
-	import Opportunity from '../../../components/Opportunity.svelte';
+	import Opportunity from '$lib/components/Opportunity.svelte';
 	let { data } = $props();
 	let subscription = $state(null);
 	let opportunities = $state(data.opportunities);

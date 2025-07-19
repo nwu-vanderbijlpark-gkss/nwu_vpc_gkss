@@ -1,7 +1,7 @@
 <script>
 	import { Edit, PlusCircle, SendHorizontal, Trash2, X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import Loading from '../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { notifications } from '$lib/stores';
 

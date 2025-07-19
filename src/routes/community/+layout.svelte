@@ -22,8 +22,8 @@
 		Users,
 		X
 	} from 'lucide-svelte';
-	import Loading from '../../components/Loading.svelte';
-	import Editor from '../../components/Editor.svelte';
+	import Loading from '$lib/components/Loading.svelte';
+	import Editor from '$lib/components/Editor.svelte';
 	import { slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import moment from 'moment';

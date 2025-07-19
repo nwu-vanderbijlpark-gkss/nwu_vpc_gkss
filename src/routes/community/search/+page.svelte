@@ -2,11 +2,11 @@
 	import { ArrowLeft, Search } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade, fly, slide } from 'svelte/transition';
-	import Topic from '../../../components/Topic.svelte';
-	import Project from '../../../components/Project.svelte';
-	import MemberCard from '../../../components/MemberCard.svelte';
-	import Loading from '../../../components/Loading.svelte';
-	import Opportunity from '../../../components/Opportunity.svelte';
+	import Topic from '$lib/components/Topic.svelte';
+	import Project from '$lib/components/Project.svelte';
+	import MemberCard from '$lib/components/MemberCard.svelte';
+	import Loading from '$lib/components/Loading.svelte';
+	import Opportunity from '$lib/components/Opportunity.svelte';
 
 	// Using Svelte 5 runes for reactive state
 	let text = $state(''); // Search text

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import moment from 'moment';
 	import { LogIn, Medal } from 'lucide-svelte';
-	import Loading from '../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 	import { fade, fly } from 'svelte/transition';
 
 	let { data } = $props();

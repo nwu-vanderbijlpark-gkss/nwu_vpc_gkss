@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import Loading from '../../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 	import { ArrowLeft, XCircle } from 'lucide-svelte';
 	import moment from 'moment';
 
