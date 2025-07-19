@@ -1,6 +1,6 @@
 <script>
 	import { fade, fly } from 'svelte/transition';
-	import Loading from '../../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 	import { notifications } from '$lib/stores';
 
 	let newQuiz = $state({

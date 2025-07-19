@@ -3,8 +3,8 @@
 	import { SendHorizontal, PlusCircle } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
-	import Loading from '../../../components/Loading.svelte';
-	import Project from '../../../components/Project.svelte';
+	import Loading from '$lib/components/Loading.svelte';
+	import Project from '$lib/components/Project.svelte';
 
 	let { data } = $props();
 	let form = $state({ name: '', description: '', link: '', type: 'Tool' });

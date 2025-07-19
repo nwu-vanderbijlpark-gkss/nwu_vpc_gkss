@@ -2,9 +2,9 @@
 	import { fade, fly, slide } from 'svelte/transition';
 	import moment from 'moment';
 	import { CalendarClockIcon, Users } from 'lucide-svelte';
-	import Chart from '../../components/Chart.svelte';
-	import TodaysBirthdays from '../../components/TodaysBirthdays.svelte';
-	import CalendarView from '../../components/CalendarView.svelte';
+	import Chart from '$lib/components/Chart.svelte';
+	import TodaysBirthdays from '$lib/components/TodaysBirthdays.svelte';
+	import CalendarView from '$lib/components/CalendarView.svelte';
 
 	let { data } = $props();
 

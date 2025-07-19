@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import moment from 'moment';
 	import { fade, fly, slide } from 'svelte/transition';
-	import Loading from '../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 
 	// Profile editing
 	let isEditing = $state(false);

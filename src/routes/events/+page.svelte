@@ -1,7 +1,7 @@
 <script>
 	import { Check, CheckCheckIcon, DotIcon } from 'lucide-svelte';
-	import Events from '../../components/Events.svelte';
-	import CalendarView from '../../components/CalendarView.svelte';
+	import Events from '$lib/components/Events.svelte';
+	import CalendarView from '$lib/components/CalendarView.svelte';
 	import { fade, fly } from 'svelte/transition';
 	let { data } = $props();
 </script>

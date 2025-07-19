@@ -1,8 +1,8 @@
 <script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import Opportunity from '../../../../components/Opportunity.svelte';
-	import NotFoundPage from '../../../../components/NotFoundPage.svelte';
+	import Opportunity from '$lib/components/Opportunity.svelte';
+	import NotFoundPage from '$lib/components/NotFoundPage.svelte';
 
 	let { data } = $props();
 

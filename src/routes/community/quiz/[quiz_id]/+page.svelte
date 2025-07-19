@@ -1,6 +1,6 @@
 <script>
 	import { LogIn } from 'lucide-svelte';
-	import TakeQuiz from '../../../../components/TakeQuiz.svelte';
+	import TakeQuiz from '$lib/components/TakeQuiz.svelte';
 	import { onMount } from 'svelte';
 	import { onDestroy } from 'svelte'; // or framework equivalent
 

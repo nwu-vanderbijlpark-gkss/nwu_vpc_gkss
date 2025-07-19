@@ -14,10 +14,10 @@
 		User
 	} from 'lucide-svelte';
 	import { fade, fly, slide } from 'svelte/transition';
-	import Topic from '../../components/Topic.svelte';
+	import Topic from '$lib/components/Topic.svelte';
 	import { onMount } from 'svelte';
-	import Project from '../../components/Project.svelte';
-	import Opportunity from '../../components/Opportunity.svelte';
+	import Project from '$lib/components/Project.svelte';
+	import Opportunity from '$lib/components/Opportunity.svelte';
 	let { data } = $props();
 	let feedData = $state([]);
 

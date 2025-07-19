@@ -1,8 +1,8 @@
 <script>
 	import { UserPlus } from 'lucide-svelte';
-	import ContactUs from '../components/ContactUs.svelte';
-	import Events from '../components/Events.svelte';
-	import TodaysBirthdays from '../components/TodaysBirthdays.svelte';
+	import ContactUs from '$lib//components/Chart.svelte';
+	import Events from '$lib/components/Events.svelte';
+	import TodaysBirthdays from '$lib/components/TodaysBirthdays.svelte';
 	import { onMount } from 'svelte';
 	import { fade, fly, scale, slide, draw, crossfade } from 'svelte/transition';
 	import { elasticOut, backOut, bounceOut, quintOut } from 'svelte/easing';

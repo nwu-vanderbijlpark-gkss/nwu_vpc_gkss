@@ -1,5 +1,5 @@
 <script>
-	import CodeEditor from '../../components/CodeEditor.svelte';
+	import CodeEditor from '$lib/components/CodeEditor.svelte';
 </script>
 
 <title> Code Playground | NWU Vaal GKSS</title>

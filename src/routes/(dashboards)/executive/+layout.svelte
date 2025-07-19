@@ -13,7 +13,7 @@
 		Users
 	} from 'lucide-svelte';
 	import { fade, fly, slide } from 'svelte/transition';
-	import PwaInstallPrompt from '../../components/PWAInstallPrompt.svelte';
+	import PwaInstallPrompt from '$lib/components/PWAInstallPrompt.svelte';
 	import { page } from '$app/stores';
 
 	let { children, data } = $props();

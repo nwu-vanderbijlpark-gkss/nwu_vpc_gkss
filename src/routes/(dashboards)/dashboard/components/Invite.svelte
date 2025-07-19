@@ -2,7 +2,7 @@
 	import { Mail } from 'lucide-svelte';
 	import moment from 'moment';
 	import { fade, fly, slide } from 'svelte/transition';
-	import Loading from '../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 
 	let inviteEmail = $state('');
 	let { history } = $props();

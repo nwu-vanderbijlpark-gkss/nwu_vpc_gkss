@@ -1,7 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { fade, slide } from 'svelte/transition';
-	import Loading from '../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 
 	let email = $state('');
 	let password = $state('');

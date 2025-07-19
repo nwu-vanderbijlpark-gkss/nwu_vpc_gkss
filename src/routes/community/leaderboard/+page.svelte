@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import Loading from '../../../components/Loading.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 	import { fade, fly, slide } from 'svelte/transition';
 
 	import { Award, Icon, Medal, Sparkles, Star, Trophy } from 'lucide-svelte';
