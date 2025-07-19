@@ -36,6 +36,7 @@
 	import { fade, fly, slide } from 'svelte/transition';
 	import CalendarView from '$lib/components/CalendarView.svelte';
 	import Page from '../../update-password/+page.svelte';
+	import Announcements from './components/Announcements.svelte';
 
 	let activeTab = $state('stats');
 	let { data } = $props();
@@ -254,7 +255,7 @@
 			</div>
 			<h1 class="font-bold text-gray-800">{member.name}</h1>
 		</div>
-		<button class="relative p-2">
+		<a href="/dashboard/announcements" class="relative p-2">
 			<Bell size={20} />
 			{#if notifications > 0}
 				<span
@@ -263,7 +264,7 @@
 					{$notifications.length}
 				</span>
 			{/if}
-		</button>
+		</a>
 	</header>
 	<!-- Bottom navigation for mobile -->
 	<nav class="fixed bottom-0 left-0 right-0 z-50 bg-base-200 text-white shadow-lg md:hidden">
@@ -467,6 +468,7 @@
 					</div>
 				</div>
 			{/if}
+			<Announcements />
 
 			<!-- Interests and Activity -->
 			<div class="space-y-6">
