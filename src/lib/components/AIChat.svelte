@@ -24,7 +24,8 @@
 	let messages = $state([
 		{
 			sender: 'assistant',
-			message: 'Hi there! 👋 How can I assist you today?'
+			message:
+				'Hi there! 👋 How can I assist you today?\nTips: you can ask me to take you to any page, I will try my best!'
 		}
 	]);
 
@@ -277,7 +278,8 @@
 			messages = [];
 			messages.push({
 				sender: 'assistant',
-				message: 'Hi there! 👋 How can I assist you today?'
+				message:
+					'Hi there! 👋 How can I assist you today?\nTips: you can ask me to take you to any page, I will try my best!'
 			});
 		}
 	};
@@ -296,9 +298,9 @@
 	<!--When the chat is not closed/ is open or minimized-->
 
 	<div
-		class=" fixed z-[100] mx-[4svw] flex shadow-lg lg:right-10 lg:m-0 {chat.state == 'open'
-			? 'bottom-4 h-[90svh]'
-			: 'bottom-16 lg:bottom-2'} w-[92svw] flex-col justify-between rounded-2xl border border-primary bg-base-100 p-2
+		class=" fixed z-[100] mx-[4svw] flex shadow-lg lg:right-4 lg:m-0 {chat.state == 'open'
+			? 'bottom-1 h-[98svh]'
+			: 'bottom-16 lg:bottom-2'} w-[92svw] flex-col justify-between rounded-2xl border border-primary/50 bg-black p-2
         shadow-xl lg:w-2/6"
 		transition:slide
 	>
@@ -316,7 +318,10 @@
 			class="flex items-center justify-between p-2"
 		>
 			<div>
-				<p class="flex"><Bot /> GeekAI Assistant</p>
+				<div class="flex w-full flex-col items-center justify-center">
+					<Bot />
+					<h3 class="flex text-lg font-bold">GeekAI Assistant</h3>
+				</div>
 				<p class="text-xs text-green-700">{chat.isTyping ? 'typing...' : ''}</p>
 			</div>
 			<div class="flex gap-2">
@@ -351,22 +356,31 @@
 		{#if chat.state == 'open'}
 			<main
 				bind:this={chat.element}
-				class="h-full w-full space-y-2 overflow-auto border-t p-2"
+				class="h-full w-full space-y-2 overflow-auto p-2"
 				transition:slide
 			>
+				<div class="flex w-full flex-col items-center justify-center">
+					<Bot size="50" />
+					<h3 class="flex text-lg font-bold">GeekAI Assistant</h3>
+				</div>
 				{#each messages as message}
 					{#if message.sender == 'assistant'}
-						<div class="flex w-full justify-start">
+						<div class="chat chat-start">
+							<div class="avatar chat-image">
+								<div class="w-5 overflow-visible">
+									<Bot />
+								</div>
+							</div>
 							<div
-								class=" prose prose-lg max-w-[70%] overflow-clip whitespace-pre-wrap rounded-xl bg-gray-800 p-2 text-gray-100"
+								class="prose chat-bubble overflow-clip whitespace-pre-wrap bg-[#262626] p-2 text-gray-100"
 							>
 								{@html marked(message.message)}
 							</div>
 						</div>
 					{:else}
-						<div class="flex w-full justify-end">
+						<div class="chat chat-end">
 							<div
-								class="max-w-2/3 max-w-[70%] overflow-clip whitespace-pre-wrap rounded-xl border p-2"
+								class="chat-bubble overflow-clip whitespace-pre-wrap rounded-xl bg-primary p-2 text-white"
 							>
 								{message.message}
 							</div>
