@@ -3,7 +3,9 @@
 	import Events from '$lib/components/Events.svelte';
 	import CalendarView from '$lib/components/CalendarView.svelte';
 	import { fade, fly } from 'svelte/transition';
+	import { models } from '$lib/state.svelte.js';
 	let { data } = $props();
+	models.context = 'Events: ' + JSON.stringify(data.events);
 </script>
 
 <title>Events | NWU Vaal GKSS </title>

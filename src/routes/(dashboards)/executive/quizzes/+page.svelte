@@ -23,7 +23,6 @@
 		const res = await response.json();
 		if (res.success) {
 			quizzes = res.quizzes;
-
 			quizzesLoading = false;
 		}
 	};

@@ -1,4 +1,5 @@
 <script>
+	import { goto } from '$app/navigation';
 	import Loading from '$lib/components/Loading.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
 	import moment from 'moment';
@@ -19,9 +20,11 @@
 		}
 	};
 
+	let hasLoaded = $state(false);
 	onMount(async () => {
 		announcements = JSON.parse(localStorage.getItem('lclannouncements')) || [];
 		await getAnnouncements();
+		hasLoaded = true;
 	});
 </script>
 
@@ -30,8 +33,10 @@
 		<button onclick={() => history.back()} class="btn btn-ghost rounded-full"><ArrowLeft /></button>
 		<p class="text-lg font-bold">Manage Announcements</p>
 	</div>
-	{#if !announcements.length}
+	{#if !announcements.length && !hasLoaded}
 		<Loading />
+	{:else if !announcements.length && hasLoaded}
+		<p class="text-center font-medium">No announcements sent yet.</p>
 	{:else}
 		<div class="max-h-screen overflow-auto px-6 pb-6">
 			<table class="w-full text-left text-sm text-gray-600 shadow-xl">
@@ -57,9 +62,20 @@
 							</td>
 
 							<td class="link z-40 px-6 py-4">
-								<button> View </button>
+								<button
+									onclick={() => {
+										goto('/dashboard/announcements?id=' + announcement.id);
+									}}
+								>
+									View
+								</button>
 							</td>
-							<td class="btn btn-ghost z-30 bg-red-600 px-6 py-4 text-black"> Delete </td>
+							<td
+								class="btn btn-ghost z-30 bg-red-600 px-6 py-4 text-black"
+								onclick={() => alert('Coming soon.')}
+							>
+								Delete
+							</td>
 						</tr>
 					{/each}
 				</tbody>

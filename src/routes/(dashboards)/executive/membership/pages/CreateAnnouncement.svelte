@@ -65,7 +65,7 @@
 	{:else}
 		<div class="w-full space-y-4 p-5 text-black">
 			<div class="flex items-center gap-1">
-				<button onclick={() => history.back()} class="btn btn-ghost rounded-full"
+				<button onclick={() => history.back()} class="btn btn-ghost -mx-5 rounded-full"
 					><ArrowLeft /></button
 				>
 				<p class="text-lg font-bold">Send an announcement to members</p>

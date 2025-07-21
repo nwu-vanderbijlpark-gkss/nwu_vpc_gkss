@@ -1,15 +1,22 @@
+import { models } from '$lib/state.svelte.js';
+
 export const load = async({request, locals: {supabase}}) => {
+
     const {data: {user}} = await supabase.auth.getUser();
+
     let currentUser = null;
+
     const {data: Member} = await supabase.from("Member").select('image,date_of_birth,name,surname,username,year_of_study,qualification, points, email');
+    
     const members = [];
+
     for(let member of Member){
         let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")));//removing the first "file/"
         member = {...member,image: publicUrl.data.publicUrl};
         members.push(member);
     }
     
-    if(user){
+    if(user != null){
         let { data: Team } = await supabase
             .from('Team')
             .select('*')   
@@ -38,6 +45,7 @@ export const load = async({request, locals: {supabase}}) => {
         }
     }
     else{
+
         return {isLoggedIn: false, members};
     }
 }

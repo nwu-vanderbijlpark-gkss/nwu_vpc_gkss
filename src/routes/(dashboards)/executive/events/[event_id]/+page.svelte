@@ -3,10 +3,12 @@
 	import moment from 'moment';
 	import { ArrowLeft } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
+	import { models } from '$lib/state.svelte.js';
 
 	let { data } = $props();
 	let members = data.members;
 	let event = $state(data.event);
+	models.context = 'This event on this page' + JSON.stringify(contextMember);
 
 	let registrationCount = 0;
 </script>

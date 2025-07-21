@@ -1,3 +1,4 @@
+import { models } from '$lib/state.svelte.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load({locals: {supabase}}) {
@@ -53,6 +54,7 @@ export async function load({locals: {supabase}}) {
             leader = {...leader,image: publicUrl.data.publicUrl};
             team.push(leader);
         }
+        models.context += "Team: "+JSON.stringify(team);
         returnData = {...returnData, team};//insert the team data
         //get more data like event registrations, event attendance, get the turnout percentage
         return returnData;

@@ -17,8 +17,10 @@
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+	import { models } from '$lib/state.svelte.js';
 
 	let { data } = $props();
+	const member = data.member;
 	let myProfile = $state(false);
 	let username = $state('');
 	let showPortfolioPreview = $state(false);
@@ -28,13 +30,17 @@
 	let portfolioLoading = $state(true);
 	let portfolioError = $state(false);
 
+	let contextMember = { ...(data.member || {}) }; // ensure it’s an object
+	delete contextMember.topics;
+	delete contextMember.projects;
+	models.context = JSON.stringify(contextMember);
+
 	onMount(() => {
 		myProfile = location.pathname.includes('profile');
 		username = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 	});
 
-	let topics = $state(data.topics);
-
+	let topics = $state(member.topics);
 	const deleteTopic = async (topic, index) => {
 		if (confirm("Delete topic: '" + topic.topic + "'?")) {
 			const formData = new FormData();
@@ -48,6 +54,20 @@
 	};
 </script>
 
+<svelte:head>
+	<title>{member.fullName} | NWU Vaal GKSS</title>
+	<meta name="description" content="View {member.fullName} on NWU Vaal GKSS Website" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="{member.fullName} | NWU Vaal GKSS" />
+	<meta name="twitter:description" content="View {member.fullName} on NWU Vaal GKSS Website" />
+	<meta name="twitter:image" content={member.image} />
+	<meta name="twitter:image:alt" content="{member.fullName} | NWU Vaal GKSS" />
+
+	<meta property="og:title" content="{member.fullName} | NWU Vaal GKSS" />
+	<meta property="og:description" content="View {member.fullName} on NWU Vaal GKSS Website" />
+	<meta property="og:image" content={member.image} />
+</svelte:head>
 {#if data.notFound}
 	<NotFoundPage
 		title="User not found"
@@ -55,12 +75,6 @@
 		message={`Sorry, this user '@${username}' does not exist, please try again later or return to home`}
 	/>
 {:else}
-	<title>{data.fullName} | NWU Vaal GKSS</title>
-	<meta property="og:site_name" content={`${data.fullName} | NWU Vaal GKSS`} />
-	<meta name="twitter:title" content={`${data.fullName} | NWU Vaal GKSS`} />
-	<meta name="twitter:image:alt" content={`${data.fullName} | NWU Vaal GKSS`} />
-	<meta property="title" content="User profile" />
-
 	<div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="min-h-screen pb-8">
 		<!-- Profile Header -->
 		<div class="flex flex-col items-center gap-8 px-4 py-6 lg:flex-row lg:items-start lg:px-8">
@@ -68,8 +82,8 @@
 			<div class="flex flex-col items-center space-y-3 text-center">
 				<div class="relative">
 					<img
-						src={data.image}
-						alt={data.username}
+						src={member.image}
+						alt={member.username}
 						class="h-32 w-32 rounded-full border-4 border-primary/10 shadow-lg"
 					/>
 					{#if myProfile}
@@ -81,19 +95,19 @@
 					{/if}
 				</div>
 				<div class="space-y-1">
-					{#if !data.fullName.includes('null')}
-						<h1 class="text-2xl font-bold text-gray-800">{data.fullName}</h1>
+					{#if !member.fullName.includes('null')}
+						<h1 class="text-2xl font-bold text-gray-800">{member.fullName}</h1>
 					{/if}
-					<a href={`mailto:${data.email}`} class="flex items-center gap-2 rounded-lg px-4 py-2">
+					<a href={`mailto:${member.email}`} class="flex items-center gap-2 rounded-lg px-4 py-2">
 						<Mail class="h-5 w-5 " />
-						<span class="text-sm font-medium text-gray-700">{data.email}</span>
+						<span class="text-sm font-medium text-gray-700">{member.email}</span>
 					</a>
 
 					<!-- Portfolio Hover Card -->
-					{#if data.portfolio}
+					{#if member.portfolio}
 						<div class="relative inline-block">
 							<a
-								href={data.portfolio}
+								href={member.portfolio}
 								onfocus={this.blur()}
 								target="_blank"
 								class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
@@ -101,7 +115,7 @@
 								onmouseleave={() => (showPortfolioPreview = false)}
 							>
 								<BriefcaseBusiness class="h-5 w-5" />
-								<span class="text-sm font-medium">{new URL(data.portfolio).hostname}</span>
+								<span class="text-sm font-medium">{new URL(member.portfolio).hostname}</span>
 							</a>
 
 							{#if showPortfolioPreview}
@@ -120,7 +134,7 @@
 
 										<iframe
 											title="Portfolio Preview"
-											src={data.portfolio}
+											src={member.portfolio}
 											class="h-full w-full"
 											onload={() => (portfolioLoading = false)}
 											onerror={() => {
@@ -146,10 +160,10 @@
 					{/if}
 					<br />
 					<!-- GitHub Hover Card -->
-					{#if data.github}
+					{#if member.github}
 						<div class="relative inline-block">
 							<a
-								href={data.github}
+								href={member.github}
 								target="_blank"
 								onfocus={this.blur()}
 								class="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-200"
@@ -157,7 +171,7 @@
 									showGithubPreview = true;
 									if (!githubData) {
 										try {
-											const username = new URL(data.github).pathname.slice(1);
+											const username = new URL(member.github).pathname.slice(1);
 											const response = await fetch(`https://api.github.com/users/${username}`);
 											githubData = await response.json();
 										} catch (error) {
@@ -261,10 +275,10 @@
 					{/if}
 
 					<!-- LinkedIn Hover Card -->
-					{#if data.linkedin}
+					{#if member.linkedin}
 						<div class="relative inline-block">
 							<a
-								href={data.linkedin}
+								href={member.linkedin}
 								onfocus={this.blur()}
 								target="_blank"
 								class="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-200"
@@ -302,7 +316,7 @@
 					<div class="flex items-center justify-between rounded-lg bg-gray-50 p-4">
 						<div>
 							<p class="text-sm font-medium text-gray-500">Topics Created</p>
-							<p class="text-2xl font-bold text-gray-800">{data.topics.length}</p>
+							<p class="text-2xl font-bold text-gray-800">{member.topics.length}</p>
 						</div>
 						<PenBox class="h-8 w-8 text-primary" />
 					</div>
@@ -311,7 +325,7 @@
 					<div class="flex items-center justify-between rounded-lg bg-gray-50 p-4">
 						<div>
 							<p class="text-sm font-medium text-gray-500">Total Views</p>
-							<p class="text-2xl font-bold text-gray-800">{data.user_views}</p>
+							<p class="text-2xl font-bold text-gray-800">{member.user_views}</p>
 						</div>
 						<ChartNoAxesColumn class="h-8 w-8 text-primary" />
 					</div>
@@ -320,7 +334,7 @@
 					<div class="flex items-center justify-between rounded-lg bg-gray-50 p-4">
 						<div>
 							<p class="text-sm font-medium text-gray-500">Total Projects</p>
-							<p class="text-2xl font-bold text-gray-800">{data.projects.length}</p>
+							<p class="text-2xl font-bold text-gray-800">{member.projects.length}</p>
 						</div>
 						<CodeXml class="h-8 w-8 text-primary" />
 					</div>
@@ -329,7 +343,7 @@
 					<div class="flex items-center justify-between rounded-lg bg-gray-50 p-4">
 						<div>
 							<p class="text-sm font-medium text-gray-500">Total Points</p>
-							<p class="text-2xl font-bold text-gray-800">{data.points.toFixed(0) || 0.0} pts</p>
+							<p class="text-2xl font-bold text-gray-800">{member.points.toFixed(0) || 0.0} pts</p>
 						</div>
 						<Stars class="h-8 w-8 text-primary" />
 					</div>
@@ -368,7 +382,7 @@
 				<div role="tabpanel" class="tab-content mt-4">
 					<section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
 						<ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-							{#each data.projects as project}
+							{#each member.projects as project}
 								<Project {project} />
 							{:else}
 								<div class="col-span-full rounded-lg bg-gray-50 p-6 text-center text-gray-500">

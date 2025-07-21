@@ -18,6 +18,13 @@
 		UserCog,
 		Users
 	} from 'lucide-svelte';
+	import { afterNavigate } from '$app/navigation';
+
+	let isOpen = $state(false);
+
+	afterNavigate(() => {
+		isOpen = false;
+	});
 </script>
 
 <div
@@ -104,7 +111,7 @@
 </div>
 
 <div class="drawer z-50">
-	<input id="my-drawer" type="checkbox" class="drawer-toggle" />
+	<input id="my-drawer" type="checkbox" bind:checked={isOpen} class="drawer-toggle" />
 	<div class="drawer-side">
 		<label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 
