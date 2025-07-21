@@ -1,4 +1,5 @@
 <script>
+	import { models } from '$lib/state.svelte.js';
 	import {
 		ArrowUpRightFromSquareIcon,
 		Edit,
@@ -15,6 +16,8 @@
 	let array = [];
 	let { data, form } = $props();
 	let events = $state(data.events);
+	models.context = 'Events' + JSON.stringify(events);
+
 	let editData = $state({
 		topic: '',
 		description: '',

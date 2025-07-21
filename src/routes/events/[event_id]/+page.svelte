@@ -4,9 +4,12 @@
 	import { LogIn, Medal } from 'lucide-svelte';
 	import Loading from '$lib/components/Loading.svelte';
 	import { fade, fly } from 'svelte/transition';
+	import { models } from '$lib/state.svelte.js';
 
 	let { data } = $props();
 	let event = $state(data.event);
+
+	models.context = 'Event: ' + JSON.stringify(event);
 
 	let registrationCount = $state(event.event_attendee.length);
 	let formData = $state({

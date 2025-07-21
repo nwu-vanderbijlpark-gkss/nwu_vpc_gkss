@@ -41,16 +41,16 @@
 		<div class="flex items-center justify-between p-6">
 			<h2 class="text-3xl font-semibold text-gray-800">Members</h2>
 		</div>
-		<div class="flex gap-3 px-7 py-3">
+		<div class="grid w-full grid-cols-2 gap-3 px-2 py-3 lg:max-w-2xl lg:px-7">
 			<a
 				onclick={() => changePage('createAnnouncement')}
 				href="/executive/membership?p=createAnnouncement"
-				class="btn btn-primary"><SendHorizontal />Send an announcement</a
+				class="btn btn-primary w-full"><SendHorizontal />Send an announcement</a
 			>
 			<a
 				onclick={() => changePage('manageAnnouncements')}
 				href="/executive/membership?p=manageAnnouncements"
-				class="btn btn-accent"
+				class="btn btn-accent w-full"
 				><Edit />
 				Manage announcements</a
 			>

@@ -6,12 +6,23 @@
 	import PwaInstallPrompt from '$lib/components/PWAInstallPrompt.svelte';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { audioStore, notifications } from '$lib/stores';
 	import Notification from '$lib/components/Notification.svelte';
+	import { BProgress } from '@bprogress/core';
+	import { models } from '$lib/state.svelte';
+	import AiChat from '$lib/components/AIChat.svelte';
+
 	let audioElement = $state();
+
 	let { children, data } = $props();
+
+	beforeNavigate(({ to }) => {
+		BProgress.start();
+	});
+
 	afterNavigate(async ({ to }) => {
+		BProgress.done();
 		if (!to) return;
 		if (!to.url.pathname.includes('/executive')) {
 			const res = await fetch('/api/trackUsage', {
@@ -21,29 +32,28 @@
 			const r = await res.json();
 		}
 	});
-	$effect(() => {
-		if (audioStore) {
-			audioElement.src = $audioStore;
-			audioElement.play().catch((error) => {
-				console.error('Audio playback failed:', error);
-			});
-		}
-	});
+	const getModels = async () => {
+		const res = await fetch('/api/ai/models', {
+			method: 'GET'
+		});
+		const response = await res.json();
+		return response.models.data;
+	};
 
-	// Initialize audio context on first click
-	onMount(() => {
-		const handleFirstClick = () => {
-			new AudioContext().resume();
-			window.removeEventListener('click', handleFirstClick);
-		};
-		window.addEventListener('click', handleFirstClick);
+	onMount(async () => {
 		//when logged in, and in the auth pages, redirect to dashboard
-		if ((data.isLoggedIn && $page.url.pathname == '/login') || $page.url.pathname == '/signup') {
+		if (data.isLoggedIn && ($page.url.pathname == '/login' || $page.url.pathname == '/signup')) {
 			notifications.addNotification({
 				type: 'error',
 				message: 'You are already logged in'
 			});
+
 			window.location.href = '/dashboard';
+		}
+
+		//get active ai models for usage
+		if (models.data.length == 0) {
+			models.data = await getModels();
 		}
 	});
 </script>
@@ -57,6 +67,7 @@
 		timeout={notification.timeout}
 	/>
 {/each}
+<AiChat />
 <PwaInstallPrompt />
 <Header isLoggedIn={data.isLoggedIn} isExecutive={data.isExecutive} user={data.currentUser} />
 <div

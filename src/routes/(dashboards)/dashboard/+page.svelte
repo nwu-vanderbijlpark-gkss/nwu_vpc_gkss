@@ -37,10 +37,13 @@
 	import CalendarView from '$lib/components/CalendarView.svelte';
 	import Page from '../../update-password/+page.svelte';
 	import Announcements from './components/Announcements.svelte';
+	import { models } from '$lib/state.svelte';
 
 	let activeTab = $state('stats');
 	let { data } = $props();
 	let member = $state(data.member);
+	models.context = 'This User: ' + JSON.stringify(member);
+
 	let editLinks = $state(false);
 	let birthDayMonth = member.date_of_birth.substring(member.date_of_birth.indexOf('-') + 1);
 

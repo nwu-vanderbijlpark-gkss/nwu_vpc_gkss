@@ -18,6 +18,8 @@
 		const res = await req.json();
 		if (res.success) {
 			announcements = res.data;
+			models.context += 'Announcements: ' + JSON.stringify(announcements);
+
 			localStorage.setItem('lclannouncements', JSON.stringify(announcements));
 		} else {
 			//error

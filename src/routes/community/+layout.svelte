@@ -28,8 +28,11 @@
 	import { onMount } from 'svelte';
 	import moment from 'moment';
 	import { page } from '$app/stores';
+	import { models } from '$lib/state.svelte.js';
 
 	let { children, data } = $props();
+
+	models.context = JSON.stringify(data.allTopics) + JSON.stringify(data.opportunities);
 	let todaysBirthdays = data.members.filter((member) => {
 		const today = new Date();
 		const birthDate = new Date(member.date_of_birth);
@@ -37,6 +40,7 @@
 		// Check if the member's birthday is today (ignore the year)
 		return today.getDate() === birthDate.getDate() && today.getMonth() === birthDate.getMonth();
 	});
+
 	let popularTopics = $state(data.most_viewed.slice(0, 3));
 	let images = $state([]);
 	let error = $state();
@@ -90,6 +94,7 @@
 			const res = await response.json();
 			if (res.success) {
 				quizzes = res.quizzes.filter((quiz) => moment(quiz.due).isAfter(moment()));
+				models.context += 'Available Quizzes: ' + JSON.stringify(quizzes);
 			}
 		} catch (error) {
 			console.error('Quiz fetch error:', error);
