@@ -92,7 +92,7 @@
 			</table>
 		</div>
 	{:else if page == 'createAnnouncement'}
-		<CreateAnnouncement />
+		<CreateAnnouncement {members} />
 	{:else if page == 'manageAnnouncements'}
 		<ManageAnnouncements {members} />
 	{/if}
