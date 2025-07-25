@@ -93,12 +93,12 @@
 
 		<div class="stat">
 			<div class="stat-title">Gender Distribution</div>
-			<div class="stat-value text-primary">{memberDetailed.gender.males}%</div>
 			<div class="stat-desc">Male</div>
-			<div class="stat-value text-primary">{memberDetailed.gender.females}%</div>
+			<div class="stat-value text-primary">{memberDetailed.gender.males}%</div>
 			<div class="stat-desc">Female</div>
-			<div class="stat-value text-primary">{memberDetailed.gender.other}%</div>
+			<div class="stat-value text-primary">{memberDetailed.gender.females}%</div>
 			<div class="stat-desc">Other</div>
+			<div class="stat-value text-primary">{memberDetailed.gender.other}%</div>
 		</div>
 
 		<div class="stat">

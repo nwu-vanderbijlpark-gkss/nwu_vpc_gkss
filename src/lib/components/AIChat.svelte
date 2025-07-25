@@ -300,7 +300,7 @@
 	<div
 		class=" fixed z-[100] mx-[4svw] flex shadow-lg lg:right-4 lg:m-0 {chat.state == 'open'
 			? 'bottom-1 h-[98svh]'
-			: 'bottom-16 lg:bottom-2'} w-[92svw] flex-col justify-between rounded-2xl border border-primary/50 bg-black p-2
+			: 'bottom-16 lg:bottom-2'} w-[92svw] flex-col justify-between rounded-2xl border border-white bg-base-200 p-2
         shadow-xl lg:w-2/6"
 		transition:slide
 	>
