@@ -15,13 +15,14 @@
 	import { fade, fly, slide } from 'svelte/transition';
 	import PwaInstallPrompt from '$lib/components/PWAInstallPrompt.svelte';
 	import { page } from '$app/stores';
+	import UsefulTools from '$lib/components/executive/UsefulTools.svelte';
 
 	let { children, data } = $props();
 	const currentUser = data.currentUser;
 </script>
 
 <title>Executive | NWU Vaal GKSS </title>
-
+<UsefulTools />
 <div
 	in:fly={{ x: 100, duration: 400 }}
 	out:fade={{ duration: 300 }}

@@ -58,6 +58,7 @@
 	});
 </script>
 
+<!--Notification system/ audio and display-->
 <audio bind:this={audioElement} class="hidden"></audio>
 {#each $notifications as notification, index}
 	<Notification
@@ -67,14 +68,15 @@
 		timeout={notification.timeout}
 	/>
 {/each}
-<AiChat />
+
+<!--The PWA installer prompt-->
 <PwaInstallPrompt />
+
+<!--The Header/Navbar-->
 <Header isLoggedIn={data.isLoggedIn} isExecutive={data.isExecutive} user={data.currentUser} />
-<div
-	class="mt-[65px] min-h-screen bg-gray-200"
-	in:fly={{ x: 100, duration: 400 }}
-	out:fade={{ duration: 300 }}
->
+<!--The main pages-->
+<div class="mt-[65px] min-h-screen bg-gray-200">
 	{@render children()}
 </div>
+<!--The footer-->
 <Footer />
