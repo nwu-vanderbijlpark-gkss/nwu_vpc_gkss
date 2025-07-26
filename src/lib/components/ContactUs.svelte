@@ -1,13 +1,13 @@
 <script>
-	let formState = {
+	let formState = $state({
 		name: '',
 		surname: '',
 		email: '',
 		message: ''
-	};
-	let isSubmitting = false;
-	let successMessage = '';
-	let errorMessage = '';
+	});
+	let isSubmitting = $state(false);
+	let successMessage = $state('');
+	let errorMessage = $state('');
 
 	async function handleSubmit(event) {
 		event.preventDefault(); // Prevent the default form submission behavior
@@ -53,7 +53,7 @@
 	class="flex flex-col items-center justify-center space-y-5 bg-[#0c0c0c] p-5 py-20"
 >
 	<h1 class="text-xl font-bold text-white">Contact Us</h1>
-	<form on:submit={handleSubmit} name="contact" class="flex w-full flex-col gap-5 lg:w-2/4">
+	<form onsubmit={handleSubmit} name="contact" class="flex w-full flex-col gap-5 lg:w-2/4">
 		<label class="form-control w-full">
 			<p>Name</p>
 			<input

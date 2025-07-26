@@ -173,7 +173,7 @@
 	</div>
 	<a href={`/community/topic/${topic.id}`}>
 		<h3 class="text-xl font-bold">{@html highlightText(topic.topic, text)}</h3>
-		<div class="content mt-2 text-sm text-gray-800">
+		<div class="content mt-2 whitespace-pre-wrap text-sm text-gray-800">
 			{@html highlightText(topic.content, text)}
 		</div>
 
