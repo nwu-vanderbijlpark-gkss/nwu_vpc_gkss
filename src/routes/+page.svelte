@@ -343,12 +343,9 @@
 </div>
 
 <!-- Events Section -->
-<div data-section="events">
-	{#if sectionsVisible.events}
-		<div in:fly={{ y: 50, duration: 800, easing: elasticOut }}>
-			<Events events={data.events} />
-		</div>
-	{/if}
+
+<div in:fly={{ y: 50, duration: 800, easing: elasticOut }}>
+	<Events events={data.events} />
 </div>
 
 <!-- Today's Birthdays Section -->
@@ -356,15 +353,6 @@
 	{#if sectionsVisible.birthdays}
 		<div in:fly={{ y: 40, duration: 600, easing: bounceOut }}>
 			<TodaysBirthdays {todaysBirthdays} />
-		</div>
-	{/if}
-</div>
-
-<!-- Contact Us Section -->
-<div data-section="contact" id="contact">
-	{#if sectionsVisible.contact}
-		<div in:fly={{ y: 50, duration: 800, easing: elasticOut }}>
-			<ContactUs />
 		</div>
 	{/if}
 </div>

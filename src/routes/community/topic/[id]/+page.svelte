@@ -136,7 +136,7 @@
 			</div>
 
 			<h1 class="mb-2 text-2xl font-bold">{topic.topic}</h1>
-			<div class="content text-gray-600">{@html topic.content}</div>
+			<div class="content whitespace-pre-wrap text-gray-600">{@html topic.content}</div>
 		</header>
 
 		<!-- Image Carousel -->
