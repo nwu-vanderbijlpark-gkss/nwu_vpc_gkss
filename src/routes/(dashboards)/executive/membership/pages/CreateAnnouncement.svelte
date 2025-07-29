@@ -5,6 +5,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import { notifications } from '$lib/stores';
 	import TrixEditor from '$lib/components/TrixEditor.svelte';
+	import { goto } from '$app/navigation';
 
 	let { members } = $props();
 	let message = $state({
@@ -55,6 +56,8 @@
 		if (isPosted && message.notifyViaEmail) {
 			await sendEmails();
 		}
+		//show success
+		goto('/executive/membership?p=manageAnnouncements');
 		isLoading = false;
 	};
 </script>

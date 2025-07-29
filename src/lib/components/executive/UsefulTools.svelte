@@ -20,16 +20,17 @@
 <!--This component will display as a button at first, when the button is clicked, the tools will be displayed-->
 
 {#if toolBtn.isVisible}
-	<button onclick={toolBtn.toggleVisibility} class="btn btn-secondary fixed bottom-10 right-5 z-50"
-		>Tools <LucideBoxes /></button
+	<button
+		onclick={toolBtn.toggleVisibility}
+		class="btn btn-primary fixed bottom-10 right-5 z-50 shadow-2xl">Tools <LucideBoxes /></button
 	>
 {:else}
 	<!--Display useful tools here-->
 	<div
 		id="usefulTools"
-		class="fixed bottom-10 right-5 z-50 rounded-xl bg-secondary p-2 text-black shadow-lg"
+		class="fixed bottom-10 right-5 z-50 rounded-xl border border-primary bg-secondary p-2 text-black shadow-2xl"
 	>
-		<section class="flex w-full items-center justify-between border-b">
+		<section class="flex w-full items-center justify-between">
 			<h2>Useful tools</h2>
 			<button onclick={toolBtn.toggleVisibility} class="btn btn-ghost text-red-500"><X /></button>
 		</section>
