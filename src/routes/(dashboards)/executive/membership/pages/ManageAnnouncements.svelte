@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Loading from '$lib/components/Loading.svelte';
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft, PlusCircle } from 'lucide-svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 
@@ -28,10 +28,18 @@
 	});
 </script>
 
-<div class="w-full space-y-4 p-5 text-black">
-	<div class="flex items-center gap-1">
-		<button onclick={() => history.back()} class="btn btn-ghost rounded-full"><ArrowLeft /></button>
-		<p class="text-lg font-bold">Manage Announcements</p>
+<div class="min-h-screen w-full space-y-4 p-5 text-black">
+	<div class="flex items-center justify-between gap-1">
+		<div class="flex items-center gap-1">
+			<button onclick={() => history.back()} class="btn btn-ghost rounded-full"
+				><ArrowLeft /></button
+			>
+			<p class="text-lg font-bold">Manage Announcements</p>
+		</div>
+
+		<a class="btn btn-primary flex flex-row" href="/executive/membership?p=createAnnouncement"
+			><PlusCircle />Create</a
+		>
 	</div>
 	{#if !announcements.length && !hasLoaded}
 		<Loading />

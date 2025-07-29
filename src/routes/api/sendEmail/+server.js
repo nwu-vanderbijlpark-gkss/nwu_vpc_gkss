@@ -52,7 +52,7 @@ const emailTemplate = (message, fullName) => `
   <body>
       <div class="container">
           <img src="${logo}" alt="GKSS-Logo" class="logo" />
-          <h2>Dear ${fullName},</h2>
+          <p>Dear ${fullName},</p>
           <p>${message}</p>
           <br/><br/>
           <p>If you need help or have a suggestion, let us know in the group chat</p>

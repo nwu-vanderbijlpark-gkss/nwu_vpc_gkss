@@ -59,6 +59,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>{currentAnnouncement ? currentAnnouncement.subject : 'Announcements'} | NWU GKSS</title>
+</svelte:head>
+
 <div
 	class="my-3 {$page.url.pathname.includes('/announcements') &&
 		'min-h-screen'} rounded-xl bg-white p-6 text-black shadow-md"
@@ -72,10 +76,10 @@
 			<button class="btn btn-ghost" onclick={() => history.back()}><ArrowLeft /></button
 			>{currentAnnouncement.subject}
 		</h3>
-		<div class="px-10">
-			<p class="text-lg font-bold">Posted by</p>
+		<div class="px-10 text-center text-sm">
+			<p class="font-bold">Posted by</p>
 			<p>{currentAnnouncement.Member.name} {currentAnnouncement.Member.surname}</p>
-			<p class="text-lg font-bold">Date</p>
+			<p class="font-bold">Date</p>
 			<p>{moment(currentAnnouncement.created_at).fromNow()}</p>
 		</div>
 
