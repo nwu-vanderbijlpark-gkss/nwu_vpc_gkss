@@ -18,18 +18,6 @@
 	let events = $state(data.events);
 	models.context = 'Events' + JSON.stringify(events);
 
-	let editData = $state({
-		topic: '',
-		description: '',
-		venue: '',
-		date: '',
-		public: true,
-		needs_groups: false,
-		is_external: false,
-		external_link: ''
-	});
-	let isEditing = $state(false);
-
 	const handleDelete = (id) => {
 		if (
 			confirm(
@@ -46,32 +34,6 @@
 			events = events.filter((event) => event.id !== id);
 		}
 	};
-	const showEdit = (id) => {
-		isEditing = true;
-		editData = events.filter((event) => event.id == id)[0];
-		my_modal_1.showModal();
-	};
-	const handleEdit = async () => {
-		const res = await fetch('/api/event/editEvent', {
-			method: 'POST',
-			body: JSON.stringify({ editData }),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		const response = await res.json();
-		if (response.success) {
-			my_modal_1.close();
-			editData = { topic: '', description: '', venue: '', date: '', public: '' };
-			isEditing = false;
-		} else {
-			if (navigator.vibrate) {
-				navigator.vibrate(200);
-			}
-			alert('Unexpected error');
-			isEditing = false;
-		}
-	};
 </script>
 
 <div
@@ -81,12 +43,9 @@
 >
 	<div class="mb-8 flex items-center justify-between p-6">
 		<h2 class="text-3xl font-semibold text-gray-800">Event Management</h2>
-		<button
-			class="btn btn-primary flex items-center space-x-2"
-			onclick={() => my_modal_1.showModal()}
-		>
-			<PlusCircle class="mr-2" /> <span>Create Event</span>
-		</button>
+		<a href="/executive/events/create" class="btn btn-primary flex items-center space-x-2">
+			<PlusCircle class="mr-2" /> <span>Create</span>
+		</a>
 	</div>
 
 	<div class="overflow-x-auto px-6 pb-6">
@@ -179,121 +138,6 @@
 		</table>
 	</div>
 </div>
-<!--CREATE/EDIT EVENT MODAL-->
-<dialog id="my_modal_1" class="modal modal-bottom z-50 sm:modal-middle">
-	<div class="modal-box text-white">
-		<div class="flex items-center justify-between">
-			<p class="text-lg font-bold">Create an Event</p>
-			<div class="modal-action">
-				<form method="dialog">
-					<button class="btn text-white"><X /> Close</button>
-				</form>
-			</div>
-		</div>
-
-		<p class="py-4 text-sm">Enter the required details to create an event</p>
-		<form method="post" action="?/addEvent" class="flex w-full flex-col gap-5">
-			<label class="form-control w-full">
-				<p>Topic</p>
-				<input
-					type="text"
-					name="topic"
-					class="input input-bordered"
-					id="topic"
-					placeholder="The name of the event"
-					bind:value={editData.topic}
-				/>
-			</label>
-			<label class="form-control w-full">
-				<p>Venue</p>
-				<input
-					type="text"
-					name="venue"
-					class="input input-bordered"
-					id="venu"
-					placeholder="The name of the venue."
-					bind:value={editData.venue}
-				/>
-			</label>
-			<label class="label cursor-pointer">
-				<span class="form-control">Make event public</span>
-				<input
-					bind:checked={editData.public}
-					type="checkbox"
-					name="public"
-					class="toggle toggle-primary"
-				/>
-			</label>
-			<label class="label cursor-pointer">
-				<span class="form-control">Requires groups?</span>
-				<input
-					bind:checked={editData.needs_groups}
-					type="checkbox"
-					name="needs_groups"
-					class="toggle toggle-primary"
-				/>
-			</label>
-			<label class="label cursor-pointer">
-				<span class="form-control">External Event?</span>
-				<input
-					bind:checked={editData.is_external}
-					type="checkbox"
-					name="is_external"
-					class="toggle toggle-primary"
-				/>
-			</label>
-			{#if editData.is_external}
-				<label class="form-control w-full">
-					<p>External link</p>
-					<input
-						type="url"
-						name="external_link"
-						class="input input-bordered"
-						id="external_link"
-						placeholder="Provide the link for registration"
-						bind:value={editData.external_link}
-						required
-					/>
-				</label>
-			{/if}
-			<label class="form-control w-full">
-				<p>Date and Time</p>
-				<input
-					bind:value={editData.date}
-					type="datetime-local"
-					name="date"
-					class="input input-bordered"
-					id="date"
-				/>
-			</label>
-			<label class="form-control hidden w-full">
-				<p>Poster</p>
-				<input
-					type="file"
-					name="image"
-					class="file-input file-input-bordered w-full"
-					accept="image/*"
-					id="image"
-				/>
-			</label>
-			<label class="form-control w-full">
-				<p>Description</p>
-				<textarea
-					bind:value={editData.description}
-					name="description"
-					class="textarea textarea-bordered"
-					id="description"
-					placeholder="What is the event about?"
-				></textarea>
-			</label>
-			{#if isEditing}
-				<button type="button" onclick={handleEdit} class="btn btn-primary text-white">Edit</button>
-			{:else}
-				<button type="submit" class="btn btn-primary text-white">Create</button>
-			{/if}
-		</form>
-	</div>
-</dialog>
 
 <style>
 	table,

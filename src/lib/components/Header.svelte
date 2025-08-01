@@ -221,13 +221,13 @@
 						href="/executive/events"
 					>
 						<ChartNoAxesColumn />
-						Event Management
+						Events
 					</a>
 				</li>
 				<li>
 					<a class:selected={$page.url.pathname === '/executive/team'} href="/executive/team">
 						<UserCog />
-						Executive Team
+						Team
 					</a>
 				</li>
 				<li>
