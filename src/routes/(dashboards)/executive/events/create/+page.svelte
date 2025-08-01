@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import TrixEditor from '$lib/components/TrixEditor.svelte';
 	import { models } from '$lib/state.svelte.js';
 	import {
 		ArrowUpRightFromSquareIcon,
@@ -98,16 +99,8 @@
 						id="image"
 					/>
 				</label>
-				<label class="form-control w-full">
-					<p>Description</p>
-					<textarea
-						bind:value={form.description}
-						name="description"
-						class="textarea textarea-bordered border-2 bg-gray-200"
-						id="description"
-						placeholder="What is the event about?"
-					></textarea>
-				</label>
+				<p>Description</p>
+				<TrixEditor bind:value={form.description} id="event_description" />
 				<div class="my-4">
 					<button type="submit" class="btn btn-primary w-full text-white">Proceed</button>
 				</div>

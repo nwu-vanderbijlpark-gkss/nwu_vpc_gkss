@@ -1,18 +1,16 @@
 <script>
-	let { content } = $props();
+	import sanitizeHtml from 'sanitize-html'; // Hypothetical import for sanitization
+
+	let { content = $bindable() } = $props();
+
+	// Sanitize content and children if provided
 </script>
 
-<article class=" w-full rounded-lg text-black">
-	{@html content}
+<article class="w-full rounded-lg text-black" role="article">
+	{@html sanitizeHtml(content)}
 </article>
 
 <style>
-	article {
-		min-height: 200px;
-		border-radius: 0.5rem;
-		padding: 1rem;
-	}
-
 	article :global(h1) {
 		@apply mb-2 text-2xl font-bold text-black;
 	}

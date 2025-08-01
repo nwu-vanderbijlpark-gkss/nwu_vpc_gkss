@@ -1,4 +1,5 @@
 <script>
+	import TrixDisplay from '$lib/components/TrixDisplay.svelte';
 	import TrixEditor from '$lib/components/TrixEditor.svelte';
 	import { Brain } from 'lucide-svelte';
 	import moment from 'moment';
@@ -11,8 +12,7 @@
 
 <section class="flex flex-col items-start gap-2 lg:grid lg:grid-cols-2 lg:divide-x">
 	<div class="flex w-full flex-col justify-center space-y-2 px-4">
-		<span class="font-semibold">Description: </span>
-		<p class="mb-4 whitespace-pre-wrap text-gray-600">{event.description}</p>
+		<TrixDisplay content={event.description} />
 	</div>
 	<div class="px-4">
 		<div class="mb-2 flex justify-between">

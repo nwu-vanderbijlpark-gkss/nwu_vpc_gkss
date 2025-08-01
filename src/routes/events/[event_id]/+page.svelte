@@ -5,17 +5,21 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { models } from '$lib/state.svelte.js';
+	import TrixDisplay from '$lib/components/TrixDisplay.svelte';
 
 	let { data } = $props();
-	let event = $state(data.event);
+	//let event = $state(data.event);
+	let event = $state({});
+	onMount(() => {
+		event = JSON.parse(localStorage.getItem('ev'));
+	});
 
-	models.context = 'Event: ' + JSON.stringify(event);
+	//models.context = 'Event: ' + JSON.stringify(event);
 
-	let registrationCount = $state(event.event_attendee.length);
+	let registrationCount = $state(0);
 	let formData = $state({
 		name: data.isLoggedIn ? data.currentUser.name + ' ' + data.currentUser.surname : '',
-		email: data.isLoggedIn ? data.email : '',
-		tickets: 1
+		email: data.isLoggedIn ? data.email : ''
 	});
 
 	let registrationSuccess = $state(false);
@@ -89,7 +93,7 @@
 		<!-- Event Details -->
 		<div>
 			<h1 class="mb-4 text-4xl font-bold">{event.topic}</h1>
-			<p class="mb-4 text-gray-600">{event.description}</p>
+			<TrixDisplay content={event.description} />
 
 			<div class="mb-4 rounded-lg bg-gray-100 p-4">
 				<div class="mb-2 flex justify-between">
@@ -135,28 +139,6 @@
 						<Loading />
 					{:else}
 						<form onsubmit={submitRegistration}>
-							<div class="mb-4">
-								<label for="name" class="mb-2 block">Full Name</label>
-								<input
-									type="text"
-									placeholder="Enter your"
-									id="name"
-									bind:value={formData.name}
-									required
-									class="w-full rounded-lg border px-3 py-2"
-								/>
-							</div>
-
-							<div class="mb-4">
-								<label for="email" class="mb-2 block">Email</label>
-								<input
-									type="email"
-									id="email"
-									bind:value={formData.email}
-									required
-									class="w-full rounded-lg border px-3 py-2"
-								/>
-							</div>
 							<button type="submit" class="btn btn-primary w-full text-white">
 								Register Now
 							</button>
