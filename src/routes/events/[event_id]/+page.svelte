@@ -31,7 +31,7 @@
 		e.preventDefault();
 		try {
 			let event_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-			const response = await fetch('/api/event/event-registration', {
+			const response = await fetch('/api/event/registration', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -72,7 +72,6 @@
 
 				const res = await fetch('/api/sendEmail', {
 					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ data })
 				});
 			}
@@ -92,9 +91,17 @@
 	<div class="grid gap-8 text-black md:grid-cols-2">
 		<!-- Event Details -->
 		<div>
-			<h1 class="mb-4 text-4xl font-bold">{event.topic}</h1>
-			<TrixDisplay content={event.description} />
+			<div class="divider divider-start">
+				<h1 class="mb-4 text-4xl font-bold">{event.topic}</h1>
+			</div>
+			<div class="rounded-xl bg-white p-4">
+				<TrixDisplay content={event.description} />
+			</div>
+		</div>
 
+		<!-- Registration Form -->
+		<div id="register" class="rounded-lg bg-white p-6 shadow-md">
+			<h2 class="mb-4 text-2xl font-semibold">Register for Event</h2>
 			<div class="mb-4 rounded-lg bg-gray-100 p-4">
 				<div class="mb-2 flex justify-between">
 					<span class="font-semibold">Date:</span>
@@ -109,11 +116,6 @@
 					<span>{registrationCount}</span>
 				</div>
 			</div>
-		</div>
-
-		<!-- Registration Form -->
-		<div id="register" class="rounded-lg bg-white p-6 shadow-md">
-			<h2 class="mb-4 text-2xl font-semibold">Register for Event</h2>
 			{#if data.isLoggedIn}
 				{#if data.alreadyRegistered}
 					<p>You have already registered for this event</p>
