@@ -5,17 +5,21 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { models } from '$lib/state.svelte.js';
+	import TrixDisplay from '$lib/components/TrixDisplay.svelte';
 
 	let { data } = $props();
-	let event = $state(data.event);
+	//let event = $state(data.event);
+	let event = $state({});
+	onMount(() => {
+		event = JSON.parse(localStorage.getItem('ev'));
+	});
 
-	models.context = 'Event: ' + JSON.stringify(event);
+	//models.context = 'Event: ' + JSON.stringify(event);
 
-	let registrationCount = $state(event.event_attendee.length);
+	let registrationCount = $state(0);
 	let formData = $state({
 		name: data.isLoggedIn ? data.currentUser.name + ' ' + data.currentUser.surname : '',
-		email: data.isLoggedIn ? data.email : '',
-		tickets: 1
+		email: data.isLoggedIn ? data.email : ''
 	});
 
 	let registrationSuccess = $state(false);
@@ -27,7 +31,7 @@
 		e.preventDefault();
 		try {
 			let event_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-			const response = await fetch('/api/event/event-registration', {
+			const response = await fetch('/api/event/registration', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -68,7 +72,6 @@
 
 				const res = await fetch('/api/sendEmail', {
 					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ data })
 				});
 			}
@@ -88,9 +91,17 @@
 	<div class="grid gap-8 text-black md:grid-cols-2">
 		<!-- Event Details -->
 		<div>
-			<h1 class="mb-4 text-4xl font-bold">{event.topic}</h1>
-			<p class="mb-4 text-gray-600">{event.description}</p>
+			<div class="divider divider-start">
+				<h1 class="mb-4 text-4xl font-bold">{event.topic}</h1>
+			</div>
+			<div class="rounded-xl bg-white p-4">
+				<TrixDisplay content={event.description} />
+			</div>
+		</div>
 
+		<!-- Registration Form -->
+		<div id="register" class="rounded-lg bg-white p-6 shadow-md">
+			<h2 class="mb-4 text-2xl font-semibold">Register for Event</h2>
 			<div class="mb-4 rounded-lg bg-gray-100 p-4">
 				<div class="mb-2 flex justify-between">
 					<span class="font-semibold">Date:</span>
@@ -105,11 +116,6 @@
 					<span>{registrationCount}</span>
 				</div>
 			</div>
-		</div>
-
-		<!-- Registration Form -->
-		<div id="register" class="rounded-lg bg-white p-6 shadow-md">
-			<h2 class="mb-4 text-2xl font-semibold">Register for Event</h2>
 			{#if data.isLoggedIn}
 				{#if data.alreadyRegistered}
 					<p>You have already registered for this event</p>
@@ -135,28 +141,6 @@
 						<Loading />
 					{:else}
 						<form onsubmit={submitRegistration}>
-							<div class="mb-4">
-								<label for="name" class="mb-2 block">Full Name</label>
-								<input
-									type="text"
-									placeholder="Enter your"
-									id="name"
-									bind:value={formData.name}
-									required
-									class="w-full rounded-lg border px-3 py-2"
-								/>
-							</div>
-
-							<div class="mb-4">
-								<label for="email" class="mb-2 block">Email</label>
-								<input
-									type="email"
-									id="email"
-									bind:value={formData.email}
-									required
-									class="w-full rounded-lg border px-3 py-2"
-								/>
-							</div>
 							<button type="submit" class="btn btn-primary w-full text-white">
 								Register Now
 							</button>

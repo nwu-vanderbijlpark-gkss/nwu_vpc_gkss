@@ -68,7 +68,7 @@
 				class:selected={$page.url.pathname === '/executive/membership'}
 			>
 				<Users />
-				Members
+				Our Members
 			</a>
 		</li>
 		<li>
@@ -77,13 +77,13 @@
 				class:selected={$page.url.pathname.includes('/executive/quizzes')}
 			>
 				<FileEdit />
-				Quizzes
+				Quiz Management
 			</a>
 		</li>
 		<li>
 			<a href="/executive/logs" class:selected={$page.url.pathname.includes('/executive/logs')}>
 				<Logs />
-				Logs
+				Usage Logs
 			</a>
 		</li>
 		<li></li>
