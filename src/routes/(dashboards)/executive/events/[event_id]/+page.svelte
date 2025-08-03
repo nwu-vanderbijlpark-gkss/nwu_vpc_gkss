@@ -12,19 +12,10 @@
 
 	let { data } = $props();
 	let members = data.members;
-	let event = $state({
-		topic: '',
-		description: '',
-		venue: '',
-		date: '',
-		event_attendee: []
-	});
+	let event = $state(data.event);
 	//let event = $state(data.event);
 	//models.context = 'This event on this page' + JSON.stringify(contextMember);
-	onMount(() => {
-		event = JSON.parse(localStorage.getItem('ev'));
-		event = { ...event, event_attendee: [] };
-	});
+
 	let registrationCount = 0;
 
 	let tabs = $state([
@@ -83,7 +74,6 @@
 						<ArrowLeft class="h-6 w-6" />
 					</button>{event.topic}
 				</h1>
-				<button class="btn btn-primary fixed bottom-10 right-5 z-[300]">Publish <Upload /> </button>
 			</div>
 			<div class="divider"></div>
 			<div class="flex flex-wrap gap-2">
@@ -103,9 +93,9 @@
 				{#if activeTab == 'details'}
 					<Details bind:event />
 				{:else if activeTab == 'judging'}
-					<Judging />
+					<Judging {event} />
 				{:else if activeTab == 'participants'}
-					<Participants />
+					<Participants participants={data.participants} groups={data.groups} />
 				{/if}
 			</div>
 		</div>

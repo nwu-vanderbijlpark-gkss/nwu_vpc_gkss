@@ -1,21 +1,43 @@
 <script>
+	import { page } from '$app/stores';
 	import TrixDisplay from '$lib/components/TrixDisplay.svelte';
 	import { ArrowLeft, ArrowLeftCircle } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
-	const group = {
-		name: 'HiInnovators',
-		members: ['Lethabo Maepa', 'John Who', 'Ben Yet', 'Crazy Ben'],
-		details: '<h1>These are our details and files</h1>'
-	};
+	let { group = $bindable(), info = $bindable(), judgingCriteria, judge } = $props();
 
-	let judgingCriteria = $state();
-	onMount(() => {
-		judgingCriteria = JSON.parse(localStorage.getItem('criteria'));
-	});
+	const results = $state(
+		judgingCriteria.map((criteria) => {
+			return {
+				criteria_id: criteria.id || '',
+				points: '',
+				event_id: criteria.event_id || '',
+				group_id: group.id || '',
+				judge_id: judge.id
+			};
+		})
+	);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
+		info.show();
 		e.preventDefault();
+		const req = await fetch('/api/event/group/result', {
+			method: 'POST',
+			body: JSON.stringify({ data: results })
+		});
+		const res = await req.json();
+
+		info.hide();
+		if (res.success) {
+			info.show(
+				'Results submitted successfully',
+				'Please wait while we take you to choose another group...'
+			);
+
+			window.location.href = $page.url.pathname; //go to the root without searchParams
+		} else {
+			info.show('Failed to submit results', 'Please try again later');
+		}
 	};
 </script>
 
@@ -26,16 +48,16 @@
 	</div>
 	<div>
 		<div class="divider">Details & files</div>
-		<TrixDisplay content={group.details} />
+		<TrixDisplay content={group.submission} />
 	</div>
 
 	<div class="divider">Judging criteria</div>
 	<form onsubmit={handleSubmit} class="flex w-full flex-col items-start gap-2">
-		{#each judgingCriteria as criteria}
+		{#each judgingCriteria as criteria, i}
 			<div class="grid w-full grid-cols-3 items-center rounded-xl border-2 bg-gray-100 p-2">
 				<div class=" col-span-2">
 					<h3>{criteria.title}</h3>
-					<p class="text-sm">
+					<p class="overflow-clip whitespace-pre-wrap text-sm">
 						{criteria.description}
 					</p>
 				</div>
@@ -43,12 +65,13 @@
 					<input
 						type="number"
 						min="0"
-						max={Number(criteria.maxPoints)}
+						max={Number(criteria.max_points)}
 						name="points"
 						placeholder="Points obtained"
 						class="input bg-white"
+						bind:value={results[i].points}
 					/>
-					<p class="text-lg font-bold">/{criteria.maxPoints}</p>
+					<p class="text-lg font-bold">/{criteria.max_points}</p>
 				</div>
 			</div>
 		{/each}

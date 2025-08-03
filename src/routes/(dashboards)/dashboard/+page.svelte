@@ -325,6 +325,30 @@
 					{/if}
 				{/each}
 			{/if}
+			<Announcements />
+			<div class="rounded-xl bg-white p-6 shadow-md">
+				<h3 class="mb-4 text-xl font-semibold">Upcoming Events and sessions</h3>
+				<div class="space-y-4">
+					{#each data.events
+						.sort((a, b) => moment(b.date).valueOf() - moment(a.date).valueOf())
+						.slice(0, 5) as event}
+						<a
+							href="/events/{event.id}"
+							class="flex items-start rounded-xl border bg-gray-100 p-2 hover:bg-gray-200"
+						>
+							<div class="ml-4">
+								<p class="font-bold">{event.topic}</p>
+								<p class="text-sm font-medium">
+									Venue: <span class="font-bold">{event.venue}</span>
+								</p>
+								<p class="text-sm text-gray-600">
+									{moment(event.date).format('LLL')}
+								</p>
+							</div>
+						</a>
+					{/each}
+				</div>
+			</div>
 			<div class="my-4 space-y-2 rounded-xl bg-white p-6 shadow-md">
 				<div class="flex items-center justify-between">
 					<h2 class="flex items-center gap-2 text-lg font-bold">Your links <Link /></h2>
@@ -471,7 +495,6 @@
 					</div>
 				</div>
 			{/if}
-			<Announcements />
 
 			<!-- Interests and Activity -->
 			<div class="space-y-6">
@@ -489,26 +512,6 @@
 				<div class="space-y-6">
 					<div class="rounded-xl bg-white p-6 shadow-md">
 						<CalendarView events={data.events} />
-					</div>
-				</div>
-
-				<div class="rounded-xl bg-white p-6 shadow-md">
-					<h3 class="mb-4 text-xl font-semibold">Upcoming Events and sessions</h3>
-					<div class="space-y-4">
-						{#each data.events
-							.sort((a, b) => moment(b.date).valueOf() - moment(a.date).valueOf())
-							.slice(0, 5) as event}
-							<div class="flex items-start">
-								<div class="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-primary"></div>
-								<div class="ml-4">
-									<p class="font-medium">{event.topic}</p>
-									<p class="font-medium">Venue: <span class="font-bold">{event.venue}</span></p>
-									<p class="text-sm text-gray-600">
-										{moment(event.date).format('LLL')}
-									</p>
-								</div>
-							</div>
-						{/each}
 					</div>
 				</div>
 			</div>
