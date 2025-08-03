@@ -121,7 +121,7 @@
 							>
 						</p>
 						<p class="text-sm text-gray-600">
-							{moment(announcement.created_at).format('LLL')}
+							{moment(announcement.created_at).fromNow()}
 						</p>
 					</div>
 				</a>

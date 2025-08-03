@@ -2,6 +2,7 @@
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
+	import TrixDisplay from './TrixDisplay.svelte';
 
 	let { events } = $props();
 	let modalEvent = $state(null);
@@ -72,20 +73,18 @@
 						</div>
 						<h3 class="mb-4 text-2xl font-semibold text-gray-800">{event.topic}</h3>
 
-						<div class="h-[100px] overflow-hidden text-ellipsis">
+						<div class="h-[100px] overflow-hidden text-ellipsis rounded-xl bg-gray-200 p-4">
 							{#if event.description.length > 100}
-								<p class="truncate text-base text-gray-600">
-									{event.description.substring(0, 300)}...
-								</p>
+								<TrixDisplay content={event.description.substring(0, 300)} />
 								<button class="mt-2 block text-sm text-indigo-500" onclick={() => openModal(event)}>
 									Find out more
 								</button>
 							{:else}
-								<p class="text-base text-gray-600">{event.description}</p>
+								<TrixDisplay content={event.description} />
 							{/if}
 
 							{#if event.showFullDescription}
-								<p class="text-base text-gray-600">{event.description.substring(100)}</p>
+								<TrixDisplay content={event.description} />
 							{/if}
 						</div>
 

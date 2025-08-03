@@ -1,58 +1,74 @@
 <script>
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { Check } from 'lucide-svelte';
 	import JudgeAuth from './components/JudgeAuth.svelte';
 	import JudgeGroupView from './components/JudgeGroupView.svelte';
+	import Loading from '$lib/components/Loading.svelte';
 
-	let showAuth = $state(true);
+	let { data } = $props();
 
-	let group = $state({ id: null });
+	let showAuth = $state(data.judge ? false : true);
 
-	afterNavigate(({ from, to }) => {
-		if (to.url.searchParams.get('x')) {
-			showAuth = false;
+	let group = $state(null);
+
+	let groups = $state(data.groups);
+	let searchValue = $state('');
+	let derivedGroups = $state(groups);
+
+	let info = $state({
+		isLoading: false,
+		title: '',
+		description: '',
+		show: (title = '', description = '') => {
+			infoModal.showModal();
+			if (!title.length && !description.length) {
+				info.isLoading = true;
+				return;
+			}
+			info.title = title;
+			info.description = description;
+		},
+		hide: () => {
+			info.isLoading = false;
+			info.title = '';
+			info.description = '';
+			infoModal.close();
+		}
+	});
+
+	afterNavigate(async ({ from, to }) => {
+		info.hide();
+		if (to.url.searchParams.get('code') && !data.judge) {
+			info.show();
+			const code = to.url.searchParams.get('code');
+			const req = await fetch('/api/event/judge?code=' + code);
+			const res = await req.json();
+			if (!res.success) {
+				info.hide();
+				info.show(
+					'Error Processing your request',
+					'It seems like you might have an incorrect link, please check your emails'
+				);
+				return;
+			}
+
+			window.location.href = $page.url.pathname; //makes use of cookies now
+		} else if (data.judge) {
 			const groupId = to.url.searchParams.get('group') || null;
 
 			if (groupId != null) {
-				group.id = groupId;
+				//get the group from the array of groups
+				group = derivedGroups.find((grp) => grp.id == groupId);
 			} else {
-				group.id = null;
+				group = null;
 			}
 		} else {
 			showAuth = true;
 			group.id = null;
 		}
 	});
-	const groups = [
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'MostMake', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'Jonn', id: 'kjsdnkxz' },
-		{ name: 'Bsgsg', id: '12344' },
-		{ name: 'MostMake', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'msk', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'MostMake', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'Ekasi', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'MostMake', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'Mostt', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'MostMake', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'MostMake', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'MostMake', id: 'kjsdnkxz' },
-		{ name: 'Xmarkers', id: '12344' },
-		{ name: 'MostMake', id: 'kjsdnkxz' }
-	];
 
-	let searchValue = $state('');
-	let derivedGroups = $state(groups);
 	const handleSearch = () => {
 		//search for the group name
 		derivedGroups = groups.filter((grp) =>
@@ -62,14 +78,22 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Judge Portal | NWU Vaal GKSS</title>
+</svelte:head>
 <main class="flex min-h-screen w-full justify-center text-black">
 	<div class="flex w-full flex-col bg-white p-4 shadow-xl lg:w-2/3">
 		{#if showAuth}
 			<!--The judge must be authenticated-->
 			<JudgeAuth />
-		{:else if group.id}
+		{:else if group != null}
 			<!--The judge is authenticated and is viewing a group-->
-			<JudgeGroupView />
+			<JudgeGroupView
+				bind:group
+				bind:info
+				judgingCriteria={data.event.event_criteria}
+				judge={data.judge[0]}
+			/>
 		{:else}
 			<!--The judge is authenticated and is on the homepage-->
 			<div class="flex w-full flex-col">
@@ -83,16 +107,16 @@
 					placeholder="Search for group"
 				/>
 				<div class="my-5 flex max-h-[500px] flex-col gap-2 overflow-auto">
-					{#if !derivedGroups.length}
+					{#if !derivedGroups?.length}
 						<p>No groups</p>
 					{/if}
 					{#each derivedGroups as grp}
 						<a
 							class="flex items-center justify-between rounded-lg bg-gray-200 p-5 hover:bg-gray-400"
-							href="{$page.url.pathname}?x=id&group={grp.id}"
+							href="{$page.url.pathname}?group={grp.id}"
 						>
 							{grp.name}
-							<p class="text-green-500"><Check /></p>
+							<p class="hidden text-green-500"><Check /></p>
 						</a>
 					{/each}
 				</div>
@@ -100,3 +124,20 @@
 		{/if}
 	</div>
 </main>
+<!--Info Modal-->
+<dialog id="infoModal" class="modal">
+	<div class="modal-box bg-white text-black">
+		<h3 class="text-lg font-bold">{info.title}</h3>
+		{#if info.isLoading}
+			<Loading text="Loading..." />
+		{:else}
+			<p class="py-4">{info.description}</p>
+			<div class="modal-action grid w-full">
+				<form method="dialog" class="w-full">
+					<!-- it will close the modal -->
+					<button class="btn w-full">Close</button>
+				</form>
+			</div>
+		{/if}
+	</div>
+</dialog>

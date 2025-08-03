@@ -6,21 +6,15 @@
 	import { fade, fly } from 'svelte/transition';
 	import { models } from '$lib/state.svelte.js';
 	import TrixDisplay from '$lib/components/TrixDisplay.svelte';
+	import { page } from '$app/stores';
 
 	let { data } = $props();
 	//let event = $state(data.event);
-	let event = $state({});
-	onMount(() => {
-		event = JSON.parse(localStorage.getItem('ev'));
-	});
+	let event = $state(data.event);
 
 	//models.context = 'Event: ' + JSON.stringify(event);
 
 	let registrationCount = $state(0);
-	let formData = $state({
-		name: data.isLoggedIn ? data.currentUser.name + ' ' + data.currentUser.surname : '',
-		email: data.isLoggedIn ? data.email : ''
-	});
 
 	let registrationSuccess = $state(false);
 	let registrationError = $state(false);
@@ -31,12 +25,11 @@
 		e.preventDefault();
 		try {
 			let event_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-			const response = await fetch('/api/event/registration', {
+			const response = await fetch('/api/event/participant?event=' + event_id, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ event_id })
+				}
 			});
 
 			const res = await response.json();
@@ -44,7 +37,7 @@
 				registrationCount++;
 				registrationSuccess = true;
 				let data = {
-					subject: 'Event Registration',
+					subject: 'Registration Confirmation | ' + event.topic,
 					message: `
         <p>You have registered for the following event: <b>${event.topic}</b></p>
         <div style="font-family: Arial, sans-serif; max-width: 600px; background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
@@ -59,15 +52,8 @@
                     <span style="font-weight: bold;">Venue:</span>
                     <span>${event.venue}</span>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="font-weight: bold;">Registered Attendees:</span>
-                    <span>${registrationCount}</span>
-                </div>
             </div>
-        </div>
-        <p style="margin-top: 16px;">This is an automatic message sent by our website. Visit: 
-        <a href="https://nwu-vaal-gkss.netlify.app" style="color: #007bff; text-decoration: none;">https://nwu-vaal-gkss.netlify.app</a></p>
-    `
+        </div>`
 				};
 
 				const res = await fetch('/api/sendEmail', {
@@ -119,6 +105,9 @@
 			{#if data.isLoggedIn}
 				{#if data.alreadyRegistered}
 					<p>You have already registered for this event</p>
+					<a class="link link-primary" href="{$page.url.pathname}/workspace"
+						>Click here to view event workspace if necessary</a
+					>
 				{:else}
 					{#if registrationError}
 						<div class="alert alert-error mb-4">Registration failed. Please try again.</div>
@@ -129,12 +118,9 @@
 							points<Medal />
 							<br />
 						</div>
-						{#if event.external && event.needs_groups}
-							You are required to join a group <a
-								class="link link-primary"
-								href={`/community/event-groups/${event.id}`}>Click here to join or create a group</a
-							>
-						{/if}
+						<a class="link link-primary" href="{$page.url.pathname}/workspace"
+							>Click here to view event workspace if necessary</a
+						>
 					{:else if moment(event.date).isBefore(moment())}
 						<div class="alert alert-error mb-4">Registrations have been closed.</div>
 					{:else if isLoading}

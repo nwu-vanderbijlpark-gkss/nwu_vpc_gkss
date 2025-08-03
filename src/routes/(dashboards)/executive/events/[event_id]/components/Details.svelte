@@ -25,7 +25,7 @@
 		</div>
 		<div class="flex justify-between">
 			<span class="font-semibold">Registered: </span>
-			<span>{event.event_attendee.length}</span>
+			<span>0</span>
 		</div>
 		<div class="divider">Tips <Brain size={30} /></div>
 		<p>*Go to Judging to manage judges and judging criteria</p>

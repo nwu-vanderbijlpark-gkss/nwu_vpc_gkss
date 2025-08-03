@@ -28,7 +28,7 @@
 		date: ''
 	});
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		//input validations
 		if (!form.topic.length || !form.description.length || !form.venue.length || !form.date.length) {
@@ -36,9 +36,16 @@
 			return;
 		}
 		//send to db
-		localStorage.setItem('ev', JSON.stringify(form));
-		const id = 'random-id';
-		goto('/executive/events/' + id + '?tab=details');
+		const req = await fetch('/api/event', {
+			method: 'POST',
+			body: JSON.stringify({ data: form })
+		});
+		const res = await req.json();
+		if (res.success) {
+			goto('/executive/events/' + res.data[0].id + '?tab=details');
+		} else {
+			alert('Failed to create event\n' + res.data);
+		}
 	};
 </script>
 
