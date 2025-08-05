@@ -155,7 +155,7 @@
 					✕
 				</button>
 				<h3 class="mb-4 text-2xl font-semibold text-gray-800">{modalEvent.topic}</h3>
-				<TrixDisplay content={event.description} />
+				<TrixDisplay content={modalEvent.description} />
 				<div class="flex items-center justify-between">
 					<p class="text-sm text-gray-500">{moment(modalEvent.date).format('LL')}</p>
 					<a href={`/events/${modalEvent.id}#register`} class="btn btn-primary"> Register Now </a>
