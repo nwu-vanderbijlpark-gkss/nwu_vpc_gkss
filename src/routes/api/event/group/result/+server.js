@@ -1,6 +1,6 @@
 import { returnData, table } from '$lib/server/core.js';
 import { json } from '@sveltejs/kit';
-import { decrypt, encrypt } from "$lib"
+import { decrypt, encrypt } from "$lib/server/core.js"
 
 
 const tableName = "event_results";

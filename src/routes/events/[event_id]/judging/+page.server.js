@@ -1,4 +1,4 @@
-import { decrypt } from '$lib';
+import { decrypt, encrypt } from "$lib/server/core.js"
 
 export const load = async ({cookies, fetch, params}) => {
     const event_id = params.event_id;
