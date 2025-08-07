@@ -1,6 +1,6 @@
 import { returnData } from '$lib/server/core.js';
 import { json } from '@sveltejs/kit';
-import { decrypt, encrypt } from "$lib"
+import { decrypt, encrypt } from "$lib/server/core.js"
 
 export const POST = async({locals:{supabase}, request, url, fetch}) => {
     //create a judge, then send email to the judge.
