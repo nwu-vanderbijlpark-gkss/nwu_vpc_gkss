@@ -5,10 +5,16 @@
 	year = year.getFullYear();
 
 	import { onMount } from 'svelte';
-	const hiddenFooterPaths = ['/dashboard', '/code-playground'];
+	const hiddenFooterPaths = [
+		'/dashboard',
+		'/code-playground',
+		'/events',
+		'/community',
+		'/exective'
+	];
 </script>
 
-{#if (!hiddenFooterPaths.includes($page.url.pathname) && !$page.url.pathname.includes('/community') && !$page.url.pathname.includes('/executive')) || $page.url.pathname.includes('/dashboard') || $page.url.pathname.includes('/code-playground')}
+{#if !hiddenFooterPaths.map((path) => $page.url.pathname.startsWith(path)).includes(true)}
 	<footer
 		class="mt-1 flex w-full flex-col items-center justify-center space-y-5 bg-base-200 p-5 text-center"
 	>

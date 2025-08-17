@@ -1,7 +1,7 @@
 <script>
 	import { afterNavigate, goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Check } from 'lucide-svelte';
+	import { Check, Users } from 'lucide-svelte';
 	import JudgeAuth from './components/JudgeAuth.svelte';
 	import JudgeGroupView from './components/JudgeGroupView.svelte';
 	import Loading from '$lib/components/Loading.svelte';
@@ -96,7 +96,7 @@
 			/>
 		{:else}
 			<!--The judge is authenticated and is on the homepage-->
-			<div class="flex w-full flex-col">
+			<div class="flex w-full flex-col space-y-3">
 				<h2 class="text-lg font-bold">Groups</h2>
 				<p class="text-sm">Select the presenting team</p>
 				<input
@@ -104,19 +104,19 @@
 					class="input input-bordered bg-gray-100"
 					onchange={handleSearch}
 					bind:value={searchValue}
-					placeholder="Search for group"
+					placeholder="Search for group by name"
 				/>
 				<div class="my-5 flex max-h-[500px] flex-col gap-2 overflow-auto">
 					{#if !derivedGroups?.length}
-						<p>No groups</p>
+						<p class=" font-semibold">No groups found</p>
 					{/if}
 					{#each derivedGroups as grp}
 						<a
-							class="flex items-center justify-between rounded-lg bg-gray-200 p-5 hover:bg-gray-400"
+							class="flex items-center justify-between rounded-lg bg-primary p-5 text-white hover:opacity-80"
 							href="{$page.url.pathname}?group={grp.id}"
 						>
 							{grp.name}
-							<p class="hidden text-green-500"><Check /></p>
+							<Users />
 						</a>
 					{/each}
 				</div>

@@ -33,11 +33,6 @@
 			name: 'Participants',
 			id: 'participants',
 			isActive: false
-		},
-		{
-			name: 'Submissions',
-			id: 'submissions',
-			isActive: false
 		}
 	]);
 

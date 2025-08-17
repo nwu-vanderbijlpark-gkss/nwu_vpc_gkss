@@ -4,7 +4,7 @@
 	//my group info
 	//my group join requests
 	//event resources
-	let { group, info = $bindable(), event } = $props();
+	let { group, info = $bindable(), event, judgingCriteria } = $props();
 
 	let joinRequests = $state([]);
 
@@ -69,6 +69,22 @@
 			</li>
 		{/each}
 	</ul>
+	<div class="flex w-full flex-col items-start gap-2">
+		<div class="divider divider-start">Criteria</div>
+		{#each judgingCriteria as criteria, i}
+			<div class="grid w-full grid-cols-3 items-center rounded-xl border-2 bg-gray-100 p-2">
+				<div class=" col-span-2">
+					<h3>{criteria.title}</h3>
+					<p class="overflow-clip whitespace-pre-wrap text-sm">
+						{criteria.description}
+					</p>
+				</div>
+				<div class="flex items-center gap-2">
+					<p class="text-lg font-bold">Max: {criteria.max_points}</p>
+				</div>
+			</div>
+		{/each}
+	</div>
 
 	{#if !viewState.hideRequests && joinRequests.length}
 		<div class="divider"></div>

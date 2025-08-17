@@ -9,6 +9,7 @@
 
 	let { data } = $props();
 	let event = $state(data.event);
+	let judgingCriteria = $state(data.event.event_criteria);
 
 	let info = $state({
 		isLoading: false,
@@ -33,7 +34,15 @@
 
 	let group = $state(data.group);
 
-	let myGroupEditorValue = $state(group?.submission || '<p>You can add your documents here</p>');
+	let myGroupEditorValue = $state(
+		group?.submission ||
+			`<ul>
+			<li>Attach your submissions here</li>
+			<li>Make sure to write some text right after attaching a file to this editor.</li>
+			<li>For example, you can write a summary of your documents here.</li>
+			<li>Please note that you can update your submission at any time.</li>
+			<ul>`
+	);
 
 	const handleGroupSubmit = async (e) => {
 		e.preventDefault();
@@ -70,7 +79,7 @@
 			</div>
 			<Groups {event} bind:group bind:info />
 		{:else}
-			<MyGroup {event} {group} bind:info />
+			<MyGroup {event} {group} bind:info {judgingCriteria} />
 			<form onsubmit={handleGroupSubmit} class="w-full space-y-2">
 				<h1 class="mb-4 text-lg font-bold">Docs and details</h1>
 				<p>Make sure to write some text right after attaching a file to this editor.</p>
