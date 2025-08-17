@@ -98,15 +98,15 @@
 
 <section class="w-full space-y-4">
 	{#if isLoading}
-		<Loading text="Loading data..." />
+		<Loading text="Loading Please wait..." />
 	{:else}
-		<div class="flex w-full items-center justify-between">
+		<div class="flex w-full flex-col items-center justify-between lg:flex-row">
 			<h2 class="text-xl">
 				{view} ({view == 'Judges' ? judges.length : judgingCriteria.length})
 			</h2>
-			<div>
+			<div class="w-full lg:w-fit">
 				<p class="text-xs">View:</p>
-				<select bind:value={view} class="select select-bordered bg-gray-100">
+				<select bind:value={view} class="select select-bordered w-full bg-gray-100">
 					<option value="Judges">Judges</option>
 					<option value="Judging Criteria">Judging criteria</option>
 				</select>
@@ -117,7 +117,7 @@
 			<dialog id="addJudgeModal" class="modal">
 				<div class="modal-box bg-gray-50">
 					<h3 class="text-lg font-bold">Add Judge</h3>
-					<p class="py-4">The judge will be sent an email with login details</p>
+					<p class="py-4">The judge will be sent an email with a link to the judging portal</p>
 					<label class="form-control w-full">
 						<p>Full Name</p>
 						<input
@@ -163,7 +163,7 @@
 			</div>
 		{:else}
 			<!--Judging criteria-->
-			<div class="space-y-2">
+			<div class="space-y-2 divide-y">
 				{#each judgingCriteria as criteria, i}
 					<div class="flex flex-col gap-2">
 						<p>Criteria {i + 1}</p>

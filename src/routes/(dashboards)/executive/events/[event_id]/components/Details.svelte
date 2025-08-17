@@ -23,10 +23,6 @@
 			<span class="font-semibold">Venue:</span>
 			<span>{event.venue}</span>
 		</div>
-		<div class="flex justify-between">
-			<span class="font-semibold">Registered: </span>
-			<span>0</span>
-		</div>
 		<div class="divider">Tips <Brain size={30} /></div>
 		<p>*Go to Judging to manage judges and judging criteria</p>
 		<p>*Go to Participants to manage participants and teams</p>

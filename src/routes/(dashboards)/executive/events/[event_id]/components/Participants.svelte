@@ -5,6 +5,17 @@
 	let { participants = $bindable(), groups = $bindable() } = $props();
 
 	let view = $state('Participants');
+	groups = groups.map((group) => {
+		// Calculate total points for each group
+		group = { ...group, points: group.event_results.reduce((sum, res) => sum + res.points, 0) };
+		return group;
+	});
+	//sort the groups by total points
+	groups.sort((a, b) => {
+		const aPoints = a.event_results.reduce((sum, res) => sum + res.points, 0);
+		const bPoints = b.event_results.reduce((sum, res) => sum + res.points, 0);
+		return bPoints - aPoints; // Sort in descending order
+	});
 
 	onMount(() => {
 		const channels = supabase
@@ -77,6 +88,7 @@
 			<table class="w-full text-left text-sm text-gray-600 shadow-xl">
 				<thead class="bg-gray-100 text-xs uppercase text-gray-700">
 					<tr>
+						<th class="px-6 py-4 font-medium">Rank</th>
 						<th class="px-6 py-4 font-medium">Group name</th>
 						<th class="px-6 py-4 font-medium">Creator</th>
 						<th class="px-6 py-4 font-medium">Members</th>
@@ -86,10 +98,13 @@
 				<tbody>
 					{#each groups as group, index}
 						<tr class="border-b transition-colors hover:bg-gray-50">
+							<td class="px-6 py-4 font-semibold text-gray-800"> {index + 1}</td>
 							<td class="px-6 py-4 font-semibold text-gray-800"> {group.name}</td>
 							<td class="px-6 py-4">{group.Member.name} {group.Member.surname} </td>
 							<td class="px-6 py-4">{group.event_participant.length + 1}</td>
-							<td class="px-6 py-4">{group.points || 0}</td>
+							<td class="px-6 py-4">
+								{group.event_results?.length ? group.points : 0}
+							</td>
 						</tr>
 					{/each}
 				</tbody>
