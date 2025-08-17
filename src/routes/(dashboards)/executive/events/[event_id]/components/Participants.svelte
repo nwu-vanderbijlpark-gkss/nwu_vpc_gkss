@@ -7,7 +7,7 @@
 	let view = $state('Participants');
 	groups = groups.map((group) => {
 		// Calculate total points for each group
-		group = { ...group, points: group.event_results.reduce((sum, res) => sum + res.points, 0) };
+		group = { ...group, points: group.event_results?.reduce((sum, res) => sum + res.points, 0) };
 		return group;
 	});
 	//sort the groups by total points
