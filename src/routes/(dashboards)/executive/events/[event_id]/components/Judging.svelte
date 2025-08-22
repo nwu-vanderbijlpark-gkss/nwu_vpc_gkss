@@ -4,7 +4,7 @@
 	import { User } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
-	let { event } = $props();
+	let { event, preFetchedData = null } = $props();
 	let judges = $state([]);
 	//view state, initial Judges
 	let view = $state('Judges');
@@ -92,7 +92,12 @@
 	};
 
 	onMount(async () => {
-		await getData();
+		//if there is pre-fetched data, use it
+		if (preFetchedData) {
+			judges = preFetchedData.judges;
+			judgingCriteria = preFetchedData.judgingCriteria;
+			isLoading = false;
+		} else await getData();
 	});
 </script>
 

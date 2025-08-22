@@ -35,3 +35,7 @@ export let models = $state({
 	}
 })
 
+export let currentUser = $state({
+	data: null
+});// This will hold the current user data
+

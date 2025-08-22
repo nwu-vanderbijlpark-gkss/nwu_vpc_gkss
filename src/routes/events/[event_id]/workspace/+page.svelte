@@ -6,6 +6,11 @@
 	import MyGroup from './components/MyGroup.svelte';
 	import TrixEditor from '$lib/components/TrixEditor.svelte';
 	import Loading from '$lib/components/Loading.svelte';
+	import IdeaGenerator from './components/IdeaGenerator.svelte';
+	import { notifications } from '$lib/stores';
+	import { page } from '$app/stores';
+	import { supabase } from '$lib/supabaseClient';
+	import { goto } from '$app/navigation';
 
 	let { data } = $props();
 	let event = $state(data.event);
@@ -56,14 +61,83 @@
 		if (res.success) {
 			info.hide();
 			info.show('Submitted Successfully', 'You can still update your submission');
-			console.log(res.data);
+			notifications.add({
+				type: 'success',
+				message: 'Group submission updated successfully'
+			});
 		}
 	};
+	let ideaGeneratorOpen = $state(false);
+	const toggleIdeaGenerator = () => {
+		ideaGeneratorOpen = !ideaGeneratorOpen;
+	};
+
+	onMount(async () => {
+		// subscribe to changes in the event participant table, check if the current user has been added to a group and refresh page
+		const channels = supabase
+			.channel('group-insert-channel')
+			.on(
+				'postgres_changes',
+				{ event: 'UPDATE', schema: 'public', table: 'event_participant' },
+				(payload) => {
+					// Check if the current user has been added to a group
+
+					if (payload.new.user_id == data.currentUser.id) {
+						info.show('You have been added to a group', 'Refreshing page...');
+						window.location.reload();
+						//channels.unsubscribe(); //unsubscribe after use
+					}
+				}
+			)
+			.subscribe();
+
+		//track submissions and synchronize across all clients
+		const submissionChannel = supabase
+			.channel('submission-channel')
+			.on(
+				'postgres_changes',
+				{ event: 'UPDATE', schema: 'public', table: 'event_group' },
+				(payload) => {
+					if (payload.new.id == group.id) {
+						console.log('Submission updated', payload.new.submission);
+						//remove the editor for 1ms then set the value and return it.
+						showEditor = false;
+						myGroupEditorValue = payload.new.submission;
+						setTimeout(() => (showEditor = true), 1);
+					}
+				}
+			)
+			.subscribe();
+	});
+
+	let showEditor = $state(true);
 </script>
 
 <svelte:head>
 	<title>{event.topic} Workspace | NWU VAAL GKSS</title>
 </svelte:head>
+
+{#if ideaGeneratorOpen}
+	<!-- Backdrop -->
+	<div
+		class="fixed left-0 top-0 z-40 h-full w-full bg-black/40"
+		onclick={toggleIdeaGenerator}
+	></div>
+{/if}
+
+<div class="fixed {ideaGeneratorOpen ? 'bottom-0 right-0' : 'bottom-10 right-10'}  shadow-5xl z-50">
+	{#if !ideaGeneratorOpen}
+		<button class="btn btn-primary" onclick={toggleIdeaGenerator}>Idea Generator</button>
+	{:else}
+		<!-- Idea Generator -->
+		<div class="flex flex-col">
+			<button class="btn btn-primary absolute bottom-5 right-5" onclick={toggleIdeaGenerator}
+				>Close</button
+			>
+			<IdeaGenerator />
+		</div>
+	{/if}
+</div>
 <div
 	in:fly={{ x: 100, duration: 400 }}
 	class="container mx-auto min-h-screen bg-white px-4 py-8 text-black shadow-xl"
@@ -73,17 +147,22 @@
 	</div>
 	<div class="grid gap-8 md:grid-cols-2">
 		{#if !group}
-			<div role="alert" class="alert alert-info h-fit">
+			<div role="alert" class="flex h-fit items-center gap-4 rounded-lg bg-yellow-200 p-4">
 				<Info />
-				<span>You do not have a team, select a team to join or create new team</span>
+				<span
+					>You currently do not have a team, select a team to join or create new team and add your
+					members</span
+				>
 			</div>
 			<Groups {event} bind:group bind:info />
 		{:else}
-			<MyGroup {event} {group} bind:info {judgingCriteria} />
+			<MyGroup bind:event {group} bind:info {judgingCriteria} />
 			<form onsubmit={handleGroupSubmit} class="w-full space-y-2">
 				<h1 class="mb-4 text-lg font-bold">Docs and details</h1>
 				<p>Make sure to write some text right after attaching a file to this editor.</p>
-				<TrixEditor bind:value={myGroupEditorValue} id="{event.topic}_{group.name}_resources" />
+				{#if showEditor}
+					<TrixEditor bind:value={myGroupEditorValue} id="{event.topic}_{group.name}_resources" />
+				{/if}
 				<button class="btn btn-primary w-full">Submit</button>
 			</form>
 		{/if}

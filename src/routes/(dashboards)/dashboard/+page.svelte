@@ -294,7 +294,7 @@
 		{#if activeTab === 'stats'}
 			<!-- Dashboard content -->
 			<div class="stats stats-vertical my-4 w-full shadow lg:stats-horizontal">
-				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Your Rank', icon: ChartColumnIcon, value: `${rankMap.get(member.username)} / ${members.length} ` }, { title: 'Events you registered for', icon: Calendar, value: `${member.event_attendee.length}`, sub: '' }, { title: 'Events you attended', icon: CalendarCheck, value: `${member.event_attendee.filter((a) => a.status == 'attended').length}`, sub: '' }] as stat}
+				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Your Rank', icon: ChartColumnIcon, value: `${rankMap.get(member.username)} / ${members.length} ` }, { title: 'Events you registered for', icon: Calendar, value: `${member.event_participant.length}`, sub: '' }] as stat}
 					<div class="stat">
 						<div class="stat-figure">
 							<stat.icon class="text-primary" size={24} />
@@ -305,9 +305,9 @@
 					</div>
 				{/each}
 			</div>
-			{#if member.event_attendee.length}
-				{#each member.event_attendee as event}
-					{#if moment(event.Events.date).isSame(moment(), 'day') && event.status == 'registered'}
+			{#if member.event_participant?.length}
+				{#each member.event_participant as event}
+					{#if moment(event.Events.date).isSame(moment(), 'day')}
 						<div class="w-full space-y-6">
 							<div class="w-full rounded-xl bg-white p-6 shadow-md">
 								<h3 class="mb-4 text-xl font-semibold">{event.Events.topic}</h3>

@@ -16,21 +16,6 @@
 		const bPoints = b.event_results.reduce((sum, res) => sum + res.points, 0);
 		return bPoints - aPoints; // Sort in descending order
 	});
-
-	onMount(() => {
-		const channels = supabase
-			.channel('participants_updates')
-			.on(
-				'postgres_changes',
-				{ event: '*', schema: 'public', table: 'event_participant' },
-				(payload) => {
-					console.log('Change received!', payload);
-				}
-			)
-			.subscribe();
-
-		return channels.unsubscribe();
-	});
 </script>
 
 <div class="max-h-screen space-y-3 overflow-auto py-6 pb-6">

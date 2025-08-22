@@ -1,7 +1,9 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { getRandomColor } from '$lib';
 	import Loading from '$lib/components/Loading.svelte';
+	import { onMount } from 'svelte';
 
 	let { event, group = $bindable(), info = $bindable() } = $props();
 
@@ -10,6 +12,9 @@
 	let searchValue = $state('');
 	let currentGroup = $state({});
 	let derivedGroups = $state(groups);
+
+	//the ID of the groups the user has requested to join
+	let requestedGroups = $state([]);
 
 	const newGroup = $state({
 		name: '',
@@ -26,6 +31,9 @@
 		const req = await fetch('/api/event/group/request?group=' + id, {
 			method: 'POST'
 		});
+		requestedGroups.push(id);
+		//save to local storage
+		localStorage.setItem('requestedGroups', JSON.stringify(requestedGroups));
 		info.hide();
 		info.show('Request sent!', 'You will receive an email when you are accepted into this group');
 	};
@@ -57,6 +65,11 @@
 		}
 		alert('Make sure you have named your group.');
 	};
+
+	onMount(() => {
+		//get the groups the user has requested to join
+		requestedGroups = JSON.parse(localStorage.getItem('requestedGroups')) || [];
+	});
 </script>
 
 <!--The judge is authenticated and is on the homepage-->
@@ -75,16 +88,21 @@
 	/>
 	<div class="my-5 flex max-h-[500px] flex-col gap-2 overflow-auto">
 		{#if !derivedGroups.length}
-			<p>No groups</p>
+			<p>No groups have been created yet, create a new group.</p>
 		{/if}
 		{#each derivedGroups as grp}
-			<div class="flex items-center justify-between rounded-lg bg-gray-200 p-5 hover:bg-gray-400">
-				{grp.name}
-				<div>
-					<button class="btn" onclick={() => handleViewGroup(grp.id)}>View</button>
-					<button class="btn btn-primary" onclick={() => handleJoin(grp.id)}>Ask to Join</button>
+			{#if !requestedGroups.includes(grp.id)}
+				<div
+					class=" flex items-center justify-between rounded-lg p-5 font-bold text-white"
+					style="background: {getRandomColor()}"
+				>
+					{grp.name}
+					<div>
+						<button class="btn btn-secondary" onclick={() => handleViewGroup(grp.id)}>View</button>
+						<button class="btn btn-primary" onclick={() => handleJoin(grp.id)}>Ask to Join</button>
+					</div>
 				</div>
-			</div>
+			{/if}
 		{/each}
 	</div>
 </div>
