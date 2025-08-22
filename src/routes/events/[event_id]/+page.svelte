@@ -121,7 +121,7 @@
 						<a class="link link-primary" href="{$page.url.pathname}/workspace"
 							>Click here to view event workspace if necessary</a
 						>
-					{:else if moment(event.date).isBefore(moment())}
+					{:else if moment(event.date).isBefore(moment(), 'day')}
 						<div class="alert alert-error mb-4">Registrations have been closed.</div>
 					{:else if isLoading}
 						<Loading />

@@ -1,10 +1,12 @@
 <script>
+	import TrixDisplay from '$lib/components/TrixDisplay.svelte';
+	import { supabase } from '$lib/supabaseClient';
 	import { onMount } from 'svelte';
 
 	//my group info
 	//my group join requests
 	//event resources
-	let { group, info = $bindable(), event, judgingCriteria } = $props();
+	let { group, info = $bindable(), event = $bindable(), judgingCriteria } = $props();
 
 	let joinRequests = $state([]);
 
@@ -14,12 +16,37 @@
 		hideRequests: false
 	});
 
-	onMount(async () => {
+	const getRequests = async () => {
 		const req = await fetch('/api/event/group/request?group=' + group.id);
 		const res = await req.json();
 		if (res.success) {
 			joinRequests = res.data;
 		}
+	};
+	onMount(async () => {
+		await getRequests();
+		//subscribe to new join requests
+
+		const request_channel = supabase
+			.channel('request-insert-channel')
+			.on(
+				'postgres_changes',
+				{ event: 'INSERT', schema: 'public', table: 'join_request' },
+				async (payload) => {
+					await getRequests();
+				}
+			);
+
+		request_channel.subscribe();
+
+		//listen for changes to the event resources
+
+		const event_channel = supabase
+			.channel('event-update-channel')
+			.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Events' }, (payload) => {
+				event.resources = payload.new.resources;
+			})
+			.subscribe();
 	});
 
 	const handleRequestChange = async (requestId, state) => {
@@ -70,20 +97,8 @@
 		{/each}
 	</ul>
 	<div class="flex w-full flex-col items-start gap-2">
-		<div class="divider divider-start">Criteria</div>
-		{#each judgingCriteria as criteria, i}
-			<div class="grid w-full grid-cols-3 items-center rounded-xl border-2 bg-gray-100 p-2">
-				<div class=" col-span-2">
-					<h3>{criteria.title}</h3>
-					<p class="overflow-clip whitespace-pre-wrap text-sm">
-						{criteria.description}
-					</p>
-				</div>
-				<div class="flex items-center gap-2">
-					<p class="text-lg font-bold">Max: {criteria.max_points}</p>
-				</div>
-			</div>
-		{/each}
+		<div class="divider divider-start">Tools & Resources</div>
+		<TrixDisplay content={event.resources} />
 	</div>
 
 	{#if !viewState.hideRequests && joinRequests.length}

@@ -90,7 +90,7 @@
 
 						<p class="mb-6 text-sm text-gray-500">{moment(event.date).format('LL')}</p>
 
-						{#if moment(event.date).isAfter(moment())}
+						{#if !moment(event.date).isBefore(moment(), 'day')}
 							<!-- Countdown component -->
 							<div class="mb-6">
 								<div class="text-sm text-gray-600">Starts in:</div>

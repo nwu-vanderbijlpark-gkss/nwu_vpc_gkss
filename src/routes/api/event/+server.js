@@ -21,3 +21,20 @@ export const POST = async({locals:{supabase}, request}) => {
 export const GET = async({locals:{supabase}}) => {
     //fetch an event, do later
 }
+
+export const PUT = async({locals:{supabase}, request}) => {
+    //update an event
+    const { data } = await request.json();
+    
+    const {data: event, error: eventError} = await supabase.from("Events").update({
+        topic: data.topic,
+        description: data.description,
+        date: data.date,
+        venue: data.venue,
+        hasGroups: data.hasGroups,
+        max_group_members: data.max_group_members,
+        resources: data.resources
+    }).eq('id', data.id).select();
+
+    return returnData(event,eventError);
+}

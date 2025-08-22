@@ -14,7 +14,7 @@
 
 	//show the button after navigation
 	afterNavigate(({ from, to }) => {
-		if (to.url.searchParams.get('tab') == 'judging') {
+		if (to.url.pathname.includes('/events')) {
 			elementMounted = false;
 			return;
 		}

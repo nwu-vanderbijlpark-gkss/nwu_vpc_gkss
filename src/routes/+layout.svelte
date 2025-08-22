@@ -10,12 +10,17 @@
 	import { audioStore, notifications } from '$lib/stores';
 	import Notification from '$lib/components/Notification.svelte';
 	import { BProgress } from '@bprogress/core';
-	import { models } from '$lib/state.svelte';
+	import { currentUser, models } from '$lib/state.svelte';
 	import AiChat from '$lib/components/AIChat.svelte';
 
 	let audioElement = $state();
 
 	let { children, data } = $props();
+
+	//set the current user from the data prop
+	if (data && data.currentUser) {
+		currentUser.data = data.currentUser;
+	}
 
 	beforeNavigate(({ to }) => {
 		BProgress.start();

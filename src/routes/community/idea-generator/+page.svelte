@@ -1,9 +1,10 @@
 <script>
+	import { currentUser } from '$lib/state.svelte.js';
 	import { notifications } from '$lib/stores.js';
 	import { CheckCheck, LogIn, Settings } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { quintOut } from 'svelte/easing';
-	import { fade, fly } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 
 	let { data } = $props();
 
@@ -27,13 +28,13 @@
 		'qwen-2.5-32b',
 		'qwen-2.5-coder-32b'
 	];
-	let currentUser = data.currentUser;
+
 	let model = $state(models[Math.floor(Math.random() * models.length)]); //choosing a random model
 	let options = $state({
 		size: 5,
-		year_of_study: currentUser ? currentUser.year_of_study : 'any',
-		qualification: currentUser ? currentUser.qualification : 'Computer Science',
-		interests: currentUser ? currentUser.interests : 'anything',
+		year_of_study: currentUser.data ? currentUser.data.year_of_study : 'any',
+		qualification: currentUser.data ? currentUser.data.qualification : 'Computer Science',
+		interests: currentUser.data ? currentUser.data.interests : 'anything',
 		technologies: 'any'
 	});
 	async function handleSubmit(e) {
@@ -50,11 +51,21 @@
 			}
 		});
 		const result = await response.json();
+
+		if (!result.success) {
+			notifications.add({
+				type: 'error',
+				message: 'Failed to generate ideas. Please choose a different model.'
+			});
+
+			isLoading = false;
+		}
 		output = result.response.replace('`', '');
-		console.log(output);
 		isLoading = false;
 	}
+
 	let showToast = $state(false);
+
 	async function handleSave(project) {
 		const response = await fetch('/community/save-ideas', {
 			method: 'POST',
@@ -73,10 +84,6 @@
 		}
 	}
 
-	onMount(() => {
-		//handleSubmit();
-	});
-	// ... (keep existing script contents) ...
 	let parsedOutput = $state([]);
 
 	$effect(() => {
@@ -85,25 +92,14 @@
 				parsedOutput = JSON.parse(output);
 			} catch (e) {
 				model = models[Math.floor(Math.random() * models.length)];
-				console.error('Error parsing output:', e);
 			}
 		}
 	});
 </script>
 
 <title>Idea Generator | NWU Vaal GKSS</title>
-{#if showToast}
-	<div class="toast">
-		<div class="alert-primary alert rounded shadow-lg">
-			<span class="flex gap-3"> <CheckCheck /> Project Idea saved.</span>
-		</div>
-	</div>
-{/if}
-<div
-	class="min-h-screen bg-gray-50"
-	in:fly={{ x: 100, duration: 400 }}
-	out:fade={{ duration: 300 }}
->
+
+<div class="min-h-screen bg-gray-50" in:slide>
 	<!-- Header -->
 	<header class="bg-white shadow-sm">
 		<div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
@@ -126,26 +122,7 @@
 						disabled={isLoading}
 					>
 						{#if isLoading}
-							<svg
-								class="h-5 w-5 animate-spin"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-							>
-								<circle
-									class="opacity-25"
-									cx="12"
-									cy="12"
-									r="10"
-									stroke="currentColor"
-									stroke-width="4"
-								></circle>
-								<path
-									class="opacity-75"
-									fill="currentColor"
-									d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-								></path>
-							</svg>
+							<div class=" loading loading-spinner loading-sm text-white"></div>
 							Generating...
 						{:else}
 							<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -214,7 +191,7 @@
 									</div>
 								</div>
 							{/if}
-							{#if data.isLoggedIn}
+							{#if currentUser.data}
 								<button onclick={() => handleSave(project)} class="btn btn-primary my-5 w-full"
 									>Save</button
 								>
@@ -266,7 +243,7 @@
 						/>
 					</label>
 					<label class="block">
-						<span class="mb-2 block text-sm font-medium">AI Model</span>
+						<span class="mb-2 block text-sm font-medium">Model</span>
 						<select bind:value={model} class="select select-bordered w-full">
 							{#each models as mdl}
 								<option value={mdl}>{mdl}</option>
@@ -277,21 +254,12 @@
 
 				<div class="space-y-4">
 					<label class="block">
-						<span class="mb-2 block text-sm font-medium">Student Interests</span>
+						<span class="mb-2 block text-sm font-medium">Description</span>
 						<textarea
 							bind:value={options.interests}
 							class="textarea textarea-bordered w-full"
-							placeholder="e.g. web development, machine learning"
+							placeholder="Give infomation, describe your interests, e.g., AI, web development, etc."
 						></textarea>
-					</label>
-					<label class="block">
-						<span class="mb-2 block text-sm font-medium">Preferred Technologies</span>
-						<textarea
-							bind:value={options.technologies}
-							class="textarea textarea-bordered w-full"
-							placeholder="e.g. React, Python, TensorFlow"
-						></textarea>
-						<p class="mt-2 text-xs text-gray-500">Separate technologies with commas</p>
 					</label>
 				</div>
 			</div>

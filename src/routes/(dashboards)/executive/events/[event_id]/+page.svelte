@@ -9,6 +9,8 @@
 	import Details from './components/Details.svelte';
 	import Judging from './components/Judging.svelte';
 	import Participants from './components/Participants.svelte';
+	import Resources from './components/Resources.svelte';
+	import { getData } from './components/eventState.svelte';
 
 	let { data } = $props();
 	let members = data.members;
@@ -33,6 +35,11 @@
 			name: 'Participants',
 			id: 'participants',
 			isActive: false
+		},
+		{
+			name: 'Resources',
+			id: 'resources',
+			isActive: false
 		}
 	]);
 
@@ -48,6 +55,11 @@
 		});
 		goto($page.url.pathname + '?tab=' + tab);
 	};
+	let preFetchedData = $state();
+
+	onMount(async () => {
+		preFetchedData = await getData(event);
+	});
 </script>
 
 <title>{event.topic} | NWU VAAL GKSS</title>
@@ -88,9 +100,11 @@
 				{#if activeTab == 'details'}
 					<Details bind:event />
 				{:else if activeTab == 'judging'}
-					<Judging {event} />
+					<Judging {preFetchedData} {event} />
 				{:else if activeTab == 'participants'}
 					<Participants participants={data.participants} groups={data.groups} />
+				{:else if activeTab == 'resources'}
+					<Resources bind:event />
 				{/if}
 			</div>
 		</div>

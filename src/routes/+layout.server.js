@@ -6,7 +6,7 @@ export const load = async({request, locals: {supabase}}) => {
 
     let currentUser = null;
 
-    const {data: Member} = await supabase.from("Member").select('image,date_of_birth,name,surname,username,year_of_study,qualification, points, email');
+    const {data: Member} = await supabase.from("Member").select('id,image,date_of_birth,name,surname,username,year_of_study,qualification, points, email');
     
     const members = [];
 
@@ -21,17 +21,19 @@ export const load = async({request, locals: {supabase}}) => {
             .from('Team')
             .select('*')   
         if(Team){
-            let isMember = false;
+            let isMember = false;//is executive member
             Team.forEach(member => {
                 //check if the user accessing the executive pages is an executive member
                 if(user.email === (member.email)){ 
                     isMember = true;   
-                    currentUser = member;                 
+                    currentUser = member;  
+                    currentUser = {...currentUser, id: user.id};//add the user id to the current user object       
                 }
             });
             if(!isMember){
                 //return the current user
-                currentUser = members.filter(member => member.id == user.id)
+                currentUser = members.find(member => member.id == user.id);
+                
             }
 
             if(currentUser && currentUser.image){

@@ -27,7 +27,6 @@ export const actions =   {
       })
       
       if(error){
-        console.error(error.code)
         return {error: error.code}
       }else{
         //get the member data, check if the interests are not null, if null, then redirect to onboarding
@@ -48,9 +47,6 @@ export const actions =   {
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: 'https://nwu-vaal-gkss.netlify.app/update-password',
       })      
-      if(error){
-        console.error(error)
-      }
     }
       
     
