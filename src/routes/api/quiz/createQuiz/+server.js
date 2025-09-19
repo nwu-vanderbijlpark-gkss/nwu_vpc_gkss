@@ -24,9 +24,9 @@ export const POST = async ({locals: {supabase},request}) => {
     }
 
     const {data: {user}} = await supabase.auth.getUser();
-    const {data: members} = await supabase.from("Member").select();
+    const {data: members} = await supabase.from("member").select();
     //insert quiz
-    const {data: dbQuiz ,error} = await supabase.from("Quiz").insert({
+    const {data: dbQuiz ,error} = await supabase.from("quiz").insert({
         title: title,
         creator_id: user.id,
         due: due,

@@ -15,47 +15,46 @@ export async function load({locals: {supabase}}) {
     const {data: {user}} = await supabase.auth.getUser();
     let currentUser = null;
     if(user){
-        let { data: Team } = await supabase
-            .from('Team')
+        let { data: team } = await supabase
+            .from('team')
             .select('*')   
-        if(Team){
-            let isMember = false;
-            Team.forEach(async(member) => {
+        if(team){
+            let ismember = false;
+            team.forEach(async(member) => {
                 //check if the user accessing the executive pages is an executive member
                 if(user.email === (member.email)){ 
-                    isMember = true;
+                    ismember = true;
                     currentUser = member;
                 }
             });
-            !isMember && redirect(303,"/dashboard");//redirect the user to member dashboard if theyre not an executive member
+            !ismember && redirect(303,"/dashboard");//redirect the user to member dashboard if theyre not an executive member
         }
         //data to be returned
         let publicUrl = await supabase.storage.from("files").getPublicUrl(currentUser.image.substring(currentUser.image.indexOf("/")));//removing the first "file/"
         currentUser = {...currentUser,image: publicUrl.data.publicUrl}
         let returnData = {currentUser}; //initially with the current logged in user
-        //EVENTS
-        const {data: Events, error} = await supabase.from("Events")
+        //events
+        const {data: events, error} = await supabase.from("events")
                             .select('*,event_attendee(id)')                      
-        returnData = {...returnData, events: Events};//insert the events data
+        returnData = {...returnData, events: events};//insert the events data
 
-        //MEMBERS
-        const {data: Member} = await supabase.from("Member").select('*');
+        //memberS
+        const {data: memberData} = await supabase.from("member").select('*');
         const members = [];
-        for(let member of Member){
+        for(let member of memberData){
             let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")));//removing the first "file/"
             member = {...member,image: publicUrl.data.publicUrl};
             members.push(member);
         }
         returnData = {...returnData, members};
-        //TEAM
-        const team = [];
-        for(let leader of Team){
+        //team
+        const teamMembers = [];
+        for(let leader of team){
             let publicUrl = await supabase.storage.from("files").getPublicUrl(leader.image.substring(leader.image.indexOf("/")));//removing the first "file/"
             leader = {...leader,image: publicUrl.data.publicUrl};
-            team.push(leader);
+            teamMembers.push(leader);
         }
-        models.context += "Team: "+JSON.stringify(team);
-        returnData = {...returnData, team};//insert the team data
+        returnData = {...returnData, team: teamMembers};//insert the team data
         //get more data like event registrations, event attendance, get the turnout percentage
         return returnData;
     }

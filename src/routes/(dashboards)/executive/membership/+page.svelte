@@ -6,6 +6,7 @@
 	import CreateAnnouncement from './pages/CreateAnnouncement.svelte';
 	import ManageAnnouncements from './pages/ManageAnnouncements.svelte';
 	import { afterNavigate } from '$app/navigation';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data, form } = $props();
 	let members = $state(data.members);
@@ -31,6 +32,11 @@
 		changePage(null, to.url.search);
 	});
 </script>
+
+<Seo
+	title="Membership Management"
+	desc="Efficiently manage and engage with your members using NWU VAAL GKSS's membership management system. Track member details, send announcements, and foster a strong community."
+/>
 
 <div
 	in:fly={{ x: 100, duration: 400 }}

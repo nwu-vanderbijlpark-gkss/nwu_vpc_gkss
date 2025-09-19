@@ -2,11 +2,16 @@
 	import { fade, fly } from 'svelte/transition';
 	import { LogIn } from 'lucide-svelte';
 	import Page from '../../../(dashboards)/executive/quizzes/create/+page.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 	let { data } = $props();
 </script>
 
+<Seo
+	title="Create Quiz"
+	desc="Create and share quizzes and challenges with the NWU Vaal GKSS community."
+/>
+
 {#if data.isLoggedIn}
-	<title>Create New Quiz | NWU Vaal GKSS</title>
 	<div class="text-white">
 		<Page />
 	</div>

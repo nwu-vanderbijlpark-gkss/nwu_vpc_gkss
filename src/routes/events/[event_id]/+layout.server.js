@@ -11,7 +11,7 @@ export const load = async({params, locals:{supabase}}) => {
         alreadyRegistered = attendee.length && true;
     }
 
-    const {data} = await supabase.from("Events").select("*,event_criteria(*),event_group(id,name,submission,Member(name,surname,email),event_participant(*,Member(name,surname,email)))").eq("id",id);
+    const {data} = await supabase.from("events").select("*,event_criteria(*),event_group(id,name,submission,member(name,surname,email),event_participant(*,member(name,surname,email)))").eq("id",id);
     if(data.length > 0){
         
         return {event: data[0],alreadyRegistered}

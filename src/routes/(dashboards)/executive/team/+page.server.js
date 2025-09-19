@@ -26,7 +26,7 @@ export const actions = {
         }
         if(member.image && imageUrl != null){
             //send data to db
-            const {error} = await supabase.from("Team").insert({
+            const {error} = await supabase.from("team").insert({
                 name: member.name,
                 surname: member.surname,
                 email: member.email,
@@ -42,7 +42,7 @@ export const actions = {
         //delete event based on id
         const data = await request.formData();
         const id = data.get("id");
-        const {error} = await supabase.from("Team").delete().eq("id",id);
+        const {error} = await supabase.from("team").delete().eq("id",id);
         redirect(303,"/executive/team");
     },
     updateMember: async ({locals: {supabase},request}) => {

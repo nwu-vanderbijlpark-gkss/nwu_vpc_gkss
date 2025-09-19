@@ -11,12 +11,12 @@ export const load = async ({params, locals: {supabase}}) => {
     //if the user is logged in check if they have a team
     if(user){
         //check if the user does not own a group yet
-        const {data: group, error} = await table(supabase,"event_group").select("id,name,submission,Member(name,surname,email),event_participant(*,Member(name,surname,email))").eq("user_id",user.id).eq("event_id",event_id);
+        const {data: group, error} = await table(supabase,"event_group").select("id,name,submission,member(name,surname,email),event_participant(*,member(name,surname,email))").eq("user_id",user.id).eq("event_id",event_id);
         if(group.length){
             return {group: group[0]}
         }
         //get the group this user is part of.
-        const {data: participant, error: participantError} = await table(supabase,"event_participant").select("*, event_group(id,name,submission,Member(name,surname,email),event_participant(*,Member(name,surname,email)))").eq("user_id",user.id).eq("event_id",event_id);
+        const {data: participant, error: participantError} = await table(supabase,"event_participant").select("*, event_group(id,name,submission,member(name,surname,email),event_participant(*,member(name,surname,email)))").eq("user_id",user.id).eq("event_id",event_id);
         if(participant.length){
             return {group: participant[0].event_group}
         }

@@ -1,4 +1,5 @@
 <script>
+	import Seo from '$lib/components/SEO.svelte';
 	import { currentUser } from '$lib/state.svelte.js';
 	import { notifications } from '$lib/stores.js';
 	import { CheckCheck, LogIn, Settings } from 'lucide-svelte';
@@ -97,9 +98,12 @@
 	});
 </script>
 
-<title>Idea Generator | NWU Vaal GKSS</title>
+<Seo
+	title="AI Project Generator"
+	desc="Generate custom project ideas tailored to your interests and study level with NWU Vaal GKSS's AI-powered project generator."
+/>
 
-<div class="min-h-screen bg-gray-50" in:slide>
+<div class="min-h-screen bg-gray-50" transition:fly>
 	<!-- Header -->
 	<header class="bg-white shadow-sm">
 		<div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">

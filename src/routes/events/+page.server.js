@@ -1,6 +1,6 @@
 
 export const load = async({locals: {supabase}}) =>{
-    const {data, error} = await supabase.from("Events")
+    const {data, error} = await supabase.from("events")
                         .select('*').order('created_at', { ascending: false });                       
     if(!data){
         console.error("error")

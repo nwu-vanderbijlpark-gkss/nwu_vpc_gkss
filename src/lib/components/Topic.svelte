@@ -12,7 +12,7 @@
 	let { topic, text, myProfile, deleteTopic, index } = $props();
 	import moment from 'moment';
 	import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	let fav_id = $state([]);
 	const setFavId = () => {
 		let fav = localStorage.getItem('fav_ids');
@@ -148,13 +148,13 @@
 	let remainingCount = Math.max(0, topic.topic_images.length - 5);
 </script>
 
-<div transition:slide class="bg-white p-2 hover:bg-gray-50">
+<div transition:fly class="bg-white p-2 hover:bg-gray-50">
 	<div class="flex items-center justify-between text-sm">
 		<span class="flex items-center">
 			<div class="mr-2 h-[25px] w-[25px] overflow-hidden rounded-full">
-				<img class="object-fit" src={topic.Member.image} alt={topic.Member.username} />
+				<img class="object-fit" src={topic.member.image} alt={topic.member.username} />
 			</div>
-			<a class=" link-hover" href={`/community/${topic.Member.username}`}>{topic.Member.fullName}</a
+			<a class=" link-hover" href={`/community/${topic.member.username}`}>{topic.member.fullName}</a
 			>
 			<Dot />
 			<p class="text-gray-400">{moment(topic.created_at).fromNow()}</p></span
@@ -209,7 +209,7 @@
 			href={`/community/topic/${topic.id}`}
 			class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
 			><MessageCircleMore size="20px" />
-			<p>{topic.Comment.length}</p></a
+			<p>{topic.comment.length}</p></a
 		>
 		<button
 			onclick={() => shareTopic(topic.topic, `${location.href}/topic/${topic.id}`)}

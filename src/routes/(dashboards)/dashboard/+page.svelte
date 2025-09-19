@@ -38,6 +38,8 @@
 	import Page from '../../update-password/+page.svelte';
 	import Announcements from './components/Announcements.svelte';
 	import { models } from '$lib/state.svelte';
+	import LogoutModal from '$lib/components/LogoutModal.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let activeTab = $state('stats');
 	let { data } = $props();
@@ -69,7 +71,6 @@
 	const handleImageChange = (event) => {
 		let image = event.target.files[0];
 		member.image = URL.createObjectURL(image);
-		console.log('Image uploaded:', event.target.files[0].name);
 	};
 	let members = $state(
 		data.members
@@ -86,6 +87,7 @@
 		if (!event.target.value.includes('https://'))
 			member[event.target.name] = `https://${event.target.value}`;
 	};
+
 	const handleEditLinks = async () => {
 		errors = null;
 		if (member.portfolio || member.linkedin || member.github) {
@@ -133,24 +135,13 @@
 	};
 </script>
 
-<title>Dashboard | NWU VAAL GKSS</title>
+<Seo
+	title="Dashboard"
+	desc="Access your personalized dashboard on GKSS-NWU. View your profile, track your points, manage events, and stay updated with the latest announcements."
+/>
 
-<!-- Logout modal-->
-<dialog id="logoutModal" class="modal z-50 sm:modal-middle">
-	<div class="modal-box text-white">
-		<div class="flex items-center justify-between">
-			<p class="text-lg font-bold text-white">Logout Confirmation</p>
-		</div>
-		<p class="py-4 text-sm">Do you want to logout?</p>
-		<div class="grid grid-cols-2 gap-2">
-			<form method="post" action="?/logout" class="w-full">
-				<button type="submit" class="btn btn-primary w-full">Yes</button>
-			</form>
-			<button onclick={() => logoutModal.close()} class="btn btn-secondary w-full">No</button>
-		</div>
-	</div>
-</dialog>
-<!-- Logout modal-->
+<LogoutModal />
+
 <dialog id="imageModal" class="modal z-50 sm:modal-middle">
 	<div class="modal-box flex flex-col items-center justify-center text-white">
 		<div class="flex w-full items-center justify-between">
@@ -307,17 +298,17 @@
 			</div>
 			{#if member.event_participant?.length}
 				{#each member.event_participant as event}
-					{#if moment(event.Events.date).isSame(moment(), 'day')}
+					{#if moment(event.events.date).isSame(moment(), 'day')}
 						<div class="w-full space-y-6">
 							<div class="w-full rounded-xl bg-white p-6 shadow-md">
-								<h3 class="mb-4 text-xl font-semibold">{event.Events.topic}</h3>
+								<h3 class="mb-4 text-xl font-semibold">{event.events.topic}</h3>
 								<span class="flex w-full flex-col items-center justify-center space-y-3">
 									<p>Ask a leader to scan for your attendance</p>
 									<QrCode
-										value={`https://nwu-vaal-gkss.netlify.app/executive/events/${event.Events.id}/${event.id}`}
+										value={`https://nwu-vaal-gkss.netlify.app/executive/events/${event.events.id}/${event.id}`}
 									/>
-									<a href="/executive/events/{event.Events.id}/{event.id}" class="link link-primary"
-										>{`https://nwu-vaal-gkss.netlify.app/executive/events/${event.Events.id}/${event.id}`}</a
+									<a href="/executive/events/{event.events.id}/{event.id}" class="link link-primary"
+										>{`https://nwu-vaal-gkss.netlify.app/executive/events/${event.events.id}/${event.id}`}</a
 									>
 								</span>
 							</div>

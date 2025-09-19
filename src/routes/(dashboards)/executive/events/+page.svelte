@@ -1,4 +1,5 @@
 <script>
+	import Seo from '$lib/components/SEO.svelte';
 	import { models } from '$lib/state.svelte.js';
 	import {
 		ArrowUpRightFromSquareIcon,
@@ -35,6 +36,11 @@
 		}
 	};
 </script>
+
+<Seo
+	title="Event Management"
+	desc="Manage and organize events efficiently with NWU VAAL GKSS's event management system. Create, edit, and track events all in one place."
+/>
 
 <div
 	in:fly={{ x: 100, duration: 400 }}

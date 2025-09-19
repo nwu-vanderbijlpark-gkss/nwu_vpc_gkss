@@ -5,6 +5,7 @@
 	import JudgeAuth from './components/JudgeAuth.svelte';
 	import JudgeGroupView from './components/JudgeGroupView.svelte';
 	import Loading from '$lib/components/Loading.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 
@@ -78,9 +79,11 @@
 	};
 </script>
 
-<svelte:head>
-	<title>Judge Portal | NWU Vaal GKSS</title>
-</svelte:head>
+<Seo
+	title={data.event ? `Judging - ${data.event.name}` : 'Judging'}
+	desc={data.event ? data.event.description : 'Event judging portal for NWU Vaal GKSS events.'}
+/>
+
 <main class="flex min-h-screen w-full justify-center text-black">
 	<div class="flex w-full flex-col bg-white p-4 shadow-xl lg:w-2/3">
 		{#if showAuth}
@@ -98,7 +101,9 @@
 			<!--The judge is authenticated and is on the homepage-->
 			<div class="flex w-full flex-col space-y-3">
 				<h2 class="text-lg font-bold">Groups</h2>
-				<p class="text-sm">Select the presenting team</p>
+				<p class="text-sm">
+					Please wait for MC to announce team name, then select the presenting team
+				</p>
 				<input
 					type="search"
 					class="input input-bordered bg-gray-100"

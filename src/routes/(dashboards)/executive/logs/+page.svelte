@@ -4,6 +4,7 @@
 	import { Calendar1, CalendarClockIcon, Logs } from 'lucide-svelte';
 	import moment from 'moment';
 	import Loading from '$lib/components/Loading.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let logs = $state([]);
 	let isLoading = $state(true);
@@ -120,6 +121,11 @@
 		};
 	});
 </script>
+
+<Seo
+	title="Application Usage Logs"
+	desc="Monitor and analyze application usage with NWU VAAL GKSS's comprehensive logs. Track user activity, page visits, and gain insights into application performance."
+/>
 
 <div class="container mx-auto overflow-auto px-4 py-8 lg:max-h-[90svh]">
 	<h1 class="mb-6 text-3xl font-bold text-gray-800">Application Usage Logs</h1>

@@ -1,5 +1,6 @@
 <script>
-	import { slide } from 'svelte/transition';
+	import Seo from '$lib/components/SEO.svelte';
+	import { fly } from 'svelte/transition';
 
 	const pages = ['personal', 'academic', 'interests'];
 	let page = $state(1);
@@ -152,7 +153,10 @@
 	};
 </script>
 
-<title>Onboarding | {pages[page - 1]}</title>
+<Seo
+	title="Onboarding - {pages[page - 1]}"
+	desc="Complete your onboarding process to get the most out of your GKSS-NWU membership."
+/>
 
 <div class="flex min-h-screen w-full items-center justify-center bg-[#0c0c0c] p-5">
 	<div class="w-full max-w-xl rounded-xl bg-base-200 p-5">
@@ -172,7 +176,7 @@
 
 		<form use:enhance method="post" class="flex w-full flex-col gap-5">
 			{#if page === 1}
-				<div class="space-y-6" transition:slide>
+				<div class="space-y-6" transition:fly>
 					<h2 class="flex items-center gap-2 text-lg font-bold">
 						Personal Information
 						<span class="text-xs text-gray-400">(All fields required)</span>
@@ -236,7 +240,7 @@
 					</label>
 				</div>
 			{:else if page === 2}
-				<div class="space-y-6" transition:slide>
+				<div class="space-y-6" transition:fly>
 					<h2 class="flex items-center gap-2 text-lg font-bold">
 						Academic Information
 						<span class="text-xs text-gray-400">(All fields required)</span>
@@ -274,7 +278,7 @@
 					</label>
 				</div>
 			{:else if page === 3}
-				<div class="space-y-6" transition:slide>
+				<div class="space-y-6" transition:fly>
 					<h2 class="flex items-center gap-2 text-lg font-bold">
 						IT Interests and skills
 						<span class="text-xs text-gray-400">(Select at least one)</span>

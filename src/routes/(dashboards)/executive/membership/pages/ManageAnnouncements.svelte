@@ -61,8 +61,8 @@
 					{#each announcements as announcement, index}
 						<tr role="button" class="border-b transition-colors hover:bg-gray-50">
 							<td class="px-6 py-4 font-semibold text-gray-800"
-								>{announcement.Member.name ? announcement.Member.name : 'Not provided'}
-								{announcement.Member.surname}</td
+								>{announcement.member.name ? announcement.member.name : 'Not provided'}
+								{announcement.member.surname}</td
 							>
 							<td class="px-6 py-4">{announcement.subject}</td>
 							<td class="px-6 py-4 font-semibold text-gray-800">

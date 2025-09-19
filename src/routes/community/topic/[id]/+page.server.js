@@ -51,7 +51,7 @@ export const actions =   {
         const topic_id = params.id;
         const comment = form.get("comment");
 
-        const {error} = await supabase.from("Comment").insert(
+        const {error} = await supabase.from("comment").insert(
             {
                 topic_id: topic_id,
                 author_id: user.id,
@@ -62,8 +62,8 @@ export const actions =   {
             console.error(error)
         }
         //award the member with 5 points
-        const {data: Member} = await supabase.from("Member").select("points").eq("id",user.id);
-        let newPts = Number(Member[0].points) + 5;
-        await supabase.from("Member").update({points: newPts}).eq("id",user.id);
+        const {data: member} = await supabase.from("member").select("points").eq("id",user.id);
+        let newPts = Number(member[0].points) + 5;
+        await supabase.from("member").update({points: newPts}).eq("id",user.id);
     }
 }

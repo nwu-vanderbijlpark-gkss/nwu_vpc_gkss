@@ -7,9 +7,9 @@ export const load = async({request, locals: {supabase}}) => {
     }
     //user session exists
     //get the member data, check if the interests are null, if not null, then redirect to /dashboard
-    const {data: Member} = await supabase.from("Member").select().eq("id",user.id);
-    if(Member.length > 0){
-        if(Member[0].interests){
+    const {data: member} = await supabase.from("member").select().eq("id",user.id);
+    if(member.length > 0){
+        if(member[0].interests){
           redirect(303,"/dashboard")
         }
     }
@@ -37,7 +37,7 @@ export const actions = {
         const {data: {user}} = await supabase.auth.getUser();
 
         if(user){
-            const {data,error} = await supabase.from("Member").update({
+            const {data,error} = await supabase.from("member").update({
                 name: form.name, surname: form.surname, date_of_birth: form.date_of_birth, gender: form.gender,
         qualification: form.qualification, year_of_study: form.year_of_study,
         interests: interests(),

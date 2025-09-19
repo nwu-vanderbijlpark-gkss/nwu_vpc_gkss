@@ -3,6 +3,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import Loading from '$lib/components/Loading.svelte';
 	import { notifications } from '$lib/stores';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 	let isLoading = $state(false);
@@ -66,7 +67,10 @@
 	};
 </script>
 
-<title>Post an opportunity | NWU Vaal GKSS</title>
+<Seo
+	title="Add Opportunity"
+	desc="Share bursaries, internships, free online courses and many more with the NWU Vaal GKSS community."
+/>
 
 {#if isLoading}
 	<Loading text="Posting this opportunity..." />

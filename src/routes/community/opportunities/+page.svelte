@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import moment from 'moment';
 	import Opportunity from '$lib/components/Opportunity.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 	let { data } = $props();
 	let subscription = $state(null);
 	let opportunities = $state(data.opportunities);
@@ -35,9 +36,12 @@
 	});
 </script>
 
-<title>Opportunities | NWU Vaal GKSS</title>
+<Seo
+	title="Opportunities"
+	desc="Discover bursaries, internships, free online courses and many more opportunities shared by the NWU Vaal GKSS community."
+/>
 
-<div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="container mx-auto p-4">
+<div transition:fly class="container mx-auto p-4">
 	<!-- Header -->
 	<div class="mb-8 flex items-center justify-between">
 		<span>

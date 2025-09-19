@@ -1,7 +1,7 @@
 export const load = async({locals:{supabase}}) => {
 
     //load the team
-    const {data, error} = await supabase.from("Team").select("*");
+    const {data, error} = await supabase.from("team").select("*");
     if(error){
         console.error(error);
         return {error: "Unexpected error occurred"};

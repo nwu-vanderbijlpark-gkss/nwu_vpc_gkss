@@ -4,6 +4,7 @@
 	import { fade, fly, slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import { notifications } from '$lib/stores';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 	let images = $state([]);
@@ -70,9 +71,12 @@
 	}
 </script>
 
-<title>Create topic | NWU Vaal GKSS</title>
+<Seo
+	title="Create Topic"
+	desc="Start a new discussion topic in the NWU Vaal GKSS community forum and engage with fellow students."
+/>
 
-<div class="mx-auto max-w-2xl p-5" in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }}>
+<div class="mx-auto max-w-2xl p-5" transition:fly>
 	{#if isLoading}
 		<Loading text="Creating your topic..." />
 	{:else}

@@ -1,9 +1,15 @@
 <script>
+	import Seo from '$lib/components/SEO.svelte';
 	import { fade, fly } from 'svelte/transition';
 
 	let { data } = $props();
 	let ideas = $state(data.ideas);
 </script>
+
+<Seo
+	title="Saved AI Project Ideas"
+	desc="Explore a curated collection of AI-generated project ideas saved by NWU Vaal GKSS members, tailored to various interests and study levels."
+/>
 
 <div
 	class="min-h-screen bg-gray-50"

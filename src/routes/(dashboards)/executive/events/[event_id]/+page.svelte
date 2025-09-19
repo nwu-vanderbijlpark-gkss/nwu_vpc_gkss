@@ -11,6 +11,7 @@
 	import Participants from './components/Participants.svelte';
 	import Resources from './components/Resources.svelte';
 	import { getData } from './components/eventState.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 	let members = data.members;
@@ -62,7 +63,11 @@
 	});
 </script>
 
-<title>{event.topic} | NWU VAAL GKSS</title>
+<Seo
+	title={event.topic}
+	desc="Explore the details, participants, judging criteria, and resources for this event organized by NWU VAAL GKSS. Stay informed and engaged with all event activities."
+/>
+
 <div
 	in:fly={{ x: 100, duration: 400 }}
 	out:fade={{ duration: 300 }}

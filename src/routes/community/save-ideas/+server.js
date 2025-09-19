@@ -4,7 +4,7 @@ export const POST = async ({ request, getClientAddress, locals:{supabase} }) => 
     const {data: {user}} = await supabase.auth.getUser();
     const {project} = await request.json();
     if(user){
-        const {data: Ideas,error} = await supabase.from("Ideas").insert({
+        const {data: ideas,error} = await supabase.from("ideas").insert({
             user_id: user.id,
             title: project.title,
             description: project.full_description,

@@ -1,4 +1,5 @@
 <script>
+	import Seo from '$lib/components/SEO.svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
@@ -30,6 +31,11 @@
 
 	onMount(() => fetchQuizzes());
 </script>
+
+<Seo
+	title="Quiz Manager"
+	desc="Easily create, manage, and track quizzes with NWU VAAL GKSS's Quiz Manager. Engage your community with interactive quizzes and monitor performance all in one place."
+/>
 
 <div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="container mx-auto p-4">
 	<!-- Header -->

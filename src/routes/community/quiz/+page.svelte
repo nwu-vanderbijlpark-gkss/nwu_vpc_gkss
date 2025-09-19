@@ -1,4 +1,5 @@
 <script>
+	import Seo from '$lib/components/SEO.svelte';
 	import { PenSquare } from 'lucide-svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
@@ -22,9 +23,9 @@
 	onMount(() => fetchQuizzes());
 </script>
 
-<title> Quizzes | NWU Vaal GKSS</title>
+<Seo title="Quizzes" desc="Take quizzes and challenges shared by the NWU Vaal GKSS community." />
 
-<div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="container mx-auto p-4">
+<div transition:fly class="container mx-auto p-4">
 	<!-- Header -->
 	<div class="mb-8 flex items-center justify-between">
 		<h1 class="text-3xl font-bold text-black">Quizzes</h1>

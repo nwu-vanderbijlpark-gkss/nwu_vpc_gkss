@@ -3,20 +3,19 @@
 	import { onMount } from 'svelte';
 	import { fade, fly, slide } from 'svelte/transition';
 	import Topic from '$lib/components/Topic.svelte';
-	import Project from '$lib/components/Project.svelte';
 	import MemberCard from '$lib/components/MemberCard.svelte';
 	import Loading from '$lib/components/Loading.svelte';
 	import Opportunity from '$lib/components/Opportunity.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 
 	// Using Svelte 5 runes for reactive state
 	let text = $state(''); // Search text
 	let isLoading = $state(false);
 	let results = $state([]);
 	let num_results = $state(0);
-	let project_results = $state([]);
 	let member_results = $state([]);
 	let opportunity_results = $state([]);
-	let filter = $state('none'); // possible values: 'none', 'projects', 'topics', 'members'
+	let filter = $state('none'); // possible values: 'none', 'topics', 'members'
 	let fav_id = $state([]);
 
 	// Set favorite IDs from localStorage
@@ -29,20 +28,14 @@
 
 	const setFilter = (val) => {
 		filter = val;
-		if (val === 'projects') {
-			num_results = project_results.length;
-		} else if (val === 'topics') {
+		if (val === 'topics') {
 			num_results = results.length;
 		} else if (val === 'members') {
 			num_results = member_results.length;
 		} else if (val === 'opportunity') {
 			num_results = opportunity_results.length;
 		} else {
-			num_results =
-				results.length +
-				project_results.length +
-				member_results.length +
-				opportunity_results.length;
+			num_results = results.length + member_results.length + opportunity_results.length;
 		}
 	};
 
@@ -80,7 +73,6 @@
 		e.preventDefault();
 		isLoading = true;
 		results = [];
-		project_results = [];
 		member_results = [];
 
 		if (text.length < 1) {
@@ -100,13 +92,6 @@
 				(post) => isFound(post.topic) || isFound(post.content) || isFound(post.tags)
 			);
 		}
-
-		if (filter === 'none' || filter === 'projects') {
-			project_results = data.projects.filter(
-				(project) => isFound(project.name) || isFound(project.link) || isFound(project.description)
-			);
-		}
-
 		if (filter === 'none' || filter === 'members') {
 			member_results = data.members.filter(
 				(member) =>
@@ -167,12 +152,12 @@
 	}
 </script>
 
-<title> Search | NWU VAAL GKSS</title>
-<main
-	in:fly={{ x: 100, duration: 400 }}
-	out:fade={{ duration: 300 }}
-	class="mx-auto max-w-4xl p-4 sm:p-6"
->
+<Seo
+	title="Search"
+	desc="Search topics, members, and opportunities within the NWU Vaal GKSS community."
+/>
+
+<main transition:fly class="mx-auto max-w-4xl p-4 sm:p-6">
 	<header class="-mt-5 flex items-center justify-between rounded-lg bg-white p-2 shadow-sm">
 		<button
 			class="p-2 text-lg focus:outline-none"
@@ -212,13 +197,13 @@
 	{/if}
 
 	<section>
-		{#if results.length > 0 || project_results.length > 0 || member_results.length > 0 || opportunity_results.length > 0}
+		{#if results.length > 0 || member_results.length > 0 || opportunity_results.length > 0}
 			<div class="rounded-lg bg-white p-4 shadow-sm">
 				<p class="text-sm text-gray-600">
 					{num_results} results found
 				</p>
 				<div class="mt-3 flex flex-wrap gap-2">
-					{#each [{ show: 'none', text: 'All' }, { show: 'projects', text: 'Projects' }, { show: 'topics', text: 'Topics' }, { show: 'members', text: 'Members' }, { show: 'opportunity', text: 'Opportunities' }] as btn}
+					{#each [{ show: 'none', text: 'All' }, { show: 'topics', text: 'Topics' }, { show: 'members', text: 'Members' }, { show: 'opportunity', text: 'Opportunities' }] as btn}
 						<button
 							class={'rounded px-3 py-1 ' +
 								(filter === btn.show ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700')}
@@ -265,19 +250,6 @@
 								<Opportunity {opportunity} {text} showContent={true} />
 							{/each}
 						</div>
-					</section>
-				{/if}
-
-				{#if project_results.length > 0 && (filter === 'none' || filter === 'projects')}
-					<section aria-labelledby="projects-heading">
-						<h2 id="projects-heading" class="border-b pb-2 text-lg font-semibold">Projects</h2>
-						<section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-							<ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-								{#each project_results as project}
-									<Project {project} {text} {highlightText} />
-								{/each}
-							</ul>
-						</section>
 					</section>
 				{/if}
 			</div>

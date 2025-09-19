@@ -10,7 +10,7 @@ export const actions = {
             external_link = data.get("external_link");
         }
         const { error } = await supabase
-        .from('Events')
+        .from('events')
         .insert({  topic: data.get('topic'),
             description: data.get('description'),
             date: data.get('date'),
@@ -30,7 +30,7 @@ export const actions = {
         //delete event based on id
         const data = await request.formData();
         const id = data.get("id");
-        const {error} = await supabase.from("Events").delete().eq("id",id);
+        const {error} = await supabase.from("events").delete().eq("id",id);
         if(!error){
             return json({
             success: true,
