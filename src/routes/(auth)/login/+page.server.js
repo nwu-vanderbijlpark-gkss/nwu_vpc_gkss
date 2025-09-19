@@ -7,12 +7,12 @@ export const actions =   {
     const email = details.get("email");
     const password = details.get("password");
 
-    let { data: Team } = await supabase
-                                .from('Team')
+    let { data: team } = await supabase
+                                .from('team')
                                 .select('email')
 
-    if(Team){
-        Team.forEach(member => {
+    if(team){
+        team.forEach(member => {
             //check if the person logging in is not in the executive committee
             if(email === (member.email)){
                 redirectTo = '/executive'
@@ -30,9 +30,9 @@ export const actions =   {
         return {error: error.code}
       }else{
         //get the member data, check if the interests are not null, if null, then redirect to onboarding
-        const {data: Member} = await supabase.from("Member").select().eq("id",data.user.id);
-        if(Member.length > 0){
-            if(Member[0].interests){
+        const {data: member} = await supabase.from("member").select().eq("id",data.user.id);
+        if(member.length > 0){
+            if(member[0].interests){
               redirect(303,redirectTo)
             }
             else{

@@ -15,7 +15,7 @@
 		X
 	} from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import { page } from '$app/stores';
 
 	let { isMobile } = $props();
@@ -302,7 +302,7 @@
 			? 'bottom-1 h-[98svh]'
 			: 'bottom-16 lg:bottom-2'} w-[92svw] flex-col justify-between rounded-2xl border border-white bg-base-200 p-2
         shadow-xl lg:w-2/6"
-		transition:slide
+		transition:fly
 	>
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -357,7 +357,7 @@
 			<main
 				bind:this={chat.element}
 				class="h-full w-full space-y-2 overflow-auto p-2"
-				transition:slide
+				transition:fly
 			>
 				<div class="flex w-full flex-col items-center justify-center">
 					<Bot size="50" />
@@ -402,7 +402,7 @@
 					</div>
 				{/if}
 			</main>
-			<div transition:slide class="my-2 flex items-center gap-3">
+			<div transition:fly class="my-2 flex items-center gap-3">
 				Model:
 				<select class="select select-ghost" bind:value={modelIndex} onchange={handleModelChange}>
 					{#each models.data as llm, i}
@@ -411,7 +411,7 @@
 				</select>
 			</div>
 			<form
-				transition:slide
+				transition:fly
 				method="POST"
 				onsubmit={handleSubmit}
 				class="flex w-full items-center gap-1 border-t border-base-100 p-2 shadow-lg"

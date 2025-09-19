@@ -18,13 +18,14 @@
 	import { onMount } from 'svelte';
 	import { slide, fade, fly } from 'svelte/transition';
 	import NotFoundPage from '$lib/components/NotFoundPage.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 	let topic = $state(null);
 	let notFound = $state(false);
 	let currentImageIndex = $state(0);
 	let commentInput = $state('');
-	let textarea;
+	let textarea = $state();
 
 	// Auto-resize function for textarea
 	function autoResize() {
@@ -81,6 +82,13 @@
 	});
 </script>
 
+<Seo
+	title={topic ? topic.topic : 'Topic'}
+	desc={topic
+		? topic.content.replace(/<[^>]+>/g, '').substring(0, 150)
+		: 'View this topic on NWU Vaal GKSS community.'}
+/>
+
 {#if !topic}
 	{#if notFound}
 		<NotFoundPage
@@ -89,17 +97,12 @@
 			message="Sorry, this topic does not exist, it might have been deleted by its owner."
 		/>
 	{:else}
-		<div
-			class="flex min-h-[50vh] flex-col items-center justify-center"
-			in:fly={{ x: 100, duration: 400 }}
-			out:fade={{ duration: 300 }}
-		>
+		<div class="flex min-h-[50vh] flex-col items-center justify-center" transition:fly>
 			<div class="loading loading-spinner loading-lg text-primary"></div>
 			<p class="mt-4 text-lg font-medium">Loading topic...</p>
 		</div>
 	{/if}
 {:else}
-	<title>{topic.topic} | NWU Vaal GKSS</title>
 	<div
 		class="mx-auto max-w-3xl space-y-4 rounded-lg bg-white shadow-sm"
 		in:fly={{ x: 100, duration: 400 }}
@@ -118,12 +121,12 @@
 					<div class="flex items-center">
 						<div class="avatar mr-2">
 							<div class="h-8 w-8 overflow-hidden rounded-full">
-								<img src={topic.Member.image} alt={topic.Member.username} class="object-cover" />
+								<img src={topic.member.image} alt={topic.member.username} class="object-cover" />
 							</div>
 						</div>
 						<div class="flex items-center text-sm">
-							<a href={`/community/${topic.Member.username}`} class="font-medium hover:underline"
-								>{topic.Member.fullName}</a
+							<a href={`/community/${topic.member.username}`} class="font-medium hover:underline"
+								>{topic.member.fullName}</a
 							>
 							<Dot size={16} class="text-gray-400" />
 							<span class="text-gray-500">{moment(topic.created_at).fromNow()}</span>
@@ -187,7 +190,7 @@
 			<div class="tooltip" data-tip="Comments">
 				<button class="btn btn-ghost btn-sm gap-2">
 					<MessageCircleMore size={18} />
-					<span class="text-sm">{topic.Comment.length}</span>
+					<span class="text-sm">{topic.comment.length}</span>
 				</button>
 			</div>
 			<button
@@ -203,28 +206,28 @@
 		<section class="border-t">
 			<h2 class="p-4 text-lg font-semibold">Comments</h2>
 			<div class="divide-y">
-				{#if topic.Comment.length === 0}
+				{#if topic.comment.length === 0}
 					<p class="px-4 py-8 text-center text-gray-500">
 						No comments yet. Be the first to share your thoughts!
 					</p>
 				{:else}
-					{#each topic.Comment as comment}
+					{#each topic.comment as comment}
 						<article id={comment.id} class="p-4 hover:bg-gray-50">
 							<div class="mb-2 flex items-center justify-between">
 								<div class="flex items-center space-x-2">
 									<div class="avatar">
 										<div class="h-6 w-6 overflow-hidden rounded-full">
 											<img
-												src={comment.Member.image}
-												alt={comment.Member.username}
+												src={comment.member.image}
+												alt={comment.member.username}
 												class="object-cover"
 											/>
 										</div>
 									</div>
 
 									<a
-										href={`/community/${comment.Member.username}`}
-										class="text-sm font-medium hover:underline">{comment.Member.fullName}</a
+										href={`/community/${comment.member.username}`}
+										class="text-sm font-medium hover:underline">{comment.member.fullName}</a
 									>
 									<span class="text-sm text-gray-500">
 										{moment(comment.created_at).fromNow()}

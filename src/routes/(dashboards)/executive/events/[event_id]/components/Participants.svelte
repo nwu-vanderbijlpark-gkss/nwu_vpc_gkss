@@ -44,20 +44,20 @@
 					{#each participants as participant, index}
 						<tr class="border-b transition-colors hover:bg-gray-50">
 							<td class="px-6 py-4 font-semibold text-gray-800"
-								>{participant.Member.name ? participant.Member.name : 'Not provided'}
-								{participant.Member.surname}</td
+								>{participant.member.name ? participant.member.name : 'Not provided'}
+								{participant.member.surname}</td
 							>
 							<td class="px-6 py-4"
-								>{participant.Member.gender ? participant.Member.gender : 'Not provided'}</td
+								>{participant.member.gender ? participant.member.gender : 'Not provided'}</td
 							>
 							<td class="px-6 py-4"
-								>{participant.Member.qualification
-									? participant.Member.qualification
+								>{participant.member.qualification
+									? participant.member.qualification
 									: 'Not provided'}</td
 							>
 							<td class="px-6 py-4"
-								>{participant.Member.year_of_study
-									? participant.Member.year_of_study
+								>{participant.member.year_of_study
+									? participant.member.year_of_study
 									: 'Not provided'}</td
 							>
 						</tr>
@@ -76,7 +76,7 @@
 						<th class="px-6 py-4 font-medium">Rank</th>
 						<th class="px-6 py-4 font-medium">Group name</th>
 						<th class="px-6 py-4 font-medium">Creator</th>
-						<th class="px-6 py-4 font-medium">Members</th>
+						<th class="px-6 py-4 font-medium">members</th>
 						<th class="px-6 py-4 font-medium">Points</th>
 					</tr>
 				</thead>
@@ -85,7 +85,7 @@
 						<tr class="border-b transition-colors hover:bg-gray-50">
 							<td class="px-6 py-4 font-semibold text-gray-800"> {index + 1}</td>
 							<td class="px-6 py-4 font-semibold text-gray-800"> {group.name}</td>
-							<td class="px-6 py-4">{group.Member.name} {group.Member.surname} </td>
+							<td class="px-6 py-4">{group.member.name} {group.member.surname} </td>
 							<td class="px-6 py-4">{group.event_participant.length + 1}</td>
 							<td class="px-6 py-4">
 								{group.event_results?.length ? group.points : 0}

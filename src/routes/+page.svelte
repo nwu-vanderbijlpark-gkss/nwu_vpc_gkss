@@ -8,6 +8,7 @@
 	import { elasticOut, backOut, bounceOut, quintOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
 	import { spring } from 'svelte/motion';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 	let todaysBirthdays = data.members.filter((member) => {
@@ -87,11 +88,10 @@
 	});
 </script>
 
-<title>Home | NWU Vaal GKSS</title>
-<meta property="og:site_name" content="Home | NWU Vaal GKSS" />
-<meta name="twitter:title" content="Home | NWU Vaal GKSS" />
-<meta name="twitter:image:alt" content="Home | NWU Vaal GKSS" />
-<meta property="title" content="Home" />
+<Seo
+	title="Home"
+	desc="Welcome to the NWU Vaal GKSS! Empowering students through innovation, collaboration, and technology. Join us to learn, grow, and make an impact in the tech world."
+/>
 
 <section
 	class="relative flex min-h-screen flex-col items-center bg-base-300 lg:flex-row"

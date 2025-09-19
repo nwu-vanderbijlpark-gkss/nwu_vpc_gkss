@@ -7,6 +7,7 @@
 	import { models } from '$lib/state.svelte.js';
 	import TrixDisplay from '$lib/components/TrixDisplay.svelte';
 	import { page } from '$app/stores';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 	//let event = $state(data.event);
@@ -68,7 +69,10 @@
 	}
 </script>
 
-<title>{event.topic} | NWU VAAL GKSS</title>
+<Seo
+	title={event ? `${event.topic} - Register` : 'Event Registration'}
+	desc={event ? event.description : 'Register for events organized by NWU Vaal GKSS.'}
+/>
 <div
 	in:fly={{ x: 100, duration: 400 }}
 	out:fade={{ duration: 300 }}

@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import Seo from '$lib/components/SEO.svelte';
 	import TrixEditor from '$lib/components/TrixEditor.svelte';
 	import { models } from '$lib/state.svelte.js';
 	import {
@@ -48,6 +49,11 @@
 		}
 	};
 </script>
+
+<Seo
+	title="Create Event"
+	desc="Organize and manage events with ease using NWU VAAL GKSS's event creation tool. Set up event details, invite participants, and streamline your event planning process."
+/>
 
 <div
 	in:fly={{ x: 100, duration: 400 }}

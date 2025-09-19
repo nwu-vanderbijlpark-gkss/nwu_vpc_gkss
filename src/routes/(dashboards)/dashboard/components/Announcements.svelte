@@ -2,6 +2,7 @@
 	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Loading from '$lib/components/Loading.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 	import TrixDisplay from '$lib/components/TrixDisplay.svelte';
 	import { ArrowLeft, LucideSquareArrowOutUpRight } from 'lucide-svelte';
 	import moment from 'moment';
@@ -18,7 +19,6 @@
 		const res = await req.json();
 		if (res.success) {
 			announcements = res.data;
-			models.context += 'Announcements: ' + JSON.stringify(announcements);
 
 			localStorage.setItem('lclannouncements', JSON.stringify(announcements));
 		} else {
@@ -59,9 +59,10 @@
 	});
 </script>
 
-<svelte:head>
-	<title>{currentAnnouncement ? currentAnnouncement.subject : 'Announcements'} | NWU GKSS</title>
-</svelte:head>
+<Seo
+	title={currentAnnouncement ? currentAnnouncement.subject : 'Announcements'}
+	desc="Stay updated with the latest news and announcements from GKSS-NWU. Check here for important updates, events, and member information."
+/>
 
 <div
 	class="my-3 {$page.url.pathname.includes('/announcements') &&
@@ -78,7 +79,7 @@
 		</h3>
 		<div class="px-10 text-center text-sm">
 			<p class="font-bold">Posted by</p>
-			<p>{currentAnnouncement.Member.name} {currentAnnouncement.Member.surname}</p>
+			<p>{currentAnnouncement.member.name} {currentAnnouncement.member.surname}</p>
 			<p class="font-bold">Date</p>
 			<p>{moment(currentAnnouncement.created_at).fromNow()}</p>
 		</div>
@@ -117,7 +118,7 @@
 						<h4 class="font-bold">{announcement.subject}</h4>
 						<p class="text-sm font-medium text-gray-600">
 							Posted by: <span class="font-bold"
-								>{announcement.Member.name} {announcement.Member.surname}</span
+								>{announcement.member.name} {announcement.member.surname}</span
 							>
 						</p>
 						<p class="text-sm text-gray-600">

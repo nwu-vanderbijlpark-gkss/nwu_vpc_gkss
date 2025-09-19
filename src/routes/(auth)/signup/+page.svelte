@@ -1,7 +1,8 @@
 <script>
 	import { enhance } from '$app/forms';
-	import { fade, slide } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import Loading from '$lib/components/Loading.svelte';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let email = $state('');
 	let password = $state('');
@@ -47,13 +48,12 @@
 	let isLoading = $state(false);
 </script>
 
-<title>Signup | NWU Vaal GKSS</title>
-<meta property="og:site_name" content="Signup | NWU Vaal GKSS" />
-<meta name="twitter:title" content="Signup | NWU Vaal GKSS" />
-<meta name="twitter:image:alt" content="Signup | NWU Vaal GKSS" />
-<meta property="title" content="Signup" />
+<Seo
+	title="Signup"
+	desc="Join GKSS-NWU today! Create your account to access exclusive member benefits, events, and resources."
+/>
 
-<div transition:slide class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
+<div transition:fly class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
 	<img src="/createAccount.png" alt="code" class="hidden w-2/5 rounded-lg lg:flex" />
 	<div
 		class="flex w-full flex-col items-center justify-center space-y-5 rounded-xl p-5 lg:w-2/5 lg:bg-base-200 lg:shadow-2xl"

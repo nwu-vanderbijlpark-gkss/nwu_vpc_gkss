@@ -11,6 +11,7 @@
 	import { page } from '$app/stores';
 	import { supabase } from '$lib/supabaseClient';
 	import { goto } from '$app/navigation';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 	let event = $state(data.event);
@@ -113,9 +114,12 @@
 	let showEditor = $state(true);
 </script>
 
-<svelte:head>
-	<title>{event.topic} Workspace | NWU VAAL GKSS</title>
-</svelte:head>
+<Seo
+	title={event ? `${event.topic} Workspace` : 'Event Workspace'}
+	desc={event
+		? `Workspace for the event: ${event.topic}`
+		: 'Event workspace for NWU Vaal GKSS events.'}
+/>
 
 {#if ideaGeneratorOpen}
 	<!-- Backdrop -->

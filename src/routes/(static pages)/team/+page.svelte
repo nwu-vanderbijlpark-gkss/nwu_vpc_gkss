@@ -1,12 +1,13 @@
 <script>
+	import Seo from '$lib/components/SEO.svelte';
+
 	let { data, form } = $props();
 </script>
 
-<title>Team | NWU Vaal GKSS</title>
-<meta property="og:site_name" content="Team | NWU Vaal GKSS" />
-<meta name="twitter:title" content="Team | NWU Vaal GKSS" />
-<meta name="twitter:image:alt" content="Team | NWU Vaal GKSS" />
-<meta property="title" content="Team" />
+<Seo
+	title="Team"
+	desc="Meet the dedicated team members of the NWU Vaal GKSS, committed to fostering a vibrant student community through events, workshops, and initiatives."
+/>
 
 <div
 	in:fly={{ x: 100, duration: 400 }}

@@ -1,14 +1,14 @@
 <script>
+	import Seo from '$lib/components/SEO.svelte';
 	import { fade, fly } from 'svelte/transition';
 
 	//
 </script>
 
-<title>About | NWU Vaal GKSS</title>
-<meta property="og:site_name" content="About | NWU Vaal GKSS" />
-<meta name="twitter:title" content="About | NWU Vaal GKSS" />
-<meta name="twitter:image:alt" content="About | NWU Vaal GKSS" />
-<meta property="title" content="About" />
+<Seo
+	title="About NWU Vaal GKSS"
+	desc="Learn more about the Geekulcha Student Society (GKSS) at NWU Vaal Campus. Discover our mission, vision, and the vibrant community we are building to foster innovation and collaboration in technology."
+/>
 
 <div in:fly={{ x: 100, duration: 400 }} class="min-h-screen bg-gray-100 p-10">
 	<!-- Section for Society Information -->

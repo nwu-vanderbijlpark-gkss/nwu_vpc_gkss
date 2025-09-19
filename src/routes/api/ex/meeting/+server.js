@@ -70,17 +70,17 @@ export const GET = async({url,locals:{supabase}}) => {
     //get a tool for a meeting
     if(tool && meeting_id){
         
-        const {data: toolData, er} = await supabase.from("meeting_tool").select("content,Member(username,email)").eq("meeting_id",meeting_id).eq("tool",tool).order("created_at",{ascending: false});
+        const {data: toolData, er} = await supabase.from("meeting_tool").select("content,member(username,email)").eq("meeting_id",meeting_id).eq("tool",tool).order("created_at",{ascending: false});
         return returnData(toolData,er);
     }
 
     //get a meeting
     if(meeting_id){
-        const {data: meeting, error} = await supabase.from("meetings").select("*,Member(username,email)").eq("id",meeting_id).order("created_at",{ascending: false});
+        const {data: meeting, error} = await supabase.from("meetings").select("*,member(username,email)").eq("id",meeting_id).order("created_at",{ascending: false});
         return returnData(meeting,error);
     }
     //get all meetings
-    const {data: meetings, error} = await supabase.from("meetings").select("*,Member(username,email)").order("created_at",{ascending: false});
+    const {data: meetings, error} = await supabase.from("meetings").select("*,member(username,email)").order("created_at",{ascending: false});
     return returnData(meetings,error);
     
 }

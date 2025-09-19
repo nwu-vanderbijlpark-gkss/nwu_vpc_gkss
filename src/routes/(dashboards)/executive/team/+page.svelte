@@ -1,4 +1,5 @@
 <script>
+	import Seo from '$lib/components/SEO.svelte';
 	import { Edit, PlusCircle, Trash2, X } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
 
@@ -28,6 +29,11 @@
 		team = team.filter((member) => member.id !== id);
 	};
 </script>
+
+<Seo
+	title="Executive Team Management"
+	desc="Manage and showcase your executive team with NWU VAAL GKSS's team management system. Add, edit, and organize team members to highlight your leadership and foster collaboration."
+/>
 
 <div
 	in:fly={{ x: 100, duration: 400 }}

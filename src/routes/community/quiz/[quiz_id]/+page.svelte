@@ -6,6 +6,7 @@
 
 	import moment from 'moment';
 	import { fade, fly } from 'svelte/transition';
+	import Seo from '$lib/components/SEO.svelte';
 	let { data } = $props();
 	let quiz = $state(data.quiz);
 	function shuffleQuestions() {
@@ -55,7 +56,13 @@
 	});
 </script>
 
-<title>{quiz ? quiz.title : 'Quiz'} | NWU Vaal GKSS</title>
+<Seo
+	title={quiz ? quiz.title : 'Quiz'}
+	desc={quiz
+		? quiz.description
+		: 'Take quizzes and challenges shared by the NWU Vaal GKSS community.'}
+/>
+
 {#if data.isLoggedIn}
 	{#if isClosed}
 		<div
@@ -91,11 +98,7 @@
 		<TakeQuiz {alreadyCompleted} {quiz} {isAuthor} />
 	{/if}
 {:else}
-	<div
-		in:fly={{ x: 100, duration: 400 }}
-		out:fade={{ duration: 300 }}
-		class="rounded-xl border-2 border-dashed p-8 text-center"
-	>
+	<div transition:fly class="rounded-xl border-2 border-dashed p-8 text-center">
 		<div class="mx-auto max-w-xs space-y-4">
 			<LogIn class="mx-auto h-12 w-12 text-primary" />
 			<h4 class="text-xl font-semibold">Join the Community</h4>

@@ -13,11 +13,11 @@
 	} from 'lucide-svelte';
 	import NotFoundPage from '$lib/components/NotFoundPage.svelte';
 	import Topic from '$lib/components/Topic.svelte';
-	import Project from '$lib/components/Project.svelte';
 	import { onMount } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import { models } from '$lib/state.svelte.js';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 	const member = data.member;
@@ -32,7 +32,6 @@
 
 	let contextMember = { ...(data.member || {}) }; // ensure it’s an object
 	delete contextMember.topics;
-	delete contextMember.projects;
 	models.context = JSON.stringify(contextMember);
 
 	onMount(() => {
@@ -54,20 +53,12 @@
 	};
 </script>
 
-<svelte:head>
-	<title>{member.fullName} | NWU Vaal GKSS</title>
-	<meta name="description" content="View {member.fullName} on NWU Vaal GKSS Website" />
+<Seo
+	title={member.fullName}
+	desc={`View ${member.fullName} on NWU Vaal GKSS Website`}
+	image={member.image}
+/>
 
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="{member.fullName} | NWU Vaal GKSS" />
-	<meta name="twitter:description" content="View {member.fullName} on NWU Vaal GKSS Website" />
-	<meta name="twitter:image" content={member.image} />
-	<meta name="twitter:image:alt" content="{member.fullName} | NWU Vaal GKSS" />
-
-	<meta property="og:title" content="{member.fullName} | NWU Vaal GKSS" />
-	<meta property="og:description" content="View {member.fullName} on NWU Vaal GKSS Website" />
-	<meta property="og:image" content={member.image} />
-</svelte:head>
 {#if data.notFound}
 	<NotFoundPage
 		title="User not found"
@@ -75,7 +66,7 @@
 		message={`Sorry, this user '@${username}' does not exist, please try again later or return to home`}
 	/>
 {:else}
-	<div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="min-h-screen pb-8">
+	<div transition:fly class="min-h-screen pb-8">
 		<!-- Profile Header -->
 		<div class="flex flex-col items-center gap-8 px-4 py-6 lg:flex-row lg:items-start lg:px-8">
 			<!-- Profile Image -->
@@ -288,21 +279,6 @@
 								<Linkedin class="h-5 w-5 text-[#0A66C2]" />
 								<span class="text-sm font-medium text-gray-700">LinkedIn</span>
 							</a>
-
-							{#if showLinkedinPreview}
-								<div
-									class="absolute bottom-full left-0 z-50 w-64 rounded-lg border bg-white p-4 shadow-xl"
-									transition:fade={{ duration: 150 }}
-								>
-									<div class="text-center">
-										<Linkedin class="mx-auto h-12 w-12 text-[#0A66C2]" />
-										<p class="mt-2 text-sm text-gray-600">Visit LinkedIn profile to view details</p>
-										<div class="mt-3 text-xs text-gray-500">
-											LinkedIn API access requires authentication
-										</div>
-									</div>
-								</div>
-							{/if}
 						</div>
 					{/if}
 				</div>
@@ -328,15 +304,6 @@
 							<p class="text-2xl font-bold text-gray-800">{member.user_views}</p>
 						</div>
 						<ChartNoAxesColumn class="h-8 w-8 text-primary" />
-					</div>
-
-					<!-- Projects -->
-					<div class="flex items-center justify-between rounded-lg bg-gray-50 p-4">
-						<div>
-							<p class="text-sm font-medium text-gray-500">Total Projects</p>
-							<p class="text-2xl font-bold text-gray-800">{member.projects.length}</p>
-						</div>
-						<CodeXml class="h-8 w-8 text-primary" />
 					</div>
 
 					<!-- Ratings -->
@@ -370,27 +337,6 @@
 							No topics created yet
 						</div>
 					{/each}
-				</div>
-
-				<input
-					type="radio"
-					name="my_tabs_2"
-					role="tab"
-					aria-label="Projects"
-					class="tab font-medium text-gray-500 [--tab-bg:transparent] aria-selected:bg-primary aria-selected:text-white"
-				/>
-				<div role="tabpanel" class="tab-content mt-4">
-					<section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-						<ul role="list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-							{#each member.projects as project}
-								<Project {project} />
-							{:else}
-								<div class="col-span-full rounded-lg bg-gray-50 p-6 text-center text-gray-500">
-									No projects submitted yet
-								</div>
-							{/each}
-						</ul>
-					</section>
 				</div>
 			</div>
 		</div>

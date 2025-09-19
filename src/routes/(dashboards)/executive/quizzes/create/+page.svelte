@@ -2,6 +2,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import Loading from '$lib/components/Loading.svelte';
 	import { notifications } from '$lib/stores';
+	import Seo from '$lib/components/SEO.svelte';
 
 	let newQuiz = $state({
 		title: '',
@@ -154,6 +155,11 @@
 		}
 	};
 </script>
+
+<Seo
+	title="Create Quiz"
+	desc="Easily create and customize quizzes with NWU VAAL GKSS's quiz creation tool. Engage your community with interactive quizzes and track performance all in one place."
+/>
 
 <div
 	in:fly={{ x: 100, duration: 400 }}

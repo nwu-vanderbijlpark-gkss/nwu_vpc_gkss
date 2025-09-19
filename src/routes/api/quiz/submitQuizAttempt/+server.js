@@ -10,9 +10,9 @@ export const POST = async ({locals: {supabase},request}) => {
         points: points
     });
     if(!error){
-        const {data: Member} = await supabase.from("Member").select("points").eq("id",user.id);
-        let newPts = Number(Member[0].points) + Number(points);
-        await supabase.from("Member").update({points: newPts}).eq("id",user.id);
+        const {data: member} = await supabase.from("member").select("points").eq("id",user.id);
+        let newPts = Number(member[0].points) + Number(points);
+        await supabase.from("member").update({points: newPts}).eq("id",user.id);
         return json({success: true})
     }
     console.log(error)

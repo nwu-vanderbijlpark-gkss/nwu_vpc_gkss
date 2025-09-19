@@ -4,15 +4,16 @@
 	import CalendarView from '$lib/components/CalendarView.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { models } from '$lib/state.svelte.js';
+	import Seo from '$lib/components/SEO.svelte';
 	let { data } = $props();
 	models.context = 'Events: ' + JSON.stringify(data.events);
 </script>
 
-<title>Events | NWU Vaal GKSS </title>
-<meta property="og:site_name" content="Events | NWU Vaal GKSS" />
-<meta name="twitter:title" content="Events | NWU Vaal GKSS" />
-<meta name="twitter:image:alt" content="Events | NWU Vaal GKSS" />
-<meta property="title" content="Events" />
+<Seo
+	title="Events"
+	desc="Stay updated with the latest events organized by NWU Vaal GKSS. Explore our event calendar and register for upcoming activities."
+/>
+
 <Events events={data.events} />
 <div
 	in:fly={{ x: 100, duration: 400 }}

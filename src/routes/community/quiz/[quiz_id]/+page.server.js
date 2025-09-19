@@ -1,5 +1,5 @@
 export const load = async ({params,locals: {supabase}}) => {
-    const {data: quiz, error} = await supabase.from("Quiz").select("id,title,due,time_limit,created_at,Member(username,name,surname,email),quiz_questions(*)").eq("id",params.quiz_id);
+    const {data: quiz, error} = await supabase.from("quiz").select("id,title,due,time_limit,created_at,Member(username,name,surname,email),quiz_questions(*)").eq("id",params.quiz_id);
     let alreadyCompleted = false;
     let isAuthor = false;
     const {data: {user}} = await supabase.auth.getUser();

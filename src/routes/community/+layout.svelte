@@ -32,15 +32,6 @@
 
 	let { children, data } = $props();
 
-	models.context = JSON.stringify(data.allTopics) + JSON.stringify(data.opportunities);
-	let todaysBirthdays = data.members.filter((member) => {
-		const today = new Date();
-		const birthDate = new Date(member.date_of_birth);
-
-		// Check if the member's birthday is today (ignore the year)
-		return today.getDate() === birthDate.getDate() && today.getMonth() === birthDate.getMonth();
-	});
-
 	let popularTopics = $state(data.most_viewed.slice(0, 3));
 	let images = $state([]);
 	let error = $state();
@@ -167,13 +158,6 @@
 						class:selected={$page.url.pathname.includes('/community/opportunities')}
 						href="/community/opportunities"
 						class="navItem text-lg"><Users /> Opportunities</a
-					>
-				</li>
-				<li>
-					<a
-						class:selected={$page.url.pathname === '/community/tools'}
-						href="/community/tools"
-						class="navItem text-lg"><Bot /><span>Geek Tools</span></a
 					>
 				</li>
 				<li>
@@ -396,11 +380,6 @@
 						class="navItem text-lg"><Brain /> Idea Generator</a
 					>
 				</li>
-				<li>
-					<a onclick={() => moreModal.close()} href="/community/tools" class="navItem text-lg">
-						<Bot /><span>Geek Tools</span>
-					</a>
-				</li>
 				{#if data.isLoggedIn}
 					<li>
 						<a
@@ -439,118 +418,6 @@
 				{/if}
 			</ul>
 		</div>
-	</div>
-</dialog>
-<!-- Comment Modal-->
-<dialog id="commentModal" class="modal modal-bottom z-50 sm:modal-middle">
-	<div class="modal-box text-white">
-		<div class="flex items-center justify-between">
-			<p class="text-lg font-bold text-white">Add a comment</p>
-			<div class="modal-action">
-				<form method="dialog">
-					<button class="btn"><X />Close</button>
-				</form>
-			</div>
-		</div>
-		{#if data.email != null}
-			<form method="post" class="flex w-full flex-col gap-5">
-				<label class="form-control w-full">
-					<p>Comment</p>
-					<textarea
-						class="textarea textarea-bordered"
-						name="comment"
-						id="comment"
-						placeholder="Add your comment"
-						required
-					></textarea>
-				</label>
-				<button type="submit" class="btn btn-primary text-white">Submit</button>
-			</form>
-		{:else}
-			<p class="py-4 text-sm">You need to login to be able to add comments</p>
-			<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
-		{/if}
-	</div>
-</dialog>
-<!--Submit ProjectSpace Project Modal-->
-
-<dialog id="projectSpaceModal" class="modal modal-bottom z-50 sm:modal-middle">
-	<div class="modal-box text-white">
-		<div class="flex items-center justify-between">
-			<p class="text-lg font-bold text-white">Submit a project</p>
-			<div class="modal-action">
-				<form method="dialog">
-					<button class="btn"><X />Close</button>
-				</form>
-			</div>
-		</div>
-		{#if data.email != null}
-			<p class="py-4 text-sm">Enter the required details</p>
-			<form
-				method="post"
-				action="?/addProject"
-				enctype="multipart/form-data"
-				class="flex w-full flex-col gap-5"
-			>
-				<label class="form-control w-full">
-					<p>Name</p>
-					<input
-						type="text"
-						name="name"
-						class="input input-bordered"
-						id="name"
-						placeholder="Student Hub..."
-						required
-					/>
-				</label>
-				<label class="form-control w-full">
-					<p>Link to project</p>
-					<input
-						name="link"
-						class="input input-bordered"
-						id="link"
-						type="link"
-						placeholder="Enter the link to the project"
-						required
-					/>
-				</label>
-				<label class="form-control w-full">
-					<p>Image</p>
-					<input
-						type="file"
-						accept="image/*"
-						name="image"
-						class="file-input file-input-bordered"
-						id="image"
-						required
-					/>
-				</label>
-				<label class="form-control w-full">
-					<p>Description</p>
-					<textarea
-						name="description"
-						class="textarea textarea-bordered"
-						id="description"
-						placeholder="What's the project about?"
-						required
-					></textarea>
-				</label>
-				<label class="form-control w-full">
-					<p>Technologies Used</p>
-					<textarea
-						name="technologies"
-						class="textarea textarea-bordered"
-						id="technologies"
-						placeholder="Enter the technologies used, comma separated"
-						required
-					></textarea>
-				</label>
-				<button type="submit" class="btn btn-primary text-white">Create</button>
-			</form>
-		{:else}
-			<p class="py-4 text-sm">You need to login to be able to create a topic</p>
-			<a href="/login" class="btn btn-primary w-full text-white">Login here</a>
-		{/if}
 	</div>
 </dialog>
 

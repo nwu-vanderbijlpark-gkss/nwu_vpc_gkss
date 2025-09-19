@@ -5,7 +5,7 @@ export const POST = async({locals:{supabase}, request}) => {
     //create an event
     //get the data sent from client
     const { data } = await request.json();
-    const {data: event, error: eventError} = await supabase.from("Events").insert({
+    const {data: event, error: eventError} = await supabase.from("events").insert({
         topic: data.topic,
         description: data.description,
         date: data.date,
@@ -26,7 +26,7 @@ export const PUT = async({locals:{supabase}, request}) => {
     //update an event
     const { data } = await request.json();
     
-    const {data: event, error: eventError} = await supabase.from("Events").update({
+    const {data: event, error: eventError} = await supabase.from("events").update({
         topic: data.topic,
         description: data.description,
         date: data.date,

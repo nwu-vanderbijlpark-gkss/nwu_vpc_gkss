@@ -25,14 +25,14 @@ export const GET = async({url, locals: {supabase}}) => {
 
     //return only 1 announcement
     if(id){
-        const {data: announcement, error} = await table.select("id,subject,body,created_at, Member(name, surname)").eq("id",id).single();
+        const {data: announcement, error} = await table.select("id,subject,body,created_at, member(name, surname)").eq("id",id).single();
         if(error){
             return json({success: false, data: error});
         }
         return json({success: true, status: 200, data: announcement});
     }
     //return all announcements, might need pagination later on
-    const {data: announcements, error} = await table.select("id,subject,created_at, Member(name, surname)").order("created_at",{ascending: false});
+    const {data: announcements, error} = await table.select("id,subject,created_at, member(name, surname)").order("created_at",{ascending: false});
     if(error){
         return json({success: false, data: error});
     }

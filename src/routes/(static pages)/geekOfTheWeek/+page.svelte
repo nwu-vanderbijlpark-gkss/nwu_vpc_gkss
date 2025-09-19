@@ -1,4 +1,5 @@
 <script>
+	import Seo from '$lib/components/SEO.svelte';
 	import { fade, fly } from 'svelte/transition';
 
 	let { data } = $props();
@@ -15,11 +16,11 @@
 	); //
 </script>
 
-<title>Geek of the Week ({geek.name} {geek.surname}) | NWU Vaal GKSS</title>
-<meta property="og:site_name" content="Geek of the Week | NWU Vaal GKSS" />
-<meta name="twitter:title" content="Geek of the Week | NWU Vaal GKSS" />
-<meta name="twitter:image:alt" content="Geek of the Week | NWU Vaal GKSS" />
-<meta property="title" content="Geek of the Week" />
+<Seo
+	image={geek.image}
+	title="Geek of the Week ({geek.name} {geek.surname})"
+	desc="Celebrating a standout Geekulcha member for their exceptional contributions to innovation and technology."
+/>
 
 <div
 	in:fly={{ x: 100, duration: 400 }}

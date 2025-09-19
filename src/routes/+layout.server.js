@@ -6,7 +6,7 @@ export const load = async({request, locals: {supabase}}) => {
 
     let currentUser = null;
 
-    const {data: Member} = await supabase.from("Member").select('id,image,date_of_birth,name,surname,username,year_of_study,qualification, points, email');
+    const {data: Member} = await supabase.from("member").select('id,image,date_of_birth,name,surname,username,year_of_study,qualification, points, email');
     
     const members = [];
 
@@ -17,12 +17,12 @@ export const load = async({request, locals: {supabase}}) => {
     }
     
     if(user != null){
-        let { data: Team } = await supabase
-            .from('Team')
+        let { data: team } = await supabase
+            .from('team')
             .select('*')   
-        if(Team){
+        if(team){
             let isMember = false;//is executive member
-            Team.forEach(member => {
+            team.forEach(member => {
                 //check if the user accessing the executive pages is an executive member
                 if(user.email === (member.email)){ 
                     isMember = true;   
@@ -41,7 +41,7 @@ export const load = async({request, locals: {supabase}}) => {
                 currentUser = {...currentUser,image: publicUrl.data.publicUrl}
             }
             //take the user email and insert into the database
-            const {data, error} = await supabase.from("Member").update({email: user.email}).eq("id", user.id);
+            const {data, error} = await supabase.from("member").update({email: user.email}).eq("id", user.id);
 
             return {isLoggedIn: true, isExecutive: isMember, currentUser, members};
         }

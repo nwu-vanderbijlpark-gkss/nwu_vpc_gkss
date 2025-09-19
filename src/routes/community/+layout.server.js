@@ -4,16 +4,16 @@ export async function load({locals: {supabase}}) {
 
     /**TOPICS */
     //fetch all topics
-    const {data: Topic, error} = await supabase.from("Topic").select("id,content,created_at,tags,topic, Member(username,image,name, surname),Comment(*,Member(username, image, name, surname)),topic_views(id),topic_images(image)").order('created_at', { ascending: false });
+    const {data: topics, error} = await supabase.from("topic").select("id,content,created_at,tags,topic, member(username,image,name, surname),comment(*,member(username, image, name, surname)),topic_views(id),topic_images(image)").order('created_at', { ascending: false });
     if(error){
         console.error(error)
     }
     let allTopics = [];
     //format the topics for viewing, by getting the public url for the images on each topic 
-    for(let topic of Topic){
+    for(let topic of topics){
         //for member profile images
-        let publicUrl = await supabase.storage.from("files").getPublicUrl(topic.Member.image.substring(topic.Member.image.indexOf("/")+1));//removing the first "file/"
-        topic = {...topic,Member: {image: publicUrl.data.publicUrl, username: topic.Member.username, fullName: topic.Member.name + " " +topic.Member.surname}}
+        let publicUrl = await supabase.storage.from("files").getPublicUrl(topic.member.image.substring(topic.member.image.indexOf("/")+1));//removing the first "file/"
+        topic = {...topic,member: {image: publicUrl.data.publicUrl, username: topic.member.username, fullName: topic.member.name + " " +topic.member.surname}}
         //for topic images
         const finalImages = [];
         for(const file of topic.topic_images){
@@ -23,26 +23,18 @@ export async function load({locals: {supabase}}) {
         topic = {...topic, topic_images: finalImages};
         //for comments
         const comments = [];
-        for(let comment of topic.Comment){
-            let publicUrl = await supabase.storage.from("files").getPublicUrl(comment.Member.image.substring(topic.Member.image.indexOf("/")));//removing the first "file/"
-            comment = {...comment,Member: {image: publicUrl.data.publicUrl, username: comment.Member.username, fullName: comment.Member.name + " " +comment.Member.surname}};
+        for(let comment of topic.comment){
+            let publicUrl = await supabase.storage.from("files").getPublicUrl(comment.member.image.substring(topic.member.image.indexOf("/")));//removing the first "file/"
+            comment = {...comment,member: {image: publicUrl.data.publicUrl, username: comment.member.username, fullName: comment.member.name + " " +comment.member.surname}};
             comments.push(comment)
         }
-        topic = {...topic, Comment: comments};
+        topic = {...topic, comment: comments};
         allTopics.push(topic);
     }
-    /**PROJECTS */
-    const {data: Project} = await supabase.from("Project").select("name,description,link,created_at,id,type,Member(username,name,surname),project_views(id)").order('created_at', { ascending: false });
-    let projects = [];
-    for(const project of Project){
-        const {data: Project_rating} = await supabase.from("Project_rating").select("rating,Member(id)").eq("project_id",project.id);
-        let rating = Project_rating;
-        projects.push({...project,rating: rating})
-    }
-    /**MEMBERS */
-    const {data: Member} = await supabase.from("Member").select("name, surname, qualification, username, image, year_of_study, interests, gender, date_of_birth, points, Topic(id),Project(id)");
+    /**memberS */
+    const {data: memberData} = await supabase.from("member").select("name, surname, qualification, username, image, year_of_study, interests, gender, date_of_birth, points, topic(id)");
     let members = [];
-    for(const member of Member){
+    for(const member of memberData){
         let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")+1));//removing the first "file/"
         members.push({...member,image: publicUrl.data.publicUrl});
     }
@@ -50,7 +42,7 @@ export async function load({locals: {supabase}}) {
     let email = null;
     if(user){
         email = user.email;
-        const {data: sessionUser} = await supabase.from("Member").select("name, surname, qualification, username, image, year_of_study, interests, gender, date_of_birth, points").eq("id",user.id);
+        const {data: sessionUser} = await supabase.from("member").select("name, surname, qualification, username, image, year_of_study, interests, gender, date_of_birth, points").eq("id",user.id);
         currentUser = sessionUser[0];
     }
     else{
@@ -58,15 +50,16 @@ export async function load({locals: {supabase}}) {
     }
 
     //Opportunities
-    const {data: opportunities} = await supabase.from("Opportunity").select("id,organization,deadline,title,type,content,created_at,Member(username,name,surname)");
+    const {data: opportunities} = await supabase.from("opportunity").select("id,organization,deadline,title,type,content,created_at,member(username,name,surname)");
     //before returning the data, make objects for most viewed, latest
     const latest = allTopics.slice(0, 3);//as it is, just take the top 3
     
     //for most viewed
     let most_viewed = allTopics.sort((a, b) => b.topic_views.length - a.topic_views.length);
     
+    
 
-    return {email,latest,most_viewed, allTopics, projects, members, currentUser, opportunities};
+    return {email,latest,most_viewed, allTopics, members, currentUser, opportunities};
 
 }
 
