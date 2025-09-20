@@ -5,6 +5,14 @@
 
 	let { data, form } = $props();
 	const spotlight = data.team[Math.floor(Math.random() * data.team.length)];
+	const currentYear = new Date().getFullYear();
+
+	// Split team into current and previous leaders
+	const currentLeaders = data.team.filter((team) => team.year == currentYear);
+	const previousLeaders = data.team.filter((team) => team.year < currentYear);
+
+	// State to manage active tab
+	let activeTab = $state('current');
 </script>
 
 <Seo
@@ -19,60 +27,151 @@
 		.join(', ')}"
 />
 
-<div transition:fly class="min-h-screen space-y-8 bg-gray-100 p-6">
-	<h1 class="text-center text-4xl font-extrabold text-black">Meet the Team</h1>
-	<div class="grid grid-cols-1 gap-6 p-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-		{#each data.team as team}
-			<div
-				class="card transform overflow-hidden rounded-lg bg-white p-4 shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
-			>
-				<figure class="relative">
-					<img
-						src={team.member.image}
-						alt="member"
-						class="h-[300px] w-full transform rounded-md object-cover transition duration-300 ease-in-out hover:scale-105"
-					/>
-				</figure>
-				<div class="card-body p-4 text-black">
-					<h2 class="card-title text-xl font-semibold text-red-600">
-						{team.member.name}
-						{team.member.surname}
-					</h2>
-					<p class="text-lg text-gray-700">{team.role}</p>
-					<div class="mt-2 flex flex-col">
-						<a
-							href={`mailto:${team.member.email}`}
-							class="link-hover text-sm text-blue-500 hover:text-blue-700">{team.member.email}</a
-						>
-					</div>
-					<div>
-						{#if team.member.github}
-							<div class="relative inline-block">
+<div transition:fly={{ y: 50, duration: 500 }} class="min-h-screen bg-base-100 p-6">
+	<!-- Header Section -->
+	<div class="mb-12 text-center">
+		<h1 class="mb-4 text-5xl font-extrabold text-base-content">Meet the Team</h1>
+		<p class="mx-auto max-w-2xl text-lg text-base-content/70">
+			Discover the passionate leaders of NWU Vaal GKSS who drive our community forward through
+			innovation, collaboration, and dedication.
+		</p>
+	</div>
+
+	<!-- Tabs for Current and Previous Leaders -->
+	<div class="tabs-boxed tabs mb-8 justify-center">
+		<button
+			class="tab-lg tab {activeTab === 'current' ? 'tab-active' : ''}"
+			onclick={() => (activeTab = 'current')}
+		>
+			Current Leaders
+		</button>
+		<button
+			class="tab-lg tab {activeTab === 'previous' ? 'tab-active' : ''}"
+			onclick={() => (activeTab = 'previous')}
+		>
+			Previous Leaders
+		</button>
+	</div>
+
+	<!-- Team Grid -->
+	<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+		{#if activeTab === 'current'}
+			{#each currentLeaders as team}
+				<div
+					class="card transform bg-base-100 shadow-xl transition-all duration-300 hover:scale-105"
+					in:fly={{ y: 20, duration: 300, delay: 100 }}
+				>
+					<figure class="px-4 pt-4">
+						<img
+							src={team.member.image}
+							alt="{team.member.name} {team.member.surname}"
+							class="h-64 w-full rounded-lg object-cover"
+						/>
+					</figure>
+					<div class="card-body">
+						<h2 class="card-title text-2xl font-bold text-primary">
+							{team.member.name}
+							{team.member.surname}
+						</h2>
+						<p class="text-lg text-base-content/80">{team.role}</p>
+						<p class="text-sm text-base-content/60">
+							{team.member.year_of_study} Year {team.member.qualification}
+						</p>
+						<div class="mt-4">
+							<a href={`mailto:${team.member.email}`} class="link-hover link text-sm text-primary">
+								{team.member.email}
+							</a>
+						</div>
+						<div class="mt-4 flex gap-3">
+							{#if team.member.github}
 								<a
 									href={team.member.github}
 									target="_blank"
-									onfocus={this.blur()}
-									class="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-200"
+									aria-label="GitHub"
+									class="btn btn-circle btn-ghost"
 								>
-									<Github class="h-5 w-5 text-gray-800" />
+									<Github class="h-6 w-6 text-base-content" />
 								</a>
-							</div>
-						{/if}
-						{#if team.member.linkedin}
-							<div class="relative inline-block">
+							{/if}
+							{#if team.member.linkedin}
 								<a
 									href={team.member.linkedin}
-									onfocus={this.blur()}
 									target="_blank"
-									class="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-200"
+									aria-label="LinkedIn"
+									class="btn btn-circle btn-ghost"
 								>
-									<Linkedin class="h-5 w-5 text-[#0A66C2]" />
+									<Linkedin class="h-6 w-6 text-[#0A66C2]" />
 								</a>
-							</div>
-						{/if}
+							{/if}
+						</div>
 					</div>
 				</div>
-			</div>
-		{/each}
+			{/each}
+		{:else}
+			{#each previousLeaders as team}
+				<div
+					class="card transform bg-base-100 shadow-xl transition-all duration-300 hover:scale-105"
+					in:fly={{ y: 20, duration: 300, delay: 100 }}
+				>
+					<figure class="px-4 pt-4">
+						<img
+							src={team.member.image}
+							alt="{team.member.name} {team.member.surname}"
+							class="h-64 w-full rounded-lg object-cover"
+						/>
+					</figure>
+					<div class="card-body">
+						<h2 class="card-title text-2xl font-bold text-primary">
+							{team.member.name}
+							{team.member.surname}
+						</h2>
+						<p class="text-lg text-base-content/80">{team.role} ({team.year})</p>
+						<p class="text-sm text-base-content/60">
+							{team.member.year_of_study} Year {team.member.qualification}
+						</p>
+						<div class="mt-4">
+							<a href={`mailto:${team.member.email}`} class="link-hover link text-sm text-primary">
+								{team.member.email}
+							</a>
+						</div>
+						<div class="mt-4 flex gap-3">
+							{#if team.member.github}
+								<a
+									href={team.member.github}
+									target="_blank"
+									aria-label="GitHub"
+									class="btn btn-circle btn-ghost"
+								>
+									<Github class="h-6 w-6 text-base-content" />
+								</a>
+							{/if}
+							{#if team.member.linkedin}
+								<a
+									href={team.member.linkedin}
+									target="_blank"
+									aria-label="LinkedIn"
+									class="btn btn-circle btn-ghost"
+								>
+									<Linkedin class="h-6 w-6 text-[#0A66C2]" />
+								</a>
+							{/if}
+						</div>
+					</div>
+				</div>
+			{/each}
+		{/if}
 	</div>
 </div>
+
+<style>
+	/* Custom styles for enhanced visuals */
+	.card {
+		@apply overflow-hidden rounded-xl bg-base-100;
+	}
+	.card:hover {
+		@apply shadow-2xl;
+	}
+	.card-title {
+		@apply font-bold text-primary;
+	}
+</style>

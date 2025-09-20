@@ -1,0 +1,199 @@
+<script>
+	import { fly } from 'svelte/transition';
+	import Seo from '$lib/components/SEO.svelte';
+	import Loading from '$lib/components/Loading.svelte';
+
+	let { data, form } = $props();
+
+	let roles = [
+		'Chairperson',
+		'Deputy Chairperson',
+		'Secretary',
+		'Treasurer',
+		'Tech and Innovation Lead',
+		'Community Manager',
+		'Recruitment Officer',
+		'Sponsorship and Fundraising Coordinator',
+		'Marketing Manager',
+		'Project Manager',
+		'Other'
+	];
+
+	// Form data
+	let formData = $state({
+		role: '',
+		other_role: '',
+		message: ''
+	});
+	let isLoading = $state(false);
+
+	const handleSubmit = async (e) => {
+		// Form submission is handled by SvelteKit's form actions
+		// This function can be used for additional client-side validation if needed
+		e.preventDefault();
+		isLoading = true;
+
+		const data = new FormData();
+		if (formData.role === 'Other') {
+			data.append('role', formData.other_role);
+		} else {
+			data.append('role', formData.role);
+		}
+		data.append('message', formData.message);
+
+		const req = await fetch('/api/apply', {
+			method: 'POST',
+			body: data
+		});
+		const res = await req.json();
+
+		if (req.ok) {
+			form = { success: res.success };
+			formData = { role: '', other_role: '', message: '' }; // Reset form
+		} else {
+			form = { error: res.error };
+		}
+		isLoading = false;
+	};
+</script>
+
+<Seo
+	title="Apply to Join NWU Vaal GKSS"
+	desc="Join the NWU Vaal GKSS, a vibrant student society dedicated to fostering community, leadership, and innovation. Apply now to become a volunteer leader and make a difference!"
+/>
+
+<div transition:fly={{ y: 50, duration: 500 }} class="min-h-screen bg-base-100 p-6">
+	<!-- Header Section -->
+	<div class="mb-12 text-center">
+		<h1 class="mb-4 text-5xl font-extrabold text-base-content">Join the Team as a Leader</h1>
+		<p class="mx-auto max-w-2xl text-lg text-base-content/70">
+			Become a part of our passionate volunteer team dedicated to building a vibrant student
+			community through events, workshops, and initiatives.
+		</p>
+	</div>
+
+	<div class="grid grid-cols-1 gap-20 lg:grid-cols-2">
+		<!-- About the Society Section -->
+		<div class="mx-auto mb-12 max-w-4xl">
+			<div class="card bg-base-100 p-8 shadow-xl">
+				<h2 class="mb-4 text-3xl font-bold text-primary">About GKSS-NWU-Vanderbijlpark</h2>
+				<p class="mb-4 text-base-content/80">
+					The Geekulcha Student Society (GKSS) NWU-Vanderbijlpark is a dynamic student-led
+					organization at the North-West University Vaal Campus. Our mission is to foster a sense of
+					community, promote leadership, and create opportunities for personal and professional
+					growth through impactful events, workshops, and community outreach programs.
+				</p>
+				<p class="mb-4 text-base-content/80">
+					As a volunteer-based society, all roles within GKSS are unpaid. Our members are driven by
+					a passion for making a difference, collaborating with peers, and contributing to the
+					vibrant student life at NWU Vaal. Joining us means becoming part of a supportive network
+					committed to excellence and innovation.
+				</p>
+				<p class="font-semibold text-base-content/80">
+					Note: All positions are voluntary and unpaid, offering invaluable experience and the
+					chance to shape our community.
+				</p>
+			</div>
+		</div>
+
+		{#if data.isLoggedIn && !isLoading}
+			<!-- Application Form -->
+			<div class="mx-auto w-full max-w-2xl">
+				<div class="card bg-base-100 p-8 shadow-xl">
+					<h2 class="mb-6 text-3xl font-bold text-primary">Apply Now</h2>
+					<form method="POST" onsubmit={handleSubmit} class="space-y-6">
+						{#if form?.success}
+							<div class="alert alert-success mt-4">
+								<span>Application submitted successfully! We'll get back to you soon.</span>
+							</div>
+						{:else if form?.error}
+							<div class="alert alert-error mt-4">
+								<span>Error submitting application. Please try again.</span>
+							</div>
+						{/if}
+						<div>
+							<label for="role" class="label">
+								<span class="label-text font-medium text-base-content">Preferred Role</span>
+							</label>
+							<select
+								id="role"
+								name="role"
+								bind:value={formData.role}
+								class="select select-bordered w-full"
+								required
+							>
+								<option value="" disabled selected>Select a role</option>
+								{#each roles as role}
+									<option value={role}>{role}</option>
+								{/each}
+							</select>
+							{#if formData.role === 'Other'}
+								<input
+									bind:value={formData.other_role}
+									type="text"
+									name="other_role"
+									class="input input-bordered mt-2"
+									id="other_role"
+									placeholder="Please specify the role"
+									required
+								/>
+							{/if}
+						</div>
+						<div>
+							<label for="message" class="label">
+								<span class="label-text font-medium text-base-content"
+									>Why do you want to join?</span
+								>
+							</label>
+							<textarea
+								id="message"
+								name="message"
+								bind:value={formData.message}
+								placeholder="Tell us about yourself and why you want to join as a leader"
+								class="textarea textarea-bordered h-32 w-full"
+								required
+							></textarea>
+						</div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary btn-wide">Submit Application</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		{:else if isLoading}
+			<Loading text="Submitting your application" />
+		{:else}
+			<!-- Prompt to Log In -->
+
+			<div class="mx-auto w-full max-w-2xl">
+				<div class="card bg-base-100 p-8 text-center shadow-xl">
+					<h2 class="mb-4 text-3xl font-bold text-primary">Please Log In to Apply</h2>
+					<p class="mb-6 text-base-content/80">
+						You need to be logged in to submit an application. Please log in or create an account if
+						you don't have one.
+					</p>
+					<a href="/login" class="btn btn-primary btn-wide">Log In</a>
+				</div>
+			</div>
+		{/if}
+	</div>
+</div>
+
+<style>
+	.card {
+		@apply overflow-hidden rounded-xl bg-base-100;
+	}
+	.card:hover {
+		@apply shadow-2xl;
+	}
+	.input,
+	.select,
+	.textarea {
+		@apply transition-all duration-300;
+	}
+	.input:focus,
+	.select:focus,
+	.textarea:focus {
+		@apply ring-2 ring-primary;
+	}
+</style>

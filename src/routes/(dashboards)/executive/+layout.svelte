@@ -34,10 +34,13 @@
 			<div class="flex items-center gap-x-4">
 				<img
 					src={currentUser.member.image}
-					alt={currentUser.name}
+					alt={currentUser.member.name}
 					class="h-[50px] w-[50px] rounded-full"
 				/>
-				<h2 class="text-lg font-semibold">{currentUser.name} {currentUser.surname}</h2>
+				<h2 class="text-lg font-semibold">
+					{currentUser.member.name}
+					{currentUser.member.surname}
+				</h2>
 			</div>
 
 			<!-- Role below the name and picture -->

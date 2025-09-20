@@ -13,11 +13,36 @@
 		'Recruitment Officer',
 		'Sponsorship and Fundraising Coordinator',
 		'Marketing Manager',
-		'Project Manager'
+		'Project Manager',
+		'Other'
 	];
 	let { data, form } = $props();
-	let team = $state(data.team);
 
+	const { members } = data;
+	let formData = $state({
+		role: 'Chairperson',
+		other_role: '',
+		year: new Date().getFullYear() + 1,
+		member_id: '',
+		member: {}
+	});
+	let team = $state(data.team);
+	let suggestions = $state([]);
+	let searchQuery = $state('');
+	let showSearch = $state(false);
+
+	const handleSearch = () => {
+		searchQuery = searchQuery.toLowerCase();
+		suggestions = members.filter(
+			(member) =>
+				console.log(member) ||
+				member.name?.toLowerCase().includes(searchQuery) ||
+				member.surname?.toLowerCase().includes(searchQuery) ||
+				member.email?.toLowerCase().includes(searchQuery) ||
+				member.username?.toLowerCase().includes(searchQuery)
+		);
+		// Display suggestions (you can implement a dropdown or autocomplete UI)
+	};
 	const handleDelete = (id) => {
 		if (confirm('Click Ok to confirm to remove this member from the executive team.')) {
 			const data = new FormData();
@@ -29,6 +54,30 @@
 			// Remove the deleted member from state
 			team = team.filter((member) => member.id !== id);
 		}
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (formData.member_id === '') {
+			alert('Please select a member from the suggestions.');
+			return;
+		}
+		const data = new FormData();
+
+		if (formData.role === 'Other') {
+			formData.role = formData.other_role;
+		}
+
+		data.append('role', formData.role);
+		data.append('year', formData.year);
+		data.append('member_id', formData.member_id);
+		data.append('member', JSON.stringify(formData.member));
+
+		fetch('?/addMember', {
+			method: 'POST',
+			body: data
+		});
+		location.reload(); // Reload to see the new member in the list
 	};
 </script>
 
@@ -89,7 +138,7 @@
 <dialog id="addMemberModal" class="modal modal-bottom z-50 sm:modal-middle">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">
-			<p class="text-lg font-bold text-white">Add a Member</p>
+			<p class="text-lg font-bold text-white">Add a Leader</p>
 			<div class="modal-action">
 				<form method="dialog">
 					<button class="btn"><X /> Close</button>
@@ -97,75 +146,115 @@
 			</div>
 		</div>
 
-		<p class="py-4 text-sm">Enter the required details</p>
-		<form
-			method="post"
-			action="?/addMember"
-			enctype="multipart/form-data"
-			class="flex w-full flex-col gap-5"
-		>
+		<form method="post" onsubmit={handleSubmit} class="flex w-full flex-col gap-5">
 			<label class="form-control w-full">
 				<p>Role</p>
 				<select
+					bind:value={formData.role}
 					type="text"
 					name="role"
 					class="select select-bordered"
 					id="role"
-					placeholder="Role of the member"
+					placeholder="What is Role of this member?"
 					required
 				>
 					{#each roles as role}
 						<option>{role}</option>
 					{/each}
 				</select>
+				{#if formData.role === 'Other'}
+					<input
+						bind:value={formData.other_role}
+						type="text"
+						name="other_role"
+						class="input input-bordered mt-2"
+						id="other_role"
+						placeholder="Please specify the role"
+						required
+					/>
+				{/if}
 			</label>
 			<label class="form-control w-full">
-				<p>Name</p>
+				<p>Serving year</p>
+				<input
+					type="number"
+					name="year"
+					class="input input-bordered"
+					id="year"
+					placeholder="Enter the year this member is serving"
+					bind:value={formData.year}
+					min={new Date().getFullYear()}
+				/>
+			</label>
+			<label class="form-control w-full">
+				<p>Select Member</p>
 				<input
 					type="text"
 					name="name"
 					class="input input-bordered"
 					id="name"
-					placeholder="Name of the member"
-					required
+					bind:value={searchQuery}
+					placeholder="Enter name, email or username of the member"
+					onclick={() => (showSearch = true)}
+					onkeydown={(e) => {
+						handleSearch(e);
+						formData.member_id = '';
+					}}
+					onchange={(e) => {
+						handleSearch(e);
+						formData.member_id = '';
+					}}
 				/>
 			</label>
-			<label class="form-control w-full">
-				<p>Surname</p>
-				<input
-					type="text"
-					name="surname"
-					class="input input-bordered"
-					id="surname"
-					placeholder="Surname of the member"
-					required
-				/>
-			</label>
-			<label class="form-control w-full">
-				<p>Email</p>
-				<input
-					type="email"
-					name="email"
-					class="input input-bordered"
-					id="email"
-					placeholder="name.surname@domain.com"
-					required
-				/>
-				<span class="label-text-alt py-2 text-info">
-					Note: Must match the email that the member registered on this website with.
-				</span>
-			</label>
-			<label class="form-control w-full">
-				<p>Image</p>
-				<input
-					type="file"
-					name="image"
-					class="file-input file-input-bordered w-full"
-					accept="image/*"
-					id="image"
-					required
-				/>
-			</label>
+			{#if formData.member_id !== ''}
+				<p class="text-green-500">Member selected successfully</p>
+				{#if formData.member.image}
+					<div class="flex items-center gap-4 rounded-lg p-4">
+						<img
+							src={formData.member.image}
+							alt={formData.member.surname}
+							class="h-10 w-10 rounded-full"
+						/>
+						<span>
+							{formData.member.name}
+							{formData.member.surname} <br />
+							{formData.member.email} <br />
+						</span>
+					</div>
+				{/if}
+			{/if}
+			<ul class="menu min-h-full w-full bg-base-200 p-4 text-base-content">
+				{#each suggestions as suggestion}
+					<!-- svelte-ignore a11y_no_static_element_interactions -->
+					<li class="w-full">
+						<!-- svelte-ignore a11y_click_events_have_key_events -->
+						<!-- svelte-ignore a11y_missing_attribute -->
+						<a
+							onclick={() => {
+								formData.member_id = suggestion.id;
+								formData.member = suggestion;
+								suggestions = [];
+							}}
+						>
+							<div class="flex items-center gap-4 rounded-lg p-4">
+								<img
+									src={suggestion.image}
+									alt={suggestion.surname}
+									class="h-10 w-10 rounded-full"
+								/>
+								<span>
+									{suggestion.name}
+									{suggestion.surname} <br />
+									{suggestion.email} <br />
+								</span>
+							</div>
+						</a>
+					</li>
+				{/each}
+				{#if suggestions.length === 0 && formData.member_id === ''}
+					<li><a>No suggestions found</a></li>
+				{/if}
+			</ul>
 			<button type="submit" class="btn btn-primary text-white">Add</button>
 		</form>
 	</div>
