@@ -19,14 +19,16 @@
 	let team = $state(data.team);
 
 	const handleDelete = (id) => {
-		const data = new FormData();
-		data.append('id', id);
-		fetch('?/deleteMember', {
-			method: 'POST',
-			body: data
-		});
-		// Remove the deleted member from state
-		team = team.filter((member) => member.id !== id);
+		if (confirm('Click Ok to confirm to remove this member from the executive team.')) {
+			const data = new FormData();
+			data.append('id', id);
+			fetch('?/deleteMember', {
+				method: 'POST',
+				body: data
+			});
+			// Remove the deleted member from state
+			team = team.filter((member) => member.id !== id);
+		}
 	};
 </script>
 
@@ -35,11 +37,7 @@
 	desc="Manage and showcase your executive team with NWU VAAL GKSS's team management system. Add, edit, and organize team members to highlight your leadership and foster collaboration."
 />
 
-<div
-	in:fly={{ x: 100, duration: 400 }}
-	out:fade={{ duration: 300 }}
-	class="overflow-hidden rounded-lg bg-white shadow-xl"
->
+<div transition:fly class="overflow-hidden rounded-lg bg-white shadow-xl">
 	<div class="mb-8 flex items-center justify-between p-6">
 		<h2 class="text-3xl font-semibold text-gray-800">Executive Team</h2>
 		<button class="btn btn-primary" onclick={() => addMemberModal.show()}>
@@ -58,26 +56,27 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each team as member, index}
+				{#each team as leader, index}
 					<tr class="border-b transition-colors hover:bg-gray-50">
 						<td class="flex items-center gap-2 px-6 py-4 font-semibold text-gray-800">
-							<img src={member.image} alt={member.surname} class="h-8 w-8 rounded-full" />
-							{member.role}
+							<img
+								src={leader.member.image}
+								alt={leader.member.surname}
+								class="h-8 w-8 rounded-full"
+							/>
+							{leader.role}
 						</td>
 						<td class=" px-6 py-4">
-							{member.name}
-							{member.surname}
+							{leader.member.name}
+							{leader.member.surname}
 						</td>
-						<td class="px-6 py-4">{member.email}</td>
+						<td class="px-6 py-4">{leader.member.email}</td>
 						<td class="flex justify-center space-x-2 px-6 py-4">
-							<button class="btn btn-ghost btn-sm">
-								<Edit class="mr-1" /> Edit
-							</button>
 							<button
-								onclick={() => handleDelete(member.id)}
+								onclick={() => handleDelete(leader.id)}
 								class="btn btn-ghost btn-sm text-red-600"
 							>
-								<Trash2 class="mr-1" /> Delete
+								<Trash2 class="mr-1" /> Remove
 							</button>
 						</td>
 					</tr>

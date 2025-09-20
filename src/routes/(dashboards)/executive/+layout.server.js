@@ -14,31 +14,24 @@ export async function load({locals: {supabase}}) {
      */
     const {data: {user}} = await supabase.auth.getUser();
     let currentUser = null;
+
     if(user){
-        let { data: team } = await supabase
-            .from('team')
-            .select('*')   
-        if(team){
-            let ismember = false;
-            team.forEach(async(member) => {
-                //check if the user accessing the executive pages is an executive member
-                if(user.email === (member.email)){ 
-                    ismember = true;
-                    currentUser = member;
-                }
-            });
+        let { data: member } = await supabase.from('team').select('*, member(*)').eq('member_id',user.id).single(); //get the team member
+
+        if(!member){
             !ismember && redirect(303,"/dashboard");//redirect the user to member dashboard if theyre not an executive member
         }
+        currentUser = member;
         //data to be returned
-        let publicUrl = await supabase.storage.from("files").getPublicUrl(currentUser.image.substring(currentUser.image.indexOf("/")));//removing the first "file/"
-        currentUser = {...currentUser,image: publicUrl.data.publicUrl}
-        let returnData = {currentUser}; //initially with the current logged in user
+        let publicUrl = await supabase.storage.from("files").getPublicUrl(currentUser.member.image.substring(currentUser.member.image.indexOf("/")));//removing the first "file/"
+        currentUser.member = {...currentUser.member,image: publicUrl.data.publicUrl}
+
+
         //events
         const {data: events, error} = await supabase.from("events")
                             .select('*,event_attendee(id)')                      
-        returnData = {...returnData, events: events};//insert the events data
 
-        //memberS
+        //members
         const {data: memberData} = await supabase.from("member").select('*');
         const members = [];
         for(let member of memberData){
@@ -46,17 +39,8 @@ export async function load({locals: {supabase}}) {
             member = {...member,image: publicUrl.data.publicUrl};
             members.push(member);
         }
-        returnData = {...returnData, members};
-        //team
-        const teamMembers = [];
-        for(let leader of team){
-            let publicUrl = await supabase.storage.from("files").getPublicUrl(leader.image.substring(leader.image.indexOf("/")));//removing the first "file/"
-            leader = {...leader,image: publicUrl.data.publicUrl};
-            teamMembers.push(leader);
-        }
-        returnData = {...returnData, team: teamMembers};//insert the team data
-        //get more data like event registrations, event attendance, get the turnout percentage
-        return returnData;
+
+        return {currentUser, members, events};
     }
     else{
         redirect(303,"/login");

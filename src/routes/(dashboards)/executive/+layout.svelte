@@ -18,7 +18,7 @@
 	import UsefulTools from '$lib/components/executive/UsefulTools.svelte';
 
 	let { children, data } = $props();
-	const currentUser = data.currentUser;
+	const { currentUser } = data;
 </script>
 
 <title>Executive | NWU Vaal GKSS </title>
@@ -33,7 +33,7 @@
 			<!-- User Information (Image, Name, Surname) -->
 			<div class="flex items-center gap-x-4">
 				<img
-					src={currentUser.image}
+					src={currentUser.member.image}
 					alt={currentUser.name}
 					class="h-[50px] w-[50px] rounded-full"
 				/>

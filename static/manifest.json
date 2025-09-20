@@ -1,21 +1,21 @@
 {
-  "name": "NWU Vaal GKSS",
-  "short_name": "NWU GKSS",
+  "name": "GKSS-NWU",
+  "short_name": "GKSS-NWU",
   "icons": [
     {
-      "src": "windows11/SmallTile.scale-100.png?v=2",
+      "src": "windows11/SmallTile.scale-100.png",
       "sizes": "71x71"
     },
     {
-      "src": "windows11/SmallTile.scale-125.png?v=2",
+      "src": "windows11/SmallTile.scale-125.png",
       "sizes": "89x89"
     },
     {
-      "src": "windows11/SmallTile.scale-150.png?v=2",
+      "src": "windows11/SmallTile.scale-150.png",
       "sizes": "107x107"
     },
     {
-      "src": "windows11/SmallTile.scale-200.png?v=2",
+      "src": "windows11/SmallTile.scale-200.png",
       "sizes": "142x142"
     },
     {
@@ -451,7 +451,7 @@
       "sizes": "1024x1024"
     }
   ],
-  "start_url": "/executive?v=2",
+  "start_url": "/executive",
   "display_override": [
     "fullscreen",
     "minimal-ui",
