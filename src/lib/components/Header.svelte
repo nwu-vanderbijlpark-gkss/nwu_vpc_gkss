@@ -201,7 +201,6 @@
 				<li class="menu-title my-2 flex flex-col rounded-box bg-gray-800 p-4 text-white">
 					<!-- User Information (Image, Name, Surname) -->
 					<div class="flex items-center gap-x-4">
-						<img src={user.image} alt={user.surname} class="h-[50px] w-[50px] rounded-full" />
 						<h2 class="text-lg font-semibold">{user.name} {user.surname}</h2>
 					</div>
 

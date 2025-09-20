@@ -34,12 +34,12 @@ export const PUT = async({locals:{supabase}, request, url, fetch}) => {
     if(requestId && state){
         const {data: request, error} = await table(supabase,tableName).update({
             state: state
-        }).eq("id",requestId).select("*,Member(id,email,name,surname),event_group(name)");
+        }).eq("id",requestId).select("*,member(id,email,name,surname),event_group(name)");
 
         //update the participant's group_id
         const {data: up, error: upError} = await table(supabase,"event_participant").update({
             event_group_id: data.group_id,
-        }).eq("event_id",data.event_id).eq("user_id",request[0].Member.id).select();
+        }).eq("event_id",data.event_id).eq("user_id",request[0].member.id).select();
 
    
 
@@ -56,8 +56,8 @@ export const PUT = async({locals:{supabase}, request, url, fetch}) => {
                     },
                     body: JSON.stringify({
                         data: {
-                            fullName: request[0].Member?.name + " " + request[0].Member?.surname,
-                            email: request[0].Member?.email,
+                            fullName: request[0].member?.name + " " + request[0].member?.surname,
+                            email: request[0].member?.email,
                             subject: subject,
                             message: message,
                             type: 'broadcast'
@@ -82,7 +82,7 @@ export const GET = async({locals:{supabase}, url}) => {
 
     //getting all requests
     if(group_id){
-        const {data: requests, error} = await table(supabase,tableName).select("id,Member(name,surname,email)").eq("group_id",group_id).eq("state","pending");
+        const {data: requests, error} = await table(supabase,tableName).select("id,member(name,surname,email)").eq("group_id",group_id).eq("state","pending");
 
         return returnData(requests,error);
     }

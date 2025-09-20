@@ -19,4 +19,36 @@ export const actions = {
         const {error} = await supabase.from("team").delete().eq("id",id);
         redirect(303,"/executive/team");
     },
+    addMember: async ({locals: {supabase},request, fetch}) => {
+        const data = await request.formData();
+        const member_id = data.get("member_id");
+        const member = JSON.parse(data.get("member"));//get the member object
+        const role = data.get("role");
+        const year = data.get("year");
+        const {error} = await supabase.from("team").insert({member_id: member_id, role: role, year: year});
+
+        const subject = `You have been added to the Executive Team`;
+        const message = `You have been added to the Executive Team as ${role} for the year ${year}.\n
+        Go to  <a href="https://nwu-vaal-gkss.netlify.app/executive">executive dashboard </a> to view your team.`;
+        //send email to the member added
+        const req = await fetch("/api/sendEmail", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                data: {
+                                    fullName: member?.name + " " + member?.surname,
+                                    email: member?.email,
+                                    subject: subject,
+                                    message: message,
+                                    type: 'broadcast'
+                                }
+                            })
+                        })
+        const res = await req.json();
+
+
+        redirect(303,"/executive/team");
+    },
 }
