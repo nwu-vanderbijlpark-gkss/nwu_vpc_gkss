@@ -19,7 +19,7 @@ export async function load({locals: {supabase}}) {
         let { data: member } = await supabase.from('team').select('*, member(*)').eq('member_id',user.id).single(); //get the team member
 
         if(!member){
-            !ismember && redirect(303,"/dashboard");//redirect the user to member dashboard if theyre not an executive member
+            redirect(303,"/dashboard");//redirect the user to member dashboard if theyre not an executive member
         }
         currentUser = member;
         //data to be returned

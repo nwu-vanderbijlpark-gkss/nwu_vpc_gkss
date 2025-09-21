@@ -9,6 +9,7 @@
 		HeartHandshake,
 		Home,
 		Link,
+		List,
 		LogIn,
 		Menu,
 		MessageCircleMoreIcon,
@@ -220,13 +221,22 @@
 						href="/executive/events"
 					>
 						<ChartNoAxesColumn />
-						Events
+						Event Manager
 					</a>
 				</li>
 				<li>
 					<a class:selected={$page.url.pathname === '/executive/team'} href="/executive/team">
 						<UserCog />
-						Team
+						Team Manager
+					</a>
+				</li>
+				<li>
+					<a
+						href="/executive/applications"
+						class:selected={$page.url.pathname.includes('/executive/applications')}
+					>
+						<List />
+						Applications
 					</a>
 				</li>
 				<li>
@@ -235,7 +245,7 @@
 						href="/executive/membership"
 					>
 						<Users />
-						Members
+						Our Members
 					</a>
 				</li>
 				<li>

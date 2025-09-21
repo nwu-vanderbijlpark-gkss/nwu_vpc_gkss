@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 
 export const load = async ({locals: {supabase}}) => {
-    const {data: team} = await supabase.from("team").select("*, member(*)").order("created_at",{ascending: true});
+    const {data: team} = await supabase.from("team").select("*, member(*)").eq("year", new Date().getFullYear()).order("created_at",{ascending: true});
     const leaders = [];
     for(let leader of team){
         let publicUrl = await supabase.storage.from("files").getPublicUrl(leader.member.image.substring(leader.member.image.indexOf("/")));//removing the first "file/"
