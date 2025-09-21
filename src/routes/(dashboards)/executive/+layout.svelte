@@ -5,6 +5,7 @@
 		HeartHandshake,
 		Home,
 		Link,
+		List,
 		Logs,
 		LucideUsers,
 		MessageCircleMoreIcon,
@@ -56,13 +57,22 @@
 		<li>
 			<a href="/executive/events" class:selected={$page.url.pathname.includes('/executive/events')}>
 				<ChartNoAxesColumn />
-				Event Management
+				Event Manager
 			</a>
 		</li>
 		<li>
 			<a href="/executive/team" class:selected={$page.url.pathname === '/executive/team'}>
 				<UserCog />
-				Executive Team
+				Team Manager
+			</a>
+		</li>
+		<li>
+			<a
+				href="/executive/applications"
+				class:selected={$page.url.pathname.includes('/executive/applications')}
+			>
+				<List />
+				Applications
 			</a>
 		</li>
 		<li>
@@ -80,7 +90,7 @@
 				class:selected={$page.url.pathname.includes('/executive/quizzes')}
 			>
 				<FileEdit />
-				Quiz Management
+				Quiz Manager
 			</a>
 		</li>
 		<li>

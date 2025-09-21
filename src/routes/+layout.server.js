@@ -17,37 +17,29 @@ export const load = async({request, locals: {supabase}}) => {
     }
     
     if(user != null){
-        let { data: team } = await supabase
-            .from('team')
-            .select('*')   
-        if(team){
-            let isMember = false;//is executive member
-            team.forEach(member => {
-                //check if the user accessing the executive pages is an executive member
-                if(user.email === (member.email)){ 
-                    isMember = true;   
-                    currentUser = member;  
-                    currentUser = {...currentUser, id: user.id};//add the user id to the current user object       
-                }
-            });
-            if(!isMember){
-                //return the current user
-                currentUser = members.find(member => member.id == user.id);
-                
-            }
 
-            if(currentUser && currentUser.image){
-                let publicUrl = await supabase.storage.from("files").getPublicUrl(currentUser.image.substring(currentUser.image.indexOf("/")));//removing the first "file/"
-                currentUser = {...currentUser,image: publicUrl.data.publicUrl}
-            }
+        // check if the user is an executive
+        let isExecutive = false;
+        let { data: leader } = await supabase.from('team').select('*').eq('member_id', user.id).single();   
+        if(leader){
+            isExecutive = true;
+        }
+
+        // fetch the current user from the database
+        let {data: currentUser} = await supabase.from("member").select('id,image,date_of_birth,name,surname,username,year_of_study,qualification, points, email').eq('id', user.id).single();
+
+        // get the public url of the user's image from supabase storage
+        if(currentUser && currentUser.image){
+            let publicUrl = await supabase.storage.from("files").getPublicUrl(currentUser.image.substring(currentUser.image.indexOf("/")));//removing the first "file/"
+            currentUser = {...currentUser,image: publicUrl.data.publicUrl}
+        
             //take the user email and insert into the database
             const {data, error} = await supabase.from("member").update({email: user.email}).eq("id", user.id);
 
-            return {isLoggedIn: true, isExecutive: isMember, currentUser, members};
+            return {isLoggedIn: true, isExecutive, currentUser, members};
         }
     }
     else{
-
         return {isLoggedIn: false, members};
     }
 }
