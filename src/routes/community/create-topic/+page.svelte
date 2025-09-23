@@ -5,6 +5,7 @@
 	import { quintOut } from 'svelte/easing';
 	import { notifications } from '$lib/stores';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 
 	let { data } = $props();
 	let images = $state([]);
@@ -73,7 +74,7 @@
 
 <Seo
 	title="Create Topic"
-	desc="Start a new discussion topic in the NWU Vaal GKSS community forum and engage with fellow students."
+	desc="Start a new discussion topic in the {gkssConfig.name} community forum and engage with fellow students."
 />
 
 <div class="mx-auto max-w-2xl p-5" transition:fly>

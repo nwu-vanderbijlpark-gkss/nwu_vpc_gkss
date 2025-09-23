@@ -1,3 +1,4 @@
+import { gkssConfig } from '$lib/config.js';
 import { redirect } from '@sveltejs/kit';
 
 export const actions =   {
@@ -37,7 +38,7 @@ export const actions =   {
       const formData = await request.formData();
       const email = formData.get("email");
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://nwu-vaal-gkss.netlify.app/update-password',
+        redirectTo: gkssConfig.url + '/update-password',
       })      
     }
       

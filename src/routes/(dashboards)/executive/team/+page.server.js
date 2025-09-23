@@ -1,3 +1,4 @@
+import { gkssConfig } from '$lib/config.ts';
 import { redirect } from '@sveltejs/kit';
 
 export const load = async ({locals: {supabase}}) => {
@@ -29,7 +30,7 @@ export const actions = {
 
         const subject = `You have been added to the Executive Team`;
         const message = `You have been added to the Executive Team as ${role} for the year ${year}.\n
-        Go to  <a href="https://nwu-vaal-gkss.netlify.app/executive">executive dashboard </a> to view your team.`;
+        Go to  <a href="${gkssConfig.url}/executive">executive dashboard </a> to view your team.`;
         //send email to the member added
         const req = await fetch("/api/sendEmail", {
                             method: "POST",

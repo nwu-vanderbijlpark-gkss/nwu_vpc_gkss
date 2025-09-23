@@ -13,7 +13,7 @@ export let models = $state({
     question: '',
     context: '',
     promptMessage: () => {
-		return `You are GeekAI an assistant for question-answering tasks for GKSS NWU members. Use the following pieces of retrieved context and/or your knowledge to
+		return `You are GeekAI an assistant for question-answering tasks for GKSS members. Use the following pieces of retrieved context and/or your knowledge to
 		 answer the question, You may use your own words, but stick to the context. If you don't know the answer, just 
 		 say that you don't know. Use three sentences maximum and keep the answer concise.You may return markdown\n
 		 ${models.redirectRule()}\n

@@ -1,23 +1,24 @@
 <script>
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config';
 	import { fade, fly } from 'svelte/transition';
 
 	//
 </script>
 
 <Seo
-	title="About NWU Vaal GKSS"
-	desc="Learn more about the Geekulcha Student Society (GKSS) at NWU Vaal Campus. Discover our mission, vision, and the vibrant community we are building to foster innovation and collaboration in technology."
+	title="About {gkssConfig.name}"
+	desc="Learn more about the {gkssConfig.name}. Discover our mission, vision, and the vibrant community we are building to foster innovation and collaboration in technology."
 />
 
 <div in:fly={{ x: 100, duration: 400 }} class="min-h-screen bg-gray-100 p-10">
 	<!-- Section for Society Information -->
 	<div class="mb-12 text-center">
-		<h1 class="mb-4 text-4xl font-bold text-purple-600">About NWU Vaal GKSS</h1>
+		<h1 class="mb-4 text-4xl font-bold text-purple-600">About {gkssConfig.name}</h1>
 		<p class="text-xl text-gray-700">
-			The Geekulcha Student Society (GKSS) at the NWU Vaal Campus is dedicated to fostering
-			innovation, collaboration, and empowerment in the world of technology. Our goal is to bring
-			together students passionate about tech to learn, create, and grow.
+			The {gkssConfig.name} is dedicated to fostering innovation, collaboration, and empowerment in the
+			world of technology. Our goal is to bring together students passionate about tech to learn, create,
+			and grow.
 		</p>
 	</div>
 
@@ -25,7 +26,7 @@
 	<div class="mb-8 flex justify-center">
 		<img
 			src="team.jpg"
-			alt="NWU Vaal GKSS members in action"
+			alt="{gkssConfig.name} members in action"
 			class="h-auto max-w-full rounded-lg shadow-lg"
 		/>
 	</div>

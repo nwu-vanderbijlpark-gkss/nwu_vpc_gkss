@@ -6,10 +6,7 @@
 	let { data } = $props();
 </script>
 
-<Seo
-	title="Create Quiz"
-	desc="Create and share quizzes and challenges with the NWU Vaal GKSS community."
-/>
+<Seo title="Create Quiz" desc="Create and share quizzes and challenges with our community." />
 
 {#if data.isLoggedIn}
 	<div class="text-white">

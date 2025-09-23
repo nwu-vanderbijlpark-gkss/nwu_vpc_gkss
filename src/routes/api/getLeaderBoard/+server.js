@@ -1,6 +1,3 @@
-// 📢 This endpoint is PUBLIC – used for leaderboard display
-// Do NOT add authentication here unless the frontend changes
-
 
 
 import { json } from '@sveltejs/kit'

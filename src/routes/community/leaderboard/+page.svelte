@@ -5,6 +5,7 @@
 
 	import { Award, Icon, Medal, Sparkles, Star, Trophy } from 'lucide-svelte';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 
 	let { data, form } = $props();
 
@@ -59,7 +60,7 @@
 
 <Seo
 	title="Elite Leaderboard"
-	desc="Discover the top contributors in the NWU Vaal GKSS community. Check out the elite leaderboard showcasing members with the highest points and achievements."
+	desc="Discover the top contributors in the {gkssConfig.name} community. Check out the elite leaderboard showcasing members with the highest points and achievements."
 />
 
 <div transition:fly class="overflow-hidden rounded-lg bg-white shadow-xl">

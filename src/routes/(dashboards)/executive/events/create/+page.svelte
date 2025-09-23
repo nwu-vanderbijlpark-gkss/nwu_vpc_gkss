@@ -52,7 +52,7 @@
 
 <Seo
 	title="Create Event"
-	desc="Organize and manage events with ease using NWU VAAL GKSS's event creation tool. Set up event details, invite participants, and streamline your event planning process."
+	desc="Organize and manage events with ease using our event creation tool. Set up event details, invite participants, and streamline your event planning process."
 />
 
 <div

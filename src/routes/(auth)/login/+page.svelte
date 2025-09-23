@@ -4,6 +4,7 @@
 	import { fly } from 'svelte/transition';
 	import Loading from '$lib/components/Loading.svelte';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 
 	let email = $state('');
 	let password = $state('');
@@ -61,7 +62,7 @@
 
 <Seo
 	title="Login"
-	desc="Login to your GKSS-NWU account to access exclusive member features and stay connected with the community."
+	desc="Login to your {gkssConfig.name}account to access exclusive member features and stay connected with the community."
 />
 <div transition:fly class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
 	<img src="/geek.png" alt="code" class="hidden w-2/5 rounded-lg lg:flex" />

@@ -3,6 +3,7 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import { notifications } from '$lib/stores';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 
 	let newQuiz = $state({
 		title: '',
@@ -130,10 +131,9 @@
 						type: 'broadcast',
 						email: member.email,
 						fullName: member.name + ' ' + member.surname,
-						subject: 'NWU VAAL GKSS: New Quiz',
+						subject: gkssConfig.name + ': New Quiz',
 						message: `A new quiz: <b>${newQuiz.title}</b> has been added,<br>
                 The quiz is due: ${moment(newQuiz.due).format('MMMM Do YYYY, [at] h:mm a')}<br/>
-				You can find this quiz here: <a href="https://nwu-vaal-gkss.netlify.app/community/quiz">${newQuiz.title}<a/>
 					<br/>
                     `
 					};
@@ -158,7 +158,7 @@
 
 <Seo
 	title="Create Quiz"
-	desc="Easily create and customize quizzes with NWU VAAL GKSS's quiz creation tool. Engage your community with interactive quizzes and track performance all in one place."
+	desc="Easily create and customize quizzes with our quiz creation tool. Engage your community with interactive quizzes and track performance all in one place."
 />
 
 <div

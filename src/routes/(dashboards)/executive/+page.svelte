@@ -6,6 +6,7 @@
 	import TodaysBirthdays from '$lib/components/TodaysBirthdays.svelte';
 	import CalendarView from '$lib/components/CalendarView.svelte';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 
 	let { data } = $props();
 
@@ -76,7 +77,7 @@
 
 <Seo
 	title="Executive Dashboard"
-	desc="Access key metrics and insights with NWU VAAL GKSS's Executive Dashboard. Monitor member statistics, event participation, and visualize data through interactive charts to make informed decisions."
+	desc="Access key metrics and insights with {gkssConfig.name}'s Executive Dashboard. Monitor member statistics, event participation, and visualize data through interactive charts to make informed decisions."
 />
 
 <div

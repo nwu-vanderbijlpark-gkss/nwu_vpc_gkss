@@ -2,6 +2,7 @@
 	import { fly } from 'svelte/transition';
 	import Seo from '$lib/components/SEO.svelte';
 	import Loading from '$lib/components/Loading.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 
 	let { data, form } = $props();
 
@@ -58,8 +59,8 @@
 </script>
 
 <Seo
-	title="Apply to Join NWU Vaal GKSS"
-	desc="Join the NWU Vaal GKSS, a vibrant student society dedicated to fostering community, leadership, and innovation. Apply now to become a volunteer leader and make a difference!"
+	title="Apply to Join {gkssConfig.name}"
+	desc="Join the {gkssConfig.name}, a vibrant student society dedicated to fostering community, leadership, and innovation. Apply now to become a volunteer leader and make a difference!"
 />
 
 <div transition:fly={{ y: 50, duration: 500 }} class="min-h-screen bg-base-100 p-6">
@@ -76,18 +77,18 @@
 		<!-- About the Society Section -->
 		<div class="mx-auto mb-12 max-w-4xl">
 			<div class="card bg-base-100 p-8 shadow-xl">
-				<h2 class="mb-4 text-3xl font-bold text-primary">About GKSS-NWU-Vanderbijlpark</h2>
+				<h2 class="mb-4 text-3xl font-bold text-primary">About {gkssConfig.name}</h2>
 				<p class="mb-4 text-base-content/80">
-					The Geekulcha Student Society (GKSS) NWU-Vanderbijlpark is a dynamic student-led
-					organization at the North-West University Vaal Campus. Our mission is to foster a sense of
-					community, promote leadership, and create opportunities for personal and professional
-					growth through impactful events, workshops, and community outreach programs.
+					The {gkssConfig.name} is a dynamic student-led society at the {gkssConfig.institution}.
+					Our mission is to foster a sense of community, promote leadership, and create
+					opportunities for personal and professional growth through impactful events, workshops,
+					and community outreach programs.
 				</p>
 				<p class="mb-4 text-base-content/80">
 					As a volunteer-based society, all roles within GKSS are unpaid. Our members are driven by
 					a passion for making a difference, collaborating with peers, and contributing to the
-					vibrant student life at NWU Vaal. Joining us means becoming part of a supportive network
-					committed to excellence and innovation.
+					vibrant student life at {gkssConfig.institution}. Joining us means becoming part of a
+					supportive network committed to excellence and innovation.
 				</p>
 				<p class="font-semibold text-base-content/80">
 					Note: All positions are voluntary and unpaid, offering invaluable experience and the

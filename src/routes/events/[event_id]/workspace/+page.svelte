@@ -116,9 +116,7 @@
 
 <Seo
 	title={event ? `${event.topic} Workspace` : 'Event Workspace'}
-	desc={event
-		? `Workspace for the event: ${event.topic}`
-		: 'Event workspace for NWU Vaal GKSS events.'}
+	desc={event ? `Workspace for the event: ${event.topic}` : 'Event workspace for our events.'}
 />
 
 {#if ideaGeneratorOpen}

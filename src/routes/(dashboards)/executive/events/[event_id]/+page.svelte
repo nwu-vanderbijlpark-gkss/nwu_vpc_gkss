@@ -12,6 +12,7 @@
 	import Resources from './components/Resources.svelte';
 	import { getData } from './components/eventState.svelte';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config';
 
 	let { data } = $props();
 	let members = data.members;
@@ -65,7 +66,7 @@
 
 <Seo
 	title={event.topic}
-	desc="Explore the details, participants, judging criteria, and resources for this event organized by NWU VAAL GKSS. Stay informed and engaged with all event activities."
+	desc="Explore the details, participants, judging criteria, and resources for this event organized by ${gkssConfig.name}. Stay informed and engaged with all event activities."
 />
 
 <div

@@ -38,7 +38,7 @@
 
 <Seo
 	title="Opportunities"
-	desc="Discover bursaries, internships, free online courses and many more opportunities shared by the NWU Vaal GKSS community."
+	desc="Discover bursaries, internships, free online courses and many more opportunities shared by our community."
 />
 
 <div transition:fly class="container mx-auto p-4">

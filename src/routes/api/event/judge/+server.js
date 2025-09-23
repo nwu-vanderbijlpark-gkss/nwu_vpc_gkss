@@ -1,6 +1,7 @@
 import { returnData } from '$lib/server/core.js';
 import { json } from '@sveltejs/kit';
 import { decrypt, encrypt } from "$lib/server/core.js"
+import { gkssConfig } from '$lib/config.ts';
 
 export const POST = async({locals:{supabase}, request, url, fetch}) => {
     //create a judge, then send email to the judge.
@@ -20,7 +21,7 @@ export const POST = async({locals:{supabase}, request, url, fetch}) => {
         We are excited to have you as our judge for <b>${data.event.topic}</b>,<br/>
         Please find below the URL to our portal.<br/><br/>
         You will be able to use our judging criteria to judge groups.<br/><br/>
-        <a href="https://nwu-vaal-gkss.netlify.app/events/${data.event.id}/judging?code=${code}">Click here to access the judging portal</a>
+        <a href="${gkssConfig.url}/events/${data.event.id}/judging?code=${code}">Click here to access the judging portal</a>
     `;
 
     await fetch("/api/sendEmail", {

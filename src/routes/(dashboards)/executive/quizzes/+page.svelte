@@ -34,7 +34,7 @@
 
 <Seo
 	title="Quiz Manager"
-	desc="Easily create, manage, and track quizzes with NWU VAAL GKSS's Quiz Manager. Engage your community with interactive quizzes and monitor performance all in one place."
+	desc="Easily create, manage, and track quizzes with our Quiz Manager. Engage your community with interactive quizzes and monitor performance all in one place."
 />
 
 <div in:fly={{ x: 100, duration: 400 }} out:fade={{ duration: 300 }} class="container mx-auto p-4">

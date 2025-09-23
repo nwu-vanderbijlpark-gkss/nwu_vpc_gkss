@@ -18,6 +18,7 @@
 	import { quintOut } from 'svelte/easing';
 	import { models } from '$lib/state.svelte.js';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config';
 
 	let { data } = $props();
 	const member = data.member;
@@ -55,7 +56,7 @@
 
 <Seo
 	title={member.fullName}
-	desc={`View ${member.fullName} on NWU Vaal GKSS Website`}
+	desc="View ${member.fullName} on {gkssConfig.name}. Explore their profile, portfolio, and social media links."
 	image={member.image}
 />
 

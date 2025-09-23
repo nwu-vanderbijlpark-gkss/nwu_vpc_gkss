@@ -152,10 +152,7 @@
 	}
 </script>
 
-<Seo
-	title="Search"
-	desc="Search topics, members, and opportunities within the NWU Vaal GKSS community."
-/>
+<Seo title="Search" desc="Search topics, members, and opportunities within our community." />
 
 <main transition:fly class="mx-auto max-w-4xl p-4 sm:p-6">
 	<header class="-mt-5 flex items-center justify-between rounded-lg bg-white p-2 shadow-sm">

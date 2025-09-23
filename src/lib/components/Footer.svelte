@@ -5,6 +5,7 @@
 	year = year.getFullYear();
 
 	import { onMount } from 'svelte';
+	import { gkssConfig } from '$lib/config';
 	const hiddenFooterPaths = [
 		'/dashboard',
 		'/code-playground',
@@ -20,11 +21,11 @@
 	>
 		<h1 class="text-xl font-semibold text-white">Stay updated, follow us</h1>
 		<div class="flex flex-wrap gap-3">
-			<a href="https://x.com/GKSSVAAL" class="btn"><Twitter /></a>
+			<a href={gkssConfig.socials.twitter} class="btn"><Twitter /></a>
 			<a href="#" class="btn"><Facebook /></a>
-			<a href="https://www.linkedin.com/in/gkssnwu-vaal-30132234b/" class="btn"><Linkedin /></a>
-			<a href="#" class="btn"><Github /></a>
-			<a href="https://www.instagram.com/gkss_nwu" class="btn"><Instagram /></a>
+			<a href={gkssConfig.socials.linkedin} class="btn"><Linkedin /></a>
+			<a href={gkssConfig.socials.github} class="btn"><Github /></a>
+			<a href={gkssConfig.socials.instagram} class="btn"><Instagram /></a>
 		</div>
 		<div class="hidden items-start justify-center space-x-4 lg:flex lg:flex-row">
 			<a href="/" class="navItem border-red-500 hover:border-b hover:text-white">Home</a>
@@ -44,7 +45,8 @@
 			>
 		</div>
 		<p class="text-sm">
-			© {year} NWU Vaal GKSS. All Rights Reserved.
+			© {year}
+			{gkssConfig.name}. All Rights Reserved.
 			<a class="link underline" target="_blank" href="/docs/Terms and Conditions.pdf"
 				>Terms of Use</a
 			>

@@ -39,7 +39,7 @@
 
 <Seo
 	title="Event Management"
-	desc="Manage and organize events efficiently with NWU VAAL GKSS's event management system. Create, edit, and track events all in one place."
+	desc="Manage and organize events efficiently with our event management system. Create, edit, and track events all in one place."
 />
 
 <div

@@ -100,7 +100,7 @@
 
 <Seo
 	title="AI Project Generator"
-	desc="Generate custom project ideas tailored to your interests and study level with NWU Vaal GKSS's AI-powered project generator."
+	desc="Generate custom project ideas tailored to your interests and study level with our AI-powered project generator."
 />
 
 <div class="min-h-screen bg-gray-50" transition:fly>

@@ -4,6 +4,7 @@
 	import { fly } from 'svelte/transition';
 	import { writable } from 'svelte/store';
 	import moment from 'moment';
+	import { gkssConfig } from '$lib/config.ts';
 
 	let { data, form } = $props();
 
@@ -16,7 +17,7 @@
 	let selectedApplicant = $state(null);
 	let interviewData = $state({
 		timestamp: '',
-		meeting_link: 'https://meet.jit.si/nwu-gkss-2026-interview',
+		meeting_link: 'https://meet.jit.si/gkss-2026-interview',
 		notes: ''
 	});
 
@@ -111,7 +112,7 @@
 
 <Seo
 	title="Manage Applications"
-	desc="Review and manage applications for the NWU Vaal GKSS executive team. Schedule interviews, accept, or reject applicants to build a vibrant student leadership community."
+	desc="Review and manage applications for the {gkssConfig.name} executive team. Schedule interviews, accept, or reject applicants to build a vibrant student leadership community."
 />
 
 <div transition:fly={{ y: 50, duration: 500 }} class="min-h-screen bg-base-100 p-4 sm:p-6">
