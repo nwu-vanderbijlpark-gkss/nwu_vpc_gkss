@@ -4,6 +4,7 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import Seo from '$lib/components/SEO.svelte';
 	import TrixDisplay from '$lib/components/TrixDisplay.svelte';
+	import { gkssConfig } from '$lib/config';
 	import { ArrowLeft, LucideSquareArrowOutUpRight } from 'lucide-svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
@@ -61,7 +62,7 @@
 
 <Seo
 	title={currentAnnouncement ? currentAnnouncement.subject : 'Announcements'}
-	desc="Stay updated with the latest news and announcements from GKSS-NWU. Check here for important updates, events, and member information."
+	desc="Stay updated with the latest news and announcements from {gkssConfig.name}. Check here for important updates, events, and member information."
 />
 
 <div

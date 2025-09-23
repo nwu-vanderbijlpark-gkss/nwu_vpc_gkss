@@ -1,5 +1,6 @@
 <script>
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 	import { Github, Linkedin } from 'lucide-svelte';
 	import { fly } from 'svelte/transition';
 
@@ -21,7 +22,7 @@
 	desc="Leader Spotlight: {spotlight.member.name} {spotlight.member
 		.surname}, our {spotlight.role}, {spotlight.member.year_of_study} year {spotlight.member
 		.qualification} student.
-	Meet the dedicated team members of the NWU Vaal GKSS, committed to fostering a vibrant student community through events, workshops, and initiatives.
+	Meet the dedicated team members of the {gkssConfig.name}, committed to fostering a vibrant student community through events, workshops, and initiatives.
 	The team: {data.team
 		.map((member) => member.member.name + ' ' + member.member.surname + ' (' + member.role + ')')
 		.join(', ')}"
@@ -32,8 +33,8 @@
 	<div class="mb-12 text-center">
 		<h1 class="mb-4 text-5xl font-extrabold text-base-content">Meet the Team</h1>
 		<p class="mx-auto max-w-2xl text-lg text-base-content/70">
-			Discover the passionate leaders of NWU Vaal GKSS who drive our community forward through
-			innovation, collaboration, and dedication.
+			Discover the passionate leaders of {gkssConfig.name} who drive our community forward through innovation,
+			collaboration, and dedication.
 		</p>
 	</div>
 

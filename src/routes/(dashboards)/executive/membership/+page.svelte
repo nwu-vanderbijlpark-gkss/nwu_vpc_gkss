@@ -35,7 +35,7 @@
 
 <Seo
 	title="Membership Management"
-	desc="Efficiently manage and engage with your members using NWU VAAL GKSS's membership management system. Track member details, send announcements, and foster a strong community."
+	desc="Efficiently manage and engage with your members using our membership management system. Track member details, send announcements, and foster a strong community."
 />
 
 <div

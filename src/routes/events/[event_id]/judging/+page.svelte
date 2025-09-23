@@ -81,7 +81,7 @@
 
 <Seo
 	title={data.event ? `Judging - ${data.event.name}` : 'Judging'}
-	desc={data.event ? data.event.description : 'Event judging portal for NWU Vaal GKSS events.'}
+	desc={data.event ? data.event.description : 'Event judging portal for our events.'}
 />
 
 <main class="flex min-h-screen w-full justify-center text-black">

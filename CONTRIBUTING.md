@@ -29,7 +29,7 @@ This document provides guidelines to help you get started with contributing. Ple
    Clone the forked repository to your local machine:
 
    ```bash
-   git clone https://github.com/NWU-VAAL-GKSS/nwu_vaal_gkss.git
+   git clone https://github.com/nwu-vanderbijlpark-gkss/gkss_portal.git
    cd gkss-website
    ```
 
@@ -61,11 +61,11 @@ This document provides guidelines to help you get started with contributing. Ple
 
 ## Issues
 
-Before starting a new feature or bug fix, check the [Issues](https://github.com/NWU-VAAL-GKSS/nwu_vaal_gkss/issues) tab to see if the problem has already been reported or if a feature request already exists. If you find an existing issue, feel free to add comments or contribute directly to the discussion.
+Before starting a new feature or bug fix, check the [Issues](https://github.com/nwu-vanderbijlpark-gkss/gkss_portal/issues) tab to see if the problem has already been reported or if a feature request already exists. If you find an existing issue, feel free to add comments or contribute directly to the discussion.
 
 To submit a new issue:
 
-1. Go to the [Issues page](https://github.com/NWU-VAAL-GKSS/nwu_vaal_gkss/issues).
+1. Go to the [Issues page](https://github.com/nwu-vanderbijlpark-gkss/gkss_portal/issues).
 2. Click "New Issue."
 3. Provide a descriptive title and fill out the issue template, including any necessary context, screenshots, or error logs.
 
@@ -96,7 +96,7 @@ When you're ready to submit your changes, follow these steps:
    ```
 
 6. **Open a Pull Request (PR):**
-   - Go to the [Pull Requests](https://github.com/NWU-VAAL-GKSS/nwu_vaal_gkss/pulls) tab.
+   - Go to the [Pull Requests](https://github.com/nwu-vanderbijlpark-gkss/gkss_portal/pulls) tab.
    - Click "New Pull Request" and select your feature branch.
    - Fill out the PR template with context about the changes you made.
 

@@ -85,5 +85,3 @@ const authGuard= async ({ event, resolve }) => {
 
 export const handle= sequence(supabase, authGuard)
 
-//for server db queries
-

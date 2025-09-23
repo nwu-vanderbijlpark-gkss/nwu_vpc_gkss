@@ -1,3 +1,4 @@
+import { gkssConfig } from '$lib/config.ts';
 import { json } from '@sveltejs/kit';
 import moment from 'moment';
 
@@ -55,13 +56,13 @@ export const PUT = async ({ request, locals: { supabase }, url, fetch }) => {
         //send email notification
         const interviewLetter = `
             <p style="font-family: Arial, sans-serif; font-size: 14px; color: #4a4a4a; margin: 10px 0;">
-                We are pleased to inform you that you have been shortlisted for an interview for the position of <b style="color: #005b99;">${data.role}</b> with the NWU Vanderbijlpark Geekulcha Student Society (GKSS).<br><br>
+                We are pleased to inform you that you have been shortlisted for an interview for the position of <b style="color: #005b99;">${data.role}</b> with the ${gkssConfig.name}.<br><br>
                 Your interview is scheduled for <b style="color: #005b99;">${moment(data.timestamp).format('MMMM D, YYYY [at] h:mm A')}</b>.<br><br>
                 Please join the interview using this link: <a href="${data.meeting_link}" style="color: #005b99; text-decoration: none; font-weight: bold;">Join Interview</a>.<br><br>
                 ${data.interview_notes ? `Additional Notes: ${data.interview_notes}<br><br>` : ''}
                 Please arrive on time and prepare for a discussion about your application. Contact us at <a href="mailto:gkssvaal@gmail.com" style="color: #005b99; text-decoration: none;">gkssvaal@gmail.com</a> with any questions.<br><br>
                 Best regards,<br>
-                NWU Vaal GKSS Recruitment Team
+                ${gkssConfig.name} Recruitment Team
             </p>
             `;
         const subject = 'Interview Scheduled';

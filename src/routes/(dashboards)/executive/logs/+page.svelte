@@ -124,7 +124,7 @@
 
 <Seo
 	title="Application Usage Logs"
-	desc="Monitor and analyze application usage with NWU VAAL GKSS's comprehensive logs. Track user activity, page visits, and gain insights into application performance."
+	desc="Monitor and analyze application usage with our comprehensive logs. Track user activity, page visits, and gain insights into application performance."
 />
 
 <div class="container mx-auto overflow-auto px-4 py-8 lg:max-h-[90svh]">

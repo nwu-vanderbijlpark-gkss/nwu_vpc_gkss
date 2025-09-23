@@ -86,7 +86,7 @@
 	title={topic ? topic.topic : 'Topic'}
 	desc={topic
 		? topic.content.replace(/<[^>]+>/g, '').substring(0, 150)
-		: 'View this topic on NWU Vaal GKSS community.'}
+		: 'View this topic on our community.'}
 />
 
 {#if !topic}

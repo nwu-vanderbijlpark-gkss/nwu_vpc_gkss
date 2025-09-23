@@ -9,6 +9,7 @@
 	import { tweened } from 'svelte/motion';
 	import { spring } from 'svelte/motion';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 
 	let { data } = $props();
 	let todaysBirthdays = data.members.filter((member) => {
@@ -90,7 +91,7 @@
 
 <Seo
 	title="Home"
-	desc="Welcome to the NWU Vaal GKSS! Empowering students through innovation, collaboration, and technology. Join us to learn, grow, and make an impact in the tech world."
+	desc="Welcome to the {gkssConfig.name}! Empowering students through innovation, collaboration, and technology. Join us to learn, grow, and make an impact in the tech world."
 />
 
 <section
@@ -112,7 +113,7 @@
 						class="mb-4 text-center text-6xl font-bold lg:w-2/4 lg:text-7xl"
 						in:fly={{ y: 50, duration: 800, delay: 200, easing: quintOut }}
 					>
-						Welcome to the NWU Vaal GKSS
+						Welcome to the {gkssConfig.name}
 					</h1>
 					<p
 						class="mb-6 text-xl lg:w-2/3"
@@ -222,7 +223,7 @@
 					<div class="h-3 w-3 rounded-full bg-yellow-500"></div>
 					<div class="h-3 w-3 rounded-full bg-green-500"></div>
 				</div>
-				<p class="text-sm text-gray-300">Weekly Quizzes - NWU Vaal GKSS</p>
+				<p class="text-sm text-gray-300">Weekly Quizzes - {gkssConfig.name}</p>
 				<div></div>
 			</div>
 			<img
@@ -262,7 +263,7 @@
 					<div class="h-3 w-3 rounded-full bg-yellow-500"></div>
 					<div class="h-3 w-3 rounded-full bg-green-500"></div>
 				</div>
-				<p class="text-sm text-gray-300">Leaderboard - NWU Vaal GKSS</p>
+				<p class="text-sm text-gray-300">Leaderboard - {gkssConfig.name}</p>
 				<div></div>
 			</div>
 			<img
@@ -290,7 +291,7 @@
 					<div class="h-3 w-3 rounded-full bg-yellow-500"></div>
 					<div class="h-3 w-3 rounded-full bg-green-500"></div>
 				</div>
-				<p class="text-sm text-gray-300">AI Generator - NWU Vaal GKSS</p>
+				<p class="text-sm text-gray-300">AI Generator - {gkssConfig.name}</p>
 				<div></div>
 			</div>
 			<img
@@ -330,7 +331,7 @@
 					<div class="h-3 w-3 rounded-full bg-yellow-500"></div>
 					<div class="h-3 w-3 rounded-full bg-green-500"></div>
 				</div>
-				<p class="text-sm text-gray-300">Dashboard - NWU Vaal GKSS</p>
+				<p class="text-sm text-gray-300">Dashboard - {gkssConfig.name}</p>
 				<div></div>
 			</div>
 			<img

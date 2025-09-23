@@ -71,7 +71,7 @@
 
 <Seo
 	title={event ? `${event.topic} - Register` : 'Event Registration'}
-	desc={event ? event.description : 'Register for events organized by NWU Vaal GKSS.'}
+	desc={event ? event.description : 'Register for events organized by us.'}
 />
 <div
 	in:fly={{ x: 100, duration: 400 }}

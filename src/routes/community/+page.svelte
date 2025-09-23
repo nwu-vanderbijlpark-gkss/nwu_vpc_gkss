@@ -18,6 +18,7 @@
 	import { onMount } from 'svelte';
 	import Opportunity from '$lib/components/Opportunity.svelte';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 	let { data } = $props();
 	let feedData = $state([]);
 
@@ -28,7 +29,7 @@
 
 <Seo
 	title="Community Feed"
-	desc="Join the NWU Vaal GKSS community! Explore topics, opportunities, and connect with fellow members."
+	desc="Join the {gkssConfig.name} community! Explore topics, opportunities, and connect with fellow members."
 />
 
 <div class="h-full w-full space-y-4" transition:fly>

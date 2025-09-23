@@ -22,7 +22,6 @@
 	const { currentUser } = data;
 </script>
 
-<title>Executive | NWU Vaal GKSS </title>
 <UsefulTools />
 <div
 	in:fly={{ x: 100, duration: 400 }}

@@ -69,7 +69,7 @@
 
 <Seo
 	title="Add Opportunity"
-	desc="Share bursaries, internships, free online courses and many more with the NWU Vaal GKSS community."
+	desc="Share bursaries, internships, free online courses and many more with the community."
 />
 
 {#if isLoading}

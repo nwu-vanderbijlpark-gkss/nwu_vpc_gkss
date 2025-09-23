@@ -83,7 +83,7 @@
 
 <Seo
 	title="Executive Team Management"
-	desc="Manage and showcase your executive team with NWU VAAL GKSS's team management system. Add, edit, and organize team members to highlight your leadership and foster collaboration."
+	desc="Manage and showcase your executive team with our team management system. Add, edit, and organize team members to highlight your leadership and foster collaboration."
 />
 
 <div transition:fly class="overflow-hidden rounded-lg bg-white shadow-xl">

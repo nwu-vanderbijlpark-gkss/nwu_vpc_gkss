@@ -58,9 +58,7 @@
 
 <Seo
 	title={quiz ? quiz.title : 'Quiz'}
-	desc={quiz
-		? quiz.description
-		: 'Take quizzes and challenges shared by the NWU Vaal GKSS community.'}
+	desc={quiz ? quiz.description : 'Take quizzes and challenges shared by our community.'}
 />
 
 {#if data.isLoggedIn}

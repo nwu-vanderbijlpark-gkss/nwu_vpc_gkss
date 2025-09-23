@@ -15,15 +15,15 @@ export default {
 		themes: [
 			{
 				geekulcha: {
-					primary: "#D32F2F", // Elegant Red (deeper shade)
-					secondary: "#FFFFFF", // White
-					accent: "#2D2D2D", // Black accent
-					neutral: "#1A1A1A", // Dark neutral
-					"base-100": "#1b1b1b", // Grayish Black
-					info: "#B0BEC5", // Light neutral
-					success: "#4CAF50", // Green
-					warning: "#FFC107", // Yellow
-					error: "#FF5722", // Reddish error
+					primary: "#D32F2F", 
+					secondary: "#FFFFFF", 
+					accent: "#2D2D2D",  
+					neutral: "#1A1A1A",
+					"base-100": "#1b1b1b",
+					info: "#B0BEC5",
+					success: "#4CAF50", 
+					warning: "#FFC107",
+					error: "#FF5722",
 				  }				  
 			},
 		],

@@ -1,3 +1,4 @@
+import { gkssConfig } from '$lib/config';
 import { redirect } from '@sveltejs/kit';
 
 export const actions =   {
@@ -16,7 +17,7 @@ export const actions =   {
         email: email,
         password: password,
         options: {
-          emailRedirectTo: 'https://nwu-vaal-gkss.netlify/login',
+          emailRedirectTo: gkssConfig.url + '/login',
         }
       })
       

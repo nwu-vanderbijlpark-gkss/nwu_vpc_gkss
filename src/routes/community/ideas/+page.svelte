@@ -8,7 +8,7 @@
 
 <Seo
 	title="Saved AI Project Ideas"
-	desc="Explore a curated collection of AI-generated project ideas saved by NWU Vaal GKSS members, tailored to various interests and study levels."
+	desc="Explore a curated collection of AI-generated project ideas saved by you, tailored to various interests and study levels."
 />
 
 <div

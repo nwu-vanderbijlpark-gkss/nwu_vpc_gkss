@@ -40,6 +40,7 @@
 	import { models } from '$lib/state.svelte';
 	import LogoutModal from '$lib/components/LogoutModal.svelte';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config';
 
 	let activeTab = $state('stats');
 	let { data } = $props();
@@ -137,7 +138,7 @@
 
 <Seo
 	title="Dashboard"
-	desc="Access your personalized dashboard on GKSS-NWU. View your profile, track your points, manage events, and stay updated with the latest announcements."
+	desc="Access your personalized dashboard on {gkssConfig.name}. View your profile, track your points, manage events, and stay updated with the latest announcements."
 />
 
 <LogoutModal />
@@ -296,26 +297,7 @@
 					</div>
 				{/each}
 			</div>
-			{#if member.event_participant?.length}
-				{#each member.event_participant as event}
-					{#if moment(event.events.date).isSame(moment(), 'day')}
-						<div class="w-full space-y-6">
-							<div class="w-full rounded-xl bg-white p-6 shadow-md">
-								<h3 class="mb-4 text-xl font-semibold">{event.events.topic}</h3>
-								<span class="flex w-full flex-col items-center justify-center space-y-3">
-									<p>Ask a leader to scan for your attendance</p>
-									<QrCode
-										value={`https://nwu-vaal-gkss.netlify.app/executive/events/${event.events.id}/${event.id}`}
-									/>
-									<a href="/executive/events/{event.events.id}/{event.id}" class="link link-primary"
-										>{`https://nwu-vaal-gkss.netlify.app/executive/events/${event.events.id}/${event.id}`}</a
-									>
-								</span>
-							</div>
-						</div>
-					{/if}
-				{/each}
-			{/if}
+
 			<Announcements />
 			<div class="rounded-xl bg-white p-6 shadow-md">
 				<h3 class="mb-4 text-xl font-semibold">Upcoming Events and sessions</h3>
@@ -367,7 +349,11 @@
 							href={`/community/profile`}
 							class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
 						>
-							<img src="/icon.png" alt="NWU VAAL Member Profile" class="h-5 w-5 rounded-full" />
+							<img
+								src="/icon.png"
+								alt="{gkssConfig.name}Member Profile"
+								class="h-5 w-5 rounded-full"
+							/>
 							<span class="text-sm font-medium">@{member.username}</span>
 						</a>
 						<a

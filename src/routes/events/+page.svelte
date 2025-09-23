@@ -5,13 +5,14 @@
 	import { fade, fly } from 'svelte/transition';
 	import { models } from '$lib/state.svelte.js';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 	let { data } = $props();
 	models.context = 'Events: ' + JSON.stringify(data.events);
 </script>
 
 <Seo
 	title="Events"
-	desc="Stay updated with the latest events organized by NWU Vaal GKSS. Explore our event calendar and register for upcoming activities."
+	desc="Stay updated with the latest events organized by {gkssConfig.name}. Explore our event calendar and register for upcoming activities."
 />
 
 <Events events={data.events} />

@@ -1,7 +1,8 @@
 import { json } from "@sveltejs/kit";
 import { BREVO_API_KEY } from '$env/static/private'
+import { gkssConfig } from "$lib/config.ts";
 
-const logo = "https://nwu-vaal-gkss.netlify.app/icon.png"; // Logo URL
+const logo = gkssConfig.url + "/icon.png"; // Logo URL
 
 const emailTemplate = (message, fullName) => `
   <!DOCTYPE html>
@@ -100,15 +101,15 @@ const emailTemplate = (message, fullName) => `
         <tr>
             <td class="container">
                 <div class="header">
-                    <img src="${logo}" alt="GKSS-NWU(Vaal) Logo" class="logo" />
+                    <img src="${logo}" alt="${gkssConfig.name} Logo" class="logo" />
                 </div>
                 <h2>Dear, ${fullName}</h2>
                 <p>${message}</p>
                 <p>If you need assistance or have suggestions, please reach out via our group chat.</p>
-                <p>This message was sent from the GKSS-NWU(Vanderbijlpark) website: <a href="https://nwu-vaal-gkss.netlify.app">nwu-vaal-gkss.netlify.app</a></p>
+                <p>This message was sent from the ${gkssConfig.name} website: <a href="${gkssConfig.url}">${gkssConfig.url}</a></p>
                 <div class="footer">
-                    <p>&copy; ${new Date().getFullYear()} GKSS-NWU(Vanderbijlpark). All rights reserved.</p>
-                    <p><a href="https://nwu-vaal-gkss.netlify.app">Visit our website</a></p>
+                    <p>&copy; ${new Date().getFullYear()} ${gkssConfig.name}. All rights reserved.</p>
+                    <p><a href="${gkssConfig.url}">Visit our website</a></p>
                 </div>
             </td>
         </tr>
@@ -145,7 +146,7 @@ export const POST = async ({request, locals:{supabase}}) => {
           'api-key': BREVO_API_KEY,
         },
         body: JSON.stringify({
-          sender: { email: 'gkssvaal@gmail.com', name: 'GKSS-NWU-Vanderbijlpark' },
+          sender: { email: gkssConfig.socials.email, name: gkssConfig.name },
           to: [{ email }],
           subject: data.subject,
           htmlContent: emailTemplate(data.message, fullName),

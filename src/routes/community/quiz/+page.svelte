@@ -1,5 +1,6 @@
 <script>
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config';
 	import { PenSquare } from 'lucide-svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
@@ -23,7 +24,10 @@
 	onMount(() => fetchQuizzes());
 </script>
 
-<Seo title="Quizzes" desc="Take quizzes and challenges shared by the NWU Vaal GKSS community." />
+<Seo
+	title="Quizzes"
+	desc="Take quizzes and challenges shared by the {gkssConfig.name} community."
+/>
 
 <div transition:fly class="container mx-auto p-4">
 	<!-- Header -->

@@ -1,5 +1,6 @@
 <script>
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config';
 	import { fly } from 'svelte/transition';
 
 	const pages = ['personal', 'academic', 'interests'];
@@ -155,7 +156,7 @@
 
 <Seo
 	title="Onboarding - {pages[page - 1]}"
-	desc="Complete your onboarding process to get the most out of your GKSS-NWU membership."
+	desc="Complete your onboarding process to get the most out of your {gkssConfig.name} membership."
 />
 
 <div class="flex min-h-screen w-full items-center justify-center bg-[#0c0c0c] p-5">

@@ -3,6 +3,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import Loading from '$lib/components/Loading.svelte';
 	import Seo from '$lib/components/SEO.svelte';
+	import { gkssConfig } from '$lib/config.ts';
 
 	let email = $state('');
 	let password = $state('');
@@ -50,7 +51,7 @@
 
 <Seo
 	title="Signup"
-	desc="Join GKSS-NWU today! Create your account to access exclusive member benefits, events, and resources."
+	desc="Join {gkssConfig.name} today! Create your account to access exclusive member benefits, events, and resources."
 />
 
 <div transition:fly class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
@@ -95,10 +96,9 @@
 				<button type="submit" class="btn btn-primary text-white">Signup</button>
 				<a href="/login" class="btn btn-outline">Login here.</a>
 				<span class="text-sm"
-					>By signing up, I agree to NWU VAAL GKSS's <a
-						class="link underline"
-						target="_blank"
-						href="/docs/Terms and Conditions.pdf">Terms of Use</a
+					>By signing up, I agree to {gkssConfig.name}'s
+					<a class="link underline" target="_blank" href="/docs/Terms and Conditions.pdf"
+						>Terms of Use</a
 					>
 					and
 					<a class="link underline" target="_blank" href="/docs/Privacy Policy.pdf"
