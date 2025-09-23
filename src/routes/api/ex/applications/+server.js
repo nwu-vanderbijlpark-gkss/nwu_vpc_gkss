@@ -60,7 +60,7 @@ export const PUT = async ({ request, locals: { supabase }, url, fetch }) => {
                 Your interview is scheduled for <b style="color: #005b99;">${moment(data.timestamp).format('MMMM D, YYYY [at] h:mm A')}</b>.<br><br>
                 Please join the interview using this link: <a href="${data.meeting_link}" style="color: #005b99; text-decoration: none; font-weight: bold;">Join Interview</a>.<br><br>
                 ${data.interview_notes ? `Additional Notes: ${data.interview_notes}<br><br>` : ''}
-                Please arrive on time and prepare for a discussion about your application. Contact us at <a href="mailto:gkssvaal@gmail.com" style="color: #005b99; text-decoration: none;">gkssvaal@gmail.com</a> with any questions.<br><br>
+                Please arrive on time and prepare for a discussion about your application. Contact us at <a href="mailto:${gkssConfig.email}" style="color: #005b99; text-decoration: none;">${gkssConfig.email}</a> with any questions.<br><br>
                 Best regards,<br>
                 ${gkssConfig.name} Recruitment Team
             </p>
