@@ -6,25 +6,15 @@
 
 	let { data, form } = $props();
 
-	let roles = [
-		'Chairperson',
-		'Deputy Chairperson',
-		'Secretary',
-		'Treasurer',
-		'Tech and Innovation Lead',
-		'Community Manager',
-		'Recruitment Officer',
-		'Sponsorship and Fundraising Coordinator',
-		'Marketing Manager',
-		'Project Manager',
-		'Other'
-	];
+	let { roles, period, applicationsOpen, isLoggedIn, isExecutive } = data;
 
+	isExecutive = false;
 	// Form data
 	let formData = $state({
 		role: '',
 		other_role: '',
-		message: ''
+		message: '',
+		whatsapp: '0'
 	});
 	let isLoading = $state(false);
 
@@ -40,7 +30,9 @@
 		} else {
 			data.append('role', formData.role);
 		}
+		data.append('period_id', period.id);
 		data.append('message', formData.message);
+		data.append('whatsapp', formData.whatsapp);
 
 		const req = await fetch('/api/apply', {
 			method: 'POST',
@@ -97,7 +89,7 @@
 			</div>
 		</div>
 
-		{#if data.isLoggedIn && !isLoading}
+		{#if isLoggedIn && !isLoading && applicationsOpen && !isExecutive}
 			<!-- Application Form -->
 			<div class="mx-auto w-full max-w-2xl">
 				<div class="card bg-base-100 p-8 shadow-xl">
@@ -142,6 +134,25 @@
 						</div>
 						<div>
 							<label for="message" class="label">
+								<span class="label-text font-medium text-base-content">Whatsapp Number</span>
+							</label>
+							<input
+								type="tel"
+								onkeydown={() => {
+									formData.whatsapp = formData.whatsapp.replace(/[^0-9]/g, '');
+								}}
+								name="whatsapp_number"
+								id="whatsapp_number"
+								bind:value={formData.whatsapp}
+								placeholder="0123456789"
+								class="input input-bordered w-full"
+								minlength="0"
+								maxlength="10"
+								required
+							/>
+						</div>
+						<div>
+							<label for="message" class="label">
 								<span class="label-text font-medium text-base-content"
 									>Why do you want to join?</span
 								>
@@ -159,6 +170,25 @@
 							<button type="submit" class="btn btn-primary btn-wide">Submit Application</button>
 						</div>
 					</form>
+				</div>
+			</div>
+		{:else if isExecutive}
+			<div class="mx-auto w-full max-w-2xl">
+				<div class="card bg-base-100 p-8 shadow-xl">
+					<h2 class="mb-4 text-3xl font-bold text-primary">You are already a leader</h2>
+					<p class="mb-4 text-base-content/80">
+						You are already a leader for {gkssConfig.name}. You cannot reapply, if you wish to be in
+						the team again, talk to your team about it.
+					</p>
+				</div>
+			</div>
+		{:else if !applicationsOpen}
+			<div class="mx-auto w-full max-w-2xl">
+				<div class="card bg-base-100 p-8 shadow-xl">
+					<h2 class="mb-4 text-3xl font-bold text-primary">Applications Closed</h2>
+					<p class="mb-4 text-base-content/80">
+						Applications for {gkssConfig.name} are currently closed. Please check back later for updates.
+					</p>
 				</div>
 			</div>
 		{:else if isLoading}

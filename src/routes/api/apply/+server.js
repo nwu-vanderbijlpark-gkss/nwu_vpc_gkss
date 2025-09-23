@@ -10,11 +10,12 @@ export const POST = async ({locals: {supabase}, request, fetch}) => {
 
     const role = data.get("role");
     const message = data.get("message");
+    const period_id = data.get("period_id");
+    const whatsapp = data.get("whatsapp");
 
-    const {error} = await supabase.from("applications").insert({role: role, message: message, status: "submitted", member_id: user.id});
+    const {error} = await supabase.from("applications").insert({role: role, message: message, status: "submitted", period_id: period_id, member_id: user.id});
     if(error) 
         return new Response(JSON.stringify({error: error.message}), {status: 500});
-    
 
     const emailMessage = `
         <p style="font-family: Arial, sans-serif; font-size: 14px; color: #4a4a4a; margin: 10px 0;">
@@ -26,6 +27,9 @@ export const POST = async ({locals: {supabase}, request, fetch}) => {
     const subject = 'Application confirmation';
 
     const { data:  member  } = await supabase.from("member").select("*").eq("id", user.id).single();
+    if(!member?.whatsapp){
+        await supabase.from("member").update({whatsapp: whatsapp}).eq("id", user.id);
+    }
     const req = await fetch("/api/sendEmail", {
                 method: "POST",
                 headers: {
