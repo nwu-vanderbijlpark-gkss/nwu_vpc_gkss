@@ -8,7 +8,6 @@
 
 	let { roles, period, applicationsOpen, isLoggedIn, isExecutive } = data;
 
-	isExecutive = false;
 	// Form data
 	let formData = $state({
 		role: '',
