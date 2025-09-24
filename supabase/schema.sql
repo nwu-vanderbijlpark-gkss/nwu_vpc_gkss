@@ -17,6 +17,14 @@ CREATE TABLE public.app_usage (
   visitor character varying,
   CONSTRAINT app_usage_pkey PRIMARY KEY (id)
 );
+CREATE TABLE public.application_period (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp without time zone NOT NULL DEFAULT now(),
+  open_date date,
+  close_date date,
+  year character varying,
+  CONSTRAINT application_period_pkey PRIMARY KEY (id)
+);
 CREATE TABLE public.applications (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
@@ -25,8 +33,10 @@ CREATE TABLE public.applications (
   status character varying DEFAULT 'submitted'::character varying,
   message text,
   interview_timestamp timestamp with time zone,
+  period_id uuid,
   CONSTRAINT applications_pkey PRIMARY KEY (id),
-  CONSTRAINT leader_application_member_id_fkey FOREIGN KEY (member_id) REFERENCES public.member(id)
+  CONSTRAINT leader_application_member_id_fkey FOREIGN KEY (member_id) REFERENCES public.member(id),
+  CONSTRAINT applications_period_id_fkey FOREIGN KEY (period_id) REFERENCES public.application_period(id)
 );
 CREATE TABLE public.comment (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -173,6 +183,7 @@ CREATE TABLE public.member (
   linkedin character varying,
   github character varying,
   portfolio character varying,
+  whatsapp character varying,
   CONSTRAINT member_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.opportunity (
