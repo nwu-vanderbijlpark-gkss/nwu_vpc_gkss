@@ -1,4 +1,4 @@
-import { gkssConfig } from '$lib/config.js';
+import { gkssConfig } from '$lib/config.ts';
 import { redirect } from '@sveltejs/kit';
 
 export const actions =   {
