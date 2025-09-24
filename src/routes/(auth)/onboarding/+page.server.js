@@ -38,9 +38,15 @@ export const actions = {
 
         if(user){
             const {data,error} = await supabase.from("member").update({
-                name: form.name, surname: form.surname, date_of_birth: form.date_of_birth, gender: form.gender,
-        qualification: form.qualification, year_of_study: form.year_of_study,
-        interests: interests(),
+                name: form.name, 
+                surname: form.surname, 
+                date_of_birth: form.date_of_birth, 
+                whatsapp: form.whatsapp, 
+                gender: form.gender,
+                qualification: form.qualification, 
+                year_of_study: form.year_of_study,
+                interests: interests(),
+                image: "https://cwzpmcosygdpwfgxgmbd.supabase.co/storage/v1/object/public/files/images/avatar.png"
             }).eq("id",user.id);
 
             if(error){

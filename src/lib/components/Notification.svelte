@@ -41,7 +41,9 @@
 		{:else if type === 'error'}
 			<AlertCircle class="h-5 w-5" />
 		{/if}
-		{message}
+		<p class="whitespace-pre-wrap">
+			{message}
+		</p>
 	</div>
 </div>
 

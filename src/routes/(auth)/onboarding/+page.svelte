@@ -1,6 +1,7 @@
 <script>
 	import Seo from '$lib/components/SEO.svelte';
 	import { gkssConfig } from '$lib/config';
+	import { notifications } from '$lib/stores';
 	import { fly } from 'svelte/transition';
 
 	const pages = ['personal', 'academic', 'interests'];
@@ -8,6 +9,7 @@
 	let form = $state({
 		name: '',
 		surname: '',
+		whatsapp: '',
 		date_of_birth: '',
 		gender: '',
 		qualification: '',
@@ -51,6 +53,7 @@
 	const validatePersonalInfo = () => {
 		const errors = [];
 		if (!form.name) errors.push('Name is required');
+		if (!form.whatsapp) errors.push('WhatsApp number is required');
 		if (!form.surname) errors.push('Surname is required');
 		if (!form.date_of_birth) errors.push('Date of birth is required');
 		if (!form.gender) errors.push('Gender is required');
@@ -112,7 +115,10 @@
 
 			if (errors.length > 0) {
 				const errorList = errors.join('\n• ');
-				alert('Please correct the following:\n• ' + errorList);
+				notifications.add({
+					type: 'error',
+					message: 'Please correct the following:\n• ' + errorList
+				});
 				return;
 			}
 			if (page === 3) {
@@ -175,7 +181,7 @@
 		</h1>
 		<p class="mb-6 mt-2 text-gray-400">You can always edit this info in your profile</p>
 
-		<form use:enhance method="post" class="flex w-full flex-col gap-5">
+		<form method="post" class="flex w-full flex-col gap-5">
 			{#if page === 1}
 				<div class="space-y-6" transition:fly>
 					<h2 class="flex items-center gap-2 text-lg font-bold">
@@ -205,6 +211,24 @@
 							class:input-error={!form.surname}
 							placeholder="Enter your surname"
 							bind:value={form.surname}
+							required
+						/>
+					</label>
+					<label class="form-control w-full">
+						<p class="mb-2">Whatsapp Number</p>
+						<input
+							type="tel"
+							onkeydown={() => {
+								form.whatsapp = form.whatsapp.replace(/[^0-9]/g, '');
+							}}
+							name="whatsapp"
+							id="whatsapp"
+							bind:value={form.whatsapp}
+							placeholder="0123456789"
+							class="input input-bordered w-full"
+							class:input-error={!form.whatsapp}
+							minlength="0"
+							maxlength="10"
 							required
 						/>
 					</label>
