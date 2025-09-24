@@ -5,7 +5,7 @@
 		title,
 		keywords = `${gkssConfig.name}, ${gkssConfig.socials.github}, gkss, geekulcha, student, society, student society,`,
 		desc,
-		image = '/icon.png',
+		image = `${gkssConfig.url}/icon.png`,
 		langs = ['en-ZA', 'en-US']
 	} = $props();
 </script>
