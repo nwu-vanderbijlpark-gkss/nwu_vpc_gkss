@@ -37,13 +37,27 @@ You can host it anywhere else, as long as you will be able to keep your supabase
 1. Fork this repo and clone it locally.
 2. Create netlify, supabase, brevo and groqcloud accounts
 3. Copy `env.example` to `.env` and replace the placeholders with your keys:
+
    ```env
+   # API Keys
     PUBLIC_SUPABASE_URL='https://<project_id>.supabase.co'
     PUBLIC_SUPABASE_ANON_KEY='<your_anon_key>'
     GROQ_API_KEY='<your_groq_api_key>'
     BREVO_API_KEY='<your_brevo_api_key>'
     CRYPTO_KEY='<your_crypto_key>'
+
+    # Chapter Configuration
+    PUBLIC_CHAPTER_NAME="GKSS NWU Vanderbijlpark"
+    PUBLIC_CHAPTER_URL="https://nwu-vaal-gkss.netlify.app"
+    PUBLIC_CHAPTER_INSTITUTION="North-West University"
+
+    # Socials
+    PUBLIC_CHAPTER_EMAIL="gkssvaal@gmail.com" # must match Brevo sender
+    PUBLIC_CHAPTER_TWITTER="https://x.com/GKSSVAAL"
+    PUBLIC_CHAPTER_INSTAGRAM="https://www.instagram.com/gkss_nwu"
+    PUBLIC_CHAPTER_GITHUB="https://github.com/nwu-vanderbijlpark-gkss/"
    ```
+
 4. Set the environment variables in Netlify > _Site Settings > Environment Variables_:
 5. Go to netlify and deploy your portal or click the button below: <br/>
    [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/nwu-vanderbijlpark-gkss/gkss_portal)
@@ -77,8 +91,8 @@ You can host it anywhere else, as long as you will be able to keep your supabase
 
 ### Customizing Your Portal
 
-- Update **chapter name, logo, and theme colors(would advise not to)** in `src/lib/config.ts`.
-- Note that the email in `src/lib/config.ts` must match the one registered with brevo
+- Update **chapter info** in `.env`.
+- Note that the email in `.env` must match the one registered with brevo
 - Update the `manifest.json`, change the chapter name.
 - Add or edit content pages in `src/routes/`.
 - Customize styles with Tailwind/DaisyUI in `app.css`.

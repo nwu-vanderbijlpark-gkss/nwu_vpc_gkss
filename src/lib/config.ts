@@ -1,12 +1,14 @@
+import { PUBLIC_CHAPTER_EMAIL, PUBLIC_CHAPTER_GITHUB, PUBLIC_CHAPTER_INSTAGRAM, PUBLIC_CHAPTER_INSTITUTION, PUBLIC_CHAPTER_LINKEDIN, PUBLIC_CHAPTER_NAME, PUBLIC_CHAPTER_TWITTER, PUBLIC_CHAPTER_URL } from "$env/static/public";
+
 export const gkssConfig = {
-    name: "GKSS NWU Vanderbijlpark", //The name of the chapter
-    url: "https://nwu-vaal-gkss.netlify.app", //The url of the chapter's hosted copy of this portal
-    institution: "North-West University", //The name of the institution the chapter is associated with
-    socials: { //social links, needed for the footer
-        email: "gkssvaal@gmail.com",//this must match the email that is registered on brevo
-        twitter: "https://x.com/GKSSVAAL",
-        linkedin: "https://www.linkedin.com/in/gkssnwu-vaal-30132234b/",
-        instagram: "https://www.instagram.com/gkss_nwu",
-        github: "https://github.com/nwu-vanderbijlpark-gkss/",
-    }
-}
+  name: PUBLIC_CHAPTER_NAME,
+  url: PUBLIC_CHAPTER_URL,
+  institution: PUBLIC_CHAPTER_INSTITUTION,
+  socials: {
+    email: PUBLIC_CHAPTER_EMAIL,
+    twitter: PUBLIC_CHAPTER_TWITTER,
+    linkedin: PUBLIC_CHAPTER_LINKEDIN,
+    instagram: PUBLIC_CHAPTER_INSTAGRAM,
+    github: PUBLIC_CHAPTER_GITHUB,
+  }
+};
