@@ -20,7 +20,7 @@ export const load = async({request, locals: {supabase}}) => {
 
         // check if the user is an executive
         let isExecutive = false;
-        let { data: leader } = await supabase.from('team').select('*').eq('member_id', user.id).single();   
+        let { data: leader } = await supabase.from('team').select('*').eq('member_id', user.id).limit(1).single();   
         if(leader){
             isExecutive = true;
         }
