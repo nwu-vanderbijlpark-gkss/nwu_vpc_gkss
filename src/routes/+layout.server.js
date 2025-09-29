@@ -12,7 +12,7 @@ export const load = async({request, locals: {supabase}}) => {
 
     for(let member of Member){
         let publicUrl = member.image ? await supabase.storage.from("files").getPublicUrl(member?.image?.substring(member.image?.indexOf("/"))): null;//removing the first "file/"
-        member = {...member,image: publicUrl.data.publicUrl ? publicUrl.data.publicUrl : "/temp/avatar.jpeg"};
+        member = {...member,image: publicUrl?.data?.publicUrl ? publicUrl.data.publicUrl : "/temp/avatar.jpeg"};
         members.push(member);
     }
     
@@ -31,7 +31,7 @@ export const load = async({request, locals: {supabase}}) => {
         // get the public url of the user's image from supabase storage
         if(currentUser){
             let publicUrl = currentUser.image ? await supabase.storage.from("files").getPublicUrl(currentUser.image.substring(currentUser.image.indexOf("/"))) : null;//removing the first "file/"
-            currentUser = {...currentUser,image: publicUrl.data.publicUrl}
+            currentUser = {...member,image: publicUrl?.data?.publicUrl ? publicUrl.data.publicUrl : "/temp/avatar.jpeg"};
         
             //take the user email and insert into the database
             const {data, error} = await supabase.from("member").update({email: user.email}).eq("id", user.id);
