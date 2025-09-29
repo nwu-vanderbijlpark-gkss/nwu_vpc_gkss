@@ -6,9 +6,15 @@ export const load = async({locals:{supabase}}) => {
         console.error(error);
         return {error: "Unexpected error occurred"};
     }
+
+    for(let member of Member){
+        let publicUrl = member.image ? await supabase.storage.from("files").getPublicUrl(member?.image?.substring(member.image?.indexOf("/"))): null;//removing the first "file/"
+        member = {...member,image: publicUrl?.data?.publicUrl ? publicUrl.data.publicUrl : "/temp/avatar.jpeg"};
+        members.push(member);
+    }
     for(let i = 0; i< data.length; i++){
-        let publicUrl = await supabase.storage.from("files").getPublicUrl(data[i].member.image.substring(data[i].member.image.indexOf("/")+1));//removing the first "file/"
-        data[i].member.image = publicUrl.data.publicUrl;
+        let publicUrl = data[i].member.image ? await supabase.storage.from("files").getPublicUrl(data[i].member.image.substring(data[i].member.image.indexOf("/")+1)) : null;//removing the first "file/"
+        data[i].member.image = publicUrl ? publicUrl.data.publicUrl : "/temp/avatar.jpeg";
     }
     return {team: data};
 }
