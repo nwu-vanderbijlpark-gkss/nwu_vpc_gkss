@@ -10,7 +10,7 @@ export const load = async ({locals: {supabase}}) => {
         if(memberData[0].interests){
             let member = memberData[0];
             let publicUrl = member.image? await supabase.storage.from("files").getPublicUrl(member.image?.substring(member.image.indexOf("/")+1)) : null;//removing the first "file/"
-            member.image = publicUrl.data.publicUrl ? publicUrl.data.publicUrl : "/temp/avatar.jpeg";
+            member.image = publicUrl.data?.publicUrl ? publicUrl.data.publicUrl : "/temp/avatar.jpeg";
             member.id = 0;//hide the member's id
             //events
             const {data: events} = await supabase.from("events").select('*').order('date', { ascending: false });
