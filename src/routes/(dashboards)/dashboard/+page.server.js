@@ -59,7 +59,7 @@ export const actions = {
         const formData = await request.formData();
         const newImage = formData.get("image");
         //replace the image if its not the default
-        if(member[0].image != "files/images/avatar.png"){
+        if(member[0].image){
             const image_path = member[0].image.replace("files/","");//remove the files/
             const { data, error } = await supabase
             .storage
