@@ -30,7 +30,7 @@ export const load = async({request, locals: {supabase}}) => {
 
         // get the public url of the user's image from supabase storage
         if(currentUser){
-            let publicUrl = currentUser.image ? await supabase.storage.from("files").getPublicUrl(currentUser.image.substring(currentUser.image.indexOf("/"))) : null;//removing the first "file/"
+            let publicUrl = currentUser.image ? await supabase.storage.from("files").getPublicUrl(currentUser.image?.substring(currentUser.image?.indexOf("/"))) : null;//removing the first "file/"
             currentUser = {...currentUser,image: publicUrl?.data?.publicUrl ? publicUrl.data.publicUrl : "/temp/avatar.jpeg"};
         
             //take the user email and insert into the database
