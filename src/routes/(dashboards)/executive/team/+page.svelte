@@ -5,16 +5,12 @@
 
 	let roles = [
 		'Chairperson',
-		'Deputy Chairperson',
-		'Secretary',
-		'Treasurer',
-		'Tech and Innovation Lead',
-		'Community Manager',
-		'Recruitment Officer',
-		'Sponsorship and Fundraising Coordinator',
-		'Marketing Manager',
-		'Project Manager',
-		'Other'
+            'Deputy Chairperson',
+            'Secretary',
+            'Treasurer',
+            'Tech and Innovation Lead',
+            'Community Engagement Officer',
+            'Marketing and Recruitment Officer',
 	];
 	let { data, form } = $props();
 
