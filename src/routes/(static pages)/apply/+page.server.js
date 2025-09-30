@@ -15,12 +15,8 @@ else{
             'Secretary',
             'Treasurer',
             'Tech and Innovation Lead',
-            'Community Manager',
-            'Recruitment Officer',
-            'Sponsorship and Fundraising Coordinator',
-            'Marketing Manager',
-            'Project Manager',
-            'Other'
+            'Community Engagement Officer',
+            'Marketing and Recruitment Officer',
         ];
 
         //filter roles that are already filled for the period
