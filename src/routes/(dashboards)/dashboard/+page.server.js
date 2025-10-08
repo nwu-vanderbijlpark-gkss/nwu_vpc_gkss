@@ -9,8 +9,8 @@ export const load = async ({locals: {supabase}}) => {
     if(memberData && memberData.length > 0){
         if(memberData[0].interests){
             let member = memberData[0];
-            let publicUrl = await supabase.storage.from("files").getPublicUrl(member.image.substring(member.image.indexOf("/")+1));//removing the first "file/"
-            member.image = publicUrl.data.publicUrl;
+            let publicUrl = member.image? await supabase.storage.from("files").getPublicUrl(member.image?.substring(member.image.indexOf("/")+1)) : null;//removing the first "file/"
+            member.image = publicUrl?.data?.publicUrl ? publicUrl.data.publicUrl : "/temp/avatar.jpeg";
             member.id = 0;//hide the member's id
             //events
             const {data: events} = await supabase.from("events").select('*').order('date', { ascending: false });
@@ -59,7 +59,7 @@ export const actions = {
         const formData = await request.formData();
         const newImage = formData.get("image");
         //replace the image if its not the default
-        if(member[0].image != "files/images/avatar.png"){
+        if(member[0].image){
             const image_path = member[0].image.replace("files/","");//remove the files/
             const { data, error } = await supabase
             .storage

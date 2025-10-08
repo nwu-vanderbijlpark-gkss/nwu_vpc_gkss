@@ -75,12 +75,12 @@
 	};
 	let members = $state(
 		data.members
-			.filter((m) => m.name && m.username) // Filter valid members
-			.sort((a, b) => b.points - a.points)
+			?.filter((m) => m.name && m.username) // Filter valid members
+			?.sort((a, b) => b.points - a.points)
 	);
 	// Build a Map where each username maps to its rank
 	const rankMap = new Map();
-	members.forEach((person, index) => {
+	members?.forEach((person, index) => {
 		rankMap.set(person.username, index + 1);
 	});
 	let errors = $state({});

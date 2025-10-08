@@ -15,8 +15,7 @@ export async function load({locals: {supabase}}) {
     let currentUser = null;
 
     if(user){
-        let { data: member } = await supabase.from('team').select('*, member(*)').eq('member_id',user.id).single(); //get the team member
-
+        let { data: member } = await supabase.from('team').select('*, member(*)').eq('member_id', user.id).limit(1).single();
         if(!member){
             redirect(303,"/dashboard");//redirect the user to member dashboard if theyre not an executive member
         }
