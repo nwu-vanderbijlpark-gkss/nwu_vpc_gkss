@@ -77,7 +77,7 @@
 						message: 'New announcement: ' + payload.new.subject
 					});
 					sendBrowserNotification('New announcement: ' + payload.new.subject, {
-						body: payload.new.body,
+						body: payload.new.subject,
 						icon: '/logo.png'
 					});
 				}
