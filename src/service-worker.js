@@ -78,3 +78,50 @@ self.addEventListener('fetch', (event) => {
 
 	event.respondWith(respond());
 });
+
+// Push Notification Handling
+self.addEventListener('push', (event) => {
+  const options = {
+    body: event.data?.text() || 'You have a new message!',
+    icon: '/logo.png', // Adjust to your app's icon
+    badge: '/logo.png', // Optional badge icon
+    vibrate: [100, 50, 100], // Haptic feedback
+    data: { url: event.data?.json()?.url || '/' }, // Custom data, e.g., link to specific page like '/community/quiz/123'
+    actions: [
+      { action: 'view', title: 'View Now' },
+      { action: 'dismiss', title: 'Dismiss' }
+    ]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification("GKSS-Portal", options) // Replace 'Your App Name' with your app title
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+
+  // Extract URL from data or default
+  const urlToOpen = event.notification.data?.url || '/';
+  
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
+      .then((clientList) => {
+        // If a window is open, focus it and navigate
+        const client = clientList.find(client => client.url.includes(urlToOpen) && 'focus' in client);
+        if (client) {
+          return client.focus().then(() => {
+            if (client.url !== urlToOpen) {
+              return client.navigate(urlToOpen);
+            }
+          });
+        }
+        
+        // Otherwise, open a new window/tab
+        if (client.openWindow) {
+          return client.openWindow(urlToOpen);
+        }
+      })
+  );
+});
+

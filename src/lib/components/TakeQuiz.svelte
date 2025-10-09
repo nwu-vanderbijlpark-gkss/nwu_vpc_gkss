@@ -11,7 +11,7 @@
 	let currentQuestion = $state(0);
 	let showScore = $state(false);
 	let score = $state(0);
-	let remainingTime = $state(quiz.time_limit ? Number(quiz.time_limit) * 60 : 0); //if the time limit exists, make it in seconds
+	let remainingTime = $state(quiz?.time_limit ? Number(quiz?.time_limit) * 60 : 0); //if the time limit exists, make it in seconds
 	let totalPoints = $state(0);
 
 	const handleAnswer = (questionIndex, answer) => {
@@ -179,8 +179,8 @@
 				You're the author of this quiz, so you cannot receive points if you attempt the quiz
 			</p>
 		{/if}
-		{#if quiz.time_limit && Number(quiz.time_limit) > 0}
-			<p class="py-4 text-red-500">This quiz has a time limit of {quiz.time_limit} minutes</p>
+		{#if quiz?.time_limit && Number(quiz?.time_limit) > 0}
+			<p class="py-4 text-red-500">This quiz has a time limit of {quiz?.time_limit} minutes</p>
 		{/if}
 		<p class="py-4">
 			You may attempt this quiz unlimited number of times, but only the first attempt will be
