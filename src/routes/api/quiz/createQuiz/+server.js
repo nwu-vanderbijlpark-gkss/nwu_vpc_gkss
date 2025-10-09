@@ -76,7 +76,7 @@ export const POST = async ({locals: {supabase},request, fetch}) => {
                 <p style="font-size: 18px; color: #e74c3c; margin: 0; font-weight: bold;">📚 Quiz Title: ${newQuiz.title}</p>
             </div>
             <div style="text-align: center;">
-                <a href="/community/quiz/${dbQuiz.id}" 
+                <a href="/community/quiz/${dbQuiz[0].id}" 
                 style="display: inline-block; background-color: #4a90e2; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold; box-shadow: 0 2px 5px rgba(74,144,226,0.3); transition: background-color 0.3s ease;">
                 🚀 Dive into the Quiz Now!
                 </a>
