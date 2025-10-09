@@ -86,13 +86,13 @@
 	<div class="divider divider-start">Members</div>
 	<ul class="list-inside space-y-2 py-4">
 		<li class="grid rounded-lg border-2 bg-gray-100 p-2">
-			<p>{group.Member?.name} {group.Member?.surname}</p>
-			<a href="mailto:{group.Member?.email}" class="link text-xs">{group.Member?.email}</a>
+			<p>{group.member?.name} {group.member?.surname}</p>
+			<a href="mailto:{group.member?.email}" class="link text-xs">{group.member?.email}</a>
 		</li>
 		{#each members as member}
 			<li class="grid rounded-lg border bg-gray-100 p-2">
-				<p>{member.Member?.name} {member.Member?.surname}</p>
-				<a href="mailto:{member.Member?.email}" class="link text-xs">{member.Member?.email}</a>
+				<p>{member.member?.name} {member.member?.surname}</p>
+				<a href="mailto:{member.member?.email}" class="link text-xs">{member.member?.email}</a>
 			</li>
 		{/each}
 	</ul>
@@ -112,8 +112,8 @@
 			{#each joinRequests as request}
 				<div class="flex items-center justify-between rounded-xl border-2 bg-gray-100 p-1">
 					<div class="grid">
-						<p>{request.Member?.name} {request.Member?.surname}</p>
-						<a href="mailto:{request.Member?.email}" class="link text-xs">{request.Member?.email}</a
+						<p>{request.member?.name} {request.member?.surname}</p>
+						<a href="mailto:{request.member?.email}" class="link text-xs">{request.member?.email}</a
 						>
 					</div>
 					<div class="flex items-center gap-2">

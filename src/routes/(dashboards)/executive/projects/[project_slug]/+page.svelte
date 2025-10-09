@@ -13,7 +13,7 @@
 			description: 'The main project, daily project',
 			is_complete: false,
 			deadline: '31 Nov 2025',
-			Member: {
+			member: {
 				name: 'Lethabo Maepa',
 				email: 'lethabomaepa11@gmail.com'
 			}
@@ -24,7 +24,7 @@
 			description: 'The internal hackathon project',
 			is_complete: true,
 			deadline: '22 Aug 2025',
-			Member: {
+			member: {
 				name: 'Moses Motsoenyane',
 				email: 'tevez11moses@gmail.com'
 			}

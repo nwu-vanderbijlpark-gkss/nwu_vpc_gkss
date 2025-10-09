@@ -5,7 +5,8 @@
 {#if showScore}
 	<!-- Slide-in Score Panel -->
 	<div class="pointer-events-none fixed inset-0 z-50 flex justify-end">
-		<!-- Optional semi-transparent background -->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			class="pointer-events-auto absolute inset-0 bg-black/50 backdrop-blur-sm"
 			onclick={() => (showScore = false)}
@@ -44,17 +45,17 @@
 						<div class="text-sm font-medium">
 							<!-- User's Answer -->
 							<div
-								class={userAnswers[qi] ===
+								class={userAnswers[qi]?.toLowerCase() ===
 								(question.type === 'multipleChoice'
-									? question.options[question.correctOption]
-									: question.correctAnswer)
+									? question.options[question.correctOption]?.toLowerCase()
+									: question.correctAnswer?.toLowerCase())
 									? 'text-success'
 									: 'text-error'}
 							>
-								{userAnswers[qi] ===
+								{userAnswers[qi]?.toLowerCase() ===
 								(question.type === 'multipleChoice'
-									? question.options[question.correctOption]
-									: question.correctAnswer)
+									? question.options[question.correctOption]?.toLowerCase()
+									: question.correctAnswer?.toLowerCase())
 									? '✅ Your answer is correct!'
 									: `❌ Your answer is incorrect!`}
 							</div>
