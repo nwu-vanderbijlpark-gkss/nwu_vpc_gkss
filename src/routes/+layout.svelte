@@ -12,6 +12,8 @@
 	import { BProgress } from '@bprogress/core';
 	import { currentUser, models } from '$lib/state.svelte';
 	import AiChat from '$lib/components/AIChat.svelte';
+	import { requestNotificationPermission, sendBrowserNotification } from '$lib';
+	import { supabase } from '$lib/supabaseClient';
 
 	let audioElement = $state();
 
@@ -45,7 +47,11 @@
 		return response.models.data;
 	};
 
+	let subscription;
+
 	onMount(async () => {
+		// Request permission
+		requestNotificationPermission();
 		//when logged in, and in the auth pages, redirect to dashboard
 		if (data.isLoggedIn && ($page.url.pathname == '/login' || $page.url.pathname == '/signup')) {
 			notifications.addNotification({
@@ -55,11 +61,35 @@
 
 			window.location.href = '/dashboard';
 		}
+		// Setup realtime subscription
+		subscription = supabase
+			.channel('announcements-channel')
+			.on(
+				'postgres_changes',
+				{
+					event: 'INSERT',
+					schema: 'public',
+					table: 'announcements'
+				},
+				(payload) => {
+					notifications.add({
+						type: 'success',
+						message: 'New announcement: ' + payload.new.subject
+					});
+					sendBrowserNotification('New announcement: ' + payload.new.subject, {
+						body: payload.new.body,
+						icon: '/logo.png'
+					});
+				}
+			)
+			.subscribe();
 
-		//get active ai models for usage
-		if (models.data.length == 0) {
-			models.data = await getModels();
-		}
+		// Cleanup on unmount
+		return () => {
+			if (subscription) {
+				supabase.removeChannel(subscription);
+			}
+		};
 	});
 </script>
 

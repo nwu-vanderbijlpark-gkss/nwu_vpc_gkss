@@ -6,31 +6,23 @@
 	import { Award, Icon, Medal, Sparkles, Star, Trophy } from 'lucide-svelte';
 	import Seo from '$lib/components/SEO.svelte';
 	import { gkssConfig } from '$lib/config.ts';
+	import { supabase } from '$lib/supabaseClient.js';
 
 	let { data, form } = $props();
 
 	// Reactive state
-	let tab = $state('all');
-	let isLoading = $state(true);
+	let isLoading = $state(false);
 
 	let members = $state(
-		data.members
-			.filter((m) => m.name && m.username) // Filter valid members
-			.sort((a, b) => b.points - a.points)
+		data.members.filter((m) => m.name && m.username).sort((a, b) => b.points - a.points)
 	);
 
-	// Tab management
-	const handleHashChange = () => {
-		const validTabs = ['all', 'projects', 'members'];
-		const newTab = location.hash.replace('#', '');
-		tab = validTabs.includes(newTab) ? newTab : 'all';
-	};
-
 	const fetchLeaderBoard = async () => {
-		const response = await fetch('/api/getLeaderBoard', {
+		const response = await fetch('/api/leaderboard', {
 			method: 'GET'
 		});
 		const res = await response.json();
+		console.log(res);
 		if (res.success) {
 			members = res.members
 				.filter((m) => m.name && m.username) // Filter valid members
@@ -38,22 +30,30 @@
 		}
 	};
 
+	let subscription;
 	onMount(async () => {
-		window.addEventListener('hashchange', handleHashChange);
-		handleHashChange();
-		isLoading = false;
+		// Setup of realtime subscription
+		subscription = supabase
+			.channel('leaderboard-channel')
+			.on(
+				'postgres_changes',
+				{
+					event: '*',
+					schema: 'public',
+					table: 'member'
+				},
+				(payload) => {
+					console.log(payload);
+					fetchLeaderBoard();
+				}
+			)
+			.subscribe();
 
-		// Initial fetch
-		fetchLeaderBoard();
-
-		// Set up polling every 30 seconds
-		const interval = setInterval(fetchLeaderBoard, 30000);
-
-		// Clear interval on component unmount
-
+		// Cleanup on unmount
 		return () => {
-			window.removeEventListener('hashchange', handleHashChange);
-			clearInterval(interval);
+			if (subscription) {
+				supabase.removeChannel(subscription);
+			}
 		};
 	});
 </script>

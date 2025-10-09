@@ -115,13 +115,13 @@
 		<p>Members:</p>
 		<ul class="list-inside list-decimal space-y-2 py-4">
 			<li class="grid rounded-lg border-2 bg-gray-100 p-2">
-				{currentGroup.Member?.name}
-				{currentGroup.Member?.surname}
+				{currentGroup.member?.name}
+				{currentGroup.member?.surname}
 			</li>
 			{#each currentGroup.event_participant as member}
 				<li class="grid rounded-lg border-2 bg-gray-100 p-2">
-					{member.Member.name}
-					{member.Member.surname}
+					{member.member.name}
+					{member.member.surname}
 				</li>
 			{/each}
 		</ul>

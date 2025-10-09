@@ -4,6 +4,7 @@
 	import { notifications } from '$lib/stores';
 	import Seo from '$lib/components/SEO.svelte';
 	import { gkssConfig } from '$lib/config.ts';
+	import { sendBrowserNotification } from '$lib';
 
 	let newQuiz = $state({
 		title: '',
@@ -125,28 +126,15 @@
 				type: 'success',
 				message: 'Quiz created successfully'
 			});
-			data.members.forEach(async (member) => {
-				if (member.email) {
-					let data = {
-						type: 'broadcast',
-						email: member.email,
-						fullName: member.name + ' ' + member.surname,
-						subject: gkssConfig.name + ': New Quiz',
-						message: `A new quiz: <b>${newQuiz.title}</b> has been added,<br>
+			sendBrowserNotification('New Quiz: ' + newQuiz.title, {
+				body: `A new quiz: <b>${newQuiz.title}</b> has been added,<br>
                 The quiz is due: ${moment(newQuiz.due).format('MMMM Do YYYY, [at] h:mm a')}<br/>
 					<br/>
-                    `
-					};
-
-					const res = await fetch('/api/sendEmail', {
-						method: 'POST',
-						body: JSON.stringify({ data })
-					});
-					const r = await res.json();
-				}
+                    `,
+				icon: '/logo.png'
 			});
 
-			location = '/executive/quizzes';
+			goto('/executive/quizzes');
 		} else {
 			if (navigator.vibrate) {
 				navigator.vibrate(200);

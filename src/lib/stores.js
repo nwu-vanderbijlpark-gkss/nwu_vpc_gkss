@@ -1,3 +1,4 @@
+import { sendBrowserNotification } from '$lib';
 import { writable } from 'svelte/store';
 
 function createNotificationStore() {
@@ -13,6 +14,7 @@ function createNotificationStore() {
                 };
                 return [...n, newNotification];
             });
+            //add browser notification
         },
         remove: (id) => {
             update(n => n.filter(notification => notification.id !== id));

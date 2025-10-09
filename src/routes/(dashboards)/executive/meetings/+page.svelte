@@ -104,7 +104,7 @@
 
 				<p>{meeting.description}</p>
 				<div class="flex items-center justify-between">
-					<p class="text-xs opacity-50">Created by {meeting.Member.email}</p>
+					<p class="text-xs opacity-50">Created by {meeting.member.email}</p>
 					<p class="text-sm">Date: {meeting.date}</p>
 				</div>
 			</a>

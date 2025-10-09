@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 
-export const POST = async ({locals: {supabase},request}) => {
+export const POST = async ({locals: {supabase},request, fetch}) => {
     const formData = await request.formData();
 
     // Extract quiz details
@@ -66,7 +66,46 @@ export const POST = async ({locals: {supabase},request}) => {
             }                                        
         });
 
-        
+        const message = `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="color: #4a90e2; font-size: 24px; margin: 0; display: inline-block; border-bottom: 3px solid #4a90e2; padding-bottom: 5px;">🎉 New Quiz Alert! 🎉</h2>
+            </div>
+            <div style="background-color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 0 0 10px 0;">Exciting news! A fresh quiz has just landed in our portal, ready to challenge your wits and spark some fun discussions.</p>
+                <p style="font-size: 18px; color: #e74c3c; margin: 0; font-weight: bold;">📚 Quiz Title: ${newQuiz.title}</p>
+            </div>
+            <div style="text-align: center;">
+                <a href="/community/quiz/${dbQuiz.id}" 
+                style="display: inline-block; background-color: #4a90e2; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold; box-shadow: 0 2px 5px rgba(74,144,226,0.3); transition: background-color 0.3s ease;">
+                🚀 Dive into the Quiz Now!
+                </a>
+            </div>
+            <div style="text-align: center; margin-top: 15px; font-size: 12px; color: #888;">
+                <p>Don't miss out—your community is waiting for your score! 📊</p>
+            </div>
+            </div>
+            `;
+
+
+            //send email to members
+        members.map(async(member) => {
+            await fetch("/api/sendEmail", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    data: {
+                        fullName: member.name + " " + member.surname,
+                        email: member.email,
+                        subject: `New Quiz Challenge: Test Your Knowledge on ${newQuiz.title}!`,
+                        message: message,
+                        type: 'broadcast'
+                    }
+                })
+            });
+        })
         return json({success: true})
     }else{
         return json({success: false,error});

@@ -41,3 +41,19 @@ export function getRandomColor() {
 
 		return color;
 	}
+
+export function requestNotificationPermission() {
+	if ('Notification' in window) {
+		Notification.requestPermission().then((permission) => {
+			if (permission === 'granted') {
+			}
+		});
+	}
+}
+
+// Send browser notification
+export function sendBrowserNotification(title, options) {
+	if ('Notification' in window && Notification.permission === 'granted') {
+		new Notification(title, options);
+	}
+}
