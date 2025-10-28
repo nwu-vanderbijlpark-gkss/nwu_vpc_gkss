@@ -75,7 +75,7 @@
 				<div class="mb-8 text-center md:mb-12">
 					<div class="inline-block rounded-2xl bg-gradient-to-r from-amber-400 to-amber-600 p-1">
 						<div
-							class="flex items-center gap-3 rounded-xl bg-base-100 px-6 py-4 md:gap-4 md:px-8 md:py-5"
+							class="bg-base-100 flex items-center gap-3 rounded-xl px-6 py-4 md:gap-4 md:px-8 md:py-5"
 						>
 							<Trophy
 								name="trophy"
@@ -96,8 +96,8 @@
 				</div>
 
 				<!-- Responsive Table Section -->
-				<div class="overflow-x-auto rounded-box shadow-lg">
-					<table class="table table-lg">
+				<div class="rounded-box overflow-x-auto shadow-lg">
+					<table class="table-lg table">
 						<thead class="bg-base-200">
 							<tr>
 								<th class="text-xs md:text-sm">Rank</th>
@@ -148,7 +148,7 @@
 									<td>
 										<div class="flex items-center gap-1">
 											<div class="avatar">
-												<div class="mask mask-circle h-8 w-8 md:h-10 md:w-10">
+												<div class="mask h-8 w-8 mask-circle md:h-10 md:w-10">
 													<img
 														src={member.image || '/default-avatar.png'}
 														alt={`${member.name}'s avatar`}

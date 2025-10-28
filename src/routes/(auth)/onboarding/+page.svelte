@@ -166,11 +166,11 @@
 />
 
 <div class="flex min-h-screen w-full items-center justify-center bg-[#0c0c0c] p-5">
-	<div class="w-full max-w-xl rounded-xl bg-base-200 p-5">
+	<div class="bg-base-200 w-full max-w-xl rounded-xl p-5">
 		<!-- Progress bar -->
 		<div class="mb-6 h-2.5 w-full rounded-full bg-gray-700">
 			<div
-				class="h-2.5 rounded-full bg-primary transition-all duration-300"
+				class="bg-primary h-2.5 rounded-full transition-all duration-300"
 				style="width: {progress}%"
 			></div>
 		</div>
@@ -179,7 +179,7 @@
 			<span class="text-primary">Step {page}</span>
 			<span class="text-gray-400">of {pages.length}</span>
 		</h1>
-		<p class="mb-6 mt-2 text-gray-400">You can always edit this info in your profile</p>
+		<p class="mt-2 mb-6 text-gray-400">You can always edit this info in your profile</p>
 
 		<form method="post" class="flex w-full flex-col gap-5">
 			{#if page === 1}
@@ -244,7 +244,7 @@
 							required
 						/>
 						{#if form.date_of_birth && !isAtLeast15(form.date_of_birth)}
-							<p class="mt-1 text-sm text-error">You must be at least 15 years old to register</p>
+							<p class="text-error mt-1 text-sm">You must be at least 15 years old to register</p>
 						{/if}
 					</label>
 

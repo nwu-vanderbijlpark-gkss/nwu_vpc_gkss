@@ -83,7 +83,7 @@
 	{:else}
 		<div class="mb-6 space-y-1">
 			<h3 class="flex items-center gap-2 text-2xl font-bold">
-				<PlusCircle class="h-6 w-6 text-primary" />
+				<PlusCircle class="text-primary h-6 w-6" />
 				Create New Topic
 			</h3>
 			<p class="text-sm text-gray-500">Start a meaningful discussion with the community</p>
@@ -102,7 +102,7 @@
 						name="topic"
 						required
 						placeholder="e.g. Best study techniques for finals"
-						class="input input-bordered w-full bg-gray-100 focus:ring-2 focus:ring-primary"
+						class="input input-bordered focus:ring-primary w-full bg-gray-100 focus:ring-2"
 					/>
 				</div>
 
@@ -133,7 +133,7 @@
 									<button
 										type="button"
 										onclick={() => images.splice(index, 1)}
-										class="btn btn-circle btn-xs absolute -right-2 -top-2 border-error bg-error text-white hover:scale-105"
+										class="btn btn-circle btn-xs border-error bg-error absolute -top-2 -right-2 text-white hover:scale-105"
 									>
 										<X class="h-3 w-3" />
 									</button>
@@ -189,7 +189,7 @@
 						type="text"
 						name="tags"
 						placeholder="e.g. study-tips, programming, exam-prep"
-						class="input input-bordered w-full bg-gray-100 focus:ring-2 focus:ring-primary"
+						class="input input-bordered focus:ring-primary w-full bg-gray-100 focus:ring-2"
 					/>
 					<p class="text-sm text-gray-500">Separate tags with commas (max 5 tags)</p>
 				</div>
@@ -212,7 +212,7 @@
 		{:else}
 			<div class="rounded-xl border-2 border-dashed p-8 text-center">
 				<div class="mx-auto max-w-xs space-y-4">
-					<LogIn class="mx-auto h-12 w-12 text-primary" />
+					<LogIn class="text-primary mx-auto h-12 w-12" />
 					<h4 class="text-xl font-semibold">Join the Discussion</h4>
 					<p class="mb-4 text-gray-600">
 						Sign in to share your knowledge and engage with the community
@@ -228,6 +228,8 @@
 </div>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	trix-editor {
 		min-height: 200px;
 		border: 1px solid #ddd;
@@ -240,7 +242,7 @@
 	}
 
 	trix-editor :global(blockquote) {
-		@apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+		@apply border-l-4 border-gray-300 pl-4 text-gray-600 italic;
 	}
 
 	trix-editor :global(pre) {

@@ -157,7 +157,7 @@
 	{#if isLoading}
 		<Loading />
 	{:else if isSuccess}
-		<div class="card mx-auto mt-8 max-w-md bg-base-100 shadow-lg">
+		<div class="card bg-base-100 mx-auto mt-8 max-w-md shadow-lg">
 			<div class="card-body">
 				<h2 class="card-title">Quiz Created</h2>
 				<p>Quiz created successfully</p>
@@ -220,7 +220,7 @@
 		</span>
 		<!-- Questions -->
 		{#each newQuiz.questions as question, qi (question.id)}
-			<div class="card mb-6 bg-base-100 shadow-xl">
+			<div class="card bg-base-100 mb-6 shadow-xl">
 				<div class="card-body">
 					<div class="mb-4 flex justify-between">
 						<h2 class="card-title">Question {qi + 1}</h2>

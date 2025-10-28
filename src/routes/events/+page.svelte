@@ -19,7 +19,7 @@
 <div
 	in:fly={{ x: 100, duration: 400 }}
 	out:fade={{ duration: 300 }}
-	class="card rounded-none bg-base-100 shadow-xl"
+	class="card bg-base-100 rounded-none shadow-xl"
 >
 	<div class="card-body">
 		<CalendarView events={data.events} />

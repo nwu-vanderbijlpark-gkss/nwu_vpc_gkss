@@ -16,7 +16,7 @@
 	} from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	let { isMobile } = $props();
 
@@ -86,7 +86,7 @@
 		}
 
 		//add the question, also add some relevant context and chat history
-		models.question = formMessage.trim() + '\nCurrent page is ' + $page.url.pathname;
+		models.question = formMessage.trim() + '\nCurrent page is ' + page.url.pathname;
 
 		console.log(models.promptMessage());
 		//call the api, wait for the response
@@ -289,7 +289,7 @@
 {#if chat.state == 'closed'}
 	<button
 		onclick={() => handleChatStateChange('open')}
-		class="btn btn-accent fixed bottom-16 right-8 z-[100] lg:bottom-4"
+		class="btn btn-accent fixed right-8 bottom-16 z-[100] lg:bottom-4"
 	>
 		<BotMessageSquare />
 		Ask GeekAI
@@ -300,7 +300,7 @@
 	<div
 		class=" fixed z-[100] mx-[4svw] flex shadow-lg lg:right-4 lg:m-0 {chat.state == 'open'
 			? 'bottom-1 h-[98svh]'
-			: 'bottom-16 lg:bottom-2'} w-[92svw] flex-col justify-between rounded-2xl border border-white bg-base-200 p-2
+			: 'bottom-16 lg:bottom-2'} bg-base-200 w-[92svw] flex-col justify-between rounded-2xl border border-white p-2
         shadow-xl lg:w-2/6"
 		transition:fly
 	>
@@ -372,7 +372,7 @@
 								</div>
 							</div>
 							<div
-								class="prose chat-bubble overflow-clip whitespace-pre-wrap bg-[#262626] p-2 text-gray-100"
+								class="prose chat-bubble overflow-clip bg-[#262626] p-2 whitespace-pre-wrap text-gray-100"
 							>
 								{@html marked(message.message)}
 							</div>
@@ -380,7 +380,7 @@
 					{:else}
 						<div class="chat chat-end">
 							<div
-								class="chat-bubble overflow-clip whitespace-pre-wrap rounded-xl bg-primary p-2 text-white"
+								class="chat-bubble bg-primary overflow-clip rounded-xl p-2 whitespace-pre-wrap text-white"
 							>
 								{message.message}
 							</div>
@@ -396,7 +396,7 @@
 				{/if}
 				{#if chat.isRedirecting}
 					<div class="w-full">
-						<div class="max-w-2/3 end-0 whitespace-pre-wrap rounded-xl">
+						<div class="end-0 max-w-2/3 rounded-xl whitespace-pre-wrap">
 							Taking you to: {chat.redirectPage}
 						</div>
 					</div>
@@ -414,7 +414,7 @@
 				transition:fly
 				method="POST"
 				onsubmit={handleSubmit}
-				class="flex w-full items-center gap-1 border-t border-base-100 p-2 shadow-lg"
+				class="border-base-100 flex w-full items-center gap-1 border-t p-2 shadow-lg"
 			>
 				<textarea
 					class="input input-bordered w-full"
@@ -447,6 +447,8 @@
 {/if}
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	.prose :global(h1) {
 		@apply mb-2 text-2xl font-bold;
 	}

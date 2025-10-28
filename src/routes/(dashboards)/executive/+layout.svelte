@@ -26,10 +26,10 @@
 <div
 	in:fly={{ x: 100, duration: 400 }}
 	out:fade={{ duration: 300 }}
-	class="flex min-h-screen w-full justify-between bg-gradient-to-b from-white to-gray-200"
+	class="flex min-h-screen w-full justify-between bg-linear-to-b from-white to-gray-200"
 >
-	<ul class="menu hidden w-60 bg-base-200 lg:flex">
-		<li class="menu-title my-2 flex flex-col rounded-box bg-gray-800 p-4 text-white">
+	<ul class="menu bg-base-200 hidden w-60 lg:flex">
+		<li class="menu-title rounded-box my-2 flex flex-col bg-gray-800 p-4 text-white">
 			<!-- User Information (Image, Name, Surname) -->
 			<div class="flex items-center gap-x-4">
 				<img
@@ -125,6 +125,8 @@
 </div>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	.selected {
 		@apply link-primary font-bold;
 	}

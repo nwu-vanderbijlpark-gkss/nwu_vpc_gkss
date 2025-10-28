@@ -88,7 +88,7 @@
 
 <div transition:fly class="overflow-hidden rounded-lg bg-white shadow-xl">
 	<div class="mb-8 flex items-center justify-between p-6">
-		<h2 class="text-3xl font-semibold text-gray-800">Executive Team</h2>
+		<h2 class="text-2xl font-semibold text-gray-800">{data.forYear} Executive Team</h2>
 		<button class="btn btn-primary" onclick={() => addMemberModal.show()}>
 			<PlusCircle class="mr-2" /> Add Team Member
 		</button>
@@ -96,7 +96,7 @@
 
 	<div class="max-h-screen overflow-auto px-6 pb-6">
 		<table class="w-full text-left text-sm text-gray-600 shadow-xl">
-			<thead class="bg-gray-100 text-xs uppercase text-gray-700">
+			<thead class="bg-gray-100 text-xs text-gray-700 uppercase">
 				<tr>
 					<th class="px-6 py-4 font-medium">Role</th>
 					<th class="px-6 py-4 font-medium">Full Name</th>
@@ -135,7 +135,7 @@
 	</div>
 </div>
 
-<dialog id="addMemberModal" class="modal modal-bottom z-50 sm:modal-middle">
+<dialog id="addMemberModal" class="modal modal-bottom sm:modal-middle z-50">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">
 			<p class="text-lg font-bold text-white">Add a Leader</p>
@@ -223,7 +223,7 @@
 					</div>
 				{/if}
 			{/if}
-			<ul class="menu min-h-full w-full bg-base-200 p-4 text-base-content">
+			<ul class="menu bg-base-200 text-base-content min-h-full w-full p-4">
 				{#each suggestions as suggestion}
 					<!-- svelte-ignore a11y_no_static_element_interactions -->
 					<li class="w-full">
@@ -261,6 +261,8 @@
 </dialog>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	table,
 	td,
 	tr,

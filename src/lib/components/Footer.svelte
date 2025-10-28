@@ -1,11 +1,12 @@
 <script>
 	import { Facebook, Github, Instagram, Linkedin, Twitter } from 'lucide-svelte';
-	import { page } from '$app/stores';
+
 	let year = new Date();
 	year = year.getFullYear();
 
 	import { onMount } from 'svelte';
 	import { gkssConfig } from '$lib/config';
+	import { page } from '$app/state';
 	const hiddenFooterPaths = [
 		'/dashboard',
 		'/code-playground',
@@ -15,9 +16,9 @@
 	];
 </script>
 
-{#if !hiddenFooterPaths.map((path) => $page.url.pathname.startsWith(path)).includes(true)}
+{#if !hiddenFooterPaths.map((path) => page.url.pathname.startsWith(path)).includes(true)}
 	<footer
-		class="mt-1 flex w-full flex-col items-center justify-center space-y-5 bg-base-200 p-5 text-center"
+		class="bg-base-200 mt-1 flex w-full flex-col items-center justify-center space-y-5 p-5 text-center"
 	>
 		<h1 class="text-xl font-semibold text-white">Stay updated, follow us</h1>
 		<div class="flex flex-wrap gap-3">

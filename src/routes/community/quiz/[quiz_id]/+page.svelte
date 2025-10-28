@@ -98,7 +98,7 @@
 {:else}
 	<div transition:fly class="rounded-xl border-2 border-dashed p-8 text-center">
 		<div class="mx-auto max-w-xs space-y-4">
-			<LogIn class="mx-auto h-12 w-12 text-primary" />
+			<LogIn class="text-primary mx-auto h-12 w-12" />
 			<h4 class="text-xl font-semibold">Join the Community</h4>
 			<p class="mb-4 text-gray-600">Sign in to be able to take quizzes</p>
 			<a href="/login" class="btn btn-primary w-full gap-2">

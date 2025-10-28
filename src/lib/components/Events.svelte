@@ -63,7 +63,7 @@
 					<div
 						class="relative h-[400px] transform rounded-lg border-l-4 border-indigo-600 bg-white p-6 shadow-lg transition-all duration-300 hover:scale-105"
 					>
-						<div class="absolute right-2 top-2 z-10">
+						<div class="absolute top-2 right-2 z-10">
 							{#if moment(event.date).isBefore(moment())}
 								<span class="rounded-full bg-gray-400 px-3 py-1 text-xs text-white">Past</span>
 							{:else}
@@ -73,7 +73,7 @@
 						</div>
 						<h3 class="mb-4 text-2xl font-semibold text-gray-800">{event.topic}</h3>
 
-						<div class="h-[100px] overflow-hidden text-ellipsis rounded-xl bg-gray-200 p-4">
+						<div class="h-[100px] overflow-hidden rounded-xl bg-gray-200 p-4 text-ellipsis">
 							{#if event.description.length > 100}
 								<TrixDisplay content={event.description.substring(0, 300)} />
 								<button class="mt-2 block text-sm text-indigo-500" onclick={() => openModal(event)}>
@@ -146,10 +146,10 @@
 	</div>
 
 	{#if modalEvent}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+		<div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
 			<div class="relative w-full max-w-2xl rounded-lg bg-white p-8">
 				<button
-					class="absolute right-4 top-4 text-gray-600 hover:text-gray-900"
+					class="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
 					onclick={closeModal}
 				>
 					✕
@@ -168,6 +168,8 @@
 {/if}
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	h1,
 	h2,
 	h3,

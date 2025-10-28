@@ -42,6 +42,8 @@
 </main>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	trix-editor {
 		min-height: 200px;
 		border: 1px solid #ddd;
@@ -54,7 +56,7 @@
 	}
 
 	trix-editor :global(blockquote) {
-		@apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+		@apply border-l-4 border-gray-300 pl-4 text-gray-600 italic;
 	}
 
 	trix-editor :global(pre) {

@@ -95,7 +95,7 @@
 />
 
 <section
-	class="relative flex min-h-screen flex-col items-center bg-base-300 lg:flex-row"
+	class="bg-base-300 relative flex min-h-screen flex-col items-center lg:flex-row"
 	data-section="hero"
 	in:fly={{ x: 100, duration: 400 }}
 	out:fade={{ duration: 300 }}
@@ -106,7 +106,7 @@
 			style="background-image: url('/logo.png');"
 			in:fade={{ duration: 800 }}
 		>
-			<div class="absolute inset-0 bg-base-300 bg-opacity-95"></div>
+			<div class="bg-base-300 bg-opacity-95 absolute inset-0"></div>
 			<div class="relative z-40 flex flex-col items-center justify-center">
 				{#if sectionsVisible.hero}
 					<h1
@@ -192,13 +192,13 @@
 				<img
 					src="/backdrop.jpeg"
 					alt="Dynamic community discussions"
-					class="absolute -left-12 -top-12 h-28 w-28 rotate-6 transform rounded-full border-4 border-red-600 shadow-md transition duration-300 hover:rotate-0"
+					class="absolute -top-12 -left-12 h-28 w-28 rotate-6 transform rounded-full border-4 border-red-600 shadow-md transition duration-300 hover:rotate-0"
 					in:fly={{ x: -20, y: -20, duration: 800, delay: 400, easing: backOut }}
 				/>
 				<img
 					src="/team.jpg"
 					alt="Collaborative innovation"
-					class="absolute -bottom-12 -right-12 h-32 w-32 -rotate-6 transform rounded-full border-4 border-red-600 shadow-md transition duration-300 hover:rotate-0"
+					class="absolute -right-12 -bottom-12 h-32 w-32 -rotate-6 transform rounded-full border-4 border-red-600 shadow-md transition duration-300 hover:rotate-0"
 					in:fly={{ x: 20, y: 20, duration: 800, delay: 600, easing: backOut }}
 				/>
 			</div>
@@ -208,7 +208,7 @@
 
 <!-- Quizzes Screenshot Section -->
 <div
-	class="relative flex flex-col-reverse items-center justify-center bg-base-200 py-10 lg:flex-row"
+	class="bg-base-200 relative flex flex-col-reverse items-center justify-center py-10 lg:flex-row"
 	data-section="quizzes"
 >
 	{#if sectionsVisible.quizzes}
@@ -243,7 +243,7 @@
 
 <!-- Leaderboard Screenshot Section -->
 <div
-	class="relative flex flex-col items-center justify-center bg-base-200 py-10 lg:flex-row"
+	class="bg-base-200 relative flex flex-col items-center justify-center py-10 lg:flex-row"
 	data-section="leaderboard"
 >
 	{#if sectionsVisible.leaderboard}
@@ -277,7 +277,7 @@
 
 <!-- AI Idea Generator Screenshot Section -->
 <div
-	class="relative flex flex-col-reverse items-center justify-center bg-base-200 py-10 lg:flex-row"
+	class="bg-base-200 relative flex flex-col-reverse items-center justify-center py-10 lg:flex-row"
 	data-section="generator"
 >
 	{#if sectionsVisible.generator}
@@ -311,7 +311,7 @@
 
 <!-- Dashboard Screenshot Section -->
 <div
-	class="relative flex flex-col items-center justify-center bg-base-200 py-10 lg:flex-row"
+	class="bg-base-200 relative flex flex-col items-center justify-center py-10 lg:flex-row"
 	data-section="dashboard"
 >
 	{#if sectionsVisible.dashboard}

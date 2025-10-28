@@ -28,13 +28,13 @@
 	{#if toolBtn.isVisible}
 		<button
 			onclick={toolBtn.toggleVisibility}
-			class="btn btn-primary fixed bottom-10 right-5 z-50 shadow-2xl">Tools <LucideBoxes /></button
+			class="btn btn-primary fixed right-5 bottom-10 z-50 shadow-2xl">Tools <LucideBoxes /></button
 		>
 	{:else}
 		<!--Display useful tools here-->
 		<div
 			id="usefulTools"
-			class="fixed bottom-10 right-5 z-50 rounded-xl border border-primary bg-secondary p-2 text-black shadow-2xl"
+			class="border-primary bg-secondary fixed right-5 bottom-10 z-50 rounded-xl border p-2 text-black shadow-2xl"
 		>
 			<section class="flex w-full items-center justify-between">
 				<h2>Useful tools</h2>

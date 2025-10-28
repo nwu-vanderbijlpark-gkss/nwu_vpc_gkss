@@ -85,10 +85,10 @@
 	out:fade={{ duration: 300 }}
 	class="overflow-auto p-6 lg:max-h-[90svh]"
 >
-	<h1 class="my-3 text-center text-2xl font-extrabold text-primary">Executive Dashboard</h1>
+	<h1 class="text-primary my-3 text-center text-2xl font-extrabold">Executive Dashboard</h1>
 
 	<!-- Statistics Cards -->
-	<div class="stats stats-vertical w-full shadow lg:stats-horizontal">
+	<div class="stats stats-vertical lg:stats-horizontal bg-neutral w-full shadow">
 		<div class="stat">
 			<div class="stat-figure text-primary">
 				<Users />
@@ -119,7 +119,7 @@
 	</div>
 
 	<!-- Charts Section -->
-	<h2 class="my-3 text-center text-2xl font-extrabold text-primary">Charts</h2>
+	<h2 class="text-primary my-3 text-center text-2xl font-extrabold">Charts</h2>
 	<div class="grid gap-6 py-3 lg:grid-cols-2">
 		<div class="card bg-base-100 shadow-xl">
 			<div class="card-body">

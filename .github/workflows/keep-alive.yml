@@ -9,4 +9,4 @@ jobs:
     steps:
       - name: Ping Netlify Function
         run: |
-          curl -X POST "https://nwu-vaal-gkss.netlify.app/.netlify/functions/keep-alive" 
+          curl -X POST "https://nwu-vaal-gkss.netlify.app/.netlify/functions/keep-alive"

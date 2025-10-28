@@ -76,11 +76,11 @@
 					<img
 						src={member.image}
 						alt={member.username}
-						class="h-32 w-32 rounded-full border-4 border-primary/10 shadow-lg"
+						class="border-primary/10 h-32 w-32 rounded-full border-4 shadow-lg"
 					/>
 					{#if myProfile}
 						<div
-							class="absolute -bottom-2 right-0 rounded-full bg-primary px-3 py-1 text-xs font-medium text-white"
+							class="bg-primary absolute right-0 -bottom-2 rounded-full px-3 py-1 text-xs font-medium text-white"
 						>
 							You
 						</div>
@@ -102,7 +102,7 @@
 								href={member.portfolio}
 								onfocus={this.blur()}
 								target="_blank"
-								class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
+								class="text-primary hover:text-primary/80 inline-flex items-center gap-2"
 								onmouseover={() => (showPortfolioPreview = true)}
 								onmouseleave={() => (showPortfolioPreview = false)}
 							>
@@ -119,7 +119,7 @@
 										{#if portfolioLoading}
 											<div class="absolute inset-0 flex items-center justify-center bg-gray-50">
 												<div
-													class="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"
+													class="border-primary h-8 w-8 animate-spin rounded-full border-b-2"
 												></div>
 											</div>
 										{/if}
@@ -295,7 +295,7 @@
 							<p class="text-sm font-medium text-gray-500">Topics Created</p>
 							<p class="text-2xl font-bold text-gray-800">{member.topics.length}</p>
 						</div>
-						<PenBox class="h-8 w-8 text-primary" />
+						<PenBox class="text-primary h-8 w-8" />
 					</div>
 
 					<!-- Total Views -->
@@ -304,7 +304,7 @@
 							<p class="text-sm font-medium text-gray-500">Total Views</p>
 							<p class="text-2xl font-bold text-gray-800">{member.user_views}</p>
 						</div>
-						<ChartNoAxesColumn class="h-8 w-8 text-primary" />
+						<ChartNoAxesColumn class="text-primary h-8 w-8" />
 					</div>
 
 					<!-- Ratings -->
@@ -313,7 +313,7 @@
 							<p class="text-sm font-medium text-gray-500">Total Points</p>
 							<p class="text-2xl font-bold text-gray-800">{member.points.toFixed(0) || 0.0} pts</p>
 						</div>
-						<Stars class="h-8 w-8 text-primary" />
+						<Stars class="text-primary h-8 w-8" />
 					</div>
 				</div>
 			</div>
@@ -328,7 +328,7 @@
 					role="tab"
 					aria-label="Topics"
 					checked="checked"
-					class="tab font-medium text-gray-500 [--tab-bg:transparent] aria-selected:bg-primary aria-selected:text-white"
+					class="tab aria-selected:bg-primary font-medium text-gray-500 [--tab-bg:transparent] aria-selected:text-white"
 				/>
 				<div role="tabpanel" class="tab-content mt-4 space-y-4">
 					{#each topics as topic, index}

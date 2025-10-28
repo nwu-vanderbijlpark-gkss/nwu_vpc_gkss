@@ -63,7 +63,7 @@
 		</div>
 		<div class="max-h-screen overflow-auto px-6 pb-6">
 			<table class="w-full text-left text-sm text-gray-600 shadow-xl">
-				<thead class="bg-gray-100 text-xs uppercase text-gray-700">
+				<thead class="bg-gray-100 text-xs text-gray-700 uppercase">
 					<tr>
 						<th class="px-6 py-4 font-medium">Image</th>
 						<th class="px-6 py-4 font-medium">Full Name</th>

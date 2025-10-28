@@ -56,7 +56,7 @@
 				</div>
 			{/each}
 		{:else if !quizzes.length}
-			<p class="font-bold text-base-100">No quizzes created yet, create new one</p>
+			<p class="text-base-100 font-bold">No quizzes created yet, create new one</p>
 		{:else}
 			{#each quizzes as quiz (quiz.id)}
 				<div class="card bg-base-100 shadow-xl">

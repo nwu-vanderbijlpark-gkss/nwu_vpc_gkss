@@ -170,7 +170,7 @@
 	<section class="rounded-lg bg-white p-4 shadow-sm">
 		<form onsubmit={handleSearch} class="flex items-center" role="search" aria-label="Search form">
 			<input
-				class="flex-1 rounded border border-gray-300 p-2 focus:border-red-800 focus:outline-none focus:ring"
+				class="flex-1 rounded border border-gray-300 p-2 focus:border-red-800 focus:ring focus:outline-none"
 				bind:value={text}
 				oninput={debouncedSearch}
 				type="search"
@@ -178,7 +178,7 @@
 				aria-label="Search input"
 			/>
 			<button
-				class="ml-3 p-2 text-primary hover:text-red-800 focus:outline-none"
+				class="text-primary ml-3 p-2 hover:text-red-800 focus:outline-none"
 				type="submit"
 				aria-label="Submit search"
 			>

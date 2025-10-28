@@ -1,5 +1,5 @@
 <!-- Logout modal-->
-<dialog id="logoutModal" class="modal z-50 sm:modal-middle">
+<dialog id="logoutModal" class="modal sm:modal-middle z-50">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">
 			<p class="text-lg font-bold text-white">Logout Confirmation</p>

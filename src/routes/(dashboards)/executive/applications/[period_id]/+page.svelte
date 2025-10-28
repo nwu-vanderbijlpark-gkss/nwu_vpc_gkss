@@ -117,10 +117,10 @@
 		.year} for the {gkssConfig.name} executive team. Schedule interviews, accept, or reject applicants to build a vibrant student leadership community."
 />
 
-<div transition:fly={{ y: 50, duration: 500 }} class="min-h-screen bg-base-100 p-4 sm:p-6">
+<div transition:fly={{ y: 50, duration: 500 }} class="bg-base-100 min-h-screen p-4 sm:p-6">
 	<!-- Header Section -->
 	<div class="mb-8 flex items-center justify-between">
-		<h1 class="flex items-center text-2xl font-semibold text-base-content sm:text-3xl">
+		<h1 class="text-base-content flex items-center text-2xl font-semibold sm:text-3xl">
 			<button class="btn text-sm" onclick={() => goto('/executive/applications')}
 				><ArrowLeft />
 			</button>
@@ -129,9 +129,9 @@
 	</div>
 
 	<!-- Applications Table -->
-	<div class="overflow-x-auto rounded-lg bg-base-100 shadow-xl">
-		<table class="w-full text-left text-xs text-base-content sm:text-sm">
-			<thead class="sticky top-0 z-10 bg-base-200 text-xs uppercase text-base-content/70">
+	<div class="bg-base-100 overflow-x-auto rounded-lg shadow-xl">
+		<table class="text-base-content w-full text-left text-xs sm:text-sm">
+			<thead class="bg-base-200 text-base-content/70 sticky top-0 z-10 text-xs uppercase">
 				<tr>
 					<th class="px-4 py-3 font-medium sm:px-6 sm:py-4">Name</th>
 					<th class="px-4 py-3 font-medium sm:px-6 sm:py-4">Email</th>
@@ -143,7 +143,7 @@
 			</thead>
 			<tbody>
 				{#each applications as applicant}
-					<tr class="border-b transition-colors hover:bg-base-200/50">
+					<tr class="hover:bg-base-200/50 border-b transition-colors">
 						<td class="px-4 py-3 font-semibold sm:px-6 sm:py-4">
 							{applicant.member.name}
 							{applicant.member.surname}
@@ -225,7 +225,7 @@
 		<dialog class="modal modal-open modal-bottom sm:modal-middle">
 			<div class="modal-box bg-base-100">
 				<div class="flex items-center justify-between">
-					<h3 class="text-lg font-bold text-base-content">
+					<h3 class="text-base-content text-lg font-bold">
 						Schedule Interview for {selectedApplicant.member.name}
 						{selectedApplicant.member.surname}
 					</h3>
@@ -235,7 +235,7 @@
 				</div>
 				<form onsubmit={handleScheduleSubmit} class="mt-4 flex w-full flex-col gap-5">
 					<label class="form-control w-full">
-						<span class="label-text font-medium text-base-content">Interview Date</span>
+						<span class="label-text text-base-content font-medium">Interview Date</span>
 						<input
 							type="datetime-local"
 							name="interview_timestamp"
@@ -245,7 +245,7 @@
 						/>
 					</label>
 					<label class="form-control w-full">
-						<span class="label-text font-medium text-base-content">Meeting link</span>
+						<span class="label-text text-base-content font-medium">Meeting link</span>
 						<input
 							type="url"
 							name="Meeting Link"
@@ -256,7 +256,7 @@
 						/>
 					</label>
 					<label class="form-control w-full">
-						<span class="label-text font-medium text-base-content">Notes</span>
+						<span class="label-text text-base-content font-medium">Notes</span>
 						<textarea
 							name="interview_notes"
 							bind:value={interviewData.notes}
@@ -275,7 +275,7 @@
 		<dialog class="modal modal-open modal-bottom sm:modal-middle">
 			<div class="modal-box bg-base-100">
 				<div class="flex items-center justify-between">
-					<h3 class="text-lg font-bold text-base-content">
+					<h3 class="text-base-content text-lg font-bold">
 						Applicant Details: {selectedDetailsApplicant.member.name}
 						{selectedDetailsApplicant.member.surname}
 					</h3>
@@ -311,7 +311,7 @@
 								<span
 									>{selectedDetailsApplicant.interview_date} at {selectedDetailsApplicant.interview_time}</span
 								>
-								<p class="text-sm text-base-content/60">
+								<p class="text-base-content/60 text-sm">
 									{selectedDetailsApplicant.interview_notes}
 								</p>
 							</div>
@@ -323,7 +323,7 @@
 				<p>
 					<span class="font-medium">Message:</span>
 				</p>
-				<p class="my-2 flex flex-col rounded-xl bg-base-200 p-5">
+				<p class="bg-base-200 my-2 flex flex-col rounded-xl p-5">
 					{selectedDetailsApplicant.message}
 				</p>
 			</div>
@@ -343,6 +343,8 @@
 </div>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	table,
 	td,
 	tr,
@@ -360,7 +362,7 @@
 	}
 	.input:focus,
 	.textarea:focus {
-		@apply ring-2 ring-primary;
+		@apply ring-primary ring-2;
 	}
 	/* Ensure table is compact but readable */
 	table {
@@ -371,7 +373,7 @@
 		height: 8px;
 	}
 	.overflow-x-auto::-webkit-scrollbar-thumb {
-		@apply rounded-full bg-base-300;
+		@apply bg-base-300 rounded-full;
 	}
 	.overflow-x-auto::-webkit-scrollbar-track {
 		@apply bg-base-100;

@@ -176,7 +176,7 @@
 				<li>
 					<a
 						href="/login"
-						class="bg-primary text-lg text-white hover:bg-primary/90 hover:text-black"
+						class="bg-primary hover:bg-primary/90 text-lg text-white hover:text-black"
 						><LogIn />Login</a
 					>
 				</li>
@@ -233,7 +233,7 @@
 			href="/community"
 			class:selected={$page.url.pathname === '/community'}
 			data-sveltekit-preload-data
-			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+			class="hover:text-primary flex flex-col items-center text-sm text-gray-600 transition"
 		>
 			<Home class="h-5 w-5" />
 			<span>Feed</span>
@@ -242,7 +242,7 @@
 		<a
 			href="/community/search"
 			class:selected={$page.url.pathname === '/community/search'}
-			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+			class="hover:text-primary flex flex-col items-center text-sm text-gray-600 transition"
 		>
 			<Search class="h-5 w-5" />
 			<span>Search</span>
@@ -250,9 +250,9 @@
 
 		<button
 			onclick={() => createModal.show()}
-			class="flex flex-col items-center text-sm font-semibold text-primary"
+			class="text-primary flex flex-col items-center text-sm font-semibold"
 		>
-			<div class="rounded-full bg-primary p-2 text-white shadow-lg">
+			<div class="bg-primary rounded-full p-2 text-white shadow-lg">
 				<PlusCircle class="h-6 w-6" />
 			</div>
 			<span>Create</span>
@@ -261,12 +261,12 @@
 		<a
 			href="/community/quiz"
 			class:selected={$page.url.pathname === '/community/quiz'}
-			class="relative flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+			class="hover:text-primary relative flex flex-col items-center text-sm text-gray-600 transition"
 		>
 			<div class="relative">
 				<FileEdit />
 				<span
-					class="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+					class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white"
 				>
 					{quizzes.length}
 				</span>
@@ -276,7 +276,7 @@
 
 		<button
 			onclick={() => moreModal.show()}
-			class="flex flex-col items-center text-sm text-gray-600 transition hover:text-primary"
+			class="hover:text-primary flex flex-col items-center text-sm text-gray-600 transition"
 		>
 			<MoreHorizontal class="h-5 w-5" />
 			<span>More</span>
@@ -284,7 +284,7 @@
 	</div>
 </main>
 <!--Create modal FOR MOBILE-->
-<dialog id="createModal" class="modal modal-bottom z-50 sm:modal-middle">
+<dialog id="createModal" class="modal modal-bottom sm:modal-middle z-50">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">
 			<p class="text-lg font-bold text-white">Create</p>
@@ -335,7 +335,7 @@
 	</div>
 </dialog>
 <!--Menu/More modal FOR MOBILE-->
-<dialog id="moreModal" class="modal modal-bottom z-50 sm:modal-middle">
+<dialog id="moreModal" class="modal modal-bottom sm:modal-middle z-50">
 	<div class="modal-box text-white">
 		<div class="flex items-center justify-between">
 			<p class="text-lg font-bold text-white">More links</p>
@@ -422,6 +422,8 @@
 </dialog>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	.selected {
 		@apply link-primary font-bold;
 	}

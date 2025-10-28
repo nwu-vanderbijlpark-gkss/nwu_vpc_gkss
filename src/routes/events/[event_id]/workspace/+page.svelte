@@ -122,18 +122,18 @@
 {#if ideaGeneratorOpen}
 	<!-- Backdrop -->
 	<div
-		class="fixed left-0 top-0 z-40 h-full w-full bg-black/40"
+		class="fixed top-0 left-0 z-40 h-full w-full bg-black/40"
 		onclick={toggleIdeaGenerator}
 	></div>
 {/if}
 
-<div class="fixed {ideaGeneratorOpen ? 'bottom-0 right-0' : 'bottom-10 right-10'}  shadow-5xl z-50">
+<div class="fixed {ideaGeneratorOpen ? 'right-0 bottom-0' : 'right-10 bottom-10'}  shadow-5xl z-50">
 	{#if !ideaGeneratorOpen}
 		<button class="btn btn-primary" onclick={toggleIdeaGenerator}>Idea Generator</button>
 	{:else}
 		<!-- Idea Generator -->
 		<div class="flex flex-col">
-			<button class="btn btn-primary absolute bottom-5 right-5" onclick={toggleIdeaGenerator}
+			<button class="btn btn-primary absolute right-5 bottom-5" onclick={toggleIdeaGenerator}
 				>Close</button
 			>
 			<IdeaGenerator />

@@ -48,7 +48,7 @@
 				</div>
 			{/each}
 		{:else if !quizzes.length}
-			<p class="font-bold text-base-100">There are no open quizzes currently, try again later.</p>
+			<p class="text-base-100 font-bold">There are no open quizzes currently, try again later.</p>
 		{:else}
 			{#each quizzes as quiz (quiz.id)}
 				{#if !moment(quiz.due).isSameOrBefore(moment())}

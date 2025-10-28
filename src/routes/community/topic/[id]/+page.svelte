@@ -165,7 +165,7 @@
 							<ChevronRight size={20} />
 						</button>
 					</div>
-					<div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+					<div class="absolute right-0 bottom-4 left-0 flex justify-center gap-2">
 						{#each topic.topic_images as _, index}
 							<button
 								class="h-2 w-2 rounded-full transition-colors {index === currentImageIndex
@@ -276,6 +276,8 @@
 {/if}
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	/* Add any custom styles here */
 	:global(.avatar) {
 		@apply relative inline-block;
@@ -297,7 +299,7 @@
 
 	trix-editor blockquote,
 	.content :global(blockquote) {
-		@apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+		@apply border-l-4 border-gray-300 pl-4 text-gray-600 italic;
 	}
 
 	trix-editor pre,

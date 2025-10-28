@@ -23,7 +23,7 @@
 	class="rounded-xl bg-white p-6 shadow-md"
 >
 	<div class="mb-6 flex items-center justify-between">
-		<h2 class="text-2xl font-semibold text-base-100">Personal Information</h2>
+		<h2 class="text-base-100 text-2xl font-semibold">Personal Information</h2>
 		{#if !isEditing}
 			<button class="btn btn-primary" onclick={() => (isEditing = true)}>Edit Profile</button>
 		{/if}
@@ -84,7 +84,7 @@
 			</form>
 		{/if}
 	{:else}
-		<div class="grid grid-cols-1 gap-6 text-base-200 md:grid-cols-2">
+		<div class="text-base-200 grid grid-cols-1 gap-6 md:grid-cols-2">
 			{#each [{ label: 'First Name', value: member.name }, { label: 'Last Name', value: member.surname }, { label: 'Date of Birth', value: moment(member.date_of_birth).format('MMMM D, YYYY') }, { label: 'Gender', value: member.gender }, { label: 'Qualification', value: member.qualification }, { label: 'Year of Study', value: member.year_of_study }] as field}
 				<div>
 					<h3 class="text-sm font-medium text-gray-500">{field.label}</h3>

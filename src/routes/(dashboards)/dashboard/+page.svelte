@@ -143,7 +143,7 @@
 
 <LogoutModal />
 
-<dialog id="imageModal" class="modal z-50 sm:modal-middle">
+<dialog id="imageModal" class="modal sm:modal-middle z-50">
 	<div class="modal-box flex flex-col items-center justify-center text-white">
 		<div class="flex w-full items-center justify-between">
 			<p class="text-lg font-bold text-white">{member.name} {member.surname}</p>
@@ -152,7 +152,7 @@
 		<img
 			src={member.image}
 			alt="Profile"
-			class=" h-40 w-40 rounded-full border-4 border-primary/20 object-cover transition-all group-hover:border-primary/50"
+			class=" border-primary/20 group-hover:border-primary/50 h-40 w-40 rounded-full border-4 object-cover transition-all"
 		/>
 		<p class="py-4 text-sm">Upload new picture</p>
 		<div class="">
@@ -181,7 +181,7 @@
 	class="flex min-h-screen flex-col bg-gray-100 md:flex-row"
 >
 	<!-- Sidebar -->
-	<nav class="fixed hidden h-screen w-64 flex-col bg-base-200 text-white shadow-lg md:flex">
+	<nav class="bg-base-200 fixed hidden h-screen w-64 flex-col text-white shadow-lg md:flex">
 		<div class="flex flex-col items-center space-y-4 border-b p-6">
 			<div class="group relative">
 				<!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -191,7 +191,7 @@
 						onclick={() => imageModal.show()}
 						src={member.image}
 						alt="Profile"
-						class="h-24 w-24 rounded-full border-4 border-primary/20 object-cover transition-all group-hover:border-primary/50"
+						class="border-primary/20 group-hover:border-primary/50 h-24 w-24 rounded-full border-4 object-cover transition-all"
 					/>
 				</div>
 			</div>
@@ -244,7 +244,7 @@
 					<img
 						src={member.image}
 						alt="Profile"
-						class=" h-14 w-14 rounded-full border-2 border-primary/20 object-cover"
+						class=" border-primary/20 h-14 w-14 rounded-full border-2 object-cover"
 					/>
 				</div>
 			</div>
@@ -254,7 +254,7 @@
 			<Bell size={20} />
 			{#if notifications > 0}
 				<span
-					class="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+					class="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
 				>
 					{$notifications.length}
 				</span>
@@ -262,7 +262,7 @@
 		</a>
 	</header>
 	<!-- Bottom navigation for mobile -->
-	<nav class="fixed bottom-0 left-0 right-0 z-50 bg-base-200 text-white shadow-lg md:hidden">
+	<nav class="bg-base-200 fixed right-0 bottom-0 left-0 z-50 text-white shadow-lg md:hidden">
 		<div class="flex justify-around p-4">
 			{#each [{ id: 'stats', icon: ChartBar, text: 'Dashboard' }, { id: 'profile', icon: User, text: 'Profile' }, { id: 'security', icon: Shield, text: 'Security' }, { id: 'logout', icon: LogOut, text: 'Logout', onClick: handleLogout, class: 'text-red-600' }] as item}
 				<button
@@ -281,11 +281,13 @@
 	<main
 		in:fly={{ x: 100, duration: 400 }}
 		out:fade={{ duration: 300 }}
-		class="mb-16 flex-1 p-6 text-base-200 md:mb-0 md:ml-64"
+		class="text-base-200 mb-16 flex-1 p-6 md:mb-0 md:ml-64"
 	>
 		{#if activeTab === 'stats'}
 			<!-- Dashboard content -->
-			<div class="stats stats-vertical my-4 w-full shadow lg:stats-horizontal">
+			<div
+				class="stats stats-vertical lg:stats-horizontal bg-neutral my-4 w-full text-white shadow"
+			>
 				{#each [{ title: 'Total Points', icon: Award, value: member.points + ' pts', sub: '' }, { title: 'Your Rank', icon: ChartColumnIcon, value: `${rankMap.get(member.username)} / ${members.length} ` }, { title: 'Events you registered for', icon: Calendar, value: `${member.event_participant.length}`, sub: '' }] as stat}
 					<div class="stat">
 						<div class="stat-figure">
@@ -347,7 +349,7 @@
 					<div class="flex flex-col items-start gap-2">
 						<a
 							href={`/community/profile`}
-							class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
+							class="text-primary hover:text-primary/80 inline-flex items-center gap-2"
 						>
 							<img
 								src="/icon.png"
@@ -359,7 +361,7 @@
 						<a
 							href={member.portfolio}
 							target="_blank"
-							class="inline-flex items-center gap-2 text-primary hover:text-primary/80"
+							class="text-primary hover:text-primary/80 inline-flex items-center gap-2"
 						>
 							<BriefcaseBusiness class="h-5 w-5" />
 							<span class="text-sm font-medium"
@@ -453,7 +455,7 @@
 				<div class="my-4 rounded-xl bg-white p-6 shadow-md">
 					<h3 class="mb-4 text-xl font-semibold">Birthday Countdown</h3>
 					<div class="flex items-center space-x-4">
-						<span class="font-bold text-primary">
+						<span class="text-primary font-bold">
 							{#if birthDayCountdown === 0}
 								<span class="text-xl text-red-600">🎉 It's your birthday today! 🎉</span>
 							{:else}
@@ -479,7 +481,7 @@
 					<h3 class="mb-4 text-xl font-semibold">Interests & Skills</h3>
 					<div class="flex flex-wrap gap-2">
 						{#each member.interests.split(',') as interest}
-							<span class="rounded-full bg-primary/10 px-3 py-1 text-sm text-primary"
+							<span class="bg-primary/10 text-primary rounded-full px-3 py-1 text-sm"
 								>{interest}</span
 							>
 						{/each}
@@ -502,21 +504,23 @@
 </div>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	/* Add any custom styles here */
 	:global(.btn) {
 		@apply rounded-lg px-4 py-2 font-medium transition-all duration-200;
 	}
 
 	:global(.btn-primary) {
-		@apply bg-primary text-white hover:bg-primary/90;
+		@apply bg-primary hover:bg-primary/90 text-white;
 	}
 
 	:global(.btn-outline-primary) {
-		@apply border-2 border-primary text-primary hover:bg-primary hover:text-white;
+		@apply border-primary text-primary hover:bg-primary border-2 hover:text-white;
 	}
 
 	:global(.input) {
-		@apply rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50;
+		@apply focus:ring-primary/50 rounded-lg border px-3 py-2 focus:ring-2 focus:outline-none;
 	}
 
 	:global(.input-bordered) {
