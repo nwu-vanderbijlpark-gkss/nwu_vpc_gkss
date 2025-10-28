@@ -35,6 +35,6 @@
 		<h2 class="link-hover text-lg font-bold">
 			{@html member.name ? highlightText(member.name + ' ' + member.surname, text) : ''}
 		</h2>
-		<p class="text-sm text-primary">{@html highlightText('@' + member.username, text)}</p>
+		<p class="text-primary text-sm">{@html highlightText('@' + member.username, text)}</p>
 	</a>
 </div>

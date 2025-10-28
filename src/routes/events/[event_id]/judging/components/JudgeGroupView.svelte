@@ -57,7 +57,7 @@
 			<div class="grid w-full grid-cols-3 items-center rounded-xl border-2 bg-gray-100 p-2">
 				<div class=" col-span-2">
 					<h3>{criteria.title}</h3>
-					<p class="overflow-clip whitespace-pre-wrap text-sm">
+					<p class="overflow-clip text-sm whitespace-pre-wrap">
 						{criteria.description}
 					</p>
 				</div>

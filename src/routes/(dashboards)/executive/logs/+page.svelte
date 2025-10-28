@@ -130,7 +130,7 @@
 <div class="container mx-auto overflow-auto px-4 py-8 lg:max-h-[90svh]">
 	<h1 class="mb-6 text-3xl font-bold text-gray-800">Application Usage Logs</h1>
 	<!-- Statistics Cards -->
-	<div class="stats stats-vertical mb-6 w-full shadow lg:stats-horizontal">
+	<div class="stats stats-vertical lg:stats-horizontal mb-6 w-full shadow">
 		<div class="stat">
 			<div class="stat-figure text-primary">
 				<Logs />
@@ -219,10 +219,12 @@
 </div>
 
 <style global>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	/* Responsive design for mobile */
 	@media (max-width: 640px) {
 		.grid.grid-cols-12 > div {
-			@apply col-span-12 !important;
+			@apply col-span-12;
 			padding: 0.5rem;
 		}
 

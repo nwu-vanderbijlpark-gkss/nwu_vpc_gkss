@@ -6,7 +6,7 @@ const CACHE = `cache-${version}`;
 
 const ASSETS = [
 	...build, // the app itself
-	...files  // everything in `static`
+	...files // everything in `static`
 ];
 
 self.addEventListener('install', (event) => {
@@ -80,40 +80,40 @@ self.addEventListener('fetch', (event) => {
 });
 
 // Push Notification Handling
-self.addEventListener('push', async e => {
-  const data = e.data.json();
-  const {title, message, interaction} = data;
+self.addEventListener('push', async (e) => {
+	const data = e.data.json();
+	const { title, message, interaction } = data;
 
-  const options = {
-    body: message,
-    icon: '/logo.png',
-    vibrate: [100, 50, 100],
-    data: {
-      dateOfArrival: Date.now()
-    },
-    actions: [
-      {
-        action: 'confirm',
-        title: 'OK'
-      },
-      {
-        action: 'close',
-        title: 'Close notification'
-      },
-    ],
-    requireInteraction: interaction
-  };
+	const options = {
+		body: message,
+		icon: '/logo.png',
+		vibrate: [100, 50, 100],
+		data: {
+			dateOfArrival: Date.now()
+		},
+		actions: [
+			{
+				action: 'confirm',
+				title: 'OK'
+			},
+			{
+				action: 'close',
+				title: 'Close notification'
+			}
+		],
+		requireInteraction: interaction
+	};
 
-  e.waitUntil(
-    self.registration.showNotification(title, options)
-    .then(hasActiveClients)
-    .then((activeClients) => {
-      if(!activeClients) {
-        self.numBadges += 1;
-        navigator.setAppBadge(self.numBadges);
-      }
-    })
-    .catch(err => sendMessage(err))
-  )
+	e.waitUntil(
+		self.registration
+			.showNotification(title, options)
+			.then(hasActiveClients)
+			.then((activeClients) => {
+				if (!activeClients) {
+					self.numBadges += 1;
+					navigator.setAppBadge(self.numBadges);
+				}
+			})
+			.catch((err) => sendMessage(err))
+	);
 });
-    

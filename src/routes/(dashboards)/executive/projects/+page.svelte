@@ -28,7 +28,7 @@
 <div class="overflow-auto p-5 lg:max-h-[90svh]">
 	<h1 class="text-lg font-bold text-black">Projects</h1>
 
-	<ul class="list space-y-2 rounded-box text-black">
+	<ul class="list rounded-box space-y-2 text-black">
 		<li class="p-4 pb-2 text-sm tracking-wide opacity-60">
 			These are the projects the committee are working on.
 		</li>

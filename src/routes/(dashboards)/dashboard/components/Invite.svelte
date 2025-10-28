@@ -25,7 +25,7 @@
 <div
 	in:fly={{ x: 100, duration: 400 }}
 	out:fade={{ duration: 300 }}
-	class="space-y-6 text-base-200"
+	class="text-base-200 space-y-6"
 >
 	<div class="rounded-xl bg-white p-6 shadow-md">
 		<h2 class="mb-6 text-2xl font-semibold">Invite Friends</h2>

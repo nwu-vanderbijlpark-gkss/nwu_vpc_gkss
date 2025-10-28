@@ -117,7 +117,7 @@
 					{/if}
 					{#each derivedGroups as grp}
 						<a
-							class="flex items-center justify-between rounded-lg bg-primary p-5 text-white hover:opacity-80"
+							class="bg-primary flex items-center justify-between rounded-lg p-5 text-white hover:opacity-80"
 							href="{$page.url.pathname}?group={grp.id}"
 						>
 							{grp.name}

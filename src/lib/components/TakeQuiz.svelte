@@ -215,7 +215,7 @@
 					>
 					</progress>
 					<div
-						class="mt-2 grid auto-cols-max grid-flow-col gap-5 rounded-box bg-gray-200 p-2 text-center"
+						class="rounded-box mt-2 grid auto-cols-max grid-flow-col gap-5 bg-gray-200 p-2 text-center"
 					>
 						<div class="flex flex-col">
 							<span class="countdown font-mono text-lg">

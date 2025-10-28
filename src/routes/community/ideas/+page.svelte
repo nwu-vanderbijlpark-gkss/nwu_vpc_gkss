@@ -65,7 +65,7 @@
 									<div class="flex flex-wrap gap-2">
 										{#each idea.technologies.split(',') as tech}
 											<span
-												class="rounded-lg bg-gray-50 px-2.5 py-1 text-xs font-medium ring-1 ring-inset ring-gray-200"
+												class="rounded-lg bg-gray-50 px-2.5 py-1 text-xs font-medium ring-1 ring-gray-200 ring-inset"
 											>
 												{tech}
 											</span>

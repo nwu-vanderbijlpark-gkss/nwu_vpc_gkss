@@ -60,25 +60,25 @@
 			<thead class="bg-gray-50">
 				<tr>
 					<th
-						class="rounded-tl-lg px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700"
+						class="rounded-tl-lg px-4 py-3 text-xs font-semibold tracking-wider text-gray-700 uppercase"
 						>Event</th
 					>
 					<th
-						class="hidden px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700 lg:table-cell"
+						class="hidden px-4 py-3 text-xs font-semibold tracking-wider text-gray-700 uppercase lg:table-cell"
 						>Description</th
 					>
-					<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700"
+					<th class="px-4 py-3 text-xs font-semibold tracking-wider text-gray-700 uppercase"
 						>Date & Time</th
 					>
-					<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700"
+					<th class="px-4 py-3 text-xs font-semibold tracking-wider text-gray-700 uppercase"
 						>Venue</th
 					>
 					<th
-						class="hidden px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700 lg:table-cell"
+						class="hidden px-4 py-3 text-xs font-semibold tracking-wider text-gray-700 uppercase lg:table-cell"
 						>Type</th
 					>
 					<th
-						class="rounded-tr-lg px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-700"
+						class="rounded-tr-lg px-4 py-3 text-xs font-semibold tracking-wider text-gray-700 uppercase"
 						>Actions</th
 					>
 				</tr>
@@ -89,7 +89,7 @@
 						<td class="px-4 py-4 text-base font-medium text-gray-900">
 							<a
 								href={`/executive/events/${event.id}`}
-								class="hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+								class="hover:text-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 							>
 								{event.topic}
 							</a>
@@ -113,21 +113,21 @@
 							<div class="flex items-center justify-end space-x-2">
 								<a
 									href={`/executive/events/${event.id}`}
-									class="rounded-md p-1.5 text-gray-500 hover:bg-gray-200 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+									class="rounded-md p-1.5 text-gray-500 hover:bg-gray-200 hover:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 								>
 									<span class="sr-only">View</span>
 									<Eye class="h-5 w-5" />
 								</a>
 								<button
 									onclick={() => showEdit(event.id)}
-									class="rounded-md p-1.5 text-gray-500 hover:bg-gray-200 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+									class="rounded-md p-1.5 text-gray-500 hover:bg-gray-200 hover:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 								>
 									<span class="sr-only">Edit</span>
 									<Pencil class="h-5 w-5" />
 								</button>
 								<button
 									onclick={() => handleDelete(event.id)}
-									class="rounded-md p-1.5 text-red-500 hover:bg-red-100 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+									class="rounded-md p-1.5 text-red-500 hover:bg-red-100 hover:text-red-700 focus:ring-2 focus:ring-red-500 focus:outline-none"
 								>
 									<span class="sr-only">Delete</span>
 									<Trash class="h-5 w-5" />
@@ -146,6 +146,8 @@
 </div>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	table,
 	td,
 	tr,

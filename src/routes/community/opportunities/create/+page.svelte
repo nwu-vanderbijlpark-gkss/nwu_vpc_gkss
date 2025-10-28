@@ -75,7 +75,7 @@
 {#if isLoading}
 	<Loading text="Posting this opportunity..." />
 {:else if isSuccess}
-	<div class="card mx-auto mt-8 max-w-md bg-base-100 text-white shadow-lg">
+	<div class="card bg-base-100 mx-auto mt-8 max-w-md text-white shadow-lg">
 		<div class="card-body">
 			<h2 class="card-title">Opportunity Posted</h2>
 			<p>Opportunity posted successfully</p>
@@ -90,7 +90,7 @@
 {:else if !data.isLoggedIn}
 	<div class="rounded-xl border-2 border-dashed p-8 text-center">
 		<div class="mx-auto max-w-xs space-y-4">
-			<LogIn class="mx-auto h-12 w-12 text-primary" />
+			<LogIn class="text-primary mx-auto h-12 w-12" />
 			<h4 class="text-xl font-semibold">Join the Community</h4>
 			<p class="mb-4 text-gray-600">
 				Sign in to share your knowledge and engage with the community
@@ -131,9 +131,9 @@
 						}
 					}}
 					placeholder="e.g. AWS Internship"
-					class="input input-bordered w-full bg-gray-100 focus:ring-2 focus:ring-primary"
+					class="input input-bordered focus:ring-primary w-full bg-gray-100 focus:ring-2"
 				/>
-				<p class="text-sm text-error">{errors.title || ''}</p>
+				<p class="text-error text-sm">{errors.title || ''}</p>
 			</div>
 			<div class="space-y-2">
 				<label for="organization" class="block font-medium text-gray-700">
@@ -151,9 +151,9 @@
 						}
 					}}
 					placeholder="e.g. Amazon"
-					class="input input-bordered w-full bg-gray-100 focus:ring-2 focus:ring-primary"
+					class="input input-bordered focus:ring-primary w-full bg-gray-100 focus:ring-2"
 				/>
-				<p class="text-sm text-error">{errors.organization || ''}</p>
+				<p class="text-error text-sm">{errors.organization || ''}</p>
 			</div>
 			<div class="space-y-2">
 				<label for="title" class="block font-medium text-gray-700">
@@ -166,9 +166,9 @@
 					required
 					bind:value={opportunity.deadline}
 					placeholder="Deadline"
-					class="input input-bordered w-full bg-gray-100 focus:ring-2 focus:ring-primary"
+					class="input input-bordered focus:ring-primary w-full bg-gray-100 focus:ring-2"
 				/>
-				<p class="text-sm text-info">Leave deadline blank if unknown</p>
+				<p class="text-info text-sm">Leave deadline blank if unknown</p>
 			</div>
 			<div class="space-y-2">
 				<label for="topic" class="block font-medium text-gray-700">
@@ -186,7 +186,7 @@
 					}}
 					required
 					placeholder="e.g. Best study techniques for finals"
-					class="select select-bordered w-full bg-gray-100 focus:ring-2 focus:ring-primary"
+					class="select select-bordered focus:ring-primary w-full bg-gray-100 focus:ring-2"
 				>
 					<option disabled selected>Select an opportunity type</option>
 
@@ -225,7 +225,7 @@
 						<option>Open Project</option>
 					</optgroup>
 				</select>
-				<p class="text-sm text-error">{errors.type || ''}</p>
+				<p class="text-error text-sm">{errors.type || ''}</p>
 			</div>
 			<div class="space-y-2">
 				<label for="title" class="block font-medium text-gray-700">
@@ -243,7 +243,7 @@
 					/>
 					<trix-editor toolbar="my_toolbar" input="editorValue"></trix-editor>
 				</main>
-				<p class="text-sm text-error">{errors.content || ''}</p>
+				<p class="text-error text-sm">{errors.content || ''}</p>
 			</div>
 			<button type="button" onclick={handleSubmit} class="btn btn-primary my-2 w-full">
 				Submit
@@ -253,6 +253,8 @@
 {/if}
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	trix-editor {
 		min-height: 200px;
 		border: 1px solid #ddd;
@@ -265,7 +267,7 @@
 	}
 
 	trix-editor :global(blockquote) {
-		@apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+		@apply border-l-4 border-gray-300 pl-4 text-gray-600 italic;
 	}
 
 	trix-editor :global(pre) {

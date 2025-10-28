@@ -14,19 +14,19 @@
 
 		<!-- Panel -->
 		<div
-			class="pointer-events-auto relative z-10 h-full w-full max-w-md translate-x-0 transform overflow-y-auto bg-base-200 p-6 shadow-xl transition-transform duration-300"
+			class="bg-base-200 pointer-events-auto relative z-10 h-full w-full max-w-md translate-x-0 transform overflow-y-auto p-6 shadow-xl transition-transform duration-300"
 		>
 			<h3 class="mb-4 text-xl font-bold text-white">Quiz Results</h3>
 
 			<div class="mb-6 text-center">
 				{#if Math.round((score / totalPoints) * 100) < 50}
-					<div class="text-4xl font-bold text-primary">{score}/{totalPoints}</div>
-					<div class="text-lg text-primary">
+					<div class="text-primary text-4xl font-bold">{score}/{totalPoints}</div>
+					<div class="text-primary text-lg">
 						({Math.round((score / totalPoints) * 100)}%)
 					</div>
 				{:else}
-					<div class="text-4xl font-bold text-success">{score}/{totalPoints}</div>
-					<div class="text-lg text-success">
+					<div class="text-success text-4xl font-bold">{score}/{totalPoints}</div>
+					<div class="text-success text-lg">
 						({Math.round((score / totalPoints) * 100)}%)
 					</div>
 				{/if}
@@ -37,7 +37,7 @@
 			<!-- Answers Review -->
 			<div class="space-y-4 text-white">
 				{#each quiz.quiz_questions as question, qi}
-					<div class="rounded-lg border border-base-content/20 bg-base-100 p-4">
+					<div class="border-base-content/20 bg-base-100 rounded-lg border p-4">
 						<div class="mb-2 font-bold">{question.text}</div>
 						<div class="mb-2 text-sm">
 							Your answer: {userAnswers[qi] ?? 'No answer'}
@@ -63,7 +63,7 @@
 							<!-- Correct Answer -->
 							<div class="text-white">
 								Correct answer:
-								<span class="font-semibold text-success">
+								<span class="text-success font-semibold">
 									{#if question.type === 'multipleChoice'}
 										{question.options[question.correctOption]}
 									{:else if question.type === 'trueFalse'}

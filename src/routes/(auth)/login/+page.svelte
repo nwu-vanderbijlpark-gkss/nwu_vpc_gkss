@@ -67,7 +67,7 @@
 <div transition:fly class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
 	<img src="/geek.png" alt="code" class="hidden w-2/5 rounded-lg lg:flex" />
 	<div
-		class="flex w-full flex-col items-center justify-center space-y-5 rounded-xl p-5 lg:w-2/5 lg:bg-base-200 lg:shadow-2xl"
+		class="lg:bg-base-200 flex w-full flex-col items-center justify-center space-y-5 rounded-xl p-5 lg:w-2/5 lg:shadow-2xl"
 	>
 		{#if isLoading}
 			<Loading />
@@ -112,7 +112,7 @@
 							type="email"
 							bind:value={email}
 							name="email"
-							class="input input-bordered"
+							class="input input-bordered w-full"
 							id="email"
 							placeholder="name.surname@domain.com"
 						/>

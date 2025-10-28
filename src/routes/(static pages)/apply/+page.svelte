@@ -54,11 +54,11 @@
 	desc="Join the {gkssConfig.name}, a vibrant student society dedicated to fostering community, leadership, and innovation. Apply now to become a volunteer leader and make a difference!"
 />
 
-<div transition:fly={{ y: 50, duration: 500 }} class="min-h-screen bg-base-100 p-6">
+<div transition:fly={{ y: 50, duration: 500 }} class="bg-base-100 min-h-screen p-6">
 	<!-- Header Section -->
 	<div class="mb-12 text-center">
-		<h1 class="mb-4 text-5xl font-extrabold text-base-content">Join the Team as a Leader</h1>
-		<p class="mx-auto max-w-2xl text-lg text-base-content/70">
+		<h1 class="text-base-content mb-4 text-5xl font-extrabold">Join the Team as a Leader</h1>
+		<p class="text-base-content/70 mx-auto max-w-2xl text-lg">
 			Become a part of our passionate volunteer team dedicated to building a vibrant student
 			community through events, workshops, and initiatives.
 		</p>
@@ -68,20 +68,20 @@
 		<!-- About the Society Section -->
 		<div class="mx-auto mb-12 max-w-4xl">
 			<div class="card bg-base-100 p-8 shadow-xl">
-				<h2 class="mb-4 text-3xl font-bold text-primary">About {gkssConfig.name}</h2>
-				<p class="mb-4 text-base-content/80">
+				<h2 class="text-primary mb-4 text-3xl font-bold">About {gkssConfig.name}</h2>
+				<p class="text-base-content/80 mb-4">
 					The {gkssConfig.name} is a dynamic student-led society at the {gkssConfig.institution}.
 					Our mission is to foster a sense of community, promote leadership, and create
 					opportunities for personal and professional growth through impactful events, workshops,
 					and community outreach programs.
 				</p>
-				<p class="mb-4 text-base-content/80">
+				<p class="text-base-content/80 mb-4">
 					As a volunteer-based society, all roles within GKSS are unpaid. Our members are driven by
 					a passion for making a difference, collaborating with peers, and contributing to the
 					vibrant student life at {gkssConfig.institution}. Joining us means becoming part of a
 					supportive network committed to excellence and innovation.
 				</p>
-				<p class="font-semibold text-base-content/80">
+				<p class="text-base-content/80 font-semibold">
 					Note: All positions are voluntary and unpaid, offering invaluable experience and the
 					chance to shape our community.
 				</p>
@@ -92,7 +92,7 @@
 			<!-- Application Form -->
 			<div class="mx-auto w-full max-w-2xl">
 				<div class="card bg-base-100 p-8 shadow-xl">
-					<h2 class="mb-6 text-3xl font-bold text-primary">Apply Now</h2>
+					<h2 class="text-primary mb-6 text-3xl font-bold">Apply Now</h2>
 					<form method="POST" onsubmit={handleSubmit} class="space-y-6">
 						{#if form?.success}
 							<div class="alert alert-success mt-4">
@@ -105,7 +105,7 @@
 						{/if}
 						<div>
 							<label for="role" class="label">
-								<span class="label-text font-medium text-base-content">Preferred Role</span>
+								<span class="label-text text-base-content font-medium">Preferred Role</span>
 							</label>
 							<select
 								id="role"
@@ -133,7 +133,7 @@
 						</div>
 						<div>
 							<label for="message" class="label">
-								<span class="label-text font-medium text-base-content">Whatsapp Number</span>
+								<span class="label-text text-base-content font-medium">Whatsapp Number</span>
 							</label>
 							<input
 								type="tel"
@@ -152,7 +152,7 @@
 						</div>
 						<div>
 							<label for="message" class="label">
-								<span class="label-text font-medium text-base-content"
+								<span class="label-text text-base-content font-medium"
 									>Why do you want to join?</span
 								>
 							</label>
@@ -174,8 +174,8 @@
 		{:else if isExecutive}
 			<div class="mx-auto w-full max-w-2xl">
 				<div class="card bg-base-100 p-8 shadow-xl">
-					<h2 class="mb-4 text-3xl font-bold text-primary">You are already a leader</h2>
-					<p class="mb-4 text-base-content/80">
+					<h2 class="text-primary mb-4 text-3xl font-bold">You are already a leader</h2>
+					<p class="text-base-content/80 mb-4">
 						You are already a leader for {gkssConfig.name}. You cannot reapply, if you wish to be in
 						the team again, talk to your team about it.
 					</p>
@@ -184,8 +184,8 @@
 		{:else if !applicationsOpen}
 			<div class="mx-auto w-full max-w-2xl">
 				<div class="card bg-base-100 p-8 shadow-xl">
-					<h2 class="mb-4 text-3xl font-bold text-primary">Applications Closed</h2>
-					<p class="mb-4 text-base-content/80">
+					<h2 class="text-primary mb-4 text-3xl font-bold">Applications Closed</h2>
+					<p class="text-base-content/80 mb-4">
 						Applications for {gkssConfig.name} are currently closed. Please check back later for updates.
 					</p>
 				</div>
@@ -197,8 +197,8 @@
 
 			<div class="mx-auto w-full max-w-2xl">
 				<div class="card bg-base-100 p-8 text-center shadow-xl">
-					<h2 class="mb-4 text-3xl font-bold text-primary">Please Log In to Apply</h2>
-					<p class="mb-6 text-base-content/80">
+					<h2 class="text-primary mb-4 text-3xl font-bold">Please Log In to Apply</h2>
+					<p class="text-base-content/80 mb-6">
 						You need to be logged in to submit an application. Please log in or create an account if
 						you don't have one.
 					</p>
@@ -210,8 +210,10 @@
 </div>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	.card {
-		@apply overflow-hidden rounded-xl bg-base-100;
+		@apply bg-base-100 overflow-hidden rounded-xl;
 	}
 	.card:hover {
 		@apply shadow-2xl;
@@ -224,6 +226,6 @@
 	.input:focus,
 	.select:focus,
 	.textarea:focus {
-		@apply ring-2 ring-primary;
+		@apply ring-primary ring-2;
 	}
 </style>

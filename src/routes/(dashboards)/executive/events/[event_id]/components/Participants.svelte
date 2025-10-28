@@ -32,7 +32,7 @@
 			<p>No participants yet</p>
 		{:else}
 			<table class="w-full text-left text-sm text-gray-600 shadow-xl">
-				<thead class="bg-gray-100 text-xs uppercase text-gray-700">
+				<thead class="bg-gray-100 text-xs text-gray-700 uppercase">
 					<tr>
 						<th class="px-6 py-4 font-medium">Full Name</th>
 						<th class="px-6 py-4 font-medium">Gender</th>
@@ -71,7 +71,7 @@
 			<p>No groups created yet</p>
 		{:else}
 			<table class="w-full text-left text-sm text-gray-600 shadow-xl">
-				<thead class="bg-gray-100 text-xs uppercase text-gray-700">
+				<thead class="bg-gray-100 text-xs text-gray-700 uppercase">
 					<tr>
 						<th class="px-6 py-4 font-medium">Rank</th>
 						<th class="px-6 py-4 font-medium">Group name</th>

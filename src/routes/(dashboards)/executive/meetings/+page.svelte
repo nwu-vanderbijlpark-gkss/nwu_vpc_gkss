@@ -89,7 +89,7 @@
 		>
 	</div>
 
-	<ul class="list space-y-2 rounded-box text-black">
+	<ul class="list rounded-box space-y-2 text-black">
 		<li class="p-4 pb-2 text-sm tracking-wide opacity-60">
 			These are the meetings the committee attended.
 		</li>

@@ -173,7 +173,7 @@
 	</div>
 	<a href={`/community/topic/${topic.id}`}>
 		<h3 class="text-xl font-bold">{@html highlightText(topic.topic, text)}</h3>
-		<div class="content mt-2 whitespace-pre-wrap text-sm text-gray-800">
+		<div class="content mt-2 text-sm whitespace-pre-wrap text-gray-800">
 			{@html highlightText(topic.content, text)}
 		</div>
 
@@ -199,7 +199,7 @@
 			class="tooltip"
 			data-tip={`${topic.topic_views.length} view${topic.topic_views.length == 1 ? '' : 's'}`}
 		>
-			<button class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+			<button class="btn btn-ghost bg-base-100/10 rounded-full text-xs"
 				><Eye size="20px" />
 				<p>{topic.topic_views.length}</p></button
 			>
@@ -207,13 +207,13 @@
 		<a
 			onclick={() => commentModal.show()}
 			href={`/community/topic/${topic.id}`}
-			class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+			class="btn btn-ghost bg-base-100/10 rounded-full text-xs"
 			><MessageCircleMore size="20px" />
 			<p>{topic.comment.length}</p></a
 		>
 		<button
 			onclick={() => shareTopic(topic.topic, `${location.href}/topic/${topic.id}`)}
-			class="btn btn-ghost rounded-full bg-base-100/10 text-xs"
+			class="btn btn-ghost bg-base-100/10 rounded-full text-xs"
 			><Share2 size="20px" />
 			<p>Share</p></button
 		>
@@ -221,6 +221,8 @@
 </div>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	trix-editor {
 		min-height: 200px;
 		border: 1px solid #ddd;
@@ -235,7 +237,7 @@
 
 	trix-editor :global(blockquote),
 	.content :global(blockquote) {
-		@apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+		@apply border-l-4 border-gray-300 pl-4 text-gray-600 italic;
 	}
 
 	trix-editor :global(pre),

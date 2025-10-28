@@ -45,19 +45,19 @@
 	desc="Review and manage applications for the {gkssConfig.name} executive team. Schedule interviews, accept, or reject applicants to build a vibrant student leadership community."
 />
 
-<div transition:fly={{ y: 50, duration: 500 }} class="min-h-screen bg-base-100 p-4 sm:p-6">
+<div transition:fly={{ y: 50, duration: 500 }} class="bg-base-100 min-h-screen p-4 sm:p-6">
 	<!-- Header Section -->
 	<div class="mb-8 flex flex-col items-center justify-between gap-4 lg:flex-row">
-		<h1 class="text-2xl font-semibold text-base-content sm:text-3xl">Manage Applications</h1>
+		<h1 class="text-base-content text-2xl font-semibold sm:text-3xl">Manage Applications</h1>
 		<button class="btn btn-primary" onclick={() => (showCreateModal = true)}
 			>Create Applications</button
 		>
 	</div>
 
 	<!-- Periods Table -->
-	<div class="overflow-x-auto rounded-lg bg-base-100 shadow-xl">
-		<table class="w-full text-left text-xs text-base-content sm:text-sm">
-			<thead class="sticky top-0 z-10 bg-base-200 text-xs uppercase text-base-content/70">
+	<div class="bg-base-100 overflow-x-auto rounded-lg shadow-xl">
+		<table class="text-base-content w-full text-left text-xs sm:text-sm">
+			<thead class="bg-base-200 text-base-content/70 sticky top-0 z-10 text-xs uppercase">
 				<tr>
 					<th class="px-4 py-3 font-medium sm:px-6 sm:py-4">Name</th>
 					<th class="px-4 py-3 font-medium sm:px-6 sm:py-4">Open date</th>
@@ -70,7 +70,7 @@
 				{#each periods as period}
 					<tr
 						onclick={() => goto(`/executive/applications/${period.id}`)}
-						class="cursor-pointer border-b transition-colors hover:bg-base-200/50"
+						class="hover:bg-base-200/50 cursor-pointer border-b transition-colors"
 					>
 						<td class="px-4 py-3 font-semibold sm:px-6 sm:py-4">
 							Applications for {period.year}
@@ -111,7 +111,7 @@
 		<dialog class="modal modal-open modal-bottom sm:modal-middle">
 			<div class="modal-box bg-base-100">
 				<div class="flex items-center justify-between">
-					<h3 class="text-lg font-bold text-base-content">Create application document</h3>
+					<h3 class="text-base-content text-lg font-bold">Create application document</h3>
 					<button class="" onclick={() => (showCreateModal = false)}>
 						<X />
 					</button>
@@ -120,7 +120,7 @@
 
 				<form onsubmit={handleSubmit} class="mt-4 flex w-full flex-col gap-5">
 					<label class="form-control w-full">
-						<span class="label-text font-medium text-base-content">For Year</span>
+						<span class="label-text text-base-content font-medium">For Year</span>
 						<input
 							type="number"
 							name="year"
@@ -131,7 +131,7 @@
 						/>
 					</label>
 					<label class="form-control w-full">
-						<span class="label-text font-medium text-base-content">Open Date</span>
+						<span class="label-text text-base-content font-medium">Open Date</span>
 						<input
 							type="date"
 							name="open_date"
@@ -141,7 +141,7 @@
 						/>
 					</label>
 					<label class="form-control w-full">
-						<span class="label-text font-medium text-base-content">Closing date</span>
+						<span class="label-text text-base-content font-medium">Closing date</span>
 						<input
 							type="date"
 							name="close_date"
@@ -158,6 +158,8 @@
 </div>
 
 <style>
+	@import 'tailwindcss';
+	@plugin 'daisyui';
 	table,
 	td,
 	tr,
@@ -175,7 +177,7 @@
 	}
 	.input:focus,
 	.textarea:focus {
-		@apply ring-2 ring-primary;
+		@apply ring-primary ring-2;
 	}
 	/* Ensure table is compact but readable */
 	table {
@@ -186,7 +188,7 @@
 		height: 8px;
 	}
 	.overflow-x-auto::-webkit-scrollbar-thumb {
-		@apply rounded-full bg-base-300;
+		@apply bg-base-300 rounded-full;
 	}
 	.overflow-x-auto::-webkit-scrollbar-track {
 		@apply bg-base-100;
