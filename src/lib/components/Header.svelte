@@ -59,7 +59,7 @@
 			<a
 				href="/geekOfTheWeek"
 				class="navItem border-red-500 hover:border-b hover:text-white"
-				class:selected={page.url.pathname === '/geekOfTheWeek'}>Geek Of The Week</a
+				class:selected={page.url.pathname === '/geekOfTheWeek'}>Best Geek</a
 			>
 			<a
 				href="/community"
@@ -72,7 +72,7 @@
 					href="/dashboard"
 					data-sveltekit-preload-data
 					class="navItem btn-bordered btn border-red-500 hover:border-b hover:text-white"
-					class:selected={page.url.pathname === '/dashboard'}>Dashboard</a
+					class:selected={page.url.pathname === '/dashboard'}>My Profile</a
 				>
 				{#if isExecutive}
 					<a
@@ -87,11 +87,7 @@
 					class="navItem border-red-500 hover:border-b hover:text-white"
 					class:selected={page.url.pathname === '/team'}>The team</a
 				>
-				<a
-					href="/#contact"
-					class="navItem border-red-500 hover:border-b hover:text-white"
-					class:selected={page.url.pathname === '/#contact'}>Contact Us</a
-				>
+
 				{#if page.url.pathname != '/login'}
 					<a
 						href="/login"
@@ -148,7 +144,7 @@
 					<a
 						href="/geekOfTheWeek"
 						class="navItem text-lg"
-						class:selected={page.url.pathname === '/geekOfTheWeek'}>Geek Of The Week</a
+						class:selected={page.url.pathname === '/geekOfTheWeek'}>Best Geek</a
 					>
 				</li>
 				<li>
@@ -168,7 +164,7 @@
 					<a
 						href="/dashboard"
 						class="navItem btn-bordered btn my-2 border-red-500 hover:border-b hover:text-white"
-						class:selected={page.url.pathname === '/dashboard'}>Dashboard</a
+						class:selected={page.url.pathname === '/dashboard'}>My Profile</a
 					>
 					{#if isExecutive}
 						<a
@@ -178,25 +174,16 @@
 							>Admin</a
 						>
 					{/if}
-				{:else}
+				{:else if page.url.pathname != '/login'}
 					<li>
 						<a
-							href="/#contact"
-							class="navItem text-lg"
-							class:selected={page.url.pathname === '/#contact'}>Contact Us</a
+							href="/login"
+							class="navItem btn btn-primary my-2 border-red-500 hover:border-b hover:text-white"
+						>
+							<LogIn />
+							Login</a
 						>
 					</li>
-					{#if page.url.pathname != '/login'}
-						<li>
-							<a
-								href="/login"
-								class="navItem btn btn-primary my-2 border-red-500 hover:border-b hover:text-white"
-							>
-								<LogIn />
-								Login</a
-							>
-						</li>
-					{/if}
 				{/if}
 			{:else}
 				<li class="menu-title rounded-box my-2 flex flex-col bg-gray-800 p-4 text-white">

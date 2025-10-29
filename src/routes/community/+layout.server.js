@@ -11,7 +11,7 @@ export async function load({ locals: { supabase } }) {
 		.select(
 			'id,content,created_at,tags,topic, member(username,image,name, surname),comment(*,member(username, image, name, surname)),topic_views(id),topic_images(image)'
 		)
-		.order('created_at', { ascending: false });
+		.order('created_at', { ascending: true });
 	if (error) {
 		console.error(error);
 	}
@@ -56,19 +56,7 @@ export async function load({ locals: { supabase } }) {
 		topic = { ...topic, comment: comments };
 		allTopics.push(topic);
 	}
-	/**memberS */
-	const { data: memberData } = await supabase
-		.from('member')
-		.select(
-			'name, surname, qualification, username, image, year_of_study, interests, gender, date_of_birth, points, topic(id)'
-		);
-	let members = [];
-	for (const member of memberData) {
-		let publicUrl = await supabase.storage
-			.from('files')
-			.getPublicUrl(member.image.substring(member.image.indexOf('/') + 1)); //removing the first "file/"
-		members.push({ ...member, image: publicUrl.data.publicUrl });
-	}
+	
 	let currentUser = null;
 	let email = null;
 	if (user) {
@@ -94,5 +82,6 @@ export async function load({ locals: { supabase } }) {
 	//for most viewed
 	let most_viewed = allTopics.sort((a, b) => b.topic_views.length - a.topic_views.length);
 
-	return { email, latest, most_viewed, allTopics, members, currentUser, opportunities };
+	
+	return { email, latest, most_viewed, allTopics, currentUser, opportunities };
 }

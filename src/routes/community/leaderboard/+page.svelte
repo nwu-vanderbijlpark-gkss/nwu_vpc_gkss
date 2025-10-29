@@ -73,7 +73,7 @@
 			<section aria-labelledby="members-heading" class=" md:p-8">
 				<!-- Enhanced Title Section -->
 				<div class="mb-8 text-center md:mb-12">
-					<div class="inline-block rounded-2xl bg-gradient-to-r from-amber-400 to-amber-600 p-1">
+					<div class="inline-block rounded-2xl bg-linear-to-r from-amber-400 to-amber-600 p-1">
 						<div
 							class="bg-base-100 flex items-center gap-3 rounded-xl px-6 py-4 md:gap-4 md:px-8 md:py-5"
 						>
@@ -84,7 +84,7 @@
 							/>
 							<h2
 								id="members-heading"
-								class="bg-gradient-to-r from-amber-500 to-amber-700 bg-clip-text text-2xl font-black tracking-tight text-transparent md:text-4xl"
+								class="bg-linear-to-r from-amber-500 to-amber-700 bg-clip-text text-2xl font-black tracking-tight text-transparent md:text-4xl"
 							>
 								ELITE LEADERBOARD
 							</h2>

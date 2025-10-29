@@ -154,8 +154,8 @@
 
 <Seo title="Search" desc="Search topics, members, and opportunities within our community." />
 
-<main transition:fly class="mx-auto max-w-4xl p-4 sm:p-6">
-	<header class="-mt-5 flex items-center justify-between rounded-lg bg-white p-2 shadow-sm">
+<main transition:fly class="mx-auto max-w-4xl py-6">
+	<header class="-mt-5 flex items-center rounded-lg bg-white p-2">
 		<button
 			class="p-2 text-lg focus:outline-none"
 			onclick={() => history.back(-1)}
@@ -164,10 +164,9 @@
 			<ArrowLeft class="h-6 w-6" />
 		</button>
 		<h1 class="text-xl font-bold sm:text-2xl">Search</h1>
-		<span class="h-6 w-6"></span>
 	</header>
 
-	<section class="rounded-lg bg-white p-4 shadow-sm">
+	<section class="rounded-lg bg-white p-4">
 		<form onsubmit={handleSearch} class="flex items-center" role="search" aria-label="Search form">
 			<input
 				class="flex-1 rounded border border-gray-300 p-2 focus:border-red-800 focus:ring focus:outline-none"
@@ -195,15 +194,17 @@
 
 	<section>
 		{#if results.length > 0 || member_results.length > 0 || opportunity_results.length > 0}
-			<div class="rounded-lg bg-white p-4 shadow-sm">
+			<div class="rounded-lg bg-white p-4">
 				<p class="text-sm text-gray-600">
 					{num_results} results found
 				</p>
 				<div class="mt-3 flex flex-wrap gap-2">
 					{#each [{ show: 'none', text: 'All' }, { show: 'topics', text: 'Topics' }, { show: 'members', text: 'Members' }, { show: 'opportunity', text: 'Opportunities' }] as btn}
 						<button
-							class={'rounded px-3 py-1 ' +
-								(filter === btn.show ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700')}
+							class={'cursor-pointer px-3 py-1' +
+								(filter === btn.show
+									? 'bg-primary text-primary border-primary border-b-2'
+									: 'bg-gray-100 text-gray-700')}
 							onclick={() => setFilter(btn.show)}
 						>
 							{btn.text}
@@ -215,7 +216,7 @@
 			<div class="mt-4 space-y-8">
 				{#if member_results.length > 0 && (filter === 'none' || filter === 'members')}
 					<section aria-labelledby="members-heading">
-						<h2 id="members-heading" class="border-b pb-2 text-lg font-semibold">Members</h2>
+						<h2 id="members-heading" class=" pb-2 text-lg font-semibold">Members</h2>
 						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 							{#each member_results as member}
 								<MemberCard {member} {text} {highlightText} />
@@ -226,7 +227,7 @@
 
 				{#if results.length > 0 && (filter === 'none' || filter === 'topics')}
 					<section aria-labelledby="topics-heading">
-						<h2 id="topics-heading" class="border-b pb-2 text-lg font-semibold">Topics</h2>
+						<h2 id="topics-heading" class=" pb-2 text-lg font-semibold">Topics</h2>
 						<div class="space-y-4">
 							{#each results as topic}
 								<Topic
@@ -241,7 +242,7 @@
 				{/if}
 				{#if opportunity_results.length > 0 && (filter === 'none' || filter === 'opportunity')}
 					<section aria-labelledby="Opportunities-heading">
-						<h2 id="topics-heading" class="border-b pb-2 text-lg font-semibold">Opportunities</h2>
+						<h2 id="topics-heading" class=" pb-2 text-lg font-semibold">Opportunities</h2>
 						<div class="space-y-4">
 							{#each opportunity_results as opportunity}
 								<Opportunity {opportunity} {text} showContent={true} />

@@ -108,7 +108,7 @@
 <main transition:slide class="flex min-h-screen divide-x bg-gray-200">
 	<div class="hidden min-h-screen w-2/12 flex-col items-center bg-white p-2 text-black lg:flex">
 		<ul class="menu min-h-full w-full space-y-1 p-2">
-			<h2 class="menu-title border-b text-xl font-bold text-gray-400">Community</h2>
+			<h2 class="menu-title text-primary border-b text-xl font-bold">Community</h2>
 			<li>
 				<a
 					href="/community/search"
@@ -133,9 +133,7 @@
 					<div class="badge badge-primary">{quizzes.length}</div></a
 				>
 			</li>
-			<li>
-				<a href="/code-playground" class="navItem text-lg"><CodeXml />Playground </a>
-			</li>
+
 			<li>
 				<a
 					class:selected={$page.url.pathname === '/community/idea-generator'}
@@ -186,7 +184,7 @@
 
 	<!-- Main Content -->
 	<div
-		class="mb-20 w-full overflow-auto bg-white text-black lg:mb-10 lg:max-h-screen lg:flex-1 lg:p-4"
+		class="mb-20 w-full overflow-auto overflow-x-hidden bg-white text-black lg:mb-10 lg:max-h-screen lg:flex-1 lg:p-4"
 	>
 		{@render children()}
 	</div>
@@ -228,7 +226,9 @@
 	</div>
 
 	<!-- Mobile Navigation -->
-	<div class="btm-nav border-t bg-white py-2 shadow-md lg:hidden">
+	<div
+		class="dock fixed right-1 bottom-1 left-1 w-full rounded-2xl border-t bg-white py-2 shadow-lg lg:hidden"
+	>
 		<a
 			href="/community"
 			class:selected={$page.url.pathname === '/community'}
@@ -355,11 +355,7 @@
 						class="navItem flex text-lg"><ChartColumnBig /> LeaderBoard</a
 					>
 				</li>
-				<li>
-					<a onclick={() => moreModal.close()} href="/code-playground" class="navItem text-lg"
-						><CodeXml />Playground
-					</a>
-				</li>
+
 				<li>
 					<a
 						onclick={() => moreModal.close()}

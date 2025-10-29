@@ -45,30 +45,24 @@
 	let activeTab = $state('stats');
 	let { data } = $props();
 	let member = $state(data.member);
-	models.context = 'This User: ' + JSON.stringify(member);
-
-	let editLinks = $state(false);
-	let birthDayMonth = member.date_of_birth.substring(member.date_of_birth.indexOf('-') + 1);
-
-	// Current year
-	let currentYear = moment().year();
-
-	// Set the birthday to the current year, using birth month and day
-	let birthdayThisYear = moment(`${currentYear}-${birthDayMonth}`, 'YYYY-MM-DD');
-
-	// Calculate the difference in days from today
-	let birthDayCountdown = birthdayThisYear.diff(moment(), 'days');
-
-	// If the birthday has already passed this year, adjust it to next year
-	if (birthDayCountdown < 0) {
-		birthdayThisYear.add(1, 'year');
-		birthDayCountdown = birthdayThisYear.diff(moment(), 'days');
-	}
 
 	// Handlers
 	const handleLogout = (event) => {
 		logoutModal.showModal();
 	};
+
+	const bottomNavItems = [
+		{ id: 'stats', icon: ChartBar, text: 'Dashboard' },
+		{ id: 'profile', icon: User, text: 'Profile' },
+		{ id: 'security', icon: Shield, text: 'Security' },
+		{ id: 'logout', icon: LogOut, text: 'Logout', onClick: handleLogout, class: 'text-red-600' }
+	];
+
+	let editLinks = $state(false);
+
+	// Current year
+	let currentYear = moment().year();
+
 	const handleImageChange = (event) => {
 		let image = event.target.files[0];
 		member.image = URL.createObjectURL(image);
@@ -239,7 +233,7 @@
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div class="indicator" onclick={() => imageModal.show()}>
 					<div class="indicator-item indicator-middle text-black">
-						<div class="rounded-full bg-gray-300 p-1"><Camera /></div>
+						<div class="rounded-full bg-white p-1"><Camera /></div>
 					</div>
 					<img
 						src={member.image}
@@ -248,30 +242,21 @@
 					/>
 				</div>
 			</div>
-			<h1 class="font-bold text-gray-800">{member.name}</h1>
+			<h1 class="text-center font-bold text-gray-800">{member.name} {member.surname}</h1>
 		</div>
-		<a href="/dashboard/announcements" class="relative p-2">
-			<Bell size={20} />
-			{#if notifications > 0}
-				<span
-					class="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
-				>
-					{$notifications.length}
-				</span>
-			{/if}
-		</a>
 	</header>
 	<!-- Bottom navigation for mobile -->
-	<nav class="bg-base-200 fixed right-0 bottom-0 left-0 z-50 text-white shadow-lg md:hidden">
+	<nav
+		class="bg-base-200 fixed right-1 bottom-2 left-1 z-50 rounded-2xl text-white shadow-lg md:hidden"
+	>
 		<div class="flex justify-around p-4">
-			{#each [{ id: 'stats', icon: ChartBar, text: 'Dashboard' }, { id: 'profile', icon: User, text: 'Profile' }, { id: 'security', icon: Shield, text: 'Security' }, { id: 'logout', icon: LogOut, text: 'Logout', onClick: handleLogout, class: 'text-red-600' }] as item}
+			{#each bottomNavItems as item}
 				<button
-					class="flex flex-col items-center space-y-1 {item.class || ''} {activeTab === item.id
-						? 'text-primary'
-						: 'hover:text-primary/80'}"
+					class="flex cursor-pointer flex-col items-center space-y-1 {item.class ||
+						''} {activeTab === item.id ? 'text-primary border-b-2' : 'hover:text-primary/80'}"
 					onclick={item.onClick || (() => (activeTab = item.id))}
 				>
-					<svelte:component this={item.icon} size={20} />
+					<item.icon size={20} />
 					<span class="text-xs">{item.text}</span>
 				</button>
 			{/each}
@@ -301,29 +286,34 @@
 			</div>
 
 			<Announcements />
+
+			<!-- UPCOMING EVENTS -->
 			<div class="rounded-xl bg-white p-6 shadow-md">
 				<h3 class="mb-4 text-xl font-semibold">Upcoming Events and sessions</h3>
 				<div class="space-y-4">
 					{#each data.events
 						.sort((a, b) => moment(b.date).valueOf() - moment(a.date).valueOf())
 						.slice(0, 5) as event}
-						<a
-							href="/events/{event.id}"
-							class="flex items-start rounded-xl border bg-gray-100 p-2 hover:bg-gray-200"
-						>
-							<div class="ml-4">
-								<p class="font-bold">{event.topic}</p>
-								<p class="text-sm font-medium">
-									Venue: <span class="font-bold">{event.venue}</span>
-								</p>
-								<p class="text-sm text-gray-600">
-									{moment(event.date).format('LLL')}
-								</p>
-							</div>
-						</a>
+						{#if moment(event.date).isAfter(moment())}
+							<a
+								href="/events/{event.id}"
+								class="flex items-start rounded-xl border bg-gray-100 p-2 hover:bg-gray-200"
+							>
+								<div class="ml-4">
+									<p class="font-bold">{event.topic}</p>
+									<p class="text-sm font-medium">
+										Venue: <span class="font-bold">{event.venue}</span>
+									</p>
+									<p class="text-sm text-gray-600">
+										{moment(event.date).format('LLL')}
+									</p>
+								</div>
+							</a>
+						{/if}
 					{/each}
 				</div>
 			</div>
+			<!-- USER SOCIAL MEDIA LINKS -->
 			<div class="my-4 space-y-2 rounded-xl bg-white p-6 shadow-md">
 				<div class="flex items-center justify-between">
 					<h2 class="flex items-center gap-2 text-lg font-bold">Your links <Link /></h2>
@@ -450,30 +440,6 @@
 					</form>
 				{/if}
 			</div>
-
-			{#if birthDayCountdown < 60}
-				<div class="my-4 rounded-xl bg-white p-6 shadow-md">
-					<h3 class="mb-4 text-xl font-semibold">Birthday Countdown</h3>
-					<div class="flex items-center space-x-4">
-						<span class="text-primary font-bold">
-							{#if birthDayCountdown === 0}
-								<span class="text-xl text-red-600">🎉 It's your birthday today! 🎉</span>
-							{:else}
-								<p class="font-medium">Your birthday is:</p>
-
-								{#if birthDayCountdown > 0}
-									{birthDayCountdown}
-									{#if birthDayCountdown === 1}day{:else}days{/if} away
-								{:else}
-									<span class="text-sm text-gray-500"
-										>Your birthday has passed this year. It's in {Math.abs(birthDayCountdown)} days.</span
-									>
-								{/if}
-							{/if}
-						</span>
-					</div>
-				</div>
-			{/if}
 
 			<!-- Interests and Activity -->
 			<div class="space-y-6">

@@ -14,6 +14,33 @@
 		isEditing = false;
 	};
 	let isLoading = $state(false);
+
+	const fields = [
+		{ label: 'First Name', key: 'name', value: member.name },
+		{ label: 'Last Name', key: 'surname', value: member.surname },
+		{
+			label: 'Date of Birth',
+			key: 'date_of_birth',
+			type: 'date',
+			value: moment(member.date_of_birth).format('MMMM D, YYYY')
+		},
+		{
+			label: 'Gender',
+			key: 'gender',
+			type: 'select',
+			options: ['Male', 'Female', 'Other'],
+			value: member.gender
+		},
+		{ label: 'Qualification', key: 'qualification', value: member.qualification },
+		{
+			label: 'Year of Study',
+			key: 'year_of_study',
+			type: 'select',
+			options: ['1st', '2nd', '3rd', '4th'],
+			value: member.year_of_study
+		},
+		{ label: 'Phone', key: 'whatsapp', value: member.whatsapp || '000' }
+	];
 </script>
 
 <!-- Profile content -->
@@ -49,7 +76,7 @@
 					};
 				}}
 			>
-				{#each [{ label: 'First Name', key: 'name' }, { label: 'Last Name', key: 'surname' }, { label: 'Date of Birth', key: 'date_of_birth', type: 'date' }, { label: 'Gender', key: 'gender', type: 'select', options: ['Male', 'Female', 'Other'] }, { label: 'Qualification', key: 'qualification' }, { label: 'Year of Study', key: 'year_of_study', type: 'select', options: ['1st', '2nd', '3rd', '4th'] }] as field}
+				{#each fields as field}
 					<div>
 						<label class="block text-sm font-medium text-gray-700">{field.label}</label>
 						{#if field.type === 'select'}
@@ -85,7 +112,7 @@
 		{/if}
 	{:else}
 		<div class="text-base-200 grid grid-cols-1 gap-6 md:grid-cols-2">
-			{#each [{ label: 'First Name', value: member.name }, { label: 'Last Name', value: member.surname }, { label: 'Date of Birth', value: moment(member.date_of_birth).format('MMMM D, YYYY') }, { label: 'Gender', value: member.gender }, { label: 'Qualification', value: member.qualification }, { label: 'Year of Study', value: member.year_of_study }] as field}
+			{#each fields as field}
 				<div>
 					<h3 class="text-sm font-medium text-gray-500">{field.label}</h3>
 					<p class="mt-1">{field.value}</p>

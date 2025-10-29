@@ -31,23 +31,9 @@
 	afterNavigate(async ({ to }) => {
 		BProgress.done();
 		if (!to) return;
-		if (!to.url.pathname.includes('/executive')) {
-			const res = await fetch('/api/trackUsage', {
-				method: 'POST',
-				body: JSON.stringify({ location: to.url.pathname })
-			});
-			const r = await res.json();
-		}
 	});
-	const getModels = async () => {
-		const res = await fetch('/api/ai/models', {
-			method: 'GET'
-		});
-		const response = await res.json();
-		return response.models.data;
-	};
 
-	let subscription;
+	let subscription = $state();
 
 	onMount(async () => {
 		// Request permission

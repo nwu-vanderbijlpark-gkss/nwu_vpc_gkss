@@ -14,7 +14,7 @@
 	import NotFoundPage from '$lib/components/NotFoundPage.svelte';
 	import Topic from '$lib/components/Topic.svelte';
 	import { onMount } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import { models } from '$lib/state.svelte.js';
 	import Seo from '$lib/components/SEO.svelte';
