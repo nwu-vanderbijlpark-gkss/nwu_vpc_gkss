@@ -56,7 +56,8 @@ export const actions = {
 					date_of_birth: form.get('date_of_birth'),
 					gender: form.get('gender'),
 					qualification: form.get('qualification'),
-					year_of_study: form.get('year_of_study')
+					year_of_study: form.get('year_of_study'),
+					whatsapp: form.get("whatsapp"),
 				})
 				.eq('id', user.id);
 

@@ -54,7 +54,7 @@ export const actions = {
 			}
 		}
 	},
-	deletetopic: async ({ request, locals: { supabase } }) => {
+	deleteTopic: async ({ request, locals: { supabase } }) => {
 		const data = await request.formData();
 		const id = data.get('id');
 		//get the images and delete them also

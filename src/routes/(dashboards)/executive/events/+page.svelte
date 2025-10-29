@@ -63,10 +63,7 @@
 						class="rounded-tl-lg px-4 py-3 text-xs font-semibold tracking-wider text-gray-700 uppercase"
 						>Event</th
 					>
-					<th
-						class="hidden px-4 py-3 text-xs font-semibold tracking-wider text-gray-700 uppercase lg:table-cell"
-						>Description</th
-					>
+
 					<th class="px-4 py-3 text-xs font-semibold tracking-wider text-gray-700 uppercase"
 						>Date & Time</th
 					>
@@ -94,11 +91,7 @@
 								{event.topic}
 							</a>
 						</td>
-						<td
-							class="hidden max-w-[300px] truncate px-4 py-4 text-base text-gray-600 lg:table-cell"
-						>
-							{event.description}
-						</td>
+
 						<td class="px-4 py-4 text-base text-gray-600">
 							<span class="whitespace-nowrap">{moment(event.date).format('MMM D, YYYY')}</span>
 							<span class="block text-sm text-gray-500">{moment(event.date).format('h:mm A')}</span>

@@ -60,11 +60,6 @@
 	});
 </script>
 
-<Seo
-	title={currentAnnouncement ? currentAnnouncement.subject : 'Announcements'}
-	desc="Stay updated with the latest news and announcements from {gkssConfig.name}. Check here for important updates, events, and member information."
-/>
-
 <div
 	class="my-3 {$page.url.pathname.includes('/announcements') &&
 		'min-h-screen'} rounded-xl bg-white p-6 text-black shadow-md"
