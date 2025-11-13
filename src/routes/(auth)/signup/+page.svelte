@@ -1,6 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
-	import { fade, fly } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 	import Loading from '$lib/components/Loading.svelte';
 	import Seo from '$lib/components/SEO.svelte';
 	import { gkssConfig } from '$lib/config.ts';
@@ -32,7 +32,6 @@
 
 		if (isValid) {
 			// Submit the form if all validations pass
-			sessionStorage.setItem('signup', true);
 			isLoading = true;
 			event.target.submit();
 		}
@@ -54,15 +53,15 @@
 	desc="Join {gkssConfig.name} today! Create your account to access exclusive member benefits, events, and resources."
 />
 
-<div transition:fly class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
-	<img src="/createAccount.png" alt="code" class="hidden w-2/5 rounded-lg lg:flex" />
+<div transition:slide class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
 	<div
 		class="lg:bg-base-200 flex w-full flex-col items-center justify-center space-y-5 rounded-xl p-5 lg:w-2/5 lg:shadow-2xl"
 	>
 		{#if isLoading}
 			<Loading />
 		{:else}
-			<h1 class="text-xl font-bold text-white">Create an account</h1>
+			<h1 class="text-xl font-bold text-white">Welcome to {gkssConfig.name}!</h1>
+			<h1 class=" text-white">Join the community by creating an account</h1>
 
 			<p class=" text-error">{form?.error}</p>
 			<form
