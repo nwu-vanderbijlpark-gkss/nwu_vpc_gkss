@@ -8,10 +8,16 @@ export const actions = {
 		const password = details.get('password');
 		const username = email.split('@')[0];
 
+		if(!email || !password) {
+			return { error: 'Please fill in all required fields' };
+		}
+
+		//check if the username already exists
+
 		const { data: member, error } = await supabase.from('member').select().eq('username', username);
 		if (member.length > 0) {
 			//if the username already exists
-			return { error: 'User already exists' };
+			return { error: 'User already exists, please login' };
 		} else {
 			const { data, error } = await supabase.auth.signUp({
 				email: email,
@@ -22,7 +28,7 @@ export const actions = {
 			});
 
 			if (error) {
-				return { error: 'Failed to create account' };
+				return { error: 'Unable to create account due to missing information' };
 			} else {
 				const { error } = await supabase
 					.from('member')

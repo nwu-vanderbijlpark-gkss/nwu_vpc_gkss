@@ -32,7 +32,7 @@
 
 	let { children, data } = $props();
 
-	let popularTopics = $state(data.most_viewed.slice(0, 3));
+	let latestTopics = $state(data.latest.slice(0, 3));
 	let images = $state([]);
 	let error = $state();
 	const convertToMB = (bytes) => {
@@ -97,8 +97,8 @@
 		// Initial fetch
 		fetchQuizzes();
 
-		// Set up polling every 30 seconds
-		const interval = setInterval(fetchQuizzes, 30000);
+		// Set up polling every 1 minute
+		const interval = setInterval(fetchQuizzes, 60000);
 
 		// Clear interval on component unmount
 		return () => clearInterval(interval);
@@ -196,8 +196,8 @@
 		<div class="w-full space-y-4">
 			<!-- Popular Topics -->
 			<div class="space-y-3 rounded-lg border p-3">
-				<h2 class="text-lg font-semibold text-black">Popular Topics</h2>
-				{#each popularTopics as topic, index}
+				<h2 class="text-lg font-semibold text-black">Latest Topics</h2>
+				{#each latestTopics as topic, index}
 					<a
 						href={`/community/topic/${topic.id}`}
 						class="flex items-center gap-3 rounded-md p-2 hover:bg-gray-100"

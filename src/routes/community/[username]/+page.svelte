@@ -19,6 +19,8 @@
 	import { models } from '$lib/state.svelte.js';
 	import Seo from '$lib/components/SEO.svelte';
 	import { gkssConfig } from '$lib/config';
+	import Loading from '$lib/components/Loading.svelte';
+	import { afterNavigate, invalidate } from '$app/navigation';
 
 	let { data } = $props();
 	const member = data.member;
@@ -31,13 +33,10 @@
 	let portfolioLoading = $state(true);
 	let portfolioError = $state(false);
 
-	let contextMember = { ...(data.member || {}) }; // ensure it’s an object
-	delete contextMember.topics;
-	models.context = JSON.stringify(contextMember);
-
-	onMount(() => {
-		myProfile = location.pathname.includes('profile');
-		username = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+	afterNavigate(({ from, to }) => {
+		invalidate((url) => url.pathname === to.url.pathname);
+		myProfile = to.url.pathname.includes('profile');
+		username = to.url.pathname.substring(to.url.pathname.lastIndexOf('/') + 1);
 	});
 
 	let topics = $state(member.topics);
@@ -64,7 +63,7 @@
 	<NotFoundPage
 		title="User not found"
 		homeUrl="/community"
-		message={`Sorry, this user '@${username}' does not exist, please try again later or return to home`}
+		message={`Sorry, this user '@${username}' does not exist, return to home`}
 	/>
 {:else}
 	<div transition:fly class="min-h-screen pb-8">
@@ -78,13 +77,6 @@
 						alt={member.username}
 						class="border-primary/10 h-32 w-32 rounded-full border-4 shadow-lg"
 					/>
-					{#if myProfile}
-						<div
-							class="bg-primary absolute right-0 -bottom-2 rounded-full px-3 py-1 text-xs font-medium text-white"
-						>
-							You
-						</div>
-					{/if}
 				</div>
 				<div class="space-y-1">
 					{#if !member.fullName.includes('null')}
@@ -100,54 +92,12 @@
 						<div class="relative inline-block">
 							<a
 								href={member.portfolio}
-								onfocus={this.blur()}
 								target="_blank"
 								class="text-primary hover:text-primary/80 inline-flex items-center gap-2"
-								onmouseover={() => (showPortfolioPreview = true)}
-								onmouseleave={() => (showPortfolioPreview = false)}
 							>
 								<BriefcaseBusiness class="h-5 w-5" />
 								<span class="text-sm font-medium">{new URL(member.portfolio).hostname}</span>
 							</a>
-
-							{#if showPortfolioPreview}
-								<div
-									class="absolute bottom-full left-0 z-50 w-96 rounded-lg border bg-white shadow-xl transition-opacity"
-									transition:fade={{ duration: 150 }}
-								>
-									<div class="relative h-64 overflow-hidden rounded-t-lg">
-										{#if portfolioLoading}
-											<div class="absolute inset-0 flex items-center justify-center bg-gray-50">
-												<div
-													class="border-primary h-8 w-8 animate-spin rounded-full border-b-2"
-												></div>
-											</div>
-										{/if}
-
-										<iframe
-											title="Portfolio Preview"
-											src={member.portfolio}
-											class="h-full w-full"
-											onload={() => (portfolioLoading = false)}
-											onerror={() => {
-												portfolioLoading = false;
-												portfolioError = true;
-											}}
-										></iframe>
-
-										{#if portfolioError}
-											<div
-												class="absolute inset-0 flex items-center justify-center bg-red-50 text-red-600"
-											>
-												Could not load preview
-											</div>
-										{/if}
-									</div>
-									<div class="p-3 text-sm text-gray-600">
-										Website preview - <span class="text-primary">Click to visit</span>
-									</div>
-								</div>
-							{/if}
 						</div>
 					{/if}
 					<br />
@@ -239,43 +189,20 @@
 											</div>
 										</div>
 									{:else}
-										<div class="flex h-20 items-center justify-center">
-											<svg
-												class="h-8 w-8 animate-spin text-gray-400"
-												fill="none"
-												viewBox="0 0 24 24"
-											>
-												<circle
-													class="opacity-25"
-													cx="12"
-													cy="12"
-													r="10"
-													stroke="currentColor"
-													stroke-width="4"
-												/>
-												<path
-													class="opacity-75"
-													fill="currentColor"
-													d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-												/>
-											</svg>
-										</div>
+										<Loading text="Loading GitHub data..." class="p-4" />
 									{/if}
 								</div>
 							{/if}
 						</div>
 					{/if}
 
-					<!-- LinkedIn Hover Card -->
+					<!-- LinkedIn Card -->
 					{#if member.linkedin}
 						<div class="relative inline-block">
 							<a
 								href={member.linkedin}
-								onfocus={this.blur()}
 								target="_blank"
 								class="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-200"
-								onmouseover={() => (showLinkedinPreview = true)}
-								onmouseleave={() => (showLinkedinPreview = false)}
 							>
 								<Linkedin class="h-5 w-5 text-[#0A66C2]" />
 								<span class="text-sm font-medium text-gray-700">LinkedIn</span>
@@ -285,8 +212,11 @@
 				</div>
 			</div>
 
+			<!-- Contribution Overview -->
 			<div class="w-full max-w-2xl space-y-6 rounded-xl border bg-white p-6 shadow-sm">
-				<h2 class="text-xl font-semibold text-gray-800">Contribution Overview</h2>
+				<h2 class="text-xl font-semibold text-gray-800">
+					{myProfile ? 'Your' : 'Their'} Contribution Overview
+				</h2>
 
 				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 					<!-- Topics Created -->

@@ -1,14 +1,13 @@
 <script>
 	import { ArrowLeft } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { fly, scale, slide } from 'svelte/transition';
 	import Loading from '$lib/components/Loading.svelte';
 	import Seo from '$lib/components/SEO.svelte';
 	import { gkssConfig } from '$lib/config.ts';
 
 	let email = $state('');
 	let password = $state('');
-	let fromSignup = $state();
 
 	const validateForm = (event) => {
 		event.preventDefault(); // Prevent the default form submission
@@ -52,9 +51,7 @@
 		errorMessage.textContent = message;
 		inputField.insertAdjacentElement('afterend', errorMessage);
 	};
-	onMount(() => {
-		fromSignup = sessionStorage.getItem('signup');
-	});
+
 	let { form } = $props();
 	let view = $state('login'); //can be login for the login form or reset for reset password form
 	let isLoading = $state(false);
@@ -64,15 +61,17 @@
 	title="Login"
 	desc="Login to your {gkssConfig.name}account to access exclusive member features and stay connected with the community."
 />
-<div transition:fly class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
-	<img src="/geek.png" alt="code" class="hidden w-2/5 rounded-lg lg:flex" />
+<div transition:slide class="flex min-h-screen w-full items-center justify-around bg-[#0c0c0c] p-5">
 	<div
 		class="lg:bg-base-200 flex w-full flex-col items-center justify-center space-y-5 rounded-xl p-5 lg:w-2/5 lg:shadow-2xl"
 	>
 		{#if isLoading}
 			<Loading />
 		{:else}
-			<h1 class="flex w-full items-center space-x-2 text-xl font-bold text-white">
+			<h1 class="text-xl font-bold">
+				Welcome Back to {gkssConfig.name}
+			</h1>
+			<h1 class="flex w-full items-center justify-center space-x-2 text-center text-white">
 				{#if view == 'login'}
 					Login to your account
 				{:else}
@@ -100,10 +99,10 @@
 			</p>
 			{#if view == 'login'}
 				<form
-					transition:fly
+					transition:slide
 					method="post"
 					action="/login?/login"
-					class="flex w-full flex-col gap-5 p-5"
+					class="flex w-full flex-col gap-5 px-5"
 					onsubmit={validateForm}
 				>
 					<label class="form-control w-full">
@@ -144,7 +143,7 @@
 			{:else}
 				<form
 					method="post"
-					transition:fly
+					transition:slide
 					action="/login?/resetPassword"
 					class="flex w-full flex-col gap-5 p-2"
 				>

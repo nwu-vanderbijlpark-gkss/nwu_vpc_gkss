@@ -9,6 +9,9 @@
 
 	// Sort events by date: upcoming events first
 	events = events.sort((a, b) => (moment(a.date).isBefore(moment(b.date)) ? 1 : -1));
+	events = events.filter(
+		(event) => moment(event.date).isAfter(moment()) || moment(event.date).isSame(moment(), 'day')
+	);
 
 	// Function to calculate the remaining time for countdown
 	function getTimeRemaining(eventDate) {
@@ -54,9 +57,9 @@
 	});
 </script>
 
-{#if events.length}
-	<div class="min-h-screen bg-gray-50 p-10" in:fly={{ x: -100, duration: 400 }}>
-		<h2 class="mb-8 text-center text-4xl font-semibold text-gray-900">Upcoming Events</h2>
+<div class="min-h-screen bg-gray-50 p-10" in:fly={{ x: -100, duration: 400 }}>
+	<h2 class="mb-8 text-center text-4xl font-semibold text-gray-900">Upcoming Events</h2>
+	{#if events.length}
 		<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
 			{#each events as event (event.id)}
 				{#if event.public}
@@ -143,28 +146,25 @@
 				{/if}
 			{/each}
 		</div>
-	</div>
+	{:else}
+		<p class="p-5 text-lg">There are no planned events, check back later</p>
+	{/if}
+</div>
 
-	{#if modalEvent}
-		<div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
-			<div class="relative w-full max-w-2xl rounded-lg bg-white p-8">
-				<button
-					class="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
-					onclick={closeModal}
-				>
-					✕
-				</button>
-				<h3 class="mb-4 text-2xl font-semibold text-gray-800">{modalEvent.topic}</h3>
-				<TrixDisplay content={modalEvent.description} />
-				<div class="flex items-center justify-between">
-					<p class="text-sm text-gray-500">{moment(modalEvent.date).format('LL')}</p>
-					<a href={`/events/${modalEvent.id}#register`} class="btn btn-primary"> Register Now </a>
-				</div>
+{#if modalEvent}
+	<div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+		<div class="relative w-full max-w-2xl rounded-lg bg-white p-8">
+			<button class="absolute top-4 right-4 text-gray-600 hover:text-gray-900" onclick={closeModal}>
+				✕
+			</button>
+			<h3 class="mb-4 text-2xl font-semibold text-gray-800">{modalEvent.topic}</h3>
+			<TrixDisplay content={modalEvent.description} />
+			<div class="flex items-center justify-between">
+				<p class="text-sm text-gray-500">{moment(modalEvent.date).format('LL')}</p>
+				<a href={`/events/${modalEvent.id}#register`} class="btn btn-primary"> Register Now </a>
 			</div>
 		</div>
-	{/if}
-{:else if pathname == '/events'}
-	<p class="p-5 text-lg">There are no planned events yet.</p>
+	</div>
 {/if}
 
 <style>

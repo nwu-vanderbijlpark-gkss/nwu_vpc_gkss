@@ -28,6 +28,7 @@ export const actions = {
 				.eq('member_id', data.user.id)
 				.single();
 
+			//redirect based on role
 			if (leader) {
 				redirectTo = '/executive';
 			}

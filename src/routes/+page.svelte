@@ -106,7 +106,7 @@
 			style="background-image: url('/logo.png');"
 			in:fade={{ duration: 800 }}
 		>
-			<div class="bg-base-300 bg-opacity-95 absolute inset-0"></div>
+			<div class="bg-base-300/95 absolute inset-0"></div>
 			<div class="relative z-40 flex flex-col items-center justify-center">
 				{#if sectionsVisible.hero}
 					<h1
