@@ -2,7 +2,7 @@ export async function load({ locals: { supabase } }) {
 	const {
 		data: { user }
 	} = await supabase.auth.getUser();
-	let finalArray = [];
+
 
 	/**TOPICS */
 	//fetch all topics
@@ -77,11 +77,11 @@ export async function load({ locals: { supabase } }) {
 		.from('opportunity')
 		.select('id,organization,deadline,title,type,content,created_at,member(username,name,surname)');
 	//before returning the data, make objects for most viewed, latest
+	allTopics.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); //sort by latest
 	const latest = allTopics.slice(0, 3); //as it is, just take the top 3
 
 	//for most viewed
-	let most_viewed = allTopics.sort((a, b) => b.topic_views.length - a.topic_views.length);
 
 	
-	return { email, latest, most_viewed, allTopics, currentUser, opportunities };
+	return { email, latest, allTopics, currentUser, opportunities };
 }
